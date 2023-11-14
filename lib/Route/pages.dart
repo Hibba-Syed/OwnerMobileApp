@@ -20,7 +20,7 @@ import 'package:iskaanowner/Blocs/Request%20Filters/request_filters_cubit.dart';
 import 'package:iskaanowner/Blocs/Requests/requests_cubit.dart';
 import 'package:iskaanowner/Blocs/Shared%20Documents/shared_documnets_cubit.dart';
 import 'package:iskaanowner/Blocs/Units/units_cubit.dart';
-import 'package:iskaanowner/Blocs/Verify%20Email%20/verify_email_cubit.dart';
+import 'package:iskaanowner/Blocs/Verify%20Email/verify_email_cubit.dart';
 import 'package:iskaanowner/Views/authentication.dart';
 import 'package:iskaanowner/Views/change_password.dart';
 import 'package:iskaanowner/Views/credit_notes.dart';

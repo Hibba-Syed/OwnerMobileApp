@@ -1,7 +1,7 @@
 import 'package:iskaanowner/Blocs/Dropdown%20Communities/dropdown_communities_cubit.dart';
 import 'package:iskaanowner/Blocs/Dropdown%20Units/dropdown_units_cubit.dart';
 import 'package:iskaanowner/Blocs/Happiness%20Center/happiness_center_cubit.dart';
-import 'package:iskaanowner/Blocs/Verify%20Email%20/verify_email_cubit.dart';
+import 'package:iskaanowner/Blocs/Verify%20Email/verify_email_cubit.dart';
 
 import '../Utils/utils.dart';
 
