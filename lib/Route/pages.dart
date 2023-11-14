@@ -23,10 +23,13 @@ import 'package:iskaanowner/Blocs/Units/units_cubit.dart';
 import 'package:iskaanowner/Blocs/Verify%20Email/verify_email_cubit.dart';
 import 'package:iskaanowner/Views/authentication.dart';
 import 'package:iskaanowner/Views/change_password.dart';
+import 'package:iskaanowner/Views/credit_note_details.dart';
 import 'package:iskaanowner/Views/credit_notes.dart';
+import 'package:iskaanowner/Views/invoice_detail.dart';
 import 'package:iskaanowner/Views/invoices.dart';
 import 'package:iskaanowner/Views/ledger.dart';
 import 'package:iskaanowner/Views/notifications.dart';
+import 'package:iskaanowner/Views/receipt_details.dart';
 import 'package:iskaanowner/Views/receipts.dart';
 import 'package:iskaanowner/Views/request_detail.dart';
 import 'package:iskaanowner/Views/shared_documnet.dart';
@@ -184,6 +187,13 @@ class AppPages {
         ),
       ),
       PageEntity(
+        route: AppRoutes.creditNoteDetails,
+        page: const CreditNoteDetailsPage(),
+        bloc: BlocProvider(
+          create: (context) => CreditNotesCubit(),
+        ),
+      ),
+      PageEntity(
         route: AppRoutes.receipts,
         page: const ReceiptsPage(),
         bloc: BlocProvider(
@@ -196,6 +206,14 @@ class AppPages {
         bloc: BlocProvider(
           create: (context) => InvoicesCubit(),
         ),
+      ),
+      PageEntity(
+        route: AppRoutes.invoiceDetails,
+        page: const InvoiceDetailsPage(),
+      ),
+      PageEntity(
+        route: AppRoutes.receiptDetails,
+        page: const ReceiptDetailsPage(),
       ),
       PageEntity(
         route: AppRoutes.profile,

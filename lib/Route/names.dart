@@ -18,6 +18,9 @@ class AppRoutes {
   static const sharedDocument = "/sharedDocument";
   static const ledger = "/ledger";
   static const invoices = "/invoices";
+  static const invoiceDetails = "/invoiceDetails";
   static const receipts = "/receipts";
+  static const receiptDetails = "/receiptDetails";
   static const creditNotes = "/creditNotes";
+  static const creditNoteDetails = "/creditNoteDetails";
 }

@@ -72,8 +72,11 @@ class InvoicesPage extends StatelessWidget {
                               .sharedDocumentDataColumn(e))
                           .toList(),
                       rows: state.invoicesModel?.invoices
-                              ?.map((e) =>
-                                  const LedgerPage().ledgerDataRow(e.toJson()))
+                              ?.map((e) => const LedgerPage().ledgerDataRow(
+                                    e.toJson(),
+                                    onTap: () => Navigator.pushNamed(
+                                        context, AppRoutes.invoiceDetails),
+                                  ))
                               .toList() ??
                           []),
                 );

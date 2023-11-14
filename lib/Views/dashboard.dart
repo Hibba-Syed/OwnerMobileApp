@@ -269,6 +269,7 @@ class DashboardPage extends StatelessWidget {
                                           CustomText(
                                             text: e.toString(),
                                             color: kWhite,
+                                            maxLines: 1,
                                           ),
                                         ],
                                       ),

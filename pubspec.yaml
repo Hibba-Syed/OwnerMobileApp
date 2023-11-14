@@ -51,6 +51,7 @@ dependencies:
   flutter_animate: ^4.2.0+1
   cool_alert: ^2.0.1
   file_picker: ^6.1.1
+  firebase_core: ^2.22.0
 
 dev_dependencies:
   flutter_test:

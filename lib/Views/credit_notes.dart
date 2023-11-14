@@ -82,7 +82,11 @@ class CreditNotesPage extends StatelessWidget {
                       rows: state.creditNotesModel?.creditNotes?.map((e) {
                             Map data = e.toJson();
                             data["action"] = null;
-                            return const ReceiptsPage().receiptsDataRow(data);
+                            return const ReceiptsPage().receiptsDataRow(
+                              data,
+                              onTap: () => Navigator.pushNamed(
+                                  context, AppRoutes.creditNoteDetails),
+                            );
                           }).toList() ??
                           []),
                 );

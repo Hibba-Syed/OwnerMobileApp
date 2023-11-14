@@ -12,16 +12,23 @@ class RowText extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        CustomText(
-          text: text,
-          fontWeight: FontWeight.bold,
-          fontsize: 14,
-        ),
-        InkWell(
-          onTap: onTap,
+        Expanded(
           child: CustomText(
-            text: text2 ?? "See all",
-            color: primaryColor,
+            text: text,
+            fontWeight: FontWeight.bold,
+            fontsize: 14,
+            textAlign: TextAlign.left,
+          ),
+        ),
+        const Gap(20),
+        Expanded(
+          child: InkWell(
+            onTap: onTap,
+            child: CustomText(
+              text: text2 ?? "See all",
+              color: primaryColor,
+              textAlign: TextAlign.right,
+            ),
           ),
         ),
       ],

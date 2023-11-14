@@ -79,7 +79,11 @@ class ReceiptsPage extends StatelessWidget {
                                 data["paid_by"] + " (${data["payee_type"]})";
                             data.remove("payee_type");
                             data["actions"] = null;
-                            return receiptsDataRow(data);
+                            return receiptsDataRow(
+                              data,
+                              onTap: () => Navigator.pushNamed(
+                                  context, AppRoutes.receiptDetails),
+                            );
                           }).toList() ??
                           []),
                 );
@@ -91,20 +95,27 @@ class ReceiptsPage extends StatelessWidget {
     );
   }
 
-  DataRow receiptsDataRow(Map data) {
+  DataRow receiptsDataRow(Map data, {void Function()? onTap}) {
     return DataRow(
-        cells: data.values.toList().map((e) => receiptsDataCell(e)).toList());
+        cells: data.values
+            .toList()
+            .map((e) => receiptsDataCell(e, onTap: onTap))
+            .toList());
   }
 
-  DataCell receiptsDataCell(dynamic text) {
-    return DataCell(Center(
-      child: text == null
-          ? const Icon(
-              Icons.download_outlined,
-              color: primaryColor,
-            )
-          : CustomText(text: text.toString()),
-    ));
+  DataCell receiptsDataCell(dynamic text, {void Function()? onTap}) {
+    return DataCell(
+        Center(
+          child: text == null
+              ? const Icon(
+                  Icons.download_outlined,
+                  color: primaryColor,
+                )
+              : CustomText(
+                  text: text.toString(),
+                ),
+        ),
+        onTap: onTap);
   }
 
   Widget filterView(BuildContext context) {

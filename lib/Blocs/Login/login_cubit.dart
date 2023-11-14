@@ -35,13 +35,24 @@ class LoginCubit extends Cubit<LoginState> {
       if (value is Success) {
         Global.storageService
             .setAuthenticationModelString(value.response as String);
-        return context.read<ProfileCubit>().getProfile(context).then((_) {
-          emit(state.copyWith(
-            loginModel: loginModelFromJson(value.response as String),
-            loadingState: LoadingState.success,
-          ));
-          const LoginPage().initialCalls(context);
-          return Navigator.pushReplacementNamed(context, AppRoutes.dashboard);
+        emit(state.copyWith(
+          loginModel: loginModelFromJson(value.response as String),
+        ));
+        return context
+            .read<ProfileCubit>()
+            .getProfile(context)
+            .then((isLoaded) {
+          if (isLoaded) {
+            emit(state.copyWith(
+              loginModel: loginModelFromJson(value.response as String),
+              loadingState: LoadingState.success,
+            ));
+            const LoginPage().initialCalls(context);
+            return Navigator.pushReplacementNamed(context, AppRoutes.dashboard);
+          } else {
+            Fluttertoast.showToast(msg: "Unable to load profile");
+            emit(state.copyWith(loadingState: LoadingState.error));
+          }
         });
       }
       value as Failure;

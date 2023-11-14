@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "83750489723",
+    "project_id": "iskaan-owners",
+    "storage_bucket": "iskaan-owners.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83750489723:android:415a00bca1c18668941cde",
+        "android_client_info": {
+          "package_name": "com.iskaan.owner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2bFjTvyLveKTGJ3pF6z-lbe5-CITLxwg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

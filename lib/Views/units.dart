@@ -75,6 +75,8 @@ class UnitsPage extends StatelessWidget {
                                 children: [
                                   roundedContainer(
                                     Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         const Icon(
                                           Icons.home_outlined,
@@ -86,6 +88,7 @@ class UnitsPage extends StatelessWidget {
                                         CustomText(
                                           text: unit?.unitNumber ?? "",
                                           color: kWhite,
+                                          maxLines: 1,
                                         ),
                                       ],
                                     ),
@@ -94,117 +97,111 @@ class UnitsPage extends StatelessWidget {
                                     padding: const EdgeInsets.all(10),
                                   ),
                                   Expanded(
-                                    child: Column(
+                                    child: Stack(
+                                      alignment: Alignment.center,
                                       children: [
-                                        tenantInfo(unit),
                                         const Divider(
                                           color: primaryColor,
                                         ),
-                                        contactsRow([
-                                          {
-                                            "icon": Icons.phone_outlined,
-                                            "name": "Call",
-                                          },
-                                          {
-                                            "icon": Icons.sms_outlined,
-                                            "name": "SMS",
-                                          },
-                                          {
-                                            "icon": Icons.phone_outlined,
-                                            "name": "WhatsApp",
-                                          },
-                                          {
-                                            "icon": Icons.email_outlined,
-                                            "name": "Email",
-                                          },
-                                        ]),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const Divider(
-                                color: primaryColor,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  roundedContainer(
-                                    Column(
-                                      children: [
-                                        CustomText(
-                                          text: (unit?.unitSizeSqft ?? 0)
-                                              .toString(),
-                                          fontWeight: FontWeight.bold,
+                                        SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              const Gap(10),
+                                              roundedContainer(
+                                                Column(
+                                                  children: [
+                                                    CustomText(
+                                                      text:
+                                                          (unit?.unitSizeSqft ??
+                                                                  0)
+                                                              .toString(),
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                    const CustomText(
+                                                      text: "Size",
+                                                      fontsize: 12,
+                                                    )
+                                                  ],
+                                                ),
+                                                invert: true,
+                                                padding:
+                                                    const EdgeInsets.all(5),
+                                              ),
+                                              const Gap(10),
+                                              roundedContainer(
+                                                Column(
+                                                  children: [
+                                                    CustomText(
+                                                      text:
+                                                          (unit?.bedroomCount ??
+                                                                  0)
+                                                              .toString(),
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                    const CustomText(
+                                                      text: "Bedroom",
+                                                      fontsize: 12,
+                                                    )
+                                                  ],
+                                                ),
+                                                invert: true,
+                                                padding:
+                                                    const EdgeInsets.all(5),
+                                              ),
+                                              const Gap(10),
+                                              roundedContainer(
+                                                Column(
+                                                  children: [
+                                                    CustomText(
+                                                      text:
+                                                          (unit?.bathroomCount ??
+                                                                  0)
+                                                              .toString(),
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                    const CustomText(
+                                                      text: "Bathroom",
+                                                      fontsize: 12,
+                                                    )
+                                                  ],
+                                                ),
+                                                invert: true,
+                                                padding:
+                                                    const EdgeInsets.all(5),
+                                              ),
+                                              const Gap(10),
+                                              roundedContainer(
+                                                Column(
+                                                  children: [
+                                                    CustomText(
+                                                      text:
+                                                          (unit?.parkings ?? 0)
+                                                              .toString(),
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                    const CustomText(
+                                                      text: "Parking",
+                                                      fontsize: 12,
+                                                    )
+                                                  ],
+                                                ),
+                                                invert: true,
+                                                padding:
+                                                    const EdgeInsets.all(5),
+                                              ),
+                                              const Gap(10),
+                                            ],
+                                          ),
                                         ),
-                                        const CustomText(
-                                          text: "Size",
-                                          fontsize: 12,
-                                        )
                                       ],
                                     ),
-                                    invert: true,
-                                    padding: const EdgeInsets.all(5),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  roundedContainer(
-                                    Column(
-                                      children: [
-                                        CustomText(
-                                          text: (unit?.bedroomCount ?? 0)
-                                              .toString(),
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        const CustomText(
-                                          text: "Bedroom",
-                                          fontsize: 12,
-                                        )
-                                      ],
-                                    ),
-                                    invert: true,
-                                    padding: const EdgeInsets.all(5),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  roundedContainer(
-                                    Column(
-                                      children: [
-                                        CustomText(
-                                          text: (unit?.bathroomCount ?? 0)
-                                              .toString(),
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        const CustomText(
-                                          text: "Bathroom",
-                                          fontsize: 12,
-                                        )
-                                      ],
-                                    ),
-                                    invert: true,
-                                    padding: const EdgeInsets.all(5),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  roundedContainer(
-                                    Column(
-                                      children: [
-                                        CustomText(
-                                          text:
-                                              (unit?.parkings ?? 0).toString(),
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        const CustomText(
-                                          text: "Parking",
-                                          fontsize: 12,
-                                        )
-                                      ],
-                                    ),
-                                    invert: true,
-                                    padding: const EdgeInsets.all(5),
                                   ),
                                 ],
                               ),
@@ -253,17 +250,17 @@ class UnitsPage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          roundedContainer(
-            CustomText(
-              text: unit?.name ?? "",
-              color: primaryColor,
-              fontsize: 12,
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-            color: primaryColor.withOpacity(0.1),
-          ),
+          // roundedContainer(
+          //   CustomText(
+          //     text: unit?.name ?? "",
+          //     color: primaryColor,
+          //     fontsize: 12,
+          //   ),
+          //   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+          //   color: primaryColor.withOpacity(0.1),
+          // ),
           roundedContainer(
             CustomText(
               text: "Balance : ${unit?.balance} AED",

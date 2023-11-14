@@ -146,14 +146,23 @@ class LedgerPage extends StatelessWidget {
     );
   }
 
-  DataRow ledgerDataRow(Map data) {
+  DataRow ledgerDataRow(Map data, {void Function()? onTap}) {
     return DataRow(
-        cells: data.values.toList().map((e) => ledgerDataCell(e)).toList());
+      cells: data.values
+          .toList()
+          .map((e) => ledgerDataCell(e, onTap: onTap))
+          .toList(),
+    );
   }
 
-  DataCell ledgerDataCell(dynamic text) {
+  DataCell ledgerDataCell(dynamic text, {void Function()? onTap}) {
     return DataCell(
-        Center(child: CustomText(text: (text ?? " -- ").toString())));
+        Center(
+          child: CustomText(
+            text: (text ?? " -- ").toString(),
+          ),
+        ),
+        onTap: onTap);
   }
 
   Future<T?> showFilter<T>(
