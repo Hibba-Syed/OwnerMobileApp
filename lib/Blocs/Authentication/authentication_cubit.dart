@@ -17,6 +17,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
   void authenticate(BuildContext context) {
     try {
+      emit(state.copyWith(isAuthenticating: true));
       auth
           .authenticate(
         localizedReason: 'Let OS determine authentication method',
@@ -26,12 +27,14 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         ),
       )
           .then((value) {
+        emit(state.copyWith(isAuthenticating: false));
         if (value == true) {
           return Navigator.pushReplacementNamed(context, AppRoutes.dashboard);
         }
         Fluttertoast.showToast(msg: "Unable to authenticate");
       });
     } on PlatformException {
+      emit(state.copyWith(isAuthenticating: false));
       CoolAlert.show(
           context: context,
           type: CoolAlertType.info,

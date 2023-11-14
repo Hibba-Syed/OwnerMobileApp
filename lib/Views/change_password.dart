@@ -39,15 +39,15 @@ class ChangePasswordPage extends StatelessWidget {
                         }
                         return null;
                       },
-                      obsure: state.oldObsure,
+                      obscure: state.oldObscure,
                       suffix: IconButton(
                         onPressed: () {
                           context
                               .read<ChangePasswordCubit>()
-                              .onChangeOldObsure(!state.oldObsure);
+                              .onChangeOldObsure(!state.oldObscure);
                         },
                         icon: Icon(
-                          state.oldObsure
+                          state.oldObscure
                               ? Icons.visibility_off_outlined
                               : Icons.visibility_outlined,
                           color: primaryColor,
@@ -58,7 +58,7 @@ class ChangePasswordPage extends StatelessWidget {
                         Icons.lock_outline,
                         color: primaryColor,
                       ),
-                      obsure: state.newObsure,
+                      obscure: state.newObscure,
                       hintText: "Enter New Password",
                       onChanged: (value) => context
                           .read<ChangePasswordCubit>()
@@ -76,10 +76,10 @@ class ChangePasswordPage extends StatelessWidget {
                         onPressed: () {
                           context
                               .read<ChangePasswordCubit>()
-                              .onChangeNewObsure(!state.newObsure);
+                              .onChangeNewObsure(!state.newObscure);
                         },
                         icon: Icon(
-                          state.newObsure
+                          state.newObscure
                               ? Icons.visibility_off_outlined
                               : Icons.visibility_outlined,
                           color: primaryColor,
@@ -90,7 +90,7 @@ class ChangePasswordPage extends StatelessWidget {
                         Icons.lock_outline,
                         color: primaryColor,
                       ),
-                      obsure: state.confirmObsure,
+                      obscure: state.confirmObscure,
                       hintText: "Confirm New Password", validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Field is Mandatory";
@@ -104,10 +104,10 @@ class ChangePasswordPage extends StatelessWidget {
                         onPressed: () {
                           context
                               .read<ChangePasswordCubit>()
-                              .onChangeConfirmObsure(!state.confirmObsure);
+                              .onChangeConfirmObsure(!state.confirmObscure);
                         },
                         icon: Icon(
-                          state.confirmObsure
+                          state.confirmObscure
                               ? Icons.visibility_off_outlined
                               : Icons.visibility_outlined,
                           color: primaryColor,

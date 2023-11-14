@@ -8,6 +8,7 @@ class HappinessCenterState {
   final String? message;
   final String? service;
   final String radioValue;
+  final List<File>? fileList;
   final LoadingState loadingState;
   final bool verifiedUser;
   const HappinessCenterState({
@@ -17,8 +18,9 @@ class HappinessCenterState {
     this.message,
     this.service,
     this.email,
+    this.fileList,
     this.verifiedUser = false,
-    this.radioValue = "unit",
+    this.radioValue = "Unit",
     this.loadingState = LoadingState.none,
   });
   HappinessCenterState copyWith({
@@ -28,6 +30,7 @@ class HappinessCenterState {
     final String? message,
     final String? service,
     final String? email,
+    final List<File>? fileList,
     final String? radioValue,
     final LoadingState? loadingState,
     final bool? verifiedUser,
@@ -38,6 +41,7 @@ class HappinessCenterState {
       complaintType: complaintType ?? this.complaintType,
       message: message ?? this.message,
       service: service ?? this.service,
+      fileList: fileList ?? this.fileList,
       verifiedUser: verifiedUser ?? this.verifiedUser,
       email: email ?? this.email,
       radioValue: radioValue ?? this.radioValue,

@@ -35,12 +35,12 @@ class LoginCubit extends Cubit<LoginState> {
       if (value is Success) {
         Global.storageService
             .setAuthenticationModelString(value.response as String);
-        const LoginPage().initialCalls(context);
         return context.read<ProfileCubit>().getProfile(context).then((_) {
           emit(state.copyWith(
             loginModel: loginModelFromJson(value.response as String),
             loadingState: LoadingState.success,
           ));
+          const LoginPage().initialCalls(context);
           return Navigator.pushReplacementNamed(context, AppRoutes.dashboard);
         });
       }

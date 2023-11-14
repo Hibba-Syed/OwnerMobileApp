@@ -71,7 +71,7 @@ class LoginPage extends StatelessWidget {
                       "Password",
                       hintText: "Enter password",
                       initialValue: "hammad123",
-                      obsure: state.obsure,
+                      obscure: state.obsure,
                       prefex: const Icon(
                         Icons.lock_outline,
                         color: primaryColor,
@@ -140,7 +140,7 @@ class LoginPage extends StatelessWidget {
     Widget? prefex,
     Widget? suffix,
     String? initialValue,
-    bool obsure = false,
+    bool obscure = false,
     void Function(String)? onChanged,
     String? Function(String?)? validator,
   }) {
@@ -163,7 +163,7 @@ class LoginPage extends StatelessWidget {
             validator: validator,
             suffix: suffix,
             onChanged: onChanged,
-            obsureText: obsure),
+            obscureText: obscure),
         const SizedBox(
           height: 10,
         ),
@@ -217,7 +217,6 @@ class LoginPage extends StatelessWidget {
   void initialCalls(BuildContext context) {
     context.read<CommunitiesCubit>().getCommunities(context);
     context.read<DropdownCommunitiesCubit>().getCommunities(context);
-
     context.read<RequestsFiltersCubit>().getRequestsFilters(context);
     context.read<LedgerTypesCubit>().getLedgerTypes(context).then((value) =>
         context.read<LedgerCubit>().onChangeLedgerType(context

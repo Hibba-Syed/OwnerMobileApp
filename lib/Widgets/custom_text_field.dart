@@ -9,7 +9,7 @@ class CustomTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final String? hintText;
   final void Function(String)? onChanged;
-  final bool obsureText;
+  final bool obscureText;
   final EdgeInsetsGeometry? contentPadding;
   final String? initialValue;
   final bool? enabled;
@@ -25,7 +25,7 @@ class CustomTextField extends StatelessWidget {
       this.validator,
       this.keyboardType,
       this.enabled,
-      this.obsureText = false,
+      this.obscureText = false,
       this.onChanged,
       this.initialValue,
       this.fillColor = kWhite});
@@ -38,7 +38,7 @@ class CustomTextField extends StatelessWidget {
       initialValue: initialValue,
       textAlignVertical: TextAlignVertical.center,
       onChanged: onChanged,
-      obscureText: obsureText,
+      obscureText: obscureText,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: keyboardType,
       validator: validator,

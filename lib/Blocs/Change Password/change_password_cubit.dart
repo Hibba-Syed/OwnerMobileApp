@@ -18,21 +18,21 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
     ));
   }
 
-  void onChangeOldObsure(bool? oldObsure) {
+  void onChangeOldObsure(bool? oldObscure) {
     emit(state.copyWith(
-      oldObsure: oldObsure,
+      oldObscure: oldObscure,
     ));
   }
 
-  void onChangeNewObsure(bool? newObsure) {
+  void onChangeNewObsure(bool? newObscure) {
     emit(state.copyWith(
-      newObsure: newObsure,
+      newObscure: newObscure,
     ));
   }
 
-  void onChangeConfirmObsure(bool? confirmObsure) {
+  void onChangeConfirmObsure(bool? confirmObscure) {
     emit(state.copyWith(
-      confirmObsure: confirmObsure,
+      confirmObscure: confirmObscure,
     ));
   }
 

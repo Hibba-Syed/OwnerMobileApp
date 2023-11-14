@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:iskaanowner/Blocs/Dropdown%20Communities/dropdown_communities_cubit.dart';
 import 'package:iskaanowner/Blocs/Dropdown%20Units/dropdown_units_cubit.dart';
 import 'package:iskaanowner/Blocs/Happiness%20Center/happiness_center_cubit.dart';
@@ -20,13 +23,27 @@ class HappinessCenterPage extends StatelessWidget {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(10),
-        child: CustomButton(
-          text: "Submit",
-          function: () {},
-          icon: const Icon(
-            Icons.telegram,
-            color: kWhite,
-          ),
+        child: BlocBuilder<HappinessCenterCubit, HappinessCenterState>(
+          builder: (context, state) {
+            if (state.loadingState == LoadingState.loading) {
+              return const SizedBox(
+                height: 50,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+            return CustomButton(
+              text: "Submit",
+              function: () {
+                context.read<HappinessCenterCubit>().submitQuery(context);
+              },
+              icon: const Icon(
+                Icons.telegram,
+                color: kWhite,
+              ),
+            );
+          },
         ),
       ),
       body: SingleChildScrollView(
@@ -154,7 +171,7 @@ class HappinessCenterPage extends StatelessWidget {
                                 Row(
                                   children: <Widget>[
                                     Radio(
-                                      value: 'unit',
+                                      value: 'Unit',
                                       groupValue: state.radioValue,
                                       onChanged: (value) {
                                         context
@@ -168,7 +185,7 @@ class HappinessCenterPage extends StatelessWidget {
                                 Row(
                                   children: <Widget>[
                                     Radio(
-                                      value: 'common area',
+                                      value: 'Common area',
                                       groupValue: state.radioValue,
                                       onChanged: (value) {
                                         context
@@ -181,15 +198,44 @@ class HappinessCenterPage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          inputDropDown(
-                            "Service",
-                            state.radioValue.toLowerCase() == "unit"
-                                ? ["Select", "Repair"]
-                                : ["Select", "Cleaning"],
-                            onSelected: (value) => context
-                                .read<HappinessCenterCubit>()
-                                .onChangeService(value),
-                          ),
+                          Builder(builder: (context) {
+                            if (state.complaintType?.toLowerCase() !=
+                                "complaint") {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  const CustomText(
+                                    text: "Subject",
+                                    fontWeight: FontWeight.bold,
+                                    color: primaryColor,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  CustomTextField(
+                                    initialValue: state.service,
+                                    hintText: "Enter subject",
+                                    fillColor: kGrey.shade200,
+                                    onChanged: (value) => context
+                                        .read<HappinessCenterCubit>()
+                                        .onChangeService(value),
+                                  ),
+                                ],
+                              );
+                            }
+                            return inputDropDown(
+                              "Service",
+                              state.radioValue.toLowerCase() == "unit"
+                                  ? ["Select", "Repair"]
+                                  : ["Select", "Cleaning"],
+                              onSelected: (value) => context
+                                  .read<HappinessCenterCubit>()
+                                  .onChangeService(value),
+                            );
+                          }),
                           const SizedBox(
                             height: 10,
                           ),
@@ -225,7 +271,37 @@ class HappinessCenterPage extends StatelessWidget {
                           CustomButton(
                             width: MediaQuery.of(context).size.width / 2,
                             text: "Upload",
-                            function: () {},
+                            function: () async {
+                              await FilePicker.platform.pickFiles(
+                                  allowedExtensions: [
+                                    ".png",
+                                    ".jpg",
+                                    "jpeg",
+                                    ".pdf",
+                                    ".gif"
+                                  ],
+                                  allowMultiple: true,
+                                  type: FileType.custom).then((value) {
+                                if (value != null) {
+                                  if (value.count > 3 ||
+                                      (context
+                                                  .read<HappinessCenterCubit>()
+                                                  .state
+                                                  .fileList
+                                                  ?.length ??
+                                              0) ==
+                                          3) {
+                                    return Fluttertoast.showToast(
+                                        msg: "You can attach only three files");
+                                  }
+                                  context
+                                      .read<HappinessCenterCubit>()
+                                      .onChangeFiles(value.files
+                                          .map((e) => File(e.path ?? ""))
+                                          .toList());
+                                }
+                              });
+                            },
                             textColor: primaryColor,
                             invert: true,
                             icon: const Icon(
@@ -236,12 +312,49 @@ class HappinessCenterPage extends StatelessWidget {
                           const SizedBox(
                             height: 10,
                           ),
+                          Column(
+                            children: state.fileList
+                                    ?.map((e) => Container(
+                                          margin: const EdgeInsets.symmetric(
+                                              vertical: 5),
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: kGrey.shade200,
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: CustomText(
+                                                  text: e.path.split("/").last,
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                              ),
+                                              const Gap(10),
+                                              IconButton(
+                                                  onPressed: () {
+                                                    context
+                                                        .read<
+                                                            HappinessCenterCubit>()
+                                                        .removeFile(e);
+                                                  },
+                                                  icon: const Icon(Icons.close))
+                                            ],
+                                          ),
+                                        ))
+                                    .toList() ??
+                                [],
+                          ),
                         ],
                       ),
                     );
                   }
                   return const SizedBox.shrink();
                 },
+              ),
+              const SizedBox(
+                height: 10,
               ),
             ],
           ),
