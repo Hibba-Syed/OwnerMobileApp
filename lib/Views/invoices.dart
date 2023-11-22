@@ -1,6 +1,4 @@
-import 'package:iskaanowner/Blocs/Invoices/invoices_cubit.dart';
-import 'package:iskaanowner/Views/ledger.dart';
-import 'package:iskaanowner/Views/shared_documnet.dart';
+import 'package:iskaanowner/Blocs/Invoice%20details/invoice_details_cubit.dart';
 
 import '../Utils/utils.dart';
 
@@ -73,9 +71,14 @@ class InvoicesPage extends StatelessWidget {
                           .toList(),
                       rows: state.invoicesModel?.invoices
                               ?.map((e) => const LedgerPage().ledgerDataRow(
-                                    e.toJson(),
-                                    onTap: () => Navigator.pushNamed(
-                                        context, AppRoutes.invoiceDetails),
+                                    e.toJson()..remove("id"),
+                                    onTap: () {
+                                      context
+                                          .read<InvoiceDetailsCubit>()
+                                          .getInvoiceDetails(context, e.id);
+                                      Navigator.pushNamed(
+                                          context, AppRoutes.invoiceDetails);
+                                    },
                                   ))
                               .toList() ??
                           []),

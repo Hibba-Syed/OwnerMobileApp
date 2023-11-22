@@ -1,40 +1,7 @@
-import 'package:iskaanowner/Blocs/Authentication/authentication_cubit.dart';
-import 'package:iskaanowner/Blocs/Change%20Password/change_password_cubit.dart';
-import 'package:iskaanowner/Blocs/Communities/comunities_cubit.dart';
-import 'package:iskaanowner/Blocs/Compliances/compliances_cubit.dart';
-import 'package:iskaanowner/Blocs/Credit%20Notes/credit_notes_cubit.dart';
-import 'package:iskaanowner/Blocs/Download%20Ledger/download_ledger_cubit.dart';
-import 'package:iskaanowner/Blocs/Download%20Summary/download_summary_cubit.dart';
-import 'package:iskaanowner/Blocs/Dropdown%20Communities/dropdown_communities_cubit.dart';
-import 'package:iskaanowner/Blocs/Dropdown%20Units/dropdown_units_cubit.dart';
-import 'package:iskaanowner/Blocs/Happiness%20Center/happiness_center_cubit.dart';
-import 'package:iskaanowner/Blocs/Invoices/invoices_cubit.dart';
-import 'package:iskaanowner/Blocs/Ledger%20Types/ledger_types_cubit.dart';
-import 'package:iskaanowner/Blocs/Ledger/ledger_cubit.dart';
-import 'package:iskaanowner/Blocs/Occupant/occupant_cubit.dart';
-import 'package:iskaanowner/Blocs/Owners/owners_cubit.dart';
-import 'package:iskaanowner/Blocs/Profile/profile_cubit.dart';
-import 'package:iskaanowner/Blocs/Receipts/receipts_cubit.dart';
-import 'package:iskaanowner/Blocs/Request%20Details/request_details_cubit.dart';
-import 'package:iskaanowner/Blocs/Request%20Filters/request_filters_cubit.dart';
-import 'package:iskaanowner/Blocs/Requests/requests_cubit.dart';
-import 'package:iskaanowner/Blocs/Shared%20Documents/shared_documnets_cubit.dart';
-import 'package:iskaanowner/Blocs/Units/units_cubit.dart';
-import 'package:iskaanowner/Blocs/Verify%20Email/verify_email_cubit.dart';
-import 'package:iskaanowner/Views/authentication.dart';
-import 'package:iskaanowner/Views/change_password.dart';
-import 'package:iskaanowner/Views/credit_note_details.dart';
-import 'package:iskaanowner/Views/credit_notes.dart';
-import 'package:iskaanowner/Views/invoice_detail.dart';
-import 'package:iskaanowner/Views/invoices.dart';
-import 'package:iskaanowner/Views/ledger.dart';
-import 'package:iskaanowner/Views/notifications.dart';
-import 'package:iskaanowner/Views/receipt_details.dart';
-import 'package:iskaanowner/Views/receipts.dart';
-import 'package:iskaanowner/Views/request_detail.dart';
-import 'package:iskaanowner/Views/shared_documnet.dart';
-import 'package:iskaanowner/Views/splash.dart';
-import 'package:iskaanowner/Views/unit_financial.dart';
+import 'package:iskaanowner/Blocs/Credit%20Note%20Details/credit_note_details_cubit.dart';
+import 'package:iskaanowner/Blocs/Invoice%20details/invoice_details_cubit.dart';
+import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
+import 'package:iskaanowner/Blocs/Receipt%20details/receipt_details_cubit.dart';
 
 import '../Utils/utils.dart';
 
@@ -149,9 +116,11 @@ class AppPages {
             create: (context) => ChangePasswordCubit(),
           )),
       PageEntity(
-        route: AppRoutes.notifications,
-        page: const NotificationsPage(),
-      ),
+          route: AppRoutes.notifications,
+          page: const NotificationsPage(),
+          bloc: BlocProvider(
+            create: (context) => NotificationsCubit(),
+          )),
       PageEntity(
         route: AppRoutes.unitFinancial,
         page: const UnitFinancialPage(),
@@ -189,9 +158,7 @@ class AppPages {
       PageEntity(
         route: AppRoutes.creditNoteDetails,
         page: const CreditNoteDetailsPage(),
-        bloc: BlocProvider(
-          create: (context) => CreditNotesCubit(),
-        ),
+        bloc: BlocProvider(create: (context) => CreditNoteDetailsCubit()),
       ),
       PageEntity(
         route: AppRoutes.receipts,
@@ -208,13 +175,17 @@ class AppPages {
         ),
       ),
       PageEntity(
-        route: AppRoutes.invoiceDetails,
-        page: const InvoiceDetailsPage(),
-      ),
+          route: AppRoutes.invoiceDetails,
+          page: const InvoiceDetailsPage(),
+          bloc: BlocProvider(
+            create: (context) => InvoiceDetailsCubit(),
+          )),
       PageEntity(
-        route: AppRoutes.receiptDetails,
-        page: const ReceiptDetailsPage(),
-      ),
+          route: AppRoutes.receiptDetails,
+          page: const ReceiptDetailsPage(),
+          bloc: BlocProvider(
+            create: (context) => ReceiptDetailsCubit(),
+          )),
       PageEntity(
         route: AppRoutes.profile,
         page: const ProfilePage(),

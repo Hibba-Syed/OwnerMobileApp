@@ -1,4 +1,3 @@
-import '../Blocs/Profile/profile_cubit.dart';
 import '../Utils/utils.dart';
 
 class ProfilePage extends StatelessWidget {

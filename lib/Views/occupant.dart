@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:intl/intl.dart';
-import 'package:iskaanowner/Blocs/Occupant/occupant_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../Utils/utils.dart';

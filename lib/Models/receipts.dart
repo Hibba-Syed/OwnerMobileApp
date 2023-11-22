@@ -47,6 +47,7 @@ class ReceiptsModel {
 }
 
 class Receipt {
+  int? id;
   DateTime? datetime;
   String? reference;
   String? paidBy;
@@ -54,6 +55,7 @@ class Receipt {
   double? amount;
 
   Receipt({
+    this.id,
     this.datetime,
     this.reference,
     this.paidBy,
@@ -62,6 +64,7 @@ class Receipt {
   });
 
   factory Receipt.fromJson(Map<String, dynamic> json) => Receipt(
+        id: json["id"],
         datetime:
             json["datetime"] == null ? null : DateTime.parse(json["datetime"]),
         reference: json["reference"],
@@ -71,6 +74,7 @@ class Receipt {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "datetime":
             "${datetime!.year.toString().padLeft(4, '0')}-${datetime!.month.toString().padLeft(2, '0')}-${datetime!.day.toString().padLeft(2, '0')}",
         "reference": reference,

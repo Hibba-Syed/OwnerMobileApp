@@ -1,4 +1,3 @@
-import '../Blocs/Shared Documents/shared_documnets_cubit.dart';
 import '../Utils/utils.dart';
 
 class SharedDocumentPage extends StatelessWidget {

@@ -1,7 +1,5 @@
-import 'package:iskaanowner/Views/ledger.dart';
-import 'package:iskaanowner/Views/shared_documnet.dart';
+import 'package:iskaanowner/Views/ledger_by_statement.dart';
 
-import '../Blocs/Ledger/ledger_cubit.dart';
 import '../Utils/utils.dart';
 
 class LedgerByDate extends StatelessWidget {
@@ -38,7 +36,11 @@ class LedgerByDate extends StatelessWidget {
                     .toList(),
                 rows: state.ledgerByDateModel?.record?.data
                         ?.map(
-                            (e) => const LedgerPage().ledgerDataRow(e.toJson()))
+                          (e) => const LedgerPage().ledgerDataRow(
+                              e.toJson()..remove("id"),
+                              onTap: () => const LedgerByStatement()
+                                  .decidePage(context, e.id, e.document)),
+                        )
                         .toList() ??
                     []),
           ),

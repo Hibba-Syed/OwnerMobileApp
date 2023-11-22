@@ -1,7 +1,17 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
+import 'package:iskaanowner/Notification/firebase_service.dart';
 
 import 'Utils/utils.dart';
 import 'firebase_options.dart';
+
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  if (kDebugMode) {
+    print("Handling a background message: ${message.notification?.title}");
+    print("Handling a background message: ${message.notification?.body}");
+  }
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,6 +19,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await Global.init();
+  await FirebaseNotificationService().getPermissions();
   runApp(const MyApp());
 }
 

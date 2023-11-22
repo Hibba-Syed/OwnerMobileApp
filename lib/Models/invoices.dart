@@ -47,6 +47,7 @@ class InvoicesModel {
 }
 
 class Invoice {
+  int? id;
   DateTime? date;
   DateTime? dueDate;
   String? reference;
@@ -54,6 +55,7 @@ class Invoice {
   String? description;
 
   Invoice({
+    this.id,
     this.date,
     this.dueDate,
     this.reference,
@@ -62,6 +64,7 @@ class Invoice {
   });
 
   factory Invoice.fromJson(Map<String, dynamic> json) => Invoice(
+        id: json["id"],
         date: json["date"] == null ? null : DateTime.parse(json["date"]),
         dueDate:
             json["due_date"] == null ? null : DateTime.parse(json["due_date"]),
@@ -71,6 +74,7 @@ class Invoice {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "date":
             "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
         "due_date":

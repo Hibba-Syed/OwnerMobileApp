@@ -1,9 +1,7 @@
 import 'package:expandable/expandable.dart';
 import 'package:iskaanowner/Models/ledger_by_account.dart';
-import 'package:iskaanowner/Views/ledger.dart';
-import 'package:iskaanowner/Views/shared_documnet.dart';
+import 'package:iskaanowner/Views/ledger_by_statement.dart';
 
-import '../Blocs/Ledger/ledger_cubit.dart';
 import '../Utils/utils.dart';
 
 class LedgerByAccount extends StatelessWidget {
@@ -46,7 +44,7 @@ class LedgerByAccount extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                expanded: tableView(accountDatum?.ledgers),
+                expanded: tableView(accountDatum?.ledgers, context),
               ),
             );
           },
@@ -55,7 +53,7 @@ class LedgerByAccount extends StatelessWidget {
     );
   }
 
-  Widget tableView(List<LedgerAccountDatum>? ledgers) {
+  Widget tableView(List<LedgerAccountDatum>? ledgers, BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: DataTable(
@@ -77,7 +75,10 @@ class LedgerByAccount extends StatelessWidget {
                   (e) => const SharedDocumentPage().sharedDocumentDataColumn(e))
               .toList(),
           rows: ledgers
-                  ?.map((e) => const LedgerPage().ledgerDataRow(e.toJson()))
+                  ?.map((e) => const LedgerPage().ledgerDataRow(
+                      e.toJson()..remove("id"),
+                      onTap: () => const LedgerByStatement()
+                          .decidePage(context, e.id, e.document)))
                   .toList() ??
               []),
     );

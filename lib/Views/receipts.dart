@@ -1,6 +1,4 @@
-import 'package:iskaanowner/Blocs/Receipts/receipts_cubit.dart';
-import 'package:iskaanowner/Views/ledger.dart';
-import 'package:iskaanowner/Views/shared_documnet.dart';
+import 'package:iskaanowner/Blocs/Receipt%20details/receipt_details_cubit.dart';
 
 import '../Utils/utils.dart';
 
@@ -75,14 +73,20 @@ class ReceiptsPage extends StatelessWidget {
                           .toList(),
                       rows: state.receiptsModel?.receipts?.map((e) {
                             Map data = e.toJson();
+                            data.remove("id");
                             data["paid_by"] =
                                 data["paid_by"] + " (${data["payee_type"]})";
                             data.remove("payee_type");
                             data["actions"] = null;
                             return receiptsDataRow(
                               data,
-                              onTap: () => Navigator.pushNamed(
-                                  context, AppRoutes.receiptDetails),
+                              onTap: () {
+                                context
+                                    .read<ReceiptDetailsCubit>()
+                                    .getReceiptDetails(context, e.id);
+                                Navigator.pushNamed(
+                                    context, AppRoutes.receiptDetails);
+                              },
                             );
                           }).toList() ??
                           []),

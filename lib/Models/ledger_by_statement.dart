@@ -105,6 +105,7 @@ class Data {
 }
 
 class Ledger {
+  int? id;
   DateTime? date;
   String? document;
   String? reference;
@@ -115,6 +116,7 @@ class Ledger {
   double? balance;
 
   Ledger({
+    this.id,
     this.date,
     this.document,
     this.reference,
@@ -126,6 +128,7 @@ class Ledger {
   });
 
   factory Ledger.fromJson(Map<String, dynamic> json) => Ledger(
+        id: json["id"],
         date: json["date"] == null ? null : DateTime.parse(json["date"]),
         document: json["document"],
         reference: json["reference"],

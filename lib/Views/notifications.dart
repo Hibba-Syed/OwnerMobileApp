@@ -1,3 +1,6 @@
+import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
+
+import '../Models/notifications.dart';
 import '../Utils/utils.dart';
 
 class NotificationsPage extends StatelessWidget {
@@ -13,71 +16,62 @@ class NotificationsPage extends StatelessWidget {
         appBarHeight: 50,
         automaticallyImplyLeading: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            const Align(
-                alignment: Alignment.centerRight,
-                child: CustomText(
-                  text: "Read all",
-                  color: primaryColor,
-                  fontsize: 17,
-                )),
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (BuildContext context, int index) {
-                  return const UnitsPage().roundedContainer(
-                      const Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 30,
-                            backgroundColor: primaryColor,
-                            child: Icon(
-                              Icons.list_outlined,
-                              color: kWhite,
+      body: BlocBuilder<NotificationsCubit, NotificationsState>(
+        builder: (context, state) {
+          if (state.loadingState == LoadingState.loading) {
+            return const CustomLoader();
+          }
+          return ListView.builder(
+            padding: const EdgeInsets.all(10),
+            itemCount: state.notificationsModel?.record?.length,
+            itemBuilder: (BuildContext context, int index) {
+              NotificationRecord? notificationRecord =
+                  state.notificationsModel?.record?[index];
+              return const UnitsPage().roundedContainer(
+                  Row(
+                    children: [
+                      const CircleAvatar(
+                        radius: 30,
+                        backgroundColor: primaryColor,
+                        child: Icon(
+                          Icons.list_outlined,
+                          color: kWhite,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            CustomText(
+                              text: notificationRecord?.message ?? "",
+                              textAlign: TextAlign.left,
                             ),
-                          ),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                CustomText(
-                                  text:
-                                      "RI20230512636 Request has been approved.",
-                                  textAlign: TextAlign.left,
+                                const Icon(
+                                  Icons.alarm_outlined,
+                                  size: 15,
+                                  color: primaryColor,
                                 ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Icon(
-                                      Icons.alarm_outlined,
-                                      size: 15,
-                                      color: primaryColor,
-                                    ),
-                                    CustomText(
-                                      text: "20 mins",
-                                      fontsize: 12,
-                                    )
-                                  ],
+                                CustomText(
+                                  text: const OccupantPage().dateTimeFormatter(
+                                      notificationRecord?.createdAt),
+                                  fontsize: 12,
                                 )
                               ],
-                            ),
-                          ),
-                        ],
+                            )
+                          ],
+                        ),
                       ),
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.symmetric(vertical: 5),
-                      color: kGrey.shade200);
-                },
-              ),
-            ),
-          ],
-        ),
+                    ],
+                  ),
+                  padding: const EdgeInsets.all(10),
+                  margin: const EdgeInsets.symmetric(vertical: 5),
+                  color: kGrey.shade200);
+            },
+          );
+        },
       ),
     );
   }

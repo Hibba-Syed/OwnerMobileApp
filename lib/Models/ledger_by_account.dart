@@ -59,7 +59,8 @@ class Record {
   factory Record.fromJson(Map<String, dynamic> json) => Record(
         data: json["data"] == null
             ? []
-            : List<AccountDatum>.from(json["data"]!.map((x) => AccountDatum.fromJson(x))),
+            : List<AccountDatum>.from(
+                json["data"]!.map((x) => AccountDatum.fromJson(x))),
         meta: json["meta"] == null ? null : Meta.fromJson(json["meta"]),
       );
 
@@ -97,6 +98,7 @@ class AccountDatum {
 }
 
 class LedgerAccountDatum {
+  int? id;
   DateTime? date;
   String? document;
   String? reference;
@@ -108,6 +110,7 @@ class LedgerAccountDatum {
   double? balance;
 
   LedgerAccountDatum({
+    this.id,
     this.date,
     this.document,
     this.reference,
@@ -119,7 +122,9 @@ class LedgerAccountDatum {
     this.balance,
   });
 
-  factory LedgerAccountDatum.fromJson(Map<String, dynamic> json) => LedgerAccountDatum(
+  factory LedgerAccountDatum.fromJson(Map<String, dynamic> json) =>
+      LedgerAccountDatum(
+        id: json["id"],
         date: json["date"] == null ? null : DateTime.parse(json["date"]),
         document: json["document"],
         reference: json["reference"],
@@ -132,6 +137,7 @@ class LedgerAccountDatum {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "date":
             "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
         "document": document,

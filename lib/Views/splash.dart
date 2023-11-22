@@ -1,7 +1,5 @@
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:iskaanowner/Blocs/Authentication/authentication_cubit.dart';
 
-import '../Blocs/Profile/profile_cubit.dart';
 import '../Utils/utils.dart';
 
 class SplashPage extends StatelessWidget {

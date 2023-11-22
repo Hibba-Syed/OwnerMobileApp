@@ -1,7 +1,4 @@
-import 'package:iskaanowner/Blocs/Credit%20Notes/credit_notes_cubit.dart';
-import 'package:iskaanowner/Views/ledger.dart';
-import 'package:iskaanowner/Views/receipts.dart';
-import 'package:iskaanowner/Views/shared_documnet.dart';
+import 'package:iskaanowner/Blocs/Credit%20Note%20Details/credit_note_details_cubit.dart';
 
 import '../Utils/utils.dart';
 
@@ -81,11 +78,17 @@ class CreditNotesPage extends StatelessWidget {
                           .toList(),
                       rows: state.creditNotesModel?.creditNotes?.map((e) {
                             Map data = e.toJson();
+                            data.remove("id");
                             data["action"] = null;
                             return const ReceiptsPage().receiptsDataRow(
                               data,
-                              onTap: () => Navigator.pushNamed(
-                                  context, AppRoutes.creditNoteDetails),
+                              onTap: () {
+                                context
+                                    .read<CreditNoteDetailsCubit>()
+                                    .getCreditNoteDetails(context, e.id);
+                                Navigator.pushNamed(
+                                    context, AppRoutes.creditNoteDetails);
+                              },
                             );
                           }).toList() ??
                           []),

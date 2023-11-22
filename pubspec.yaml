@@ -52,6 +52,10 @@ dependencies:
   cool_alert: ^2.0.1
   file_picker: ^6.1.1
   firebase_core: ^2.22.0
+  flutter_local_notifications: ^16.1.0
+  firebase_messaging: ^14.7.4
+  permission_handler: ^11.0.1
+  device_info_plus: ^9.1.0
 
 dev_dependencies:
   flutter_test:

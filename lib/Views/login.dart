@@ -1,9 +1,7 @@
-import 'package:iskaanowner/Blocs/Communities/comunities_cubit.dart';
-import 'package:iskaanowner/Blocs/Dropdown%20Communities/dropdown_communities_cubit.dart';
-import 'package:iskaanowner/Blocs/Ledger%20Types/ledger_types_cubit.dart';
-import 'package:iskaanowner/Blocs/Ledger/ledger_cubit.dart';
-import 'package:iskaanowner/Blocs/Request%20Filters/request_filters_cubit.dart';
+import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
 
+import '../Notification/firebase_service.dart';
+import '../Notification/local_notification_service.dart';
 import '../Utils/utils.dart';
 
 class LoginPage extends StatelessWidget {
@@ -215,9 +213,16 @@ class LoginPage extends StatelessWidget {
   }
 
   void initialCalls(BuildContext context) {
+    LocalNotificationService(context).initialize();
+    FirebaseNotificationService().handleTokenStatus(context);
+    FirebaseNotificationService().makeFirebaseTokenRequest(context);
+    FirebaseNotificationService().handleOnTapBackground(context);
+    FirebaseNotificationService().handleOnMessage();
+    FirebaseNotificationService().handleAppOpened(context);
     context.read<CommunitiesCubit>().getCommunities(context);
     context.read<DropdownCommunitiesCubit>().getCommunities(context);
     context.read<RequestsFiltersCubit>().getRequestsFilters(context);
+    context.read<NotificationsCubit>().getNotifications(context);
     context.read<LedgerTypesCubit>().getLedgerTypes(context).then((value) =>
         context.read<LedgerCubit>().onChangeLedgerType(context
             .read<LedgerTypesCubit>()

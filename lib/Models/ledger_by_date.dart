@@ -72,6 +72,7 @@ class Record {
 }
 
 class Datum {
+  int? id;
   DateTime? date;
   String? document;
   String? reference;
@@ -84,6 +85,7 @@ class Datum {
   double? balance;
 
   Datum({
+    this.id,
     this.date,
     this.document,
     this.reference,
@@ -97,6 +99,7 @@ class Datum {
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        id: json["id"],
         date: json["date"] == null ? null : DateTime.parse(json["date"]),
         document: json["document"],
         reference: json["reference"],
@@ -110,6 +113,7 @@ class Datum {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "date":
             "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
         "document": document,

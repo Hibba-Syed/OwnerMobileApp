@@ -1,14 +1,5 @@
-import 'package:iskaanowner/Blocs/Compliances/compliances_cubit.dart';
-import 'package:iskaanowner/Blocs/Credit%20Notes/credit_notes_cubit.dart';
-import 'package:iskaanowner/Blocs/Invoices/invoices_cubit.dart';
-import 'package:iskaanowner/Blocs/Ledger/ledger_cubit.dart';
-import 'package:iskaanowner/Blocs/Occupant/occupant_cubit.dart';
-import 'package:iskaanowner/Blocs/Owners/owners_cubit.dart';
-import 'package:iskaanowner/Blocs/Receipts/receipts_cubit.dart';
-import 'package:iskaanowner/Blocs/Requests/requests_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../Blocs/Shared Documents/shared_documnets_cubit.dart';
 import '../Utils/utils.dart';
 
 class UnitDetailsPage extends StatelessWidget {

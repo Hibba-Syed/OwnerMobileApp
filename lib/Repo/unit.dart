@@ -143,6 +143,25 @@ class UnitsService {
     });
   }
 
+  static Future<Object?> getUnitInvoiceDetails(
+      BuildContext context, int? id) async {
+    return await ExceptionService.applyTryCatch(() async {
+      return await http.get(
+          Uri.parse(
+            "$baseUrl/mobile/owner/property/accounting/invoices/$id",
+          ),
+          headers: {
+            "Authorization":
+                "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+          }).then((value) {
+        if (value.statusCode == 200) {
+          return Success(200, value.body);
+        }
+        return Failure(400, jsonDecode(value.body)["message"]);
+      });
+    });
+  }
+
   static Future<Object?> getUnitReceipts(BuildContext context, int? id,
       DateTimeRange? dateTimeRange, String? search) async {
     return await ExceptionService.applyTryCatch(() async {
@@ -167,6 +186,25 @@ class UnitsService {
     });
   }
 
+  static Future<Object?> getUnitReceiptDetails(
+      BuildContext context, int? id) async {
+    return await ExceptionService.applyTryCatch(() async {
+      return await http.get(
+          Uri.parse(
+            "$baseUrl/mobile/owner/property/accounting/receipts/$id",
+          ),
+          headers: {
+            "Authorization":
+                "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+          }).then((value) {
+        if (value.statusCode == 200) {
+          return Success(200, value.body);
+        }
+        return Failure(400, jsonDecode(value.body)["message"]);
+      });
+    });
+  }
+
   static Future<Object?> getUnitCreditNotes(BuildContext context, int? id,
       String? keyword, DateTimeRange? dateTimeRange) async {
     return await ExceptionService.applyTryCatch(() async {
@@ -178,6 +216,25 @@ class UnitsService {
       return await http.get(
           Uri.parse(
             "$baseUrl/mobile/owner/property/accounting/credit-notes?creditable_type=unit&creditable_id=$id&search=$keyword$filter",
+          ),
+          headers: {
+            "Authorization":
+                "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+          }).then((value) {
+        if (value.statusCode == 200) {
+          return Success(200, value.body);
+        }
+        return Failure(400, jsonDecode(value.body)["message"]);
+      });
+    });
+  }
+
+  static Future<Object?> getUnitCreditNoteDetails(
+      BuildContext context, int? id) async {
+    return await ExceptionService.applyTryCatch(() async {
+      return await http.get(
+          Uri.parse(
+            "$baseUrl/mobile/owner/property/accounting/credit-notes/$id",
           ),
           headers: {
             "Authorization":

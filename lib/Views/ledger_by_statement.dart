@@ -1,7 +1,7 @@
-import 'package:iskaanowner/Views/ledger.dart';
-import 'package:iskaanowner/Views/shared_documnet.dart';
+import 'package:iskaanowner/Blocs/Credit%20Note%20Details/credit_note_details_cubit.dart';
+import 'package:iskaanowner/Blocs/Invoice%20details/invoice_details_cubit.dart';
+import 'package:iskaanowner/Blocs/Receipt%20details/receipt_details_cubit.dart';
 
-import '../Blocs/Ledger/ledger_cubit.dart';
 import '../Utils/utils.dart';
 
 class LedgerByStatement extends StatelessWidget {
@@ -35,13 +35,35 @@ class LedgerByStatement extends StatelessWidget {
                         const SharedDocumentPage().sharedDocumentDataColumn(e))
                     .toList(),
                 rows: state.ledgerByStatementModel?.record?.data?.ledgers
-                        ?.map(
-                            (e) => const LedgerPage().ledgerDataRow(e.toJson()))
+                        ?.map((e) => const LedgerPage().ledgerDataRow(
+                              e.toJson()..remove("id"),
+                              onTap: () =>
+                                  decidePage(context, e.id, e.document),
+                            ))
                         .toList() ??
                     []),
           ),
         );
       },
     );
+  }
+
+  void decidePage(BuildContext context, int? id, String? document) {
+    String? page;
+    if (document?.toLowerCase() == "receipt") {
+      context.read<ReceiptDetailsCubit>().getReceiptDetails(context, id);
+      page = AppRoutes.receiptDetails;
+    }
+    if (document?.toLowerCase().contains("credit") ?? false) {
+      context.read<CreditNoteDetailsCubit>().getCreditNoteDetails(context, id);
+      page = AppRoutes.creditNoteDetails;
+    }
+    if (document?.toLowerCase() == "invoice") {
+      context.read<InvoiceDetailsCubit>().getInvoiceDetails(context, id);
+      page = AppRoutes.invoiceDetails;
+    }
+    if (page != null) {
+      Navigator.pushNamed(context, page);
+    }
   }
 }
