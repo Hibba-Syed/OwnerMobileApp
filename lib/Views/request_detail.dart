@@ -96,7 +96,7 @@ class RequestDetailPage extends StatelessWidget {
                           children: getRequestList(type, state)
                               .map((e) => const ProfilePage().profileInfoTile(
                                     e["title"] as String,
-                                    e["subTitle"] as String?,
+                                    e["subTitle"].toString(),
                                     e["icon"] as IconData,
                                   ))
                               .toList(),
@@ -382,7 +382,7 @@ class RequestDetailPage extends StatelessWidget {
         },
       ]);
     }
-    if (type?.toLowerCase() == "fb") {
+    if (type?.toLowerCase() == "hb") {
       requestList.addAll([
         {
           "icon": Icons.build_circle_outlined,
@@ -535,9 +535,53 @@ class RequestDetailPage extends StatelessWidget {
     if (type?.toLowerCase() == "wp") {
       requestList.addAll([
         {
+          "icon": Icons.person_outlined,
+          "title": "Contractor Name",
+          "subTitle": state.requestDetailsModel?.record?.clientName,
+        },
+        {
+          "icon": Icons.phone_android_outlined,
+          "title": "Contractor Contact Person",
+          "subTitle": state.requestDetailsModel?.record?.clientName,
+        },
+        {
+          "icon": Icons.group_outlined,
+          "title": "No. of Staff Expected",
+          "subTitle": state.requestDetailsModel?.record?.clientName,
+        },
+        {
+          "icon": Icons.calendar_month_outlined,
+          "title": "Start date",
+          "subTitle": "23 May 2023",
+          "widget": const ProfilePage().profileInfoTile(
+              "End Date", "23 May 20223", Icons.calendar_month_outlined)
+        },
+        {
+          "icon": Icons.security,
+          "title": "Security Deposit",
+          "subTitle":
+              "${state.requestDetailsModel?.record?.securityDeposit ?? " -- "}",
+          "widget": const ProfilePage()
+              .profileInfoTile("Status", "pending", Icons.done_all_outlined),
+        },
+        {
+          "icon": Icons.check_box_outline_blank_outlined,
+          "title": "Payable Amount",
+          "subTitle":
+              state.requestDetailsModel?.record?.payableAmount ?? " -- ",
+          "widget": const ProfilePage()
+              .profileInfoTile("Status", "pending", Icons.done_all_outlined),
+        },
+        {
           "icon": Icons.money_outlined,
-          "title": "Cheque Details",
-          "subTitle": " -- ",
+          "title": "Cheque details",
+          "subTitle":
+              state.requestDetailsModel?.record?.serviceChargeStatus ?? " -- ",
+        },
+        {
+          "icon": Icons.notes_outlined,
+          "title": "Description",
+          "subTitle": state.requestDetailsModel?.record?.description ?? " -- ",
         },
       ]);
     }

@@ -90,6 +90,7 @@ class DashboardPage extends StatelessWidget {
       child: Row(
         children: [
           iconButton(Icons.ac_unit, "Units Financial", onTap: () {
+            // context.read<UnitFinancialsCubit>().getUnitFinancials(context);
             Navigator.pushNamed(context, AppRoutes.unitFinancial);
           }),
           BlocBuilder<DownloadSummaryCubit, DownloadSummaryState>(

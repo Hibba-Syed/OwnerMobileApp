@@ -368,4 +368,22 @@ class UnitsService {
       });
     });
   }
+
+  static Future<Object?> getUnitFinancials(BuildContext context) async {
+    return await ExceptionService.applyTryCatch(() async {
+      return await http.get(
+          Uri.parse(
+            "$baseUrl/mobile/owner/profile/units-financial-summary",
+          ),
+          headers: {
+            "Authorization":
+                "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+          }).then((value) {
+        if (value.statusCode == 201) {
+          return Success(201, value.body);
+        }
+        return Failure(400, jsonDecode(value.body)["message"]);
+      });
+    });
+  }
 }

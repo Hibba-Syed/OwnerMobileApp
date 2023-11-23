@@ -1,3 +1,5 @@
+import 'package:iskaanowner/Blocs/Unit%20Financials/unit_financials_cubit.dart';
+
 import '../Utils/utils.dart';
 
 class UnitFinancialPage extends StatelessWidget {
@@ -13,56 +15,79 @@ class UnitFinancialPage extends StatelessWidget {
         appBarHeight: 50,
         automaticallyImplyLeading: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: CustomButton(
-                width: MediaQuery.of(context).size.width * 0.4,
-                text: "Export",
-                function: () {},
-                icon: const Icon(
-                  Icons.document_scanner_outlined,
-                  color: kWhite,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Table(
-              border: TableBorder.all(color: primaryColor),
+      body: BlocBuilder<UnitFinancialsCubit, UnitFinancialsState>(
+        builder: (context, state) {
+          if (state.loadingState == LoadingState.loading) {
+            return const CustomLoader();
+          }
+          return Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
               children: [
-                {
-                  "community": "Community",
-                  "unitNumber": "Unit Number",
-                  "balance": "Balance",
-                  "fontWeight": FontWeight.bold,
-                  "color": primaryColor.withOpacity(0.1)
-                },
-                {
-                  "community": "IT Plaza",
-                  "unitNumber": "1009",
-                  "balance": "500 AED",
-                },
-                {
-                  "community": "Axis 8",
-                  "unitNumber": "1008",
-                  "balance": "900 AED",
-                },
-              ]
-                  .map(
-                    (e) => unitFinancialTableRow(e["community"] as String,
-                        e["unitNumber"] as String, e["balance"] as String,
-                        color: e["color"] as Color?,
-                        fontWeight: e["fontWeight"] as FontWeight?),
-                  )
-                  .toList(),
-            )
-          ],
-        ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: CustomButton(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    text: "Export",
+                    function: () {},
+                    icon: const Icon(
+                      Icons.document_scanner_outlined,
+                      color: kWhite,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                      headingRowColor: MaterialStateColor.resolveWith(
+                          (states) => primaryColor.withOpacity(0.1)),
+                      border: TableBorder.all(color: primaryColor),
+                      columns: [
+                        "Community",
+                        "Unit Number",
+                        "Balance",
+                      ]
+                          .map((e) => const SharedDocumentPage()
+                              .sharedDocumentDataColumn(e))
+                          .toList(),
+                      rows: state.unitFinancialsModel?.record
+                              ?.map((e) => const LedgerPage().ledgerDataRow(
+                                    e.toJson()..remove("unit_id"),
+                                  ))
+                              .toList() ??
+                          []),
+                )
+                // Table(
+                //   border: TableBorder.all(color: primaryColor),
+                //   children: [
+                //     {
+                //       "community": "Community",
+                //       "unitNumber": "Unit Number",
+                //       "balance": "Balance",
+                //       "fontWeight": FontWeight.bold,
+                //       "color": primaryColor.withOpacity(0.1)
+                //     },
+                //     state.unitFinancialsModel?.record?.map((e) => {
+                //           "community": e.communityName.toString(),
+                //           "unitNumber": e.unitNumber.toString(),
+                //           "balance": e.balance.toString(),
+                //         })
+                //   ]
+                //       .map(
+                //         (e) => unitFinancialTableRow(e["community"] as String,
+                //             e["unitNumber"] as String, e["balance"] as String,
+                //             color: e["color"] as Color?,
+                //             fontWeight: e["fontWeight"] as FontWeight?),
+                //       )
+                //       .toList(),
+                // )
+              ],
+            ),
+          );
+        },
       ),
     );
   }

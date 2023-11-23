@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_animate/flutter_animate.dart';
 
 import '../Utils/utils.dart';
@@ -11,9 +13,8 @@ class SplashPage extends StatelessWidget {
       String? jsonAuthModel =
           Global.storageService.getAuthenticationModelString();
       if (jsonAuthModel != null) {
-        context
-            .read<LoginCubit>()
-            .onChangeLoginModel(loginModelFromJson(jsonAuthModel));
+        context.read<LoginCubit>().onChangeLoginModel(
+            loginModelFromJson(jsonEncode(jsonDecode(jsonAuthModel)[0])));
         const LoginPage().initialCalls(context);
         await context.read<ProfileCubit>().getProfile(context).then((value) {
           context

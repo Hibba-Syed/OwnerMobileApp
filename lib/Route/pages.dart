@@ -2,6 +2,8 @@ import 'package:iskaanowner/Blocs/Credit%20Note%20Details/credit_note_details_cu
 import 'package:iskaanowner/Blocs/Invoice%20details/invoice_details_cubit.dart';
 import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
 import 'package:iskaanowner/Blocs/Receipt%20details/receipt_details_cubit.dart';
+import 'package:iskaanowner/Blocs/Send%20OTP/send_otp_cubit.dart';
+import 'package:iskaanowner/Blocs/Unit%20Financials/unit_financials_cubit.dart';
 
 import '../Utils/utils.dart';
 
@@ -35,6 +37,9 @@ class AppPages {
               ),
               BlocProvider(
                 create: (context) => CommunitiesCubit(),
+              ),
+              BlocProvider(
+                create: (context) => SendOtpCubit(),
               ),
             ],
             child: Container(),
@@ -122,9 +127,11 @@ class AppPages {
             create: (context) => NotificationsCubit(),
           )),
       PageEntity(
-        route: AppRoutes.unitFinancial,
-        page: const UnitFinancialPage(),
-      ),
+          route: AppRoutes.unitFinancial,
+          page: const UnitFinancialPage(),
+          bloc: BlocProvider(
+            create: (context) => UnitFinancialsCubit(),
+          )),
       PageEntity(
           route: AppRoutes.sharedDocument,
           page: const SharedDocumentPage(),

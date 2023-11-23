@@ -1,4 +1,6 @@
 import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
+import 'package:iskaanowner/Blocs/Send%20OTP/send_otp_cubit.dart';
+import 'package:iskaanowner/Blocs/Unit%20Financials/unit_financials_cubit.dart';
 
 import '../Notification/firebase_service.dart';
 import '../Notification/local_notification_service.dart';
@@ -10,7 +12,21 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> key = GlobalKey();
+    final bool showAppBar =
+        ModalRoute.of(context)?.settings.arguments as bool? ?? false;
     return Scaffold(
+      appBar: showAppBar
+          ? BaseAppBar(
+              title: "",
+              backgroundColor: kTransparent,
+              elevation: null,
+              appBar: AppBar(),
+              widgets: const [],
+              appBarHeight: 50,
+              automaticallyImplyLeading: true,
+            )
+          : null,
+      extendBodyBehindAppBar: true,
       body: Stack(
         children: [
           loginHeaderImage(),
@@ -49,7 +65,6 @@ class LoginPage extends StatelessWidget {
                     textFieldWithText(
                       "Email",
                       hintText: "Enter the email",
-                      initialValue: "imhammadahmad94@gmail.com",
                       prefex: const Icon(
                         Icons.email_outlined,
                         color: primaryColor,
@@ -68,7 +83,6 @@ class LoginPage extends StatelessWidget {
                     textFieldWithText(
                       "Password",
                       hintText: "Enter password",
-                      initialValue: "hammad123",
                       obscure: state.obsure,
                       prefex: const Icon(
                         Icons.lock_outline,
@@ -170,43 +184,73 @@ class LoginPage extends StatelessWidget {
   }
 
   void forgotPasswordUi(BuildContext context) {
+    GlobalKey<FormState> key = GlobalKey();
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const CustomText(
-              text: "Forgot Password?",
-              color: primaryColor,
-              fontsize: 20,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: CustomText(
-                text:
-                    "Enter your email address to receive instructions on how to reset your password.",
-                textAlign: TextAlign.left,
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const CustomTextField(
-              prefix: Icon(
-                Icons.email_outlined,
+        content: Form(
+          key: key,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CustomText(
+                text: "Forgot Password?",
                 color: primaryColor,
+                fontsize: 20,
               ),
-              hintText: "Enter Email",
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            CustomButton(text: "Send", function: () {})
-          ],
+              const SizedBox(
+                height: 10,
+              ),
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: CustomText(
+                  text:
+                      "Enter your email address to receive instructions on how to reset your password.",
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              CustomTextField(
+                prefix: const Icon(
+                  Icons.email_outlined,
+                  color: primaryColor,
+                ),
+                onChanged: (value) =>
+                    context.read<SendOtpCubit>().onChangeEmail(value),
+                hintText: "Enter Email",
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Field is empty";
+                  }
+                  if (!value.contains("@")) {
+                    return "Invalid email address";
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              BlocBuilder<SendOtpCubit, SendOtpState>(
+                builder: (context, state) {
+                  if (state.loadingState == LoadingState.loading) {
+                    return const SizedBox(
+                        height: 50,
+                        child: Center(child: CircularProgressIndicator()));
+                  }
+                  return CustomButton(
+                      text: "Send",
+                      function: () {
+                        if (key.currentState?.validate() ?? false) {
+                          context.read<SendOtpCubit>().sendOTP(context);
+                        }
+                      });
+                },
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -223,13 +267,14 @@ class LoginPage extends StatelessWidget {
     context.read<DropdownCommunitiesCubit>().getCommunities(context);
     context.read<RequestsFiltersCubit>().getRequestsFilters(context);
     context.read<NotificationsCubit>().getNotifications(context);
-    context.read<LedgerTypesCubit>().getLedgerTypes(context).then((value) =>
-        context.read<LedgerCubit>().onChangeLedgerType(context
-            .read<LedgerTypesCubit>()
-            .state
-            .ledgerTypesModel
-            ?.record
-            ?.ledgers
-            ?.first));
+    context.read<LedgerTypesCubit>().getLedgerTypes(context);
+    context.read<UnitFinancialsCubit>().getUnitFinancials(context);
+    context.read<LedgerCubit>().onChangeLedgerType(context
+        .read<LedgerTypesCubit>()
+        .state
+        .ledgerTypesModel
+        ?.record
+        ?.ledgers
+        ?.first);
   }
 }

@@ -2,6 +2,7 @@ import '../Utils/utils.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? backgroundColor;
+  final Color? backArrowColor;
   final String title;
   final AppBar appBar;
   final bool automaticallyImplyLeading, centerTitle;
@@ -22,6 +23,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
       required this.widgets,
       this.automaticallyImplyLeading = false,
       this.backgroundColor,
+      this.backArrowColor,
       this.centerTitle = true,
       required this.appBarHeight,
       this.titleColor = primaryColor,
@@ -51,10 +53,10 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
           : leading ??
               IconButton(
                   onPressed: () => Navigator.pop(context),
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.arrow_back_ios,
                     size: 20,
-                    color: primaryColor,
+                    color: backArrowColor ?? primaryColor,
                   )),
       actions: widgets,
       bottom: bottom,

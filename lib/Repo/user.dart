@@ -23,6 +23,27 @@ class UserService {
     });
   }
 
+  static Future<Object?> sendOTP(BuildContext context, String email) async {
+    return await ExceptionService.applyTryCatch(() async {
+      return await http.post(
+          Uri.parse(
+            "$baseUrl/mobile/owner/auth/send-otp",
+          ),
+          headers: {
+            "Authorization":
+                "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+          },
+          body: {
+            "email": email,
+          }).then((value) {
+        if (value.statusCode == 201 || value.statusCode == 200) {
+          return Success(201, value.body);
+        }
+        return Failure(400, jsonDecode(value.body)["message"]);
+      });
+    });
+  }
+
   static Future<Object?> changePassword(
       BuildContext context, String? oldPassword, String? newPassword) async {
     return await ExceptionService.applyTryCatch(() async {

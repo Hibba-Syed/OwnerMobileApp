@@ -9,8 +9,8 @@ class LoginState {
   final String companyId;
   const LoginState({
     this.loginModel,
-    this.email = "imhammadahmad94@gmail.com",
-    this.password = "hammad123",
+    this.email = "",
+    this.password = "",
     this.companyId = "1",
     this.obsure = true,
     this.loadingState = LoadingState.none,

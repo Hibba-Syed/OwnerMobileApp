@@ -10,7 +10,7 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   void onChangeEmail(String? email) {
-    state.copyWith(email: email);
+    emit(state.copyWith(email: email));
   }
 
   void onChangeObsure(bool? obsure) {
@@ -18,11 +18,11 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   void onChangePassword(String? password) {
-    state.copyWith(password: password);
+    emit(state.copyWith(password: password));
   }
 
   void onChangeCompanyId(String? companyId) {
-    state.copyWith(companyId: companyId);
+    emit(state.copyWith(companyId: companyId));
   }
 
   Future<void> loginUser(BuildContext context) async {
@@ -31,11 +31,11 @@ class LoginCubit extends Cubit<LoginState> {
             state.email, state.password, state.companyId)
         .then((value) {
       if (value is Success) {
-        Global.storageService
-            .setAuthenticationModelString(value.response as String);
         emit(state.copyWith(
           loginModel: loginModelFromJson(value.response as String),
         ));
+        Global.storageService.setAuthenticationModelString(
+            loginModelFromJson(value.response as String));
         return context
             .read<ProfileCubit>()
             .getProfile(context)
