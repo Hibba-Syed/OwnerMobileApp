@@ -10,7 +10,6 @@ class HappinessCenterState {
   final String radioValue;
   final List<File>? fileList;
   final LoadingState loadingState;
-  final bool verifiedUser;
   const HappinessCenterState({
     this.communityId,
     this.unitId,
@@ -19,7 +18,6 @@ class HappinessCenterState {
     this.service,
     this.email,
     this.fileList,
-    this.verifiedUser = false,
     this.radioValue = "Unit",
     this.loadingState = LoadingState.none,
   });
@@ -42,7 +40,6 @@ class HappinessCenterState {
       message: message ?? this.message,
       service: service ?? this.service,
       fileList: fileList ?? this.fileList,
-      verifiedUser: verifiedUser ?? this.verifiedUser,
       email: email ?? this.email,
       radioValue: radioValue ?? this.radioValue,
       loadingState: loadingState ?? this.loadingState,

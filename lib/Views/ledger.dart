@@ -110,19 +110,31 @@ class LedgerPage extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const TabBar(
-                isScrollable: true,
-                tabs: [
-                  Tab(
-                    text: "By Statement",
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: kGrey.shade200,
+                ),
+                child: TabBar(
+                  indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: primaryColor,
                   ),
-                  Tab(
-                    text: "By Date",
-                  ),
-                  Tab(
-                    text: "By Account",
-                  ),
-                ],
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  labelColor: kWhite,
+                  dividerColor: kTransparent,
+                  tabs: const [
+                    Tab(
+                      text: "By Statement",
+                    ),
+                    Tab(
+                      text: "By Date",
+                    ),
+                    Tab(
+                      text: "By Account",
+                    ),
+                  ],
+                ),
               ),
               const Expanded(
                 child: Padding(
@@ -181,10 +193,8 @@ class LedgerPage extends StatelessWidget {
 
   DataCell ledgerDataCell(dynamic text, {void Function()? onTap}) {
     return DataCell(
-        Center(
-          child: CustomText(
-            text: (text ?? " -- ").toString(),
-          ),
+        CustomText(
+          text: (text ?? " -- ").toString(),
         ),
         onTap: onTap);
   }
@@ -339,6 +349,7 @@ class LedgerPage extends StatelessWidget {
       {void Function(String?)? onSelected, String? value}) {
     return DropdownMenu<String>(
       initialSelection: value ?? list.first,
+      expandedInsets: const EdgeInsets.all(0),
       onSelected: onSelected,
       dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
         return DropdownMenuEntry<String>(value: value, label: value);

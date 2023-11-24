@@ -48,42 +48,47 @@ class InvoicesPage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            BlocBuilder<InvoicesCubit, InvoicesState>(
-              builder: (context, state) {
-                if (state.loadingState == LoadingState.loading) {
-                  return const Expanded(child: CustomLoader());
-                }
-                return SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                      headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => primaryColor.withOpacity(0.1)),
-                      border: TableBorder.all(color: primaryColor),
-                      columns: [
-                        "Date",
-                        "Due Date",
-                        "Reference",
-                        "Mollak Reference",
-                        "Description",
-                      ]
-                          .map((e) => const SharedDocumentPage()
-                              .sharedDocumentDataColumn(e))
-                          .toList(),
-                      rows: state.invoicesModel?.invoices
-                              ?.map((e) => const LedgerPage().ledgerDataRow(
-                                    e.toJson()..remove("id"),context: context,
-                                    onTap: () {
-                                      context
-                                          .read<InvoiceDetailsCubit>()
-                                          .getInvoiceDetails(context, e.id);
-                                      Navigator.pushNamed(
-                                          context, AppRoutes.invoiceDetails);
-                                    },
-                                  ))
-                              .toList() ??
-                          []),
-                );
-              },
+            Expanded(
+              child: BlocBuilder<InvoicesCubit, InvoicesState>(
+                builder: (context, state) {
+                  if (state.loadingState == LoadingState.loading) {
+                    return const CustomLoader();
+                  }
+                  return SingleChildScrollView(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: DataTable(
+                          headingRowColor: MaterialStateColor.resolveWith(
+                              (states) => primaryColor.withOpacity(0.1)),
+                          border: TableBorder.all(color: primaryColor),
+                          columns: [
+                            "Date",
+                            "Due Date",
+                            "Reference",
+                            "Mollak Reference",
+                            "Description",
+                          ]
+                              .map((e) => const SharedDocumentPage()
+                                  .sharedDocumentDataColumn(e))
+                              .toList(),
+                          rows: state.invoicesModel?.invoices
+                                  ?.map((e) => const LedgerPage().ledgerDataRow(
+                                        e.toJson()..remove("id"),
+                                        context: context,
+                                        onTap: () {
+                                          context
+                                              .read<InvoiceDetailsCubit>()
+                                              .getInvoiceDetails(context, e.id);
+                                          Navigator.pushNamed(context,
+                                              AppRoutes.invoiceDetails);
+                                        },
+                                      ))
+                                  .toList() ??
+                              []),
+                    ),
+                  );
+                },
+              ),
             )
           ],
         ),

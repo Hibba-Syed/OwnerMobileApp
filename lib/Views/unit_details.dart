@@ -12,6 +12,7 @@ class UnitDetailsPage extends StatelessWidget {
     String? unitNo = (ModalRoute.of(context)?.settings.arguments as List)[1];
     int? unitId = (ModalRoute.of(context)?.settings.arguments as List)[2];
     String? unitSlug = (ModalRoute.of(context)?.settings.arguments as List)[3];
+    final tabList = ["Unit Info", "Accounts"];
     return Scaffold(
       appBar: BaseAppBar(
         title: "Unit - $unitNo",
@@ -35,19 +36,28 @@ class UnitDetailsPage extends StatelessWidget {
           padding: const EdgeInsets.all(10),
           child: Column(
             children: [
+              const Gap(10),
               unitDetailHeader(context, communityName, unitId),
-              const SizedBox(
-                height: 10,
-              ),
-              const TabBar(
-                tabs: [
-                  Tab(
-                    text: "Unit Info",
-                  ),
-                  Tab(
-                    text: "Accounts",
-                  ),
-                ],
+              const Gap(20),
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: kGrey.shade200),
+                child: TabBar(
+                  isScrollable: false,
+                  indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: primaryColor),
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  labelColor: kWhite,
+                  dividerColor: kTransparent,
+                  indicatorColor: primaryColor,
+                  tabs: List.generate(
+                      tabList.length,
+                      (index) => Tab(
+                            text: tabList[index],
+                          )),
+                ),
               ),
               const SizedBox(
                 height: 10,
