@@ -96,7 +96,7 @@ class UnitsService {
     return await ExceptionService.applyTryCatch(() async {
       return await http.get(
           Uri.parse(
-            "$baseUrl/mobile/owner/property/compliance?scope=unit&complianceable_id=$id",
+            "$baseUrl/mobile/owner/property/compliance?scope=unit&complianceable_id=$id&search=$keyword",
           ),
           headers: {
             "Authorization":

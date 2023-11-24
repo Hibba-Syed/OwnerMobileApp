@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:iskaanowner/Blocs/Logout/logout_cubit.dart';
+
 import '../Models/profile.dart';
 import '../Utils/utils.dart';
 
@@ -208,19 +210,25 @@ class SideDrawerPage extends StatelessWidget {
         const Spacer(),
         Padding(
           padding: const EdgeInsets.all(10),
-          child: CustomButton(
-            text: "Logout",
-            function: () {
-              Global.storageService.removeUser();
-              Navigator.pushReplacementNamed(
-                context,
-                AppRoutes.login,
+          child: BlocBuilder<LogoutCubit, LogoutState>(
+            builder: (context, state) {
+              if (state.loadingState == LoadingState.loading) {
+                return const SizedBox(
+                  height: 50,
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+              return CustomButton(
+                text: "Logout",
+                function: () {
+                  context.read<LogoutCubit>().logout(context);
+                },
+                icon: const Icon(
+                  Icons.logout_outlined,
+                  color: kWhite,
+                ),
               );
             },
-            icon: const Icon(
-              Icons.logout_outlined,
-              color: kWhite,
-            ),
           ),
         ),
       ],

@@ -2,6 +2,7 @@ import 'package:iskaanowner/Views/ledger_by_account.dart';
 import 'package:iskaanowner/Views/ledger_by_date.dart';
 import 'package:iskaanowner/Views/ledger_by_statement.dart';
 
+import '../Blocs/Unit Financials/unit_financials_cubit.dart';
 import '../Utils/utils.dart';
 
 class LedgerPage extends StatelessWidget {
@@ -143,13 +144,39 @@ class LedgerPage extends StatelessWidget {
     );
   }
 
-  DataRow ledgerDataRow(Map data, {void Function()? onTap}) {
+  DataRow ledgerDataRow(Map data,
+      {void Function()? onTap,
+      bool enableCheckbox = false,
+      required BuildContext context,
+      int? id,
+      List? selectedUnits}) {
+    List<dynamic> dataList = data.values.toList();
+    if (enableCheckbox) {
+      dataList.insert(0, "element");
+    }
     return DataRow(
-      cells: data.values
-          .toList()
-          .map((e) => ledgerDataCell(e, onTap: onTap))
-          .toList(),
-    );
+        cells: List.generate(dataList.length, (index) {
+      if (enableCheckbox) {
+        if (index == 0) {
+          var modifedList = List.from(selectedUnits ?? []);
+          int? index = modifedList.indexWhere((element) => element == id);
+          return DataCell(Checkbox(
+            value: index != -1 ? true : false,
+            onChanged: (value) {
+              if (index != -1) {
+                modifedList.removeAt(index);
+              } else {
+                modifedList.add(id);
+              }
+              context
+                  .read<UnitFinancialsCubit>()
+                  .onChangeSelectedUnits(modifedList);
+            },
+          ));
+        }
+      }
+      return ledgerDataCell(dataList[index], onTap: onTap);
+    }));
   }
 
   DataCell ledgerDataCell(dynamic text, {void Function()? onTap}) {
@@ -260,8 +287,19 @@ class LedgerPage extends StatelessWidget {
               color: primaryColor,
             ),
             const Gap(10),
-            dateRangeCustomTextWidget(context,
-                "${const OccupantPage().dateTimeFormatter(state.customDateRange?.start)} - ${const OccupantPage().dateTimeFormatter(state.customDateRange?.end)}")
+            dateRangeCustomTextWidget(
+              context,
+              "${const OccupantPage().dateTimeFormatter(state.customDateRange?.start)} - ${const OccupantPage().dateTimeFormatter(state.customDateRange?.end)}",
+              onTap: () => showDateRangePicker(
+                context: context,
+                firstDate: DateTime(1900, 01, 01),
+                lastDate: DateTime(DateTime.now().year, 12, 31),
+                currentDate: DateTime.now(),
+              ).then(
+                (value) =>
+                    context.read<LedgerCubit>().onChangeCustomDateRange(value),
+              ),
+            )
           ],
         );
       },

@@ -52,7 +52,9 @@ class HappinessCenterService {
         'company_id': '1',
         'association_id': associationId,
         'unit_id': unitId,
-        if (type.toLowerCase() == "complaint") 'email_enquiry_setting_id': '50',
+        if (type.toLowerCase() == "complaint")
+          'email_enquiry_setting_id':
+              type.toLowerCase() == "unit" ? "50" : "51",
         'recipient_id':
             (context.read<ProfileCubit>().state.profileModel?.record?.id ?? 0)
                 .toString(),

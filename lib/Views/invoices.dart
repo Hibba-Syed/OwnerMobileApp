@@ -71,7 +71,7 @@ class InvoicesPage extends StatelessWidget {
                           .toList(),
                       rows: state.invoicesModel?.invoices
                               ?.map((e) => const LedgerPage().ledgerDataRow(
-                                    e.toJson()..remove("id"),
+                                    e.toJson()..remove("id"),context: context,
                                     onTap: () {
                                       context
                                           .read<InvoiceDetailsCubit>()

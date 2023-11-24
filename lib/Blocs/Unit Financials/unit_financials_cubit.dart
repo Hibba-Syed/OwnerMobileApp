@@ -5,7 +5,12 @@ import '../../Utils/utils.dart';
 part 'unit_financials_state.dart';
 
 class UnitFinancialsCubit extends Cubit<UnitFinancialsState> {
-  UnitFinancialsCubit() : super(const UnitFinancialsState());
+  UnitFinancialsCubit() : super(const UnitFinancialsState(selectedUnits: []));
+
+  onChangeSelectedUnits(List<dynamic>? selectedUnits) {
+    return emit(state.copyWith(selectedUnits: selectedUnits));
+  }
+
   Future<void> getUnitFinancials(BuildContext context) async {
     emit(state.copyWith(loadingState: LoadingState.loading));
     await UnitsService.getUnitFinancials(context).then((value) {

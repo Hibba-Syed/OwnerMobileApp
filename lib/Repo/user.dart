@@ -23,6 +23,24 @@ class UserService {
     });
   }
 
+  static Future<Object?> logout(BuildContext context) async {
+    return await ExceptionService.applyTryCatch(() async {
+      return await http.get(
+          Uri.parse(
+            "$baseUrl/mobile/owner/auth/logout",
+          ),
+          headers: {
+            "Authorization":
+                "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+          }).then((value) {
+        if (value.statusCode == 200) {
+          return Success(200, value.body);
+        }
+        return Failure(400, jsonDecode(value.body)["message"]);
+      });
+    });
+  }
+
   static Future<Object?> sendOTP(BuildContext context, String email) async {
     return await ExceptionService.applyTryCatch(() async {
       return await http.post(
@@ -35,6 +53,52 @@ class UserService {
           },
           body: {
             "email": email,
+          }).then((value) {
+        if (value.statusCode == 201 || value.statusCode == 200) {
+          return Success(201, value.body);
+        }
+        return Failure(400, jsonDecode(value.body)["message"]);
+      });
+    });
+  }
+
+  static Future<Object?> verifyOTP(
+      BuildContext context, String email, String otp) async {
+    return await ExceptionService.applyTryCatch(() async {
+      return await http.post(
+          Uri.parse(
+            "$baseUrl/mobile/owner/auth/verify-otp",
+          ),
+          headers: {
+            "Authorization":
+                "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+          },
+          body: {
+            "email": email,
+            "verification_code": otp,
+          }).then((value) {
+        if (value.statusCode == 201 || value.statusCode == 200) {
+          return Success(201, value.body);
+        }
+        return Failure(400, jsonDecode(value.body)["message"]);
+      });
+    });
+  }
+
+  static Future<Object?> resetPassword(
+      BuildContext context, String email, String password) async {
+    return await ExceptionService.applyTryCatch(() async {
+      return await http.post(
+          Uri.parse(
+            "$baseUrl/mobile/owner/auth/reset-password",
+          ),
+          headers: {
+            "Authorization":
+                "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+          },
+          body: {
+            "email": email,
+            "password": password,
           }).then((value) {
         if (value.statusCode == 201 || value.statusCode == 200) {
           return Success(201, value.body);

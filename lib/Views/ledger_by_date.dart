@@ -37,7 +37,7 @@ class LedgerByDate extends StatelessWidget {
                 rows: state.ledgerByDateModel?.record?.data
                         ?.map(
                           (e) => const LedgerPage().ledgerDataRow(
-                              e.toJson()..remove("id"),
+                              e.toJson()..remove("id"),context: context,
                               onTap: () => const LedgerByStatement()
                                   .decidePage(context, e.id, e.document)),
                         )

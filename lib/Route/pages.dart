@@ -1,9 +1,14 @@
 import 'package:iskaanowner/Blocs/Credit%20Note%20Details/credit_note_details_cubit.dart';
 import 'package:iskaanowner/Blocs/Invoice%20details/invoice_details_cubit.dart';
+import 'package:iskaanowner/Blocs/Logout/logout_cubit.dart';
 import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
 import 'package:iskaanowner/Blocs/Receipt%20details/receipt_details_cubit.dart';
+import 'package:iskaanowner/Blocs/Reset%20Password/reset_password_cubit.dart';
 import 'package:iskaanowner/Blocs/Send%20OTP/send_otp_cubit.dart';
 import 'package:iskaanowner/Blocs/Unit%20Financials/unit_financials_cubit.dart';
+import 'package:iskaanowner/Blocs/Verify%20Otp/verify_otp_cubit.dart';
+import 'package:iskaanowner/Views/otp_verification.dart';
+import 'package:iskaanowner/Views/reset_password.dart';
 
 import '../Utils/utils.dart';
 
@@ -28,6 +33,20 @@ class AppPages {
         ),
       ),
       PageEntity(
+        route: AppRoutes.otpVerification,
+        page: const OtpVerificationPage(),
+        bloc: BlocProvider(
+          create: (context) => VerifyOtpCubit(),
+        ),
+      ),
+      PageEntity(
+        route: AppRoutes.resetPassword,
+        page: const ResetPasswordPage(),
+        bloc: BlocProvider(
+          create: (context) => ResetPasswordCubit(),
+        ),
+      ),
+      PageEntity(
           route: AppRoutes.dashboard,
           page: const DashboardPage(),
           bloc: MultiBlocProvider(
@@ -40,6 +59,9 @@ class AppPages {
               ),
               BlocProvider(
                 create: (context) => SendOtpCubit(),
+              ),
+              BlocProvider(
+                create: (context) => LogoutCubit(),
               ),
             ],
             child: Container(),

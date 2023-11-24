@@ -47,36 +47,6 @@ class SharedDocumentPage extends StatelessWidget {
                         );
                       }).toList() ??
                       [],
-                  // rows: [
-                  //   {
-                  //     "docName": "Document Name",
-                  //     "community": "Community",
-                  //     "expDate": "Expiry Date",
-                  //     "tags": "Tags",
-                  //     "documnent": "Document",
-                  //     "fontWeight": FontWeight.bold,
-                  //     "color": primaryColor.withOpacity(0.1)
-                  //   },
-                  //   {
-                  //     "docName": "XYZ certificate",
-                  //     "community": "IT plaza",
-                  //     "expDate": "Dec 21, 2024",
-                  //     "tags": "certificate",
-                  //   },
-                  //   {
-                  //     "docName": "XYZ certificate",
-                  //     "community": "Axis 8",
-                  //     "expDate": "Dec 21, 2024",
-                  //     "tags": "certificate",
-                  //   },
-                  // ]
-                  //     .map((e) => sharedDocumentTableRow(
-                  //           e["docName"] as String,
-                  //           e["community"] as String,
-                  //           e["expDate"] as String,
-                  //           e["tags"] as String,
-                  //         ))
-                  //     .toList(),
                 ),
               ),
             );
@@ -121,6 +91,7 @@ class SharedDocumentPage extends StatelessWidget {
             Icons.visibility_outlined,
             color: primaryColor,
           ),
+          Gap(10),
           CustomText(
             text: "View",
             color: primaryColor,

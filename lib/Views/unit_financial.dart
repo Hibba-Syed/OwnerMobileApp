@@ -26,14 +26,47 @@ class UnitFinancialPage extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.centerRight,
-                  child: CustomButton(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    text: "Export",
-                    function: () {},
-                    icon: const Icon(
-                      Icons.document_scanner_outlined,
-                      color: kWhite,
-                    ),
+                  child: BlocBuilder<DownloadLedgerCubit, DownloadLedgerState>(
+                    builder: (context, downloadLedgerState) {
+                      return CustomButton(
+                        buttonColor:
+                            state.selectedUnits.isEmpty ? kGrey : primaryColor,
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        text: "Export",
+                        function: () {
+                          if (state.selectedUnits.isNotEmpty) {
+                            String filter = "";
+                            for (var element in context
+                                .read<UnitFinancialsCubit>()
+                                .state
+                                .selectedUnits) {
+                              filter = "$filter&propertyIds[]=$element";
+                            }
+                            context.read<DownloadLedgerCubit>().downloadDocument(
+                                context,
+                                "$baseUrl/mobile/owner/property/accounting/ledgers/units-ledger-export?ledgerIds[]=${context.read<LedgerCubit>().state.ledgerType?.id}&export=excel$filter");
+                            return;
+                          }
+                          Fluttertoast.showToast(
+                              msg: "Select a unit to export");
+                        },
+                        icon: downloadLedgerState.loadingState ==
+                                LoadingState.loading
+                            ? const SizedBox(
+                                height: 15,
+                                width: 15,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: kWhite,
+                                  ),
+                                ),
+                              )
+                            : const Icon(
+                                Icons.document_scanner_outlined,
+                                color: kWhite,
+                              ),
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(
@@ -46,6 +79,7 @@ class UnitFinancialPage extends StatelessWidget {
                           (states) => primaryColor.withOpacity(0.1)),
                       border: TableBorder.all(color: primaryColor),
                       columns: [
+                        "",
                         "Community",
                         "Unit Number",
                         "Balance",
@@ -55,35 +89,14 @@ class UnitFinancialPage extends StatelessWidget {
                           .toList(),
                       rows: state.unitFinancialsModel?.record
                               ?.map((e) => const LedgerPage().ledgerDataRow(
-                                    e.toJson()..remove("unit_id"),
-                                  ))
+                                  e.toJson()..remove("unit_id"),
+                                  enableCheckbox: true,
+                                  context: context,
+                                  id: e.unitId,
+                                  selectedUnits: state.selectedUnits))
                               .toList() ??
                           []),
                 )
-                // Table(
-                //   border: TableBorder.all(color: primaryColor),
-                //   children: [
-                //     {
-                //       "community": "Community",
-                //       "unitNumber": "Unit Number",
-                //       "balance": "Balance",
-                //       "fontWeight": FontWeight.bold,
-                //       "color": primaryColor.withOpacity(0.1)
-                //     },
-                //     state.unitFinancialsModel?.record?.map((e) => {
-                //           "community": e.communityName.toString(),
-                //           "unitNumber": e.unitNumber.toString(),
-                //           "balance": e.balance.toString(),
-                //         })
-                //   ]
-                //       .map(
-                //         (e) => unitFinancialTableRow(e["community"] as String,
-                //             e["unitNumber"] as String, e["balance"] as String,
-                //             color: e["color"] as Color?,
-                //             fontWeight: e["fontWeight"] as FontWeight?),
-                //       )
-                //       .toList(),
-                // )
               ],
             ),
           );

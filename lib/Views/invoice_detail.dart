@@ -138,7 +138,7 @@ class InvoiceDetailsPage extends StatelessWidget {
                             //     "Amount": "AED 10.50"
                             //   },
                             // ]
-                            .map((e) => const LedgerPage().ledgerDataRow(e))
+                            .map((e) => const LedgerPage().ledgerDataRow(e,context: context))
                             .toList()),
                   )
                 ],

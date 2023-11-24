@@ -131,7 +131,8 @@ class ReceiptDetailsPage extends StatelessWidget {
                             //     "Amount": "AED 50.50"
                             //   },
                             // ]
-                            .map((e) => const LedgerPage().ledgerDataRow(e))
+                            .map((e) => const LedgerPage()
+                                .ledgerDataRow(e, context: context))
                             .toList()),
                   ),
                   const Gap(10),
