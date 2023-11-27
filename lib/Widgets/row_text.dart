@@ -1,3 +1,4 @@
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class RowText extends StatelessWidget {
@@ -26,7 +27,7 @@ class RowText extends StatelessWidget {
             onTap: onTap,
             child: CustomText(
               text: text2 ?? "See all",
-              color: primaryColor,
+              color: context.read<AppThemeCubit>().state.primaryColor,
               textAlign: TextAlign.right,
             ),
           ),

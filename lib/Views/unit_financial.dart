@@ -1,5 +1,6 @@
 import 'package:iskaanowner/Blocs/Unit%20Financials/unit_financials_cubit.dart';
 
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class UnitFinancialPage extends StatelessWidget {
@@ -29,8 +30,9 @@ class UnitFinancialPage extends StatelessWidget {
                   child: BlocBuilder<DownloadLedgerCubit, DownloadLedgerState>(
                     builder: (context, downloadLedgerState) {
                       return CustomButton(
-                        buttonColor:
-                            state.selectedUnits.isEmpty ? kGrey : primaryColor,
+                        buttonColor: state.selectedUnits.isEmpty
+                            ? kGrey
+                            : context.read<AppThemeCubit>().state.primaryColor,
                         width: MediaQuery.of(context).size.width * 0.4,
                         text: "Export",
                         function: () {
@@ -76,8 +78,14 @@ class UnitFinancialPage extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: DataTable(
                       headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => primaryColor.withOpacity(0.1)),
-                      border: TableBorder.all(color: primaryColor),
+                          (states) => context
+                              .read<AppThemeCubit>()
+                              .state
+                              .primaryColor
+                              .withOpacity(0.1)),
+                      border: TableBorder.all(
+                          color:
+                              context.read<AppThemeCubit>().state.primaryColor),
                       columns: [
                         "",
                         "Community",

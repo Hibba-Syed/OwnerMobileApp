@@ -1,3 +1,4 @@
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class ChangePasswordPage extends StatelessWidget {
@@ -22,10 +23,10 @@ class ChangePasswordPage extends StatelessWidget {
             builder: (context, state) {
               return Column(
                 children: [
-                  const LoginPage().textFieldWithText("Current Password",
-                      prefex: const Icon(
+                  const LoginPage().textFieldWithText(context,"Current Password",
+                      prefex: Icon(
                         Icons.lock_outline,
-                        color: primaryColor,
+                        color: context.read<AppThemeCubit>().state.primaryColor,
                       ),
                       hintText: "Enter Current Password",
                       onChanged: (value) => context
@@ -48,13 +49,14 @@ class ChangePasswordPage extends StatelessWidget {
                           state.oldObscure
                               ? Icons.visibility_off_outlined
                               : Icons.visibility_outlined,
-                          color: primaryColor,
+                          color:
+                              context.read<AppThemeCubit>().state.primaryColor,
                         ),
                       )),
-                  const LoginPage().textFieldWithText("New Password",
-                      prefex: const Icon(
+                  const LoginPage().textFieldWithText(context,"New Password",
+                      prefex: Icon(
                         Icons.lock_outline,
-                        color: primaryColor,
+                        color: context.read<AppThemeCubit>().state.primaryColor,
                       ),
                       obscure: state.newObscure,
                       hintText: "Enter New Password",
@@ -80,13 +82,14 @@ class ChangePasswordPage extends StatelessWidget {
                           state.newObscure
                               ? Icons.visibility_off_outlined
                               : Icons.visibility_outlined,
-                          color: primaryColor,
+                          color:
+                              context.read<AppThemeCubit>().state.primaryColor,
                         ),
                       )),
-                  const LoginPage().textFieldWithText("Confirm New Password",
-                      prefex: const Icon(
+                  const LoginPage().textFieldWithText(context,"Confirm New Password",
+                      prefex: Icon(
                         Icons.lock_outline,
-                        color: primaryColor,
+                        color: context.read<AppThemeCubit>().state.primaryColor,
                       ),
                       obscure: state.confirmObscure,
                       hintText: "Confirm New Password", validator: (value) {
@@ -108,7 +111,8 @@ class ChangePasswordPage extends StatelessWidget {
                           state.confirmObscure
                               ? Icons.visibility_off_outlined
                               : Icons.visibility_outlined,
-                          color: primaryColor,
+                          color:
+                              context.read<AppThemeCubit>().state.primaryColor,
                         ),
                       )),
                   const SizedBox(

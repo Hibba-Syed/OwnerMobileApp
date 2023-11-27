@@ -1,5 +1,6 @@
 import 'package:iskaanowner/Blocs/Credit%20Note%20Details/credit_note_details_cubit.dart';
 
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class CreditNotesPage extends StatelessWidget {
@@ -32,9 +33,9 @@ class CreditNotesPage extends StatelessWidget {
                   Navigator.pop(context);
                 });
               },
-              icon: const Icon(
+              icon: Icon(
                 Icons.filter_alt_outlined,
-                color: primaryColor,
+                color: context.read<AppThemeCubit>().state.primaryColor,
               ))
         ],
         automaticallyImplyLeading: true,
@@ -55,45 +56,61 @@ class CreditNotesPage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            BlocBuilder<CreditNotesCubit, CreditNotesState>(
-              builder: (context, state) {
-                if (state.loadingState == LoadingState.loading) {
-                  return const Expanded(child: CustomLoader());
-                }
-                return SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                      headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => primaryColor.withOpacity(0.1)),
-                      border: TableBorder.all(color: primaryColor),
-                      columns: [
-                        "Date",
-                        "Reference",
-                        "Description",
-                        "Amount",
-                        "Actions",
-                      ]
-                          .map((e) => const SharedDocumentPage()
-                              .sharedDocumentDataColumn(e))
-                          .toList(),
-                      rows: state.creditNotesModel?.creditNotes?.map((e) {
-                            Map data = e.toJson();
-                            data.remove("id");
-                            data["action"] = null;
-                            return const ReceiptsPage().receiptsDataRow(
-                              data,
-                              onTap: () {
-                                context
-                                    .read<CreditNoteDetailsCubit>()
-                                    .getCreditNoteDetails(context, e.id);
-                                Navigator.pushNamed(
-                                    context, AppRoutes.creditNoteDetails);
-                              },
-                            );
-                          }).toList() ??
-                          []),
-                );
-              },
+            Expanded(
+              child: BlocBuilder<CreditNotesCubit, CreditNotesState>(
+                builder: (context, state) {
+                  if (state.loadingState == LoadingState.loading) {
+                    return const CustomLoader();
+                  }
+                  if (state.creditNotesModel?.creditNotes?.isEmpty ?? true) {
+                    return emptyList();
+                  }
+                  return SingleChildScrollView(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: DataTable(
+                          headingRowColor: MaterialStateColor.resolveWith(
+                              (states) => context
+                                  .read<AppThemeCubit>()
+                                  .state
+                                  .primaryColor
+                                  .withOpacity(0.1)),
+                          border: TableBorder.all(
+                              color: context
+                                  .read<AppThemeCubit>()
+                                  .state
+                                  .primaryColor),
+                          columns: [
+                            "Date",
+                            "Reference",
+                            "Description",
+                            "Amount",
+                            "Actions",
+                          ]
+                              .map((e) => const SharedDocumentPage()
+                                  .sharedDocumentDataColumn(e))
+                              .toList(),
+                          rows: state.creditNotesModel?.creditNotes?.map((e) {
+                                Map data = e.toJson();
+                                data.remove("id");
+                                data["action"] = null;
+                                return const ReceiptsPage().receiptsDataRow(
+                                  context,
+                                  data,
+                                  onTap: () {
+                                    context
+                                        .read<CreditNoteDetailsCubit>()
+                                        .getCreditNoteDetails(context, e.id);
+                                    Navigator.pushNamed(
+                                        context, AppRoutes.creditNoteDetails);
+                                  },
+                                );
+                              }).toList() ??
+                              []),
+                    ),
+                  );
+                },
+              ),
             )
           ],
         ),
@@ -127,6 +144,19 @@ class CreditNotesPage extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  Widget emptyList() {
+    return const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CustomText(
+            text: "No results found !!",
+          ),
+        ],
+      ),
     );
   }
 }

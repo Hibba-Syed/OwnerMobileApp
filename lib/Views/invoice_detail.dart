@@ -1,5 +1,6 @@
 import 'package:iskaanowner/Blocs/Invoice%20details/invoice_details_cubit.dart';
 
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class InvoiceDetailsPage extends StatelessWidget {
@@ -98,8 +99,16 @@ class InvoiceDetailsPage extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     child: DataTable(
                         headingRowColor: MaterialStateColor.resolveWith(
-                            (states) => primaryColor.withOpacity(0.1)),
-                        border: TableBorder.all(color: primaryColor),
+                            (states) => context
+                                .read<AppThemeCubit>()
+                                .state
+                                .primaryColor
+                                .withOpacity(0.1)),
+                        border: TableBorder.all(
+                            color: context
+                                .read<AppThemeCubit>()
+                                .state
+                                .primaryColor),
                         columns: [
                           "Account",
                           "Description",
@@ -138,7 +147,8 @@ class InvoiceDetailsPage extends StatelessWidget {
                             //     "Amount": "AED 10.50"
                             //   },
                             // ]
-                            .map((e) => const LedgerPage().ledgerDataRow(e,context: context))
+                            .map((e) => const LedgerPage()
+                                .ledgerDataRow(e, context: context))
                             .toList()),
                   )
                 ],

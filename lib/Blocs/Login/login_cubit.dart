@@ -1,3 +1,5 @@
+import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
+
 import '../../Utils/utils.dart';
 
 part 'login_state.dart';
@@ -45,6 +47,9 @@ class LoginCubit extends Cubit<LoginState> {
               loginModel: loginModelFromJson(value.response as String),
               loadingState: LoadingState.success,
             ));
+            context.read<AppThemeCubit>().onChangeAppTheme(const SplashPage()
+                .parseHexColor(
+                    state.loginModel?.owner?.company?.themeColor ?? "#751b50"));
             const LoginPage().initialCalls(context);
             return Navigator.pushReplacementNamed(context, AppRoutes.dashboard);
           } else {

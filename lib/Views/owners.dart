@@ -1,5 +1,6 @@
 import 'package:url_launcher/url_launcher.dart';
 
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Models/owners.dart';
 import '../Utils/utils.dart';
 
@@ -119,10 +120,13 @@ class OwnersPage extends StatelessWidget {
                         Expanded(
                           child: Row(
                             children: [
-                              const CustomText(
+                              CustomText(
                                 text: "Owner : ",
                                 fontWeight: FontWeight.bold,
-                                color: primaryColor,
+                                color: context
+                                    .read<AppThemeCubit>()
+                                    .state
+                                    .primaryColor,
                               ),
                               const SizedBox(
                                 width: 10,
@@ -144,6 +148,7 @@ class OwnersPage extends StatelessWidget {
                                 width: 10,
                               ),
                               const UnitsPage().roundedContainer(
+                                  context,
                                   const CustomText(
                                     text: "Primary Owner",
                                     color: kWhite,
@@ -158,7 +163,9 @@ class OwnersPage extends StatelessWidget {
                       height: 10,
                     ),
                     Table(
-                      border: TableBorder.all(color: primaryColor),
+                      border: TableBorder.all(
+                          color:
+                              context.read<AppThemeCubit>().state.primaryColor),
                       columnWidths: const {
                         0: FixedColumnWidth(120),
                         1: FlexColumnWidth(1),
@@ -166,6 +173,7 @@ class OwnersPage extends StatelessWidget {
                       children: ownerData
                           .map(
                             (e) => tableRow(
+                              context,
                               e["key"] ?? "",
                               e["value"] ?? "not provided",
                             ),
@@ -175,20 +183,20 @@ class OwnersPage extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    const CustomText(
+                    CustomText(
                       text: "Documents",
-                      color: primaryColor,
+                      color: context.read<AppThemeCubit>().state.primaryColor,
                       fontWeight: FontWeight.bold,
                       fontsize: 20,
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    documentInfo("Title Deed",
+                    documentInfo(context, "Title Deed",
                         url: owner?.documents?.titleDeed),
-                    documentInfo("Passport",
+                    documentInfo(context, "Passport",
                         url: owner?.documents?.passportFile),
-                    documentInfo("ID", url: owner?.documents?.idFile),
+                    documentInfo(context, "ID", url: owner?.documents?.idFile),
                   ],
                 ),
               );
@@ -199,8 +207,9 @@ class OwnersPage extends StatelessWidget {
     );
   }
 
-  Widget documentInfo(String text, {String? url}) {
+  Widget documentInfo(BuildContext context, String text, {String? url}) {
     return const UnitsPage().roundedContainer(
+      context,
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -212,15 +221,20 @@ class OwnersPage extends StatelessWidget {
               }
             },
             child: const UnitsPage().roundedContainer(
+                context,
                 Row(
                   children: [
                     Icon(
                       Icons.visibility,
-                      color: url == null ? kGrey : primaryColor,
+                      color: url == null
+                          ? kGrey
+                          : context.read<AppThemeCubit>().state.primaryColor,
                     ),
                     CustomText(
                       text: " View",
-                      color: url == null ? kGrey : primaryColor,
+                      color: url == null
+                          ? kGrey
+                          : context.read<AppThemeCubit>().state.primaryColor,
                     )
                   ],
                 ),
@@ -236,14 +250,18 @@ class OwnersPage extends StatelessWidget {
     );
   }
 
-  TableRow tableRow(String key, String value) {
+  TableRow tableRow(BuildContext context, String key, String value) {
     return TableRow(
       children: [
         TableCell(
           child: Container(
             height: 50,
             padding: const EdgeInsets.symmetric(horizontal: 5),
-            color: primaryColor.withOpacity(0.1),
+            color: context
+                .read<AppThemeCubit>()
+                .state
+                .primaryColor
+                .withOpacity(0.1),
             child: Center(child: CustomText(text: key)),
           ),
         ),

@@ -1,6 +1,9 @@
+import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
+import 'package:iskaanowner/Blocs/Companies/companies_cubit.dart';
 import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
 import 'package:iskaanowner/Blocs/Send%20OTP/send_otp_cubit.dart';
 import 'package:iskaanowner/Blocs/Unit%20Financials/unit_financials_cubit.dart';
+import 'package:iskaanowner/Models/companies.dart';
 
 import '../Notification/firebase_service.dart';
 import '../Notification/local_notification_service.dart';
@@ -63,11 +66,12 @@ class LoginPage extends StatelessWidget {
                       fontsize: 20,
                     ),
                     textFieldWithText(
+                      context,
                       "Email",
                       hintText: "Enter the email",
-                      prefex: const Icon(
+                      prefex: Icon(
                         Icons.email_outlined,
-                        color: primaryColor,
+                        color: context.read<AppThemeCubit>().state.primaryColor,
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -81,20 +85,22 @@ class LoginPage extends StatelessWidget {
                       onChanged: (email) => loginCubit.onChangeEmail(email),
                     ),
                     textFieldWithText(
+                      context,
                       "Password",
                       hintText: "Enter password",
                       obscure: state.obsure,
-                      prefex: const Icon(
+                      prefex: Icon(
                         Icons.lock_outline,
-                        color: primaryColor,
+                        color: context.read<AppThemeCubit>().state.primaryColor,
                       ),
                       suffix: IconButton(
                         onPressed: () {
                           loginCubit.onChangeObsure(!state.obsure);
                         },
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.visibility_outlined,
-                          color: primaryColor,
+                          color:
+                              context.read<AppThemeCubit>().state.primaryColor,
                         ),
                       ),
                       validator: (value) {
@@ -106,13 +112,92 @@ class LoginPage extends StatelessWidget {
                       onChanged: (password) =>
                           loginCubit.onChangePassword(password),
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: CustomText(
+                        text: "Select Company",
+                        color: context.read<AppThemeCubit>().state.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    BlocBuilder<CompaniesCubit, CompaniesState>(
+                      builder: (context, state) {
+                        if (state.loadingState == LoadingState.loading) {
+                          return const CircularProgressIndicator();
+                        }
+                        return DropdownMenu<Companies>(
+                          enableSearch: true,
+                          initialSelection:
+                              state.companiesModel?.companies?.first,
+                          expandedInsets: const EdgeInsets.all(0),
+                          onSelected: (value) {
+                            context
+                                .read<LoginCubit>()
+                                .onChangeCompanyId((value?.id ?? 0).toString());
+                          },
+                          enabled: state.loadingState == LoadingState.loading
+                              ? false
+                              : true,
+                          inputDecorationTheme: InputDecorationTheme(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: context
+                                    .read<AppThemeCubit>()
+                                    .state
+                                    .primaryColor,
+                              ),
+                            ),
+                          ),
+                          trailingIcon: Builder(builder: (context) {
+                            if (state.loadingState == LoadingState.loading) {
+                              return const SizedBox(
+                                width: 30,
+                                height: 30,
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
+                            }
+                            return const Icon(Icons.arrow_drop_down);
+                          }),
+                          dropdownMenuEntries: state.companiesModel?.companies
+                                  ?.map<DropdownMenuEntry<Companies>>(
+                                      (Companies value) {
+                                return DropdownMenuEntry<Companies>(
+                                    value: value,
+                                    label: value.companiesName ?? "",
+                                    labelWidget: SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.8,
+                                      child: CustomText(
+                                        text: value.companiesName ?? "",
+                                        textAlign: TextAlign.left,
+                                        // maxLines: 1,
+                                      ),
+                                    ));
+                              }).toList() ??
+                              [],
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Align(
                       alignment: Alignment.centerRight,
                       child: InkWell(
                         onTap: () => forgotPasswordUi(context),
-                        child: const CustomText(
+                        child: CustomText(
                           text: "Forgot password?",
-                          color: primaryColor,
+                          color:
+                              context.read<AppThemeCubit>().state.primaryColor,
                         ),
                       ),
                     ),
@@ -147,6 +232,7 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget textFieldWithText(
+    BuildContext context,
     String text, {
     String hintText = "",
     Widget? prefex,
@@ -161,7 +247,7 @@ class LoginPage extends StatelessWidget {
       children: [
         CustomText(
           text: text,
-          color: primaryColor,
+          color: context.read<AppThemeCubit>().state.primaryColor,
           fontWeight: FontWeight.bold,
         ),
         const SizedBox(
@@ -193,9 +279,9 @@ class LoginPage extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const CustomText(
+              CustomText(
                 text: "Forgot Password?",
-                color: primaryColor,
+                color: context.read<AppThemeCubit>().state.primaryColor,
                 fontsize: 20,
               ),
               const SizedBox(
@@ -213,9 +299,9 @@ class LoginPage extends StatelessWidget {
                 height: 10,
               ),
               CustomTextField(
-                prefix: const Icon(
+                prefix: Icon(
                   Icons.email_outlined,
-                  color: primaryColor,
+                  color: context.read<AppThemeCubit>().state.primaryColor,
                 ),
                 onChanged: (value) =>
                     context.read<SendOtpCubit>().onChangeEmail(value),

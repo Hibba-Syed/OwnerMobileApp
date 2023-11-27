@@ -1,5 +1,6 @@
 import '../../Repo/user.dart';
 import '../../Utils/utils.dart';
+import '../App Theme/app_theme_cubit.dart';
 
 part 'logout_state.dart';
 
@@ -16,6 +17,7 @@ class LogoutCubit extends Cubit<LogoutState> {
           context,
           AppRoutes.login,
         );
+        context.read<AppThemeCubit>().onChangeAppTheme(const Color(0xff751b50));
         emit(state.copyWith(
           loadingState: LoadingState.success,
         ));

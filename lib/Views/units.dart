@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class UnitsPage extends StatelessWidget {
@@ -22,9 +23,9 @@ class UnitsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomText(
+            CustomText(
               text: "My Properties",
-              color: primaryColor,
+              color: context.read<AppThemeCubit>().state.primaryColor,
               fontsize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -69,10 +70,11 @@ class UnitsPage extends StatelessWidget {
                           ),
                           child: Column(
                             children: [
-                              cardHeader(unit),
+                              cardHeader(context, unit),
                               Row(
                                 children: [
                                   roundedContainer(
+                                    context,
                                     Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -99,8 +101,11 @@ class UnitsPage extends StatelessWidget {
                                     child: Stack(
                                       alignment: Alignment.center,
                                       children: [
-                                        const Divider(
-                                          color: primaryColor,
+                                        Divider(
+                                          color: context
+                                              .read<AppThemeCubit>()
+                                              .state
+                                              .primaryColor,
                                         ),
                                         SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,
@@ -110,6 +115,7 @@ class UnitsPage extends StatelessWidget {
                                             children: [
                                               const Gap(10),
                                               roundedContainer(
+                                                context,
                                                 Column(
                                                   children: [
                                                     CustomText(
@@ -132,6 +138,7 @@ class UnitsPage extends StatelessWidget {
                                               ),
                                               const Gap(10),
                                               roundedContainer(
+                                                context,
                                                 Column(
                                                   children: [
                                                     CustomText(
@@ -154,6 +161,7 @@ class UnitsPage extends StatelessWidget {
                                               ),
                                               const Gap(10),
                                               roundedContainer(
+                                                context,
                                                 Column(
                                                   children: [
                                                     CustomText(
@@ -176,6 +184,7 @@ class UnitsPage extends StatelessWidget {
                                               ),
                                               const Gap(10),
                                               roundedContainer(
+                                                context,
                                                 Column(
                                                   children: [
                                                     CustomText(
@@ -222,7 +231,7 @@ class UnitsPage extends StatelessWidget {
     );
   }
 
-  Widget roundedContainer(Widget child,
+  Widget roundedContainer(BuildContext context, Widget child,
       {EdgeInsetsGeometry? margin,
       double? width,
       double? height,
@@ -238,14 +247,19 @@ class UnitsPage extends StatelessWidget {
       padding: padding,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: invert ? kWhite : color ?? primaryColor,
-        border: invert ? Border.all(color: primaryColor) : null,
+        color: invert
+            ? kWhite
+            : color ?? context.read<AppThemeCubit>().state.primaryColor,
+        border: invert
+            ? Border.all(
+                color: context.read<AppThemeCubit>().state.primaryColor)
+            : null,
       ),
       child: child,
     );
   }
 
-  Widget cardHeader(Unit? unit) {
+  Widget cardHeader(BuildContext context, Unit? unit) {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Row(
@@ -254,13 +268,14 @@ class UnitsPage extends StatelessWidget {
           // roundedContainer(
           //   CustomText(
           //     text: unit?.name ?? "",
-          //     color: primaryColor,
+          //     color: context.read<AppThemeCubit>().state.primaryColor,
           //     fontsize: 12,
           //   ),
           //   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-          //   color: primaryColor.withOpacity(0.1),
+          //   color: context.read<AppThemeCubit>().state.primaryColor.withOpacity(0.1),
           // ),
           roundedContainer(
+            context,
             CustomText(
               text: "Balance : ${unit?.balance} AED",
               color: kWhite,
@@ -273,22 +288,23 @@ class UnitsPage extends StatelessWidget {
     );
   }
 
-  Widget tenantInfo(Unit? unit) {
+  Widget tenantInfo(BuildContext context, Unit? unit) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: [
           roundedContainer(
-            const Row(
+            context,
+            Row(
               children: [
                 Icon(
                   CupertinoIcons.person_alt_circle,
-                  color: primaryColor,
+                  color: context.read<AppThemeCubit>().state.primaryColor,
                   size: 15,
                 ),
                 CustomText(
                   text: " Occupant",
-                  color: primaryColor,
+                  color: context.read<AppThemeCubit>().state.primaryColor,
                   fontsize: 12,
                 )
               ],
@@ -308,7 +324,7 @@ class UnitsPage extends StatelessWidget {
     );
   }
 
-  Widget contactsRow(List contacts) {
+  Widget contactsRow(BuildContext context, List contacts) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: SingleChildScrollView(
@@ -317,11 +333,12 @@ class UnitsPage extends StatelessWidget {
           children: contacts
               .map(
                 (e) => roundedContainer(
+                  context,
                   Row(
                     children: [
                       Icon(
                         e["icon"] as IconData,
-                        color: primaryColor,
+                        color: context.read<AppThemeCubit>().state.primaryColor,
                         size: 15,
                       ),
                       const SizedBox(
@@ -329,7 +346,7 @@ class UnitsPage extends StatelessWidget {
                       ),
                       CustomText(
                         text: e["name"] as String,
-                        color: primaryColor,
+                        color: context.read<AppThemeCubit>().state.primaryColor,
                         fontsize: 12,
                       )
                     ],

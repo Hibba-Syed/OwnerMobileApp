@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class HappinessCenterPage extends StatelessWidget {
@@ -49,6 +50,7 @@ class HappinessCenterPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               inputDropDown(
+                context,
                 "Enquiry Type",
                 enquiryTypeList,
                 onSelected: (value) => context
@@ -58,6 +60,7 @@ class HappinessCenterPage extends StatelessWidget {
               BlocBuilder<DropdownCommunitiesCubit, DropdownCommunitiesState>(
                 builder: (context, state) {
                   return inputDropDown(
+                      context,
                       "Comumnity",
                       (state.communitiesModel?.associations
                               ?.map((e) => e.name ?? "Not Provided")
@@ -78,6 +81,7 @@ class HappinessCenterPage extends StatelessWidget {
               BlocBuilder<DropdownUnitsCubit, DropdownUnitsState>(
                 builder: (context, state) {
                   return inputDropDown(
+                    context,
                     "Unit",
                     (state.unitsModel?.units
                             ?.map((e) => e.unitNumber ?? "")
@@ -141,7 +145,10 @@ class HappinessCenterPage extends StatelessWidget {
                                         ),
                                         color: state.radioValue.toLowerCase() ==
                                                 "unit"
-                                            ? primaryColor
+                                            ? context
+                                                .read<AppThemeCubit>()
+                                                .state
+                                                .primaryColor
                                             : kGrey.shade200),
                                     child: CustomText(
                                       text: "Unit",
@@ -174,7 +181,10 @@ class HappinessCenterPage extends StatelessWidget {
                                         ),
                                         color: state.radioValue.toLowerCase() ==
                                                 "common area"
-                                            ? primaryColor
+                                            ? context
+                                                .read<AppThemeCubit>()
+                                                .state
+                                                .primaryColor
                                             : kGrey.shade200),
                                     child: CustomText(
                                       text: "Common area",
@@ -202,7 +212,7 @@ class HappinessCenterPage extends StatelessWidget {
                         //                 .onChangeRadioValue(value);
                         //           },
                         //         ),
-                        //         const Text('Unit'),
+                        //          Text('Unit'),
                         //       ],
                         //     ),
                         //     Row(
@@ -216,7 +226,7 @@ class HappinessCenterPage extends StatelessWidget {
                         //                 .onChangeRadioValue(value);
                         //           },
                         //         ),
-                        //         const Text('Common Area'),
+                        //          Text('Common Area'),
                         //       ],
                         //     ),
                         //   ],
@@ -230,10 +240,13 @@ class HappinessCenterPage extends StatelessWidget {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                const CustomText(
+                                CustomText(
                                   text: "Subject",
                                   fontWeight: FontWeight.bold,
-                                  color: primaryColor,
+                                  color: context
+                                      .read<AppThemeCubit>()
+                                      .state
+                                      .primaryColor,
                                 ),
                                 const SizedBox(
                                   height: 10,
@@ -250,6 +263,7 @@ class HappinessCenterPage extends StatelessWidget {
                             );
                           }
                           return inputDropDown(
+                            context,
                             "Service",
                             state.radioValue.toLowerCase() == "unit"
                                 ? ["Select", "Repair"]
@@ -262,10 +276,11 @@ class HappinessCenterPage extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        const CustomText(
+                        CustomText(
                           text: "Complaints",
                           fontWeight: FontWeight.bold,
-                          color: primaryColor,
+                          color:
+                              context.read<AppThemeCubit>().state.primaryColor,
                         ),
                         const SizedBox(
                           height: 10,
@@ -283,10 +298,11 @@ class HappinessCenterPage extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        const CustomText(
+                        CustomText(
                           text: "Attachment",
                           fontWeight: FontWeight.bold,
-                          color: primaryColor,
+                          color:
+                              context.read<AppThemeCubit>().state.primaryColor,
                         ),
                         const SizedBox(
                           height: 10,
@@ -325,11 +341,15 @@ class HappinessCenterPage extends StatelessWidget {
                               }
                             });
                           },
-                          textColor: primaryColor,
+                          textColor:
+                              context.read<AppThemeCubit>().state.primaryColor,
                           invert: true,
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.upload_outlined,
-                            color: primaryColor,
+                            color: context
+                                .read<AppThemeCubit>()
+                                .state
+                                .primaryColor,
                           ),
                         ),
                         const SizedBox(
@@ -385,6 +405,7 @@ class HappinessCenterPage extends StatelessWidget {
   }
 
   Widget inputDropDown(
+    BuildContext context,
     String text,
     List<String> list, {
     bool enabled = true,
@@ -400,7 +421,7 @@ class HappinessCenterPage extends StatelessWidget {
         CustomText(
           text: text,
           fontWeight: FontWeight.bold,
-          color: primaryColor,
+          color: context.read<AppThemeCubit>().state.primaryColor,
         ),
         const SizedBox(
           height: 10,
@@ -413,8 +434,8 @@ class HappinessCenterPage extends StatelessWidget {
           inputDecorationTheme: InputDecorationTheme(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(
-                color: primaryColor,
+              borderSide: BorderSide(
+                color: context.read<AppThemeCubit>().state.primaryColor,
               ),
             ),
           ),

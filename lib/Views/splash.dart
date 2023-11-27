@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
+import 'package:iskaanowner/Blocs/Companies/companies_cubit.dart';
 
 import '../Utils/utils.dart';
 
@@ -21,6 +23,14 @@ class SplashPage extends StatelessWidget {
               .read<AuthenticationCubit>()
               .isDeviceSupported(context)
               .then((value) {
+            context.read<AppThemeCubit>().onChangeAppTheme(parseHexColor(context
+                    .read<ProfileCubit>()
+                    .state
+                    .profileModel
+                    ?.record
+                    ?.company
+                    ?.themeColor ??
+                " #751b50"));
             if (value == true) {
               return Navigator.pushReplacementNamed(
                   context, AppRoutes.authorization);
@@ -29,6 +39,7 @@ class SplashPage extends StatelessWidget {
           });
         });
       } else {
+        context.read<CompaniesCubit>().getCommunities(context);
         Navigator.pushReplacementNamed(context, AppRoutes.login);
       }
     });
@@ -54,5 +65,13 @@ class SplashPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Color parseHexColor(String hexColor) {
+    hexColor = hexColor.replaceAll("#", "");
+    int hexValue = int.parse(hexColor, radix: 16);
+
+    return Color(hexValue)
+        .withAlpha(0xFF); // Ensure full opacity (alpha value of 0xFF)
   }
 }

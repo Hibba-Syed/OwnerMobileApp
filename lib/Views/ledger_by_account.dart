@@ -2,6 +2,7 @@ import 'package:expandable/expandable.dart';
 import 'package:iskaanowner/Models/ledger_by_account.dart';
 import 'package:iskaanowner/Views/ledger_by_statement.dart';
 
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class LedgerByAccount extends StatelessWidget {
@@ -13,6 +14,9 @@ class LedgerByAccount extends StatelessWidget {
       builder: (context, state) {
         if (state.loadingState == LoadingState.loading) {
           return const CustomLoader();
+        }
+        if (state.ledgerByAccountModel?.record?.data?.isEmpty ?? true) {
+          return const CreditNotesPage().emptyList();
         }
         return ListView.builder(
           itemCount: state.ledgerByAccountModel?.record?.data?.length,
@@ -54,12 +58,19 @@ class LedgerByAccount extends StatelessWidget {
   }
 
   Widget tableView(List<LedgerAccountDatum>? ledgers, BuildContext context) {
+    if (ledgers?.isEmpty ?? true) {
+      return const CreditNotesPage().emptyList();
+    }
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: DataTable(
-          headingRowColor: MaterialStateColor.resolveWith(
-              (states) => primaryColor.withOpacity(0.1)),
-          border: TableBorder.all(color: primaryColor),
+          headingRowColor: MaterialStateColor.resolveWith((states) => context
+              .read<AppThemeCubit>()
+              .state
+              .primaryColor
+              .withOpacity(0.1)),
+          border: TableBorder.all(
+              color: context.read<AppThemeCubit>().state.primaryColor),
           columns: [
             "Date",
             "Document",
@@ -76,7 +87,8 @@ class LedgerByAccount extends StatelessWidget {
               .toList(),
           rows: ledgers
                   ?.map((e) => const LedgerPage().ledgerDataRow(
-                      e.toJson()..remove("id"),context: context,
+                      e.toJson()..remove("id"),
+                      context: context,
                       onTap: () => const LedgerByStatement()
                           .decidePage(context, e.id, e.document)))
                   .toList() ??

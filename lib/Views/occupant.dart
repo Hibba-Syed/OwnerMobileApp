@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class OccupantPage extends StatelessWidget {
@@ -23,6 +24,9 @@ class OccupantPage extends StatelessWidget {
         builder: (context, state) {
           if (state.loadingState == LoadingState.loading) {
             return const CustomLoader();
+          }
+          if (state.occupantModel?.occupant == null) {
+            return const CreditNotesPage().emptyList();
           }
           List<Map<String, String?>> occupantData = [
             {
@@ -112,10 +116,10 @@ class OccupantPage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const CustomText(
+                      CustomText(
                         text: "Occupant : ",
                         fontWeight: FontWeight.bold,
-                        color: primaryColor,
+                        color: context.read<AppThemeCubit>().state.primaryColor,
                       ),
                       CustomText(
                         text: state.occupantModel?.occupant?.details?.name ??
@@ -128,7 +132,9 @@ class OccupantPage extends StatelessWidget {
                     height: 10,
                   ),
                   Table(
-                    border: TableBorder.all(color: primaryColor),
+                    border: TableBorder.all(
+                        color:
+                            context.read<AppThemeCubit>().state.primaryColor),
                     columnWidths: const {
                       0: FixedColumnWidth(120),
                       1: FlexColumnWidth(1),
@@ -136,6 +142,7 @@ class OccupantPage extends StatelessWidget {
                     children: occupantData
                         .map(
                           (e) => const OwnersPage().tableRow(
+                            context,
                             e["key"] ?? "",
                             e["value"] ?? "not provided",
                           ),
@@ -145,33 +152,34 @@ class OccupantPage extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  const CustomText(
+                  CustomText(
                     text: "Emergency Contact Details",
-                    color: primaryColor,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
                     fontWeight: FontWeight.bold,
                     fontsize: 20,
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  emergencyContactCard(state.occupantModel?.occupant
-                          ?.emergencyContactDetails?.emergencyContactName ??
-                      "not Provided"),
+                  emergencyContactCard(
+                      context,
+                      state.occupantModel?.occupant?.emergencyContactDetails
+                              ?.emergencyContactName ??
+                          "not Provided"),
                   const SizedBox(
                     height: 10,
                   ),
-                  emergencyContactCard(state
-                          .occupantModel
-                          ?.occupant
-                          ?.emergencyContactDetails
-                          ?.alternativeEmergencyContactName ??
-                      "not Provided"),
+                  emergencyContactCard(
+                      context,
+                      state.occupantModel?.occupant?.emergencyContactDetails
+                              ?.alternativeEmergencyContactName ??
+                          "not Provided"),
                   const SizedBox(
                     height: 10,
                   ),
-                  const CustomText(
+                  CustomText(
                     text: "Documents",
-                    color: primaryColor,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
                     fontWeight: FontWeight.bold,
                     fontsize: 20,
                   ),
@@ -179,16 +187,17 @@ class OccupantPage extends StatelessWidget {
                     height: 10,
                   ),
                   if (state.occupantModel?.occupant?.vehicles != null)
-                    vehicleSection(state.occupantModel?.occupant?.vehicles),
-                  const OwnersPage().documentInfo("Passport",
+                    vehicleSection(
+                        context, state.occupantModel?.occupant?.vehicles),
+                  const OwnersPage().documentInfo(context, "Passport",
                       url: state
                           .occupantModel?.occupant?.documents?.passportFile),
-                  const OwnersPage().documentInfo("Tenancy Contract",
+                  const OwnersPage().documentInfo(context, "Tenancy Contract",
                       url: state
                           .occupantModel?.occupant?.documents?.tenancyContract),
-                  const OwnersPage().documentInfo("Title Deed",
+                  const OwnersPage().documentInfo(context, "Title Deed",
                       url: state.occupantModel?.occupant?.documents?.titleDeed),
-                  const OwnersPage().documentInfo("ID",
+                  const OwnersPage().documentInfo(context, "ID",
                       url: state.occupantModel?.occupant?.documents?.idFile),
                 ],
               ),
@@ -199,23 +208,23 @@ class OccupantPage extends StatelessWidget {
     );
   }
 
-  Widget vehicleSection(dynamic vechicles) {
+  Widget vehicleSection(BuildContext context, dynamic vechicles) {
     return Column(
       children: [
-        const CustomText(
+        CustomText(
           text: "Vehicles",
-          color: primaryColor,
+          color: context.read<AppThemeCubit>().state.primaryColor,
           fontWeight: FontWeight.bold,
           fontsize: 20,
         ),
         const SizedBox(
           height: 10,
         ),
-        vehicleRegistrationCard("1231234", "Apr 1, 2024"),
+        vehicleRegistrationCard(context, "1231234", "Apr 1, 2024"),
         const SizedBox(
           height: 10,
         ),
-        vehicleRegistrationCard("6565765", "Sept 15, 2024"),
+        vehicleRegistrationCard(context, "6565765", "Sept 15, 2024"),
         const SizedBox(
           height: 10,
         ),
@@ -223,17 +232,19 @@ class OccupantPage extends StatelessWidget {
     );
   }
 
-  Widget vehicleRegistrationCard(String registration, String date) {
+  Widget vehicleRegistrationCard(
+      BuildContext context, String registration, String date) {
     return const UnitsPage().roundedContainer(
+      context,
       Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const CustomText(
+              CustomText(
                 text: "Registration No.",
-                color: primaryColor,
+                color: context.read<AppThemeCubit>().state.primaryColor,
                 fontWeight: FontWeight.bold,
                 fontsize: 13,
               ),
@@ -247,9 +258,9 @@ class OccupantPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const CustomText(
+              CustomText(
                 text: "Date Added : ",
-                color: primaryColor,
+                color: context.read<AppThemeCubit>().state.primaryColor,
                 fontWeight: FontWeight.bold,
                 fontsize: 13,
               ),
@@ -270,7 +281,8 @@ class OccupantPage extends StatelessWidget {
     );
   }
 
-  Widget emergencyContactCard(String name, {String? phoneNumber}) {
+  Widget emergencyContactCard(BuildContext context, String name,
+      {String? phoneNumber}) {
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -289,6 +301,7 @@ class OccupantPage extends StatelessWidget {
           Row(
             children: [
               const UnitsPage().roundedContainer(
+                context,
                 const Icon(
                   Icons.person,
                   color: kWhite,
@@ -301,7 +314,7 @@ class OccupantPage extends StatelessWidget {
               ),
               Expanded(
                 child: const UnitsPage().roundedContainer(
-                    CustomText(text: name),
+                    context, CustomText(text: name),
                     padding: const EdgeInsets.all(5),
                     color: kGrey.shade200,
                     alignment: Alignment.centerLeft),
@@ -311,7 +324,7 @@ class OccupantPage extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          const UnitsPage().contactsRow([
+          const UnitsPage().contactsRow(context, [
             {
               "icon": Icons.phone_outlined,
               "name": "Call",

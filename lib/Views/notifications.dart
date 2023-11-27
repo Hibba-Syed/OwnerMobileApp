@@ -1,6 +1,7 @@
 import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
 import 'package:iskaanowner/Views/ledger_by_statement.dart';
 
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Models/notifications.dart';
 import '../Utils/utils.dart';
 
@@ -22,6 +23,9 @@ class NotificationsPage extends StatelessWidget {
           if (state.loadingState == LoadingState.loading) {
             return const CustomLoader();
           }
+          if (state.notificationsModel?.record?.isEmpty ?? true) {
+            return const CreditNotesPage().emptyList();
+          }
           return ListView.builder(
             padding: const EdgeInsets.all(10),
             itemCount: state.notificationsModel?.record?.length,
@@ -34,12 +38,14 @@ class NotificationsPage extends StatelessWidget {
                     notificationRecord?.objectId,
                     notificationRecord?.objectType),
                 child: const UnitsPage().roundedContainer(
+                    context,
                     Row(
                       children: [
-                        const CircleAvatar(
+                        CircleAvatar(
                           radius: 30,
-                          backgroundColor: primaryColor,
-                          child: Icon(
+                          backgroundColor:
+                              context.read<AppThemeCubit>().state.primaryColor,
+                          child: const Icon(
                             Icons.list_outlined,
                             color: kWhite,
                           ),
@@ -55,10 +61,13 @@ class NotificationsPage extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  const Icon(
+                                  Icon(
                                     Icons.alarm_outlined,
                                     size: 15,
-                                    color: primaryColor,
+                                    color: context
+                                        .read<AppThemeCubit>()
+                                        .state
+                                        .primaryColor,
                                   ),
                                   CustomText(
                                     text: const OccupantPage()

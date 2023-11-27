@@ -1,3 +1,4 @@
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Models/compliances.dart';
 import '../Utils/utils.dart';
 
@@ -39,6 +40,9 @@ class CompliancesPage extends StatelessWidget {
                   if (state.loadingState == LoadingState.loading) {
                     return const CustomLoader();
                   }
+                  if (state.compliancesModel?.compliance?.isEmpty ?? true) {
+                    return const CreditNotesPage().emptyList();
+                  }
                   return ListView.builder(
                     itemCount: state.compliancesModel?.compliance?.length,
                     itemBuilder: (BuildContext context, int index) {
@@ -66,9 +70,12 @@ class CompliancesPage extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.task_outlined,
-                                  color: primaryColor,
+                                  color: context
+                                      .read<AppThemeCubit>()
+                                      .state
+                                      .primaryColor,
                                   size: 18,
                                 ),
                                 CustomText(
@@ -87,10 +94,13 @@ class CompliancesPage extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-                                    const Icon(
+                                    Icon(
                                       Icons.calendar_month_outlined,
                                       size: 18,
-                                      color: primaryColor,
+                                      color: context
+                                          .read<AppThemeCubit>()
+                                          .state
+                                          .primaryColor,
                                     ),
                                     CustomText(
                                       text:
@@ -101,10 +111,13 @@ class CompliancesPage extends StatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    const Icon(
+                                    Icon(
                                       Icons.calendar_month_outlined,
                                       size: 18,
-                                      color: primaryColor,
+                                      color: context
+                                          .read<AppThemeCubit>()
+                                          .state
+                                          .primaryColor,
                                     ),
                                     CustomText(
                                       text:
@@ -115,21 +128,28 @@ class CompliancesPage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            const Divider(
-                              color: primaryColor,
+                            Divider(
+                              color: context
+                                  .read<AppThemeCubit>()
+                                  .state
+                                  .primaryColor,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const UnitsPage().roundedContainer(
-                                  const Row(
+                                  context,
+                                  Row(
                                     children: [
                                       Icon(
                                         Icons.visibility_outlined,
-                                        color: primaryColor,
+                                        color: context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor,
                                         size: 18,
                                       ),
-                                      CustomText(
+                                      const CustomText(
                                         text: " Certificate",
                                         fontsize: 14,
                                       )

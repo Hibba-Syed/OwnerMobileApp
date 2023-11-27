@@ -1,5 +1,6 @@
 import 'package:iskaanowner/Models/requests.dart';
 
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class RequestsPage extends StatelessWidget {
@@ -27,9 +28,9 @@ class RequestsPage extends StatelessWidget {
                     context.read<RequestsCubit>().getRequests(context, unitId);
                     Navigator.pop(context);
                   }),
-              icon: const Icon(
+              icon: Icon(
                 Icons.filter_alt_outlined,
-                color: primaryColor,
+                color: context.read<AppThemeCubit>().state.primaryColor,
               ))
         ],
         appBarHeight: 50,
@@ -47,6 +48,9 @@ class RequestsPage extends StatelessWidget {
                 builder: (context, state) {
                   if (state.loadingState == LoadingState.loading) {
                     return const CustomLoader();
+                  }
+                  if (state.requestsModel?.applications?.isEmpty ?? true) {
+                    return const CreditNotesPage().emptyList();
                   }
                   return ListView.builder(
                     itemCount: state.requestsModel?.applications?.length,
@@ -84,15 +88,15 @@ class RequestsPage extends StatelessWidget {
                           ),
                           child: Column(
                             children: [
-                              requestCardHeader(application),
+                              requestCardHeader(context, application),
                               const SizedBox(
                                 height: 10,
                               ),
-                              requestCardBody(application),
+                              requestCardBody(context, application),
                               const SizedBox(
                                 height: 10,
                               ),
-                              requestCardFooter(application),
+                              requestCardFooter(context, application),
                             ],
                           ),
                         ),
@@ -108,11 +112,12 @@ class RequestsPage extends StatelessWidget {
     );
   }
 
-  Widget requestCardFooter(Application? application) {
+  Widget requestCardFooter(BuildContext context, Application? application) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const UnitsPage().roundedContainer(
+          context,
           CustomText(
             text: "Reference#: ${application?.reference ?? "Not provided"}",
             fontsize: 12,
@@ -128,10 +133,11 @@ class RequestsPage extends StatelessWidget {
     );
   }
 
-  Widget requestCardBody(Application? application) {
+  Widget requestCardBody(BuildContext context, Application? application) {
     return Row(
       children: [
         const UnitsPage().roundedContainer(
+            context,
             const Icon(
               Icons.person,
               color: kWhite,
@@ -142,6 +148,7 @@ class RequestsPage extends StatelessWidget {
         ),
         Expanded(
           child: const UnitsPage().roundedContainer(
+            context,
             CustomText(text: application?.clientName ?? "Not provided"),
             padding: const EdgeInsets.all(15),
             color: kGrey.shade200,
@@ -152,10 +159,11 @@ class RequestsPage extends StatelessWidget {
     );
   }
 
-  Widget requestCardHeader(Application? application) {
+  Widget requestCardHeader(BuildContext context, Application? application) {
     return Row(
       children: [
         const UnitsPage().roundedContainer(
+          context,
           Row(
             children: [
               const Icon(
@@ -175,16 +183,17 @@ class RequestsPage extends StatelessWidget {
         const Spacer(),
         if (application?.clientPhone != null)
           const UnitsPage().roundedContainer(
+            context,
             Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.phone_outlined,
-                  color: primaryColor,
+                  color: context.read<AppThemeCubit>().state.primaryColor,
                   size: 15,
                 ),
                 CustomText(
                   text: " ${application?.clientPhone}",
-                  color: primaryColor,
+                  color: context.read<AppThemeCubit>().state.primaryColor,
                   fontsize: 12,
                 )
               ],
@@ -204,6 +213,7 @@ class RequestsPage extends StatelessWidget {
               width: 10,
             ),
             const UnitsPage().roundedContainer(
+              context,
               CustomText(
                 text: application?.status ?? "No status",
                 fontsize: 12,
@@ -229,9 +239,9 @@ class RequestsPage extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomText(
+            CustomText(
               text: "Select Request Type",
-              color: primaryColor,
+              color: context.read<AppThemeCubit>().state.primaryColor,
             ),
             const Gap(10),
             const LedgerPage().filterDropdown(
@@ -242,9 +252,9 @@ class RequestsPage extends StatelessWidget {
                   .onChangeRequestType(requestType),
             ),
             const Gap(10),
-            const CustomText(
+            CustomText(
               text: "Select Status",
-              color: primaryColor,
+              color: context.read<AppThemeCubit>().state.primaryColor,
             ),
             const Gap(10),
             const LedgerPage().filterDropdown(

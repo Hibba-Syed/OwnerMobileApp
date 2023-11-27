@@ -1,3 +1,4 @@
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class RequestDetailPage extends StatelessWidget {
@@ -76,6 +77,7 @@ class RequestDetailPage extends StatelessWidget {
                                   width: 5,
                                 ),
                                 const UnitsPage().roundedContainer(
+                                    context,
                                     CustomText(
                                       text: state.requestDetailsModel?.record
                                               ?.status ??
@@ -89,12 +91,14 @@ class RequestDetailPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const Divider(
-                          color: primaryColor,
+                        Divider(
+                          color:
+                              context.read<AppThemeCubit>().state.primaryColor,
                         ),
                         Column(
-                          children: getRequestList(type, state)
+                          children: getRequestList(context, type, state)
                               .map((e) => const ProfilePage().profileInfoTile(
+                                    context,
                                     e["title"] as String,
                                     e["subTitle"].toString(),
                                     e["icon"] as IconData,
@@ -104,7 +108,7 @@ class RequestDetailPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (type?.toLowerCase() == "ad") vehiclesView(state),
+                  if (type?.toLowerCase() == "ad") vehiclesView(context, state),
                   const SizedBox(
                     height: 10,
                   ),
@@ -138,6 +142,7 @@ class RequestDetailPage extends StatelessWidget {
                           child: Row(
                             children: [
                               const UnitsPage().roundedContainer(
+                                  context,
                                   const Icon(
                                     Icons.person_outline,
                                     color: kWhite,
@@ -148,6 +153,7 @@ class RequestDetailPage extends StatelessWidget {
                               ),
                               Expanded(
                                 child: const UnitsPage().roundedContainer(
+                                    context,
                                     CustomText(
                                         text: state.requestDetailsModel?.record
                                                 ?.clientName ??
@@ -158,8 +164,9 @@ class RequestDetailPage extends StatelessWidget {
                             ],
                           ),
                         ),
-                        const Divider(
-                          color: primaryColor,
+                        Divider(
+                          color:
+                              context.read<AppThemeCubit>().state.primaryColor,
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10),
@@ -176,11 +183,15 @@ class RequestDetailPage extends StatelessWidget {
                                     width: 10,
                                   ),
                                   const UnitsPage().roundedContainer(
+                                    context,
                                     CustomText(
                                       text: state.requestDetailsModel?.record
                                               ?.clientPhone ??
                                           " --",
-                                      color: primaryColor,
+                                      color: context
+                                          .read<AppThemeCubit>()
+                                          .state
+                                          .primaryColor,
                                     ),
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 5, horizontal: 8),
@@ -202,11 +213,15 @@ class RequestDetailPage extends StatelessWidget {
                                     width: 10,
                                   ),
                                   const UnitsPage().roundedContainer(
+                                    context,
                                     CustomText(
                                       text: state.requestDetailsModel?.record
                                               ?.clientEmail ??
                                           " -- ",
-                                      color: primaryColor,
+                                      color: context
+                                          .read<AppThemeCubit>()
+                                          .state
+                                          .primaryColor,
                                     ),
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 5, horizontal: 8),
@@ -249,13 +264,14 @@ class RequestDetailPage extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        const OwnersPage().documentInfo("Title Deed",
+                        const OwnersPage().documentInfo(context, "Title Deed",
                             url:
                                 "$baseUrl/${state.requestDetailsModel?.record?.titleDeed}"),
-                        const OwnersPage().documentInfo("ID File",
+                        const OwnersPage().documentInfo(context, "ID File",
                             url:
                                 "$baseUrl/${state.requestDetailsModel?.record?.clientIdFile}"),
-                        const OwnersPage().documentInfo("Passport File",
+                        const OwnersPage().documentInfo(
+                            context, "Passport File",
                             url:
                                 "$baseUrl/${state.requestDetailsModel?.record?.passportFile}"),
                       ],
@@ -270,7 +286,7 @@ class RequestDetailPage extends StatelessWidget {
     );
   }
 
-  Widget vehiclesView(RequestDetailsState state) {
+  Widget vehiclesView(BuildContext context, RequestDetailsState state) {
     return Column(
       children: [
         const SizedBox(
@@ -310,8 +326,8 @@ class RequestDetailPage extends StatelessWidget {
                   )),
                 ],
               ),
-              const Divider(
-                color: primaryColor,
+              Divider(
+                color: context.read<AppThemeCubit>().state.primaryColor,
               ),
               ListView.separated(
                 itemCount: 2,
@@ -338,7 +354,8 @@ class RequestDetailPage extends StatelessWidget {
     );
   }
 
-  List getRequestList(String? type, RequestDetailsState state) {
+  List getRequestList(
+      BuildContext context, String? type, RequestDetailsState state) {
     List requestList = [
       {
         "icon": Icons.email_outlined,
@@ -373,7 +390,7 @@ class RequestDetailPage extends StatelessWidget {
           "title": "Date",
           "subTitle": "23 May 2023",
           "widget": const ProfilePage()
-              .profileInfoTile("Time", "11:00", Icons.timer_outlined)
+              .profileInfoTile(context, "Time", "11:00", Icons.timer_outlined)
         },
         {
           "icon": Icons.notes_outlined,
@@ -408,8 +425,8 @@ class RequestDetailPage extends StatelessWidget {
           "icon": Icons.timer_outlined,
           "title": "Start Time",
           "subTitle": "02:33",
-          "widget": const ProfilePage()
-              .profileInfoTile("End Time", "06:00", Icons.timer_outlined)
+          "widget": const ProfilePage().profileInfoTile(
+              context, "End Time", "06:00", Icons.timer_outlined)
         },
         {
           "icon": Icons.attach_money_outlined,
@@ -444,8 +461,8 @@ class RequestDetailPage extends StatelessWidget {
           "icon": Icons.calendar_month_outlined,
           "title": "Start date",
           "subTitle": "23 May 2023",
-          "widget": const ProfilePage().profileInfoTile(
-              "End Date", "23 May 20223", Icons.calendar_month_outlined)
+          "widget": const ProfilePage().profileInfoTile(context, "End Date",
+              "23 May 20223", Icons.calendar_month_outlined)
         },
         {
           "icon": Icons.fast_forward_outlined,
@@ -462,16 +479,16 @@ class RequestDetailPage extends StatelessWidget {
           "title": "Security Deposit",
           "subTitle":
               "${state.requestDetailsModel?.record?.securityDeposit ?? " -- "}",
-          "widget": const ProfilePage()
-              .profileInfoTile("Status", "pending", Icons.done_all_outlined),
+          "widget": const ProfilePage().profileInfoTile(
+              context, "Status", "pending", Icons.done_all_outlined),
         },
         {
           "icon": Icons.check_box_outline_blank_outlined,
           "title": "Total Payable Fee",
           "subTitle":
               state.requestDetailsModel?.record?.payableAmount ?? " -- ",
-          "widget": const ProfilePage()
-              .profileInfoTile("Status", "pending", Icons.done_all_outlined),
+          "widget": const ProfilePage().profileInfoTile(
+              context, "Status", "pending", Icons.done_all_outlined),
         },
         {
           "icon": Icons.notes_outlined,
@@ -486,8 +503,8 @@ class RequestDetailPage extends StatelessWidget {
           "icon": Icons.calendar_month_outlined,
           "title": "Requested Date",
           "subTitle": " -- ",
-          "widget": const ProfilePage()
-              .profileInfoTile("Requested Time", "6-7", Icons.timer_outlined)
+          "widget": const ProfilePage().profileInfoTile(
+              context, "Requested Time", "6-7", Icons.timer_outlined)
         },
         {
           "icon": Icons.calendar_month_outlined,
@@ -517,8 +534,8 @@ class RequestDetailPage extends StatelessWidget {
           "icon": Icons.calendar_month_outlined,
           "title": "Requested Date",
           "subTitle": " -- ",
-          "widget": const ProfilePage()
-              .profileInfoTile("Requested Time", "6-7", Icons.timer_outlined)
+          "widget": const ProfilePage().profileInfoTile(
+              context, "Requested Time", "6-7", Icons.timer_outlined)
         },
         {
           "icon": Icons.attach_money_outlined,
@@ -553,24 +570,24 @@ class RequestDetailPage extends StatelessWidget {
           "icon": Icons.calendar_month_outlined,
           "title": "Start date",
           "subTitle": "23 May 2023",
-          "widget": const ProfilePage().profileInfoTile(
-              "End Date", "23 May 20223", Icons.calendar_month_outlined)
+          "widget": const ProfilePage().profileInfoTile(context, "End Date",
+              "23 May 20223", Icons.calendar_month_outlined)
         },
         {
           "icon": Icons.security,
           "title": "Security Deposit",
           "subTitle":
               "${state.requestDetailsModel?.record?.securityDeposit ?? " -- "}",
-          "widget": const ProfilePage()
-              .profileInfoTile("Status", "pending", Icons.done_all_outlined),
+          "widget": const ProfilePage().profileInfoTile(
+              context, "Status", "pending", Icons.done_all_outlined),
         },
         {
           "icon": Icons.check_box_outline_blank_outlined,
           "title": "Payable Amount",
           "subTitle":
               state.requestDetailsModel?.record?.payableAmount ?? " -- ",
-          "widget": const ProfilePage()
-              .profileInfoTile("Status", "pending", Icons.done_all_outlined),
+          "widget": const ProfilePage().profileInfoTile(
+              context, "Status", "pending", Icons.done_all_outlined),
         },
         {
           "icon": Icons.money_outlined,
@@ -616,7 +633,7 @@ class RequestDetailPage extends StatelessWidget {
           "title": "Date",
           "subTitle": "23 May 2023",
           "widget": const ProfilePage().profileInfoTile(
-              "End Date", "23 may 2023", Icons.calendar_month_outlined)
+              context, "End Date", "23 may 2023", Icons.calendar_month_outlined)
         },
         {
           "icon": Icons.notes_outlined,

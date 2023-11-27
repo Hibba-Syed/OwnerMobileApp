@@ -27,4 +27,22 @@ class AuthenticationService {
       });
     });
   }
+
+  static Future<Object?> getCompanies(BuildContext context) async {
+    return await ExceptionService.applyTryCatch(() async {
+      return await http.get(
+          Uri.parse(
+            "$baseUrl/mobile/owner/auth/companies",
+          ),
+          headers: {
+            "Authorization":
+                "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+          }).then((value) {
+        if (value.statusCode == 200) {
+          return Success(200, value.body);
+        }
+        return Failure(400, jsonDecode(value.body)["message"]);
+      });
+    });
+  }
 }

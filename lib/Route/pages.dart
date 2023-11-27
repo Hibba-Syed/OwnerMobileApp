@@ -1,3 +1,5 @@
+import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
+import 'package:iskaanowner/Blocs/Companies/companies_cubit.dart';
 import 'package:iskaanowner/Blocs/Credit%20Note%20Details/credit_note_details_cubit.dart';
 import 'package:iskaanowner/Blocs/Invoice%20details/invoice_details_cubit.dart';
 import 'package:iskaanowner/Blocs/Logout/logout_cubit.dart';
@@ -16,9 +18,9 @@ class AppPages {
   static List<PageEntity> routes() {
     return [
       PageEntity(
-        route: AppRoutes.splash,
-        page: const SplashPage(),
-      ),
+          route: AppRoutes.splash,
+          page: const SplashPage(),
+          bloc: BlocProvider(create: (context) => AppThemeCubit())),
       PageEntity(
           route: AppRoutes.authorization,
           page: const AuthenticationPage(),
@@ -26,12 +28,19 @@ class AppPages {
             create: (context) => AuthenticationCubit(),
           )),
       PageEntity(
-        route: AppRoutes.login,
-        page: const LoginPage(),
-        bloc: BlocProvider(
-          create: (context) => LoginCubit(),
-        ),
-      ),
+          route: AppRoutes.login,
+          page: const LoginPage(),
+          bloc: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => CompaniesCubit(),
+              ),
+              BlocProvider(
+                create: (context) => LoginCubit(),
+              ),
+            ],
+            child: const LoginPage(),
+          )),
       PageEntity(
         route: AppRoutes.otpVerification,
         page: const OtpVerificationPage(),

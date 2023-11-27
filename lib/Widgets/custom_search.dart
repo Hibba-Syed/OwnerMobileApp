@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class CustomSearch extends StatelessWidget {
@@ -34,9 +35,9 @@ class CustomSearch extends StatelessWidget {
         onEditingComplete: onEditingComplete,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.zero,
-          prefixIcon: const Icon(
+          prefixIcon: Icon(
             CupertinoIcons.search,
-            color: primaryColor,
+            color: context.read<AppThemeCubit>().state.primaryColor,
           ),
           hintText: hintText ?? "Search by keyword",
           isDense: true,

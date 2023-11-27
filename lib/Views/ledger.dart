@@ -2,6 +2,7 @@ import 'package:iskaanowner/Views/ledger_by_account.dart';
 import 'package:iskaanowner/Views/ledger_by_date.dart';
 import 'package:iskaanowner/Views/ledger_by_statement.dart';
 
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Blocs/Unit Financials/unit_financials_cubit.dart';
 import '../Utils/utils.dart';
 
@@ -65,9 +66,9 @@ class LedgerPage extends StatelessWidget {
                         Navigator.pop(context);
                       },
                     ),
-                icon: const Icon(
+                icon: Icon(
                   Icons.filter_alt_outlined,
-                  color: primaryColor,
+                  color: context.read<AppThemeCubit>().state.primaryColor,
                 ))
           ],
           automaticallyImplyLeading: true,
@@ -118,7 +119,7 @@ class LedgerPage extends StatelessWidget {
                 child: TabBar(
                   indicator: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: primaryColor,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
                   ),
                   indicatorSize: TabBarIndicatorSize.tab,
                   labelColor: kWhite,
@@ -220,11 +221,11 @@ class LedgerPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Gap(10),
-                  const Align(
+                  Align(
                     alignment: Alignment.center,
                     child: CustomText(
                       text: "Filter",
-                      color: primaryColor,
+                      color: context.read<AppThemeCubit>().state.primaryColor,
                       fontWeight: FontWeight.bold,
                       fontsize: 20,
                     ),
@@ -259,9 +260,9 @@ class LedgerPage extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomText(
+            CustomText(
               text: "Select Ledger",
-              color: primaryColor,
+              color: context.read<AppThemeCubit>().state.primaryColor,
             ),
             const Gap(10),
             filterDropdown(
@@ -292,9 +293,9 @@ class LedgerPage extends StatelessWidget {
               },
             ),
             const Gap(10),
-            const CustomText(
+            CustomText(
               text: "Select Date Range",
-              color: primaryColor,
+              color: context.read<AppThemeCubit>().state.primaryColor,
             ),
             const Gap(10),
             dateRangeCustomTextWidget(
@@ -335,9 +336,9 @@ class LedgerPage extends StatelessWidget {
               textAlign: TextAlign.left,
               color: kBlack.withOpacity(0.7),
             ),
-            const Icon(
+            Icon(
               Icons.date_range_outlined,
-              color: primaryColor,
+              color: context.read<AppThemeCubit>().state.primaryColor,
             ),
           ],
         ),

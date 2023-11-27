@@ -1,5 +1,6 @@
 import 'package:iskaanowner/Blocs/Reset%20Password/reset_password_cubit.dart';
 
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class ResetPasswordPage extends StatelessWidget {
@@ -25,10 +26,10 @@ class ResetPasswordPage extends StatelessWidget {
             builder: (context, state) {
               return Column(
                 children: [
-                  const LoginPage().textFieldWithText("New Password",
-                      prefex: const Icon(
+                  const LoginPage().textFieldWithText(context,"New Password",
+                      prefex: Icon(
                         Icons.lock_outline,
-                        color: primaryColor,
+                        color: context.read<AppThemeCubit>().state.primaryColor,
                       ),
                       obscure: state.newPasswordObscure,
                       hintText: "Enter New Password",
@@ -55,13 +56,14 @@ class ResetPasswordPage extends StatelessWidget {
                           state.newPasswordObscure
                               ? Icons.visibility_off_outlined
                               : Icons.visibility_outlined,
-                          color: primaryColor,
+                          color:
+                              context.read<AppThemeCubit>().state.primaryColor,
                         ),
                       )),
-                  const LoginPage().textFieldWithText("Confirm New Password",
-                      prefex: const Icon(
+                  const LoginPage().textFieldWithText(context,"Confirm New Password",
+                      prefex: Icon(
                         Icons.lock_outline,
-                        color: primaryColor,
+                        color: context.read<AppThemeCubit>().state.primaryColor,
                       ),
                       obscure: state.confirmPasswordObscure,
                       hintText: "Confirm New Password", validator: (value) {
@@ -84,7 +86,8 @@ class ResetPasswordPage extends StatelessWidget {
                           state.confirmPasswordObscure
                               ? Icons.visibility_off_outlined
                               : Icons.visibility_outlined,
-                          color: primaryColor,
+                          color:
+                              context.read<AppThemeCubit>().state.primaryColor,
                         ),
                       )),
                   const SizedBox(

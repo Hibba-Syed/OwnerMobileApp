@@ -1,5 +1,6 @@
 import 'package:url_launcher/url_launcher.dart';
 
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class UnitDetailsPage extends StatelessWidget {
@@ -47,11 +48,12 @@ class UnitDetailsPage extends StatelessWidget {
                   isScrollable: false,
                   indicator: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: primaryColor),
+                      color: context.read<AppThemeCubit>().state.primaryColor),
                   indicatorSize: TabBarIndicatorSize.tab,
                   labelColor: kWhite,
                   dividerColor: kTransparent,
-                  indicatorColor: primaryColor,
+                  indicatorColor:
+                      context.read<AppThemeCubit>().state.primaryColor,
                   tabs: List.generate(
                       tabList.length,
                       (index) => Tab(
@@ -84,9 +86,9 @@ class UnitDetailsPage extends StatelessWidget {
       children: [
         Row(
           children: [
-            const Icon(
+            Icon(
               Icons.location_city,
-              color: primaryColor,
+              color: context.read<AppThemeCubit>().state.primaryColor,
             ),
             CustomText(
               text: " $communityName",
@@ -95,6 +97,7 @@ class UnitDetailsPage extends StatelessWidget {
           ],
         ),
         const UnitsPage().roundedContainer(
+            context,
             InkWell(
               onTap: () {
                 context
@@ -170,7 +173,7 @@ class UnitDetailsPage extends StatelessWidget {
       ),
       itemCount: detailTabs.length,
       itemBuilder: (BuildContext context, int index) {
-        return gridCard(detailTabs[index]);
+        return gridCard(context, detailTabs[index]);
       },
     );
   }
@@ -225,12 +228,12 @@ class UnitDetailsPage extends StatelessWidget {
       ),
       itemCount: detailTabs.length,
       itemBuilder: (BuildContext context, int index) {
-        return gridCard(detailTabs[index]);
+        return gridCard(context, detailTabs[index]);
       },
     );
   }
 
-  Widget gridCard(Map tab) {
+  Widget gridCard(BuildContext context, Map tab) {
     return InkWell(
       onTap: tab["onTap"],
       child: Container(
@@ -242,6 +245,7 @@ class UnitDetailsPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const UnitsPage().roundedContainer(
+              context,
               Icon(
                 tab["icon"],
                 color: kWhite,

@@ -1,5 +1,6 @@
 import 'package:iskaanowner/Views/side_drawer.dart';
 
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -15,9 +16,9 @@ class DashboardPage extends StatelessWidget {
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
-              icon: const Icon(
+              icon: Icon(
                 Icons.menu,
-                color: primaryColor,
+                color: context.read<AppThemeCubit>().state.primaryColor,
               ));
         }),
         automaticallyImplyLeading: true,
@@ -27,9 +28,9 @@ class DashboardPage extends StatelessWidget {
             onPressed: () {
               Navigator.pushNamed(context, AppRoutes.notifications);
             },
-            icon: const Icon(
+            icon: Icon(
               Icons.notifications_outlined,
-              color: primaryColor,
+              color: context.read<AppThemeCubit>().state.primaryColor,
             ),
           )
         ],
@@ -56,9 +57,9 @@ class DashboardPage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const CustomText(
+            CustomText(
               text: "My Properties (Sort by Communities)",
-              color: primaryColor,
+              color: context.read<AppThemeCubit>().state.primaryColor,
               fontWeight: FontWeight.bold,
             ),
             const SizedBox(
@@ -89,19 +90,18 @@ class DashboardPage extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          iconButton(Icons.ac_unit, "Units Financial", onTap: () {
-            // context.read<UnitFinancialsCubit>().getUnitFinancials(context);
+          iconButton(context,Icons.ac_unit, "Units Financial", onTap: () {
             Navigator.pushNamed(context, AppRoutes.unitFinancial);
           }),
           BlocBuilder<DownloadSummaryCubit, DownloadSummaryState>(
             builder: (context, state) {
-              return iconButton(Icons.download, "Download Summary", onTap: () {
+              return iconButton(context,Icons.download, "Download Summary", onTap: () {
                 context.read<DownloadSummaryCubit>().downloadDocument(context,
                     "$baseUrl/mobile/owner/profile/download-financial-summary");
               }, loadingState: state.loadingState);
             },
           ),
-          iconButton(Icons.share, "Shared Documents", onTap: () {
+          iconButton(context,Icons.share, "Shared Documents", onTap: () {
             context.read<SharedDocumentsCubit>().getSharedDocuments(context);
             Navigator.pushNamed(context, AppRoutes.sharedDocument);
           }),
@@ -110,7 +110,7 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  Widget iconButton(IconData icon, String text,
+  Widget iconButton(BuildContext context,IconData icon, String text,
       {void Function()? onTap, LoadingState loadingState = LoadingState.none}) {
     return InkWell(
       onTap: onTap,
@@ -118,7 +118,8 @@ class DashboardPage extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 2),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20), color: primaryColor),
+            borderRadius: BorderRadius.circular(20),
+            color: context.read<AppThemeCubit>().state.primaryColor),
         child: Row(
           children: [
             loadingState == LoadingState.loading
@@ -183,7 +184,7 @@ class DashboardPage extends StatelessWidget {
                     width: 120,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) =>
-                        const UnitsPage().roundedContainer(
+                        const UnitsPage().roundedContainer(context,
                             const Icon(
                               Icons.image_outlined,
                             ),
@@ -216,7 +217,11 @@ class DashboardPage extends StatelessWidget {
                             padding: const EdgeInsets.all(10),
                             width: 70,
                             decoration: BoxDecoration(
-                              border: Border.all(color: primaryColor),
+                              border: Border.all(
+                                  color: context
+                                      .read<AppThemeCubit>()
+                                      .state
+                                      .primaryColor),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Column(
@@ -252,7 +257,10 @@ class DashboardPage extends StatelessWidget {
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          color: primaryColor),
+                                          color: context
+                                              .read<AppThemeCubit>()
+                                              .state
+                                              .primaryColor),
                                       child: Column(
                                         children: [
                                           const Icon(

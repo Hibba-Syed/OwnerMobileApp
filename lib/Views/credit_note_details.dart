@@ -1,5 +1,6 @@
 import 'package:iskaanowner/Blocs/Credit%20Note%20Details/credit_note_details_cubit.dart';
 
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class CreditNoteDetailsPage extends StatelessWidget {
@@ -90,8 +91,16 @@ class CreditNoteDetailsPage extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     child: DataTable(
                         headingRowColor: MaterialStateColor.resolveWith(
-                            (states) => primaryColor.withOpacity(0.1)),
-                        border: TableBorder.all(color: primaryColor),
+                            (states) => context
+                                .read<AppThemeCubit>()
+                                .state
+                                .primaryColor
+                                .withOpacity(0.1)),
+                        border: TableBorder.all(
+                            color: context
+                                .read<AppThemeCubit>()
+                                .state
+                                .primaryColor),
                         columns: [
                           "Account",
                           "Description",
@@ -130,7 +139,8 @@ class CreditNoteDetailsPage extends StatelessWidget {
                             //     "Amount": "AED 50.50"
                             //   },
                             // ]
-                            .map((e) => const LedgerPage().ledgerDataRow(e,context: context))
+                            .map((e) => const LedgerPage()
+                                .ledgerDataRow(e, context: context))
                             .toList()),
                   ),
                 ],

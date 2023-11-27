@@ -1,7 +1,8 @@
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class CustomButton extends StatelessWidget {
-  final Color buttonColor;
+  final Color? buttonColor;
   final String text;
   final Widget? icon;
   final Color textColor;
@@ -16,7 +17,7 @@ class CustomButton extends StatelessWidget {
   final double fontsize;
   const CustomButton(
       {Key? key,
-      this.buttonColor = primaryColor,
+      this.buttonColor,
       required this.text,
       this.textAlign,
       this.width,
@@ -43,9 +44,14 @@ class CustomButton extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: invert == true
-                ? Border.all(color: primaryColor, width: 1)
+                ? Border.all(
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                    width: 1)
                 : null,
-            color: invert == true ? null : buttonColor),
+            color: invert == true
+                ? null
+                : buttonColor ??
+                    context.read<AppThemeCubit>().state.primaryColor),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

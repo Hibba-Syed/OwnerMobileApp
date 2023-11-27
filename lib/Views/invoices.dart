@@ -1,5 +1,6 @@
 import 'package:iskaanowner/Blocs/Invoice%20details/invoice_details_cubit.dart';
 
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class InvoicesPage extends StatelessWidget {
@@ -26,9 +27,9 @@ class InvoicesPage extends StatelessWidget {
                     context.read<InvoicesCubit>().getInvoices(context, unitId);
                     Navigator.pop(context);
                   }),
-              icon: const Icon(
+              icon: Icon(
                 Icons.filter_alt_outlined,
-                color: primaryColor,
+                color: context.read<AppThemeCubit>().state.primaryColor,
               ))
         ],
         automaticallyImplyLeading: true,
@@ -54,13 +55,24 @@ class InvoicesPage extends StatelessWidget {
                   if (state.loadingState == LoadingState.loading) {
                     return const CustomLoader();
                   }
+                  if (state.invoicesModel?.invoices?.isEmpty ?? true) {
+                    return const CreditNotesPage().emptyList();
+                  }
                   return SingleChildScrollView(
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: DataTable(
                           headingRowColor: MaterialStateColor.resolveWith(
-                              (states) => primaryColor.withOpacity(0.1)),
-                          border: TableBorder.all(color: primaryColor),
+                              (states) => context
+                                  .read<AppThemeCubit>()
+                                  .state
+                                  .primaryColor
+                                  .withOpacity(0.1)),
+                          border: TableBorder.all(
+                              color: context
+                                  .read<AppThemeCubit>()
+                                  .state
+                                  .primaryColor),
                           columns: [
                             "Date",
                             "Due Date",

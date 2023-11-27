@@ -1,3 +1,4 @@
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -9,7 +10,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> widgets;
   final double appBarHeight;
   final Widget? leading;
-  final Color titleColor;
+  final Color? titleColor;
   final double? elevation;
   final double? fontSize;
   final PreferredSizeWidget? bottom;
@@ -26,7 +27,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.backArrowColor,
       this.centerTitle = true,
       required this.appBarHeight,
-      this.titleColor = primaryColor,
+      this.titleColor,
       this.bottom,
       this.elevation,
       this.fontSize,
@@ -36,12 +37,13 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: backgroundColor ?? primaryColor.withOpacity(0.1),
+      backgroundColor: backgroundColor ??
+          context.read<AppThemeCubit>().state.primaryColor.withOpacity(0.1),
       elevation: elevation,
       title: Text(
         title,
         style: TextStyle(
-          color: titleColor,
+          color: titleColor ?? context.read<AppThemeCubit>().state.primaryColor,
           fontSize: fontSize,
         ),
         textAlign: TextAlign.center,
@@ -56,7 +58,8 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
                   icon: Icon(
                     Icons.arrow_back_ios,
                     size: 20,
-                    color: backArrowColor ?? primaryColor,
+                    color: backArrowColor ??
+                        context.read<AppThemeCubit>().state.primaryColor,
                   )),
       actions: widgets,
       bottom: bottom,

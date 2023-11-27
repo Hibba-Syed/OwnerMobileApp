@@ -1,3 +1,4 @@
+import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
 import 'package:iskaanowner/Utils/utils.dart';
 import 'package:lottie/lottie.dart';
 
@@ -17,9 +18,9 @@ class AuthenticationPage extends StatelessWidget {
                       Navigator.pushNamedAndRemoveUntil(
                           context, AppRoutes.login, (route) => false));
                 },
-                icon: const Icon(
+                icon: Icon(
                   Icons.logout_outlined,
-                  color: primaryColor,
+                  color: context.read<AppThemeCubit>().state.primaryColor,
                 ))
           ],
           appBarHeight: 50),
@@ -32,7 +33,7 @@ class AuthenticationPage extends StatelessWidget {
           BlocBuilder<AuthenticationCubit, AuthenticationState>(
             builder: (context, state) {
               return CustomButton(
-                  buttonColor: primaryColor,
+                  buttonColor: context.read<AppThemeCubit>().state.primaryColor,
                   textColor: kWhite,
                   text: state.isAuthenticating
                       ? "Authenticating"

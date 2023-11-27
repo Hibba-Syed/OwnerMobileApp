@@ -2,6 +2,7 @@ import 'package:iskaanowner/Blocs/Credit%20Note%20Details/credit_note_details_cu
 import 'package:iskaanowner/Blocs/Invoice%20details/invoice_details_cubit.dart';
 import 'package:iskaanowner/Blocs/Receipt%20details/receipt_details_cubit.dart';
 
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class LedgerByStatement extends StatelessWidget {
@@ -14,13 +15,22 @@ class LedgerByStatement extends StatelessWidget {
         if (state.loadingState == LoadingState.loading) {
           return const CustomLoader();
         }
+        if (state.ledgerByStatementModel?.record?.data?.ledgers?.isEmpty ??
+            true) {
+          return const CreditNotesPage().emptyList();
+        }
         return SingleChildScrollView(
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: DataTable(
-                headingRowColor: MaterialStateColor.resolveWith(
-                    (states) => primaryColor.withOpacity(0.1)),
-                border: TableBorder.all(color: primaryColor),
+                headingRowColor: MaterialStateColor.resolveWith((states) =>
+                    context
+                        .read<AppThemeCubit>()
+                        .state
+                        .primaryColor
+                        .withOpacity(0.1)),
+                border: TableBorder.all(
+                    color: context.read<AppThemeCubit>().state.primaryColor),
                 columns: [
                   "Date",
                   "Document",

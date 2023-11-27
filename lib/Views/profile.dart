@@ -1,3 +1,4 @@
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -92,11 +93,17 @@ class ProfilePage extends StatelessWidget {
                             CustomText(
                               text:
                                   "Owner ID : ${state.profileModel?.record?.ownerNumber ?? "Not provided"}",
-                              color: primaryColor,
+                              color: context
+                                  .read<AppThemeCubit>()
+                                  .state
+                                  .primaryColor,
                               fontsize: 15,
                             ),
-                            const Divider(
-                              color: primaryColor,
+                            Divider(
+                              color: context
+                                  .read<AppThemeCubit>()
+                                  .state
+                                  .primaryColor,
                             ),
                             ListView.separated(
                               shrinkWrap: true,
@@ -111,7 +118,7 @@ class ProfilePage extends StatelessWidget {
                                 );
                               },
                               itemBuilder: (BuildContext context, int index) {
-                                return profileInfoTile(
+                                return profileInfoTile(context,
                                   profileData[index]["title"] as String,
                                   profileData[index]["subTitle"] as String?,
                                   profileData[index]["icon"] as IconData,
@@ -130,7 +137,7 @@ class ProfilePage extends StatelessWidget {
                         height: 100,
                         width: 100,
                         errorBuilder: (context, error, stackTrace) =>
-                            const UnitsPage().roundedContainer(
+                            const UnitsPage().roundedContainer(context,
                                 const Icon(
                                   Icons.person_3_outlined,
                                   color: kWhite,
@@ -148,12 +155,13 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget profileInfoTile(String title, String? subTitle, IconData icon) {
+  Widget profileInfoTile(
+      BuildContext context, String title, String? subTitle, IconData icon) {
     return ListTile(
       dense: true,
       leading: Icon(
         icon,
-        color: primaryColor,
+        color: context.read<AppThemeCubit>().state.primaryColor,
       ),
       title: CustomText(
         text: title,
