@@ -6,12 +6,10 @@ class LoginState {
   final String email;
   final String password;
   final bool obsure;
-  final String companyId;
   const LoginState({
     this.loginModel,
     this.email = "",
     this.password = "",
-    this.companyId = "1",
     this.obsure = true,
     this.loadingState = LoadingState.none,
   });
@@ -19,7 +17,6 @@ class LoginState {
     final LoginModel? loginModel,
     final String? email,
     final String? password,
-    final String? companyId,
     final LoadingState? loadingState,
     final bool? obsure,
   }) {
@@ -28,7 +25,6 @@ class LoginState {
       loadingState: loadingState ?? this.loadingState,
       email: email ?? this.email,
       password: password ?? this.password,
-      companyId: companyId ?? this.companyId,
       obsure: obsure ?? this.obsure,
     );
   }

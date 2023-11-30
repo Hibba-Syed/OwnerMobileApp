@@ -49,7 +49,10 @@ class HappinessCenterService {
         'type': type,
         'recipient_type': 'owner',
         if (type.toLowerCase() == "complaint") 'complaint_for': complaintFor,
-        'company_id': '1',
+        'company_id':
+            (context.read<LoginCubit>().state.loginModel?.owner?.company?.id ??
+                    0)
+                .toString(),
         'association_id': associationId,
         'unit_id': unitId,
         if (type.toLowerCase() == "complaint")

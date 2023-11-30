@@ -5,7 +5,6 @@ import 'package:iskaanowner/Blocs/Logout/logout_cubit.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Blocs/Companies/companies_cubit.dart';
-import '../Models/companies.dart';
 import '../Models/profile.dart';
 import '../Utils/utils.dart';
 
@@ -30,12 +29,13 @@ class SideDrawerPage extends StatelessWidget {
                 ),
                 const UnitsPage().roundedContainer(
                   context,
-                  const Icon(
-                    Icons.person_outline,
-                    size: 25,
-                    color: kWhite,
+                  Image.network(
+                    profileModel?.record?.company?.faviconUrl ?? "",
+                    width: 95,
+                    height: 95,
                   ),
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(5),
+                  color: kWhite,
                 ),
                 const SizedBox(
                   height: 10,
@@ -82,65 +82,57 @@ class SideDrawerPage extends StatelessWidget {
                               const Gap(10),
                               Column(
                                 children: List.generate(users.length, (index) {
-                                  LoginModel loginModel = loginModelFromJson(
-                                      jsonEncode(users[index]));
-                                  return Stack(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(10),
-                                        margin: const EdgeInsets.symmetric(
-                                            vertical: 10),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: kWhite,
-                                        ),
-                                        child: ListTile(
-                                          onTap: () async {
-                                            if (users[0] == users[index]) {
-                                              Fluttertoast.showToast(
-                                                  msg: "Already logged In");
-                                              return;
-                                            }
-                                            Global.storageService
-                                                .setAuthenticationModelString(
-                                              loginModelFromJson(
-                                                  jsonEncode(users[index])),
-                                              addItInFront: true,
-                                              index: index,
-                                            );
-                                            // Navigator.pushNamed(
-                                            //     context, AppRoutes.splash);
-                                            CoolAlert.show(
-                                                context: context,
-                                                type: CoolAlertType.loading,
-                                                lottieAsset:
-                                                    "assets/profile.json",
-                                                text: "Switching profile ... ");
-                                            String? jsonAuthModel = Global
-                                                .storageService
-                                                .getAuthenticationModelString();
-                                            if (jsonAuthModel != null) {
+                                  LoginModel loginModel =
+                                      LoginModel.fromJson(users[index]);
+                                  return Container(
+                                    padding: const EdgeInsets.all(10),
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: kWhite,
+                                    ),
+                                    child: ListTile(
+                                      onTap: () async {
+                                        if (users[0] == users[index]) {
+                                          Fluttertoast.showToast(
+                                              msg: "Already logged In");
+                                          return;
+                                        }
+                                        Global.storageService
+                                            .setAuthenticationModelString(
+                                          LoginModel.fromJson(users[index]),
+                                          addItInFront: true,
+                                          index: index,
+                                        );
+                                        CoolAlert.show(
+                                            context: context,
+                                            type: CoolAlertType.loading,
+                                            lottieAsset: "assets/profile.json",
+                                            text: "Switching profile ... ");
+                                        String? jsonAuthModel = Global
+                                            .storageService
+                                            .getAuthenticationModelString();
+                                        if (jsonAuthModel != null) {
+                                          context
+                                              .read<LoginCubit>()
+                                              .onChangeLoginModel(
+                                                  LoginModel.fromJson(
+                                                      users[index]));
+                                          const LoginPage()
+                                              .initialCalls(context);
+                                          await context
+                                              .read<ProfileCubit>()
+                                              .getProfile(context)
+                                              .then((value) {
+                                            context
+                                                .read<AuthenticationCubit>()
+                                                .isDeviceSupported(context)
+                                                .then((value) {
                                               context
-                                                  .read<LoginCubit>()
-                                                  .onChangeLoginModel(
-                                                      loginModelFromJson(
-                                                          jsonEncode(jsonDecode(
-                                                                  jsonAuthModel)[
-                                                              0])));
-                                              const LoginPage()
-                                                  .initialCalls(context);
-                                              await context
-                                                  .read<ProfileCubit>()
-                                                  .getProfile(context)
-                                                  .then((value) {
-                                                context
-                                                    .read<AuthenticationCubit>()
-                                                    .isDeviceSupported(context)
-                                                    .then((value) {
-                                                  context
-                                                      .read<AppThemeCubit>()
-                                                      .onChangeAppTheme(const SplashPage()
+                                                  .read<AppThemeCubit>()
+                                                  .onChangeAppTheme(
+                                                      const SplashPage()
                                                           .parseHexColor(context
                                                                   .read<
                                                                       ProfileCubit>()
@@ -150,82 +142,61 @@ class SideDrawerPage extends StatelessWidget {
                                                                   ?.company
                                                                   ?.themeColor ??
                                                               " 0xff751b50"));
-                                                  if (value == true) {
-                                                    return Navigator
-                                                        .pushReplacementNamed(
-                                                            context,
-                                                            AppRoutes
-                                                                .authorization);
-                                                  }
-                                                  return Navigator
-                                                      .pushReplacementNamed(
-                                                          context,
-                                                          AppRoutes.dashboard);
-                                                });
-                                              });
-                                            } else {
-                                              context
-                                                  .read<CompaniesCubit>()
-                                                  .getCommunities(context);
-                                              Navigator.pushReplacementNamed(
-                                                  context, AppRoutes.login);
-                                            }
-                                          },
-                                          leading: Container(
-                                              padding: const EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: context
-                                                      .read<AppThemeCubit>()
-                                                      .state
-                                                      .primaryColor),
-                                              child: const Icon(
-                                                Icons.person_outline,
-                                                color: kWhite,
-                                              )),
-                                          title: CustomText(
-                                              text:
-                                                  loginModel.owner?.fullName ??
-                                                      ""),
-                                          trailing: index == 0
-                                              ? Icon(
-                                                  Icons.done,
-                                                  color: context
-                                                      .read<AppThemeCubit>()
-                                                      .state
-                                                      .primaryColor,
-                                                )
-                                              : const Icon(
-                                                  Icons
-                                                      .arrow_forward_ios_outlined,
-                                                  size: 15,
-                                                ),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        right: 0,
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 5, horizontal: 10),
+                                              if (value == true) {
+                                                return Navigator
+                                                    .pushReplacementNamed(
+                                                        context,
+                                                        AppRoutes
+                                                            .authorization);
+                                              }
+                                              return Navigator
+                                                  .pushReplacementNamed(context,
+                                                      AppRoutes.dashboard);
+                                            });
+                                          });
+                                        } else {
+                                          Navigator.pushReplacementNamed(
+                                              context, AppRoutes.login);
+                                        }
+                                      },
+                                      leading: Container(
+                                          padding: const EdgeInsets.all(10),
                                           decoration: BoxDecoration(
-                                            color: const SplashPage()
-                                                .parseHexColor(loginModel.owner
-                                                        ?.company?.themeColor ??
-                                                    "#751b50"),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: CustomText(
-                                            text: loginModel.owner?.company
-                                                    ?.shortName ??
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  offset: const Offset(1, 1),
+                                                  color: kGrey.shade200,
+                                                  spreadRadius: 2,
+                                                  blurRadius: 2,
+                                                )
+                                              ],
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: kWhite),
+                                          child: Image.network(
+                                            loginModel.owner?.company
+                                                    ?.faviconUrl ??
                                                 "",
-                                            color: kWhite,
-                                            fontsize: 12,
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                                            width: 30,
+                                            height: 30,
+                                          )),
+                                      title: CustomText(
+                                          text: loginModel
+                                                  .owner?.company?.shortName ??
+                                              ""),
+                                      trailing: index == 0
+                                          ? Icon(
+                                              Icons.done,
+                                              color: context
+                                                  .read<AppThemeCubit>()
+                                                  .state
+                                                  .primaryColor,
+                                            )
+                                          : const Icon(
+                                              Icons.arrow_forward_ios_outlined,
+                                              size: 15,
+                                            ),
+                                    ),
                                   );
                                 }),
                               ),
@@ -244,14 +215,12 @@ class SideDrawerPage extends StatelessWidget {
                                     color: kWhite,
                                   ),
                                   function: () {
-                                    final GlobalKey<FormState> key =
-                                        GlobalKey();
-                                    final LoginCubit loginCubit =
-                                        context.read<LoginCubit>();
+                                    context
+                                        .read<CompaniesCubit>()
+                                        .getCompanies(context);
                                     showModalBottomSheet(
                                         context: context,
-                                        builder: (context) =>
-                                            addNewAccount(key, loginCubit));
+                                        builder: (context) => showCompanies());
                                   })
                             ],
                           ),
@@ -332,7 +301,6 @@ class SideDrawerPage extends StatelessWidget {
               return CustomButton(
                 text: "Logout",
                 function: () {
-                  context.read<CompaniesCubit>().getCommunities(context);
                   context.read<LogoutCubit>().logout(context);
                 },
                 icon: const Icon(
@@ -344,6 +312,112 @@ class SideDrawerPage extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget showCompanies() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: Padding(
+          padding: const EdgeInsets.all(10),
+          child: BlocBuilder<CompaniesCubit, CompaniesState>(
+            builder: (context, state) {
+              if (state.loadingState == LoadingState.loading) {
+                return const CustomLoader();
+              }
+              String? userList =
+                  Global.storageService.getAuthenticationModelString();
+              List<dynamic> users = jsonDecode(userList ?? "[]");
+              List<LoginModel> loginModelList = [];
+              for (var element in users) {
+                loginModelList.add(LoginModel.fromJson(element));
+              }
+              state.companiesModel?.record?.removeWhere((company) =>
+                  loginModelList
+                      .any((owner) => owner.owner?.company?.id == company.id));
+              return Column(
+                children: [
+                  const Gap(10),
+                  CustomText(
+                    text: "Select a company to Login",
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                    fontsize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  const Gap(10),
+                  Expanded(
+                    child: Center(
+                      child: Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: state.companiesModel?.record
+                                ?.map(
+                                  (e) => Stack(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          final GlobalKey<FormState> key =
+                                              GlobalKey();
+                                          final LoginCubit loginCubit =
+                                              context.read<LoginCubit>();
+                                          showModalBottomSheet(
+                                              context: context,
+                                              builder: (context) =>
+                                                  addNewAccount(
+                                                      key, loginCubit));
+                                        },
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            CircleAvatar(
+                                              radius: 52,
+                                              backgroundColor: kGrey.shade200,
+                                              child: CircleAvatar(
+                                                radius: 50,
+                                                backgroundColor: kWhite,
+                                                child: CircleAvatar(
+                                                  backgroundColor: kWhite,
+                                                  radius: 40,
+                                                  foregroundImage: NetworkImage(
+                                                      e.faviconUrl ?? ""),
+                                                ),
+                                              ),
+                                            ),
+                                            CustomText(text: e.shortName ?? "")
+                                          ],
+                                        ),
+                                      ),
+                                      Positioned(
+                                        right: 0,
+                                        top: 0,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(5),
+                                          decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.red),
+                                          child: const Icon(
+                                            Icons.login,
+                                            color: kWhite,
+                                            size: 15,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                                .toList() ??
+                            [],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 
@@ -421,59 +495,6 @@ class SideDrawerPage extends StatelessWidget {
                         },
                         onChanged: (password) =>
                             loginCubit.onChangePassword(password),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      BlocBuilder<CompaniesCubit, CompaniesState>(
-                        builder: (context, state) {
-                          if (state.loadingState == LoadingState.loading) {
-                            return const CircularProgressIndicator();
-                          }
-                          return DropdownMenu<Companies>(
-                            initialSelection:
-                                state.companiesModel?.companies?.first,
-                            expandedInsets: const EdgeInsets.all(0),
-                            onSelected: (value) {
-                              context.read<LoginCubit>().onChangeCompanyId(
-                                  (value?.id ?? 0).toString());
-                            },
-                            enabled: state.loadingState == LoadingState.loading
-                                ? false
-                                : true,
-                            inputDecorationTheme: InputDecorationTheme(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: context
-                                      .read<AppThemeCubit>()
-                                      .state
-                                      .primaryColor,
-                                ),
-                              ),
-                            ),
-                            trailingIcon: Builder(builder: (context) {
-                              if (state.loadingState == LoadingState.loading) {
-                                return const SizedBox(
-                                  width: 30,
-                                  height: 30,
-                                  child: Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                );
-                              }
-                              return const Icon(Icons.arrow_drop_down);
-                            }),
-                            dropdownMenuEntries: state.companiesModel?.companies
-                                    ?.map<DropdownMenuEntry<Companies>>(
-                                        (Companies value) {
-                                  return DropdownMenuEntry<Companies>(
-                                      value: value,
-                                      label: value.companiesName ?? "");
-                                }).toList() ??
-                                [],
-                          );
-                        },
                       ),
                       const SizedBox(
                         height: 10,

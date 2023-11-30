@@ -117,26 +117,33 @@ class ReceiptsPage extends StatelessWidget {
   }
 
   DataRow receiptsDataRow(BuildContext context, Map data,
-      {void Function()? onTap}) {
+      {void Function()? onTap, void Function()? urlOnTap}) {
     return DataRow(
-        cells: data.values
-            .toList()
-            .map((e) => receiptsDataCell(context, e, onTap: onTap))
-            .toList());
+        cells: List.generate(
+            data.values.toList().length,
+            (index) => receiptsDataCell(context, data.values.toList()[index],
+                onTap: onTap,
+                isIcon:
+                    index == (data.values.toList().length - 1) ? true : false,
+                urlOnTap: urlOnTap)));
   }
 
   DataCell receiptsDataCell(BuildContext context, dynamic text,
-      {void Function()? onTap}) {
+      {void Function()? onTap,
+      bool isIcon = false,
+      void Function()? urlOnTap}) {
     return DataCell(
-        text == null
-            ? Icon(
-                Icons.download_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
+        isIcon
+            ? Center(
+                child: Icon(
+                  Icons.download_outlined,
+                  color: context.read<AppThemeCubit>().state.primaryColor,
+                ),
               )
             : CustomText(
-                text: text.toString(),
+                text: (text ?? " -- ").toString(),
               ),
-        onTap: onTap);
+        onTap: isIcon ? urlOnTap : onTap);
   }
 
   Widget filterView(BuildContext context) {

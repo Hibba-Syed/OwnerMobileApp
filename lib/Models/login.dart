@@ -4,10 +4,11 @@
 
 import 'dart:convert';
 
-LoginModel loginModelFromJson(String str) =>
-    LoginModel.fromJson(json.decode(str));
+List<LoginModel> loginModelFromJson(String str) =>
+    List<LoginModel>.from(json.decode(str).map((x) => LoginModel.fromJson(x)));
 
-String loginModelToJson(LoginModel data) => json.encode(data.toJson());
+String loginModelToJson(List<LoginModel> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class LoginModel {
   LoggedInOwner? owner;
@@ -59,7 +60,7 @@ class LoggedInOwner {
   dynamic address2;
   dynamic stateId;
   dynamic cityId;
-  dynamic countryId;
+  int? countryId;
   dynamic postalCode;
   dynamic comments;
   dynamic dob;
@@ -257,8 +258,7 @@ class LoggedInOwner {
         isLogged: json["is_logged"],
         ownerExternalId: json["owner_external_id"],
         isPushed: json["is_pushed"],
-        loginAt:
-            json["login_at"] == null ? null : DateTime.parse(json["login_at"]),
+        loginAt: json["login_at"],
         view: json["view"],
         createdAt: json["created_at"] == null
             ? null
@@ -266,9 +266,7 @@ class LoggedInOwner {
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"]),
-        deletedAt: json["deleted_at"] == null
-            ? null
-            : DateTime.parse(json["deleted_at"]),
+        deletedAt: json["deleted_at"],
         fullName: json["full_name"],
         idFileUrl: json["id_file_url"],
         titleDeedUrl: json["title_deed_url"],
@@ -653,7 +651,7 @@ class Company {
         isBilled: json["is_billed"],
         offDays: json["off_days"] == null
             ? []
-            : List<int>.from(json["off_days"].map((x) => x)),
+            : List<int>.from(json["off_days"]!.map((x) => x)),
         user: json["user"] == null ? null : User.fromJson(json["user"]),
       );
 
@@ -718,7 +716,7 @@ class Company {
         "extended_until": extendedUntil,
         "bill_start": billStart == null
             ? null
-            : "${billStart?.year.toString().padLeft(4, '0')}-${billStart?.month.toString().padLeft(2, '0')}-${billStart?.day.toString().padLeft(2, '0')}",
+            : "${billStart!.year.toString().padLeft(4, '0')}-${billStart!.month.toString().padLeft(2, '0')}-${billStart!.day.toString().padLeft(2, '0')}",
         "is_iskaan": isIskaan,
         "is_provider": isProvider,
         "parent_id": parentId,
@@ -769,7 +767,7 @@ class User {
   String? lastName;
   String? mobile;
   String? designation;
-  dynamic profilePicture;
+  String? profilePicture;
   DateTime? dob;
   String? passportNumber;
   DateTime? passportExpiry;
@@ -882,7 +880,7 @@ class User {
         profileImageUrl: json["profile_image_url"],
         myCityAssociations: json["my_city_associations"] == null
             ? []
-            : List<dynamic>.from(json["my_city_associations"].map((x) => x)),
+            : List<dynamic>.from(json["my_city_associations"]!.map((x) => x)),
         idFileUrl: json["id_file_url"],
       );
 
@@ -901,15 +899,15 @@ class User {
         "profile_picture": profilePicture,
         "dob": dob == null
             ? null
-            : "${dob?.year.toString().padLeft(4, '0')}-${dob?.month.toString().padLeft(2, '0')}-${dob?.day.toString().padLeft(2, '0')}",
+            : "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
         "passport_number": passportNumber,
         "passport_expiry": passportExpiry == null
             ? null
-            : "${passportExpiry?.year.toString().padLeft(4, '0')}-${passportExpiry?.month.toString().padLeft(2, '0')}-${passportExpiry?.day.toString().padLeft(2, '0')}",
+            : "${passportExpiry!.year.toString().padLeft(4, '0')}-${passportExpiry!.month.toString().padLeft(2, '0')}-${passportExpiry!.day.toString().padLeft(2, '0')}",
         "emirates_id": emiratesId,
         "emirates_id_expiry": emiratesIdExpiry == null
             ? null
-            : "${emiratesIdExpiry?.year.toString().padLeft(4, '0')}-${emiratesIdExpiry?.month.toString().padLeft(2, '0')}-${emiratesIdExpiry?.day.toString().padLeft(2, '0')}",
+            : "${emiratesIdExpiry!.year.toString().padLeft(4, '0')}-${emiratesIdExpiry!.month.toString().padLeft(2, '0')}-${emiratesIdExpiry!.day.toString().padLeft(2, '0')}",
         "id_file": idFile,
         "is_email_verified": isEmailVerified,
         "is_mobile_verified": isMobileVerified,
@@ -917,7 +915,7 @@ class User {
         "organization_name": organizationName,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
-        "deleted_at": deletedAt?.toIso8601String(),
+        "deleted_at": deletedAt,
         "company_id": companyId,
         "view": view,
         "can_view_all": canViewAll,

@@ -7,7 +7,7 @@ part 'companies_state.dart';
 class CompaniesCubit extends Cubit<CompaniesState> {
   CompaniesCubit() : super(const CompaniesState());
 
-  Future<void> getCommunities(BuildContext context) async {
+  Future<void> getCompanies(BuildContext context) async {
     emit(state.copyWith(loadingState: LoadingState.loading));
     await AuthenticationService.getCompanies(context).then((value) {
       if (value is Success) {

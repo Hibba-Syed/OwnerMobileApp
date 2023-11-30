@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
-import 'package:iskaanowner/Blocs/Companies/companies_cubit.dart';
 
 import '../Utils/utils.dart';
 
@@ -16,7 +15,7 @@ class SplashPage extends StatelessWidget {
           Global.storageService.getAuthenticationModelString();
       if (jsonAuthModel != null) {
         context.read<LoginCubit>().onChangeLoginModel(
-            loginModelFromJson(jsonEncode(jsonDecode(jsonAuthModel)[0])));
+            LoginModel.fromJson(jsonDecode(jsonAuthModel)[0]));
         const LoginPage().initialCalls(context);
         await context.read<ProfileCubit>().getProfile(context).then((value) {
           context
@@ -39,7 +38,6 @@ class SplashPage extends StatelessWidget {
           });
         });
       } else {
-        context.read<CompaniesCubit>().getCommunities(context);
         Navigator.pushReplacementNamed(context, AppRoutes.login);
       }
     });

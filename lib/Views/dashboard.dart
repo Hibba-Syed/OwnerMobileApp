@@ -10,7 +10,14 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(
-        title: "Dashboard",
+        title: capitalizeFirstWord(context
+                .read<ProfileCubit>()
+                .state
+                .profileModel
+                ?.record
+                ?.company
+                ?.shortName) ??
+            "",
         leading: Builder(builder: (context) {
           return IconButton(
               onPressed: () {
@@ -49,16 +56,16 @@ class DashboardPage extends StatelessWidget {
             ),
             CustomText(
               text:
-                  "${setGreeting()} ${context.read<ProfileCubit>().state.profileModel?.record?.firstName ?? ""}!",
+                  "${setGreeting()} ${context.read<ProfileCubit>().state.profileModel?.record?.fullName ?? ""}!",
               fontWeight: FontWeight.bold,
-              fontsize: 25,
+              fontsize: 20,
               color: kBlack,
             ),
             const SizedBox(
               height: 10,
             ),
             CustomText(
-              text: "My Properties (Sort by Communities)",
+              text: "My Properties",
               color: context.read<AppThemeCubit>().state.primaryColor,
               fontWeight: FontWeight.bold,
             ),
@@ -90,18 +97,19 @@ class DashboardPage extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          iconButton(context,Icons.ac_unit, "Units Financial", onTap: () {
+          iconButton(context, Icons.ac_unit, "Units Financial", onTap: () {
             Navigator.pushNamed(context, AppRoutes.unitFinancial);
           }),
           BlocBuilder<DownloadSummaryCubit, DownloadSummaryState>(
             builder: (context, state) {
-              return iconButton(context,Icons.download, "Download Summary", onTap: () {
+              return iconButton(context, Icons.download, "Download Summary",
+                  onTap: () {
                 context.read<DownloadSummaryCubit>().downloadDocument(context,
                     "$baseUrl/mobile/owner/profile/download-financial-summary");
               }, loadingState: state.loadingState);
             },
           ),
-          iconButton(context,Icons.share, "Shared Documents", onTap: () {
+          iconButton(context, Icons.share, "Shared Documents", onTap: () {
             context.read<SharedDocumentsCubit>().getSharedDocuments(context);
             Navigator.pushNamed(context, AppRoutes.sharedDocument);
           }),
@@ -110,7 +118,7 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  Widget iconButton(BuildContext context,IconData icon, String text,
+  Widget iconButton(BuildContext context, IconData icon, String text,
       {void Function()? onTap, LoadingState loadingState = LoadingState.none}) {
     return InkWell(
       onTap: onTap,
@@ -184,7 +192,8 @@ class DashboardPage extends StatelessWidget {
                     width: 120,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) =>
-                        const UnitsPage().roundedContainer(context,
+                        const UnitsPage().roundedContainer(
+                            context,
                             const Icon(
                               Icons.image_outlined,
                             ),
@@ -310,5 +319,16 @@ class DashboardPage extends StatelessWidget {
       greeting = 'Good Night,';
     }
     return greeting;
+  }
+
+  String? capitalizeFirstWord(String? input) {
+    if (input == null) {
+      return input;
+    }
+    if (input.isEmpty) {
+      return input;
+    } else {
+      return input[0].toUpperCase() + input.substring(1).toLowerCase();
+    }
   }
 }

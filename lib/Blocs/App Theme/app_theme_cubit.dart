@@ -7,4 +7,8 @@ class AppThemeCubit extends Cubit<AppThemeState> {
   void onChangeAppTheme(Color? primaryColor) {
     emit(state.copyWith(primaryColor));
   }
+
+  void resetAppTheme() {
+    emit(state.copyWith(const Color(0xff751b50)));
+  }
 }

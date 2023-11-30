@@ -9,6 +9,7 @@ import 'package:iskaanowner/Blocs/Reset%20Password/reset_password_cubit.dart';
 import 'package:iskaanowner/Blocs/Send%20OTP/send_otp_cubit.dart';
 import 'package:iskaanowner/Blocs/Unit%20Financials/unit_financials_cubit.dart';
 import 'package:iskaanowner/Blocs/Verify%20Otp/verify_otp_cubit.dart';
+import 'package:iskaanowner/Views/companies.dart';
 import 'package:iskaanowner/Views/otp_verification.dart';
 import 'package:iskaanowner/Views/reset_password.dart';
 
@@ -28,19 +29,18 @@ class AppPages {
             create: (context) => AuthenticationCubit(),
           )),
       PageEntity(
-          route: AppRoutes.login,
-          page: const LoginPage(),
-          bloc: MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (context) => CompaniesCubit(),
-              ),
-              BlocProvider(
-                create: (context) => LoginCubit(),
-              ),
-            ],
-            child: const LoginPage(),
+          route: AppRoutes.companies,
+          page: const CompaniesPage(),
+          bloc: BlocProvider(
+            create: (context) => CompaniesCubit(),
           )),
+      PageEntity(
+        route: AppRoutes.login,
+        page: const LoginPage(),
+        bloc: BlocProvider(
+          create: (context) => LoginCubit(),
+        ),
+      ),
       PageEntity(
         route: AppRoutes.otpVerification,
         page: const OtpVerificationPage(),

@@ -11,15 +11,17 @@ class StorageService {
   }
 
   Future<bool> setAuthenticationModelString(LoginModel value,
-      {bool addItInFront = false, int? index}) async {
+      {bool addItInFront = false, bool newUser = false, int? index}) async {
     String? userList = getAuthenticationModelString();
     if (userList != null) {
       List users = jsonDecode(userList);
       if (addItInFront) {
         users.removeAt(index ?? 0);
         users.insert(0, value);
-      } else {
+      } else if (newUser) {
         users.insert(0, value);
+      } else {
+        users.add(value);
       }
       return await _prefs.setString("users", jsonEncode(users));
     }

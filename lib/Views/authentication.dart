@@ -2,6 +2,8 @@ import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
 import 'package:iskaanowner/Utils/utils.dart';
 import 'package:lottie/lottie.dart';
 
+import '../Blocs/Logout/logout_cubit.dart';
+
 class AuthenticationPage extends StatelessWidget {
   const AuthenticationPage({Key? key}) : super(key: key);
 
@@ -12,16 +14,24 @@ class AuthenticationPage extends StatelessWidget {
           title: "Authentication",
           appBar: AppBar(),
           widgets: [
-            IconButton(
-                onPressed: () async {
-                  Global.storageService.removeUser().then((value) =>
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, AppRoutes.login, (route) => false));
-                },
-                icon: Icon(
-                  Icons.logout_outlined,
-                  color: context.read<AppThemeCubit>().state.primaryColor,
-                ))
+            BlocBuilder<LogoutCubit, LogoutState>(
+              builder: (context, state) {
+                if (state.loadingState == LoadingState.loading) {
+                  return const SizedBox(
+                    height: 50,
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                }
+                return IconButton(
+                    onPressed: () async {
+                      context.read<LogoutCubit>().logout(context);
+                    },
+                    icon: Icon(
+                      Icons.logout_outlined,
+                      color: context.read<AppThemeCubit>().state.primaryColor,
+                    ));
+              },
+            )
           ],
           appBarHeight: 50),
       body: Column(

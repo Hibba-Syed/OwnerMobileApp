@@ -17,7 +17,7 @@ class LogoutCubit extends Cubit<LogoutState> {
           context,
           AppRoutes.login,
         );
-        context.read<AppThemeCubit>().onChangeAppTheme(const Color(0xff751b50));
+        context.read<AppThemeCubit>().resetAppTheme();
         emit(state.copyWith(
           loadingState: LoadingState.success,
         ));
@@ -25,7 +25,7 @@ class LogoutCubit extends Cubit<LogoutState> {
       }
       value as Failure;
       Fluttertoast.showToast(
-          msg: value.errorResponse as String? ?? "Unable to get profile");
+          msg: value.errorResponse as String? ?? "Unable to logout user");
       emit(state.copyWith(loadingState: LoadingState.error));
       return false;
     });

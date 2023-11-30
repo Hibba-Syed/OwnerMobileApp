@@ -177,6 +177,11 @@ class OccupantPage extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
+                  if (state.occupantModel?.occupant?.vehicles != null &&
+                      (state.occupantModel?.occupant?.vehicles?.isNotEmpty ??
+                          false))
+                    vehicleSection(
+                        context, state.occupantModel?.occupant?.vehicles),
                   CustomText(
                     text: "Documents",
                     color: context.read<AppThemeCubit>().state.primaryColor,
@@ -186,9 +191,6 @@ class OccupantPage extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  if (state.occupantModel?.occupant?.vehicles != null)
-                    vehicleSection(
-                        context, state.occupantModel?.occupant?.vehicles),
                   const OwnersPage().documentInfo(context, "Passport",
                       url: state
                           .occupantModel?.occupant?.documents?.passportFile),
@@ -210,6 +212,7 @@ class OccupantPage extends StatelessWidget {
 
   Widget vehicleSection(BuildContext context, dynamic vechicles) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomText(
           text: "Vehicles",

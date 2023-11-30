@@ -1,6 +1,7 @@
-import 'package:iskaanowner/Blocs/Credit%20Note%20Details/credit_note_details_cubit.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
+import '../Blocs/Credit Note Details/credit_note_details_cubit.dart';
 import '../Utils/utils.dart';
 
 class CreditNotesPage extends StatelessWidget {
@@ -69,44 +70,60 @@ class CreditNotesPage extends StatelessWidget {
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: DataTable(
-                          headingRowColor: MaterialStateColor.resolveWith(
-                              (states) => context
-                                  .read<AppThemeCubit>()
-                                  .state
-                                  .primaryColor
-                                  .withOpacity(0.1)),
-                          border: TableBorder.all(
-                              color: context
-                                  .read<AppThemeCubit>()
-                                  .state
-                                  .primaryColor),
-                          columns: [
-                            "Date",
-                            "Reference",
-                            "Description",
-                            "Amount",
-                            "Actions",
-                          ]
-                              .map((e) => const SharedDocumentPage()
-                                  .sharedDocumentDataColumn(e))
-                              .toList(),
-                          rows: state.creditNotesModel?.creditNotes?.map((e) {
-                                Map data = e.toJson();
-                                data.remove("id");
-                                data["action"] = null;
-                                return const ReceiptsPage().receiptsDataRow(
-                                  context,
-                                  data,
-                                  onTap: () {
-                                    context
-                                        .read<CreditNoteDetailsCubit>()
-                                        .getCreditNoteDetails(context, e.id);
-                                    Navigator.pushNamed(
-                                        context, AppRoutes.creditNoteDetails);
-                                  },
-                                );
-                              }).toList() ??
-                              []),
+                        headingRowColor: MaterialStateColor.resolveWith(
+                            (states) => context
+                                .read<AppThemeCubit>()
+                                .state
+                                .primaryColor
+                                .withOpacity(0.1)),
+                        border: TableBorder.all(
+                            color: context
+                                .read<AppThemeCubit>()
+                                .state
+                                .primaryColor),
+                        columns: [
+                          "Date",
+                          "Reference",
+                          "Description",
+                          "Amount",
+                          "Actions",
+                        ]
+                            .map((e) => const SharedDocumentPage()
+                                .sharedDocumentDataColumn(e))
+                            .toList(),
+                        rows: List.generate(
+                          state.creditNotesModel?.creditNotes?.length ?? 0,
+                          (index) {
+                            Map? data = state
+                                .creditNotesModel?.creditNotes?[index]
+                                .toJson();
+                            data?.remove("id");
+                            return const ReceiptsPage().receiptsDataRow(
+                              context,
+                              data ?? {},
+                              urlOnTap: () {
+                                if ((data?["documents"] as List).isEmpty) {
+                                  Fluttertoast.showToast(
+                                      msg: "No documents found to download");
+                                  return;
+                                }
+                                launchUrl(Uri.parse(
+                                    (data?["documents"] as List).first));
+                              },
+                              onTap: () {
+                                context
+                                    .read<CreditNoteDetailsCubit>()
+                                    .getCreditNoteDetails(
+                                        context,
+                                        state.creditNotesModel
+                                            ?.creditNotes?[index].id);
+                                Navigator.pushNamed(
+                                    context, AppRoutes.creditNoteDetails);
+                              },
+                            );
+                          },
+                        ),
+                      ),
                     ),
                   );
                 },

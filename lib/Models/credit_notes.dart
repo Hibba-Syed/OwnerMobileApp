@@ -54,6 +54,7 @@ class CreditNote {
   String? reference;
   String? description;
   int? amount;
+  List<dynamic>? documents;
 
   CreditNote({
     this.id,
@@ -61,15 +62,16 @@ class CreditNote {
     this.reference,
     this.description,
     this.amount,
+    this.documents,
   });
 
   factory CreditNote.fromJson(Map<String, dynamic> json) => CreditNote(
-        id: json["id"],
-        date: json["date"] == null ? null : DateTime.parse(json["date"]),
-        reference: json["reference"],
-        description: json["description"],
-        amount: json["amount"],
-      );
+      id: json["id"],
+      date: json["date"] == null ? null : DateTime.parse(json["date"]),
+      reference: json["reference"],
+      description: json["description"],
+      amount: json["amount"],
+      documents: json["documents"] ?? []);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -78,5 +80,6 @@ class CreditNote {
         "reference": reference,
         "description": description,
         "amount": amount,
+        "documents": documents
       };
 }

@@ -656,7 +656,7 @@ class Company {
         isBilled: json["is_billed"],
         offDays: json["off_days"] == null
             ? []
-            : List<int>.from(json["off_days"]!.map((x) => x)),
+            : List<int>.from(json["off_days"]?.map((x) => x)),
         user: json["user"] == null ? null : User.fromJson(json["user"]),
       );
 
@@ -719,8 +719,9 @@ class Company {
         "disable_time": disableTime,
         "disable_comment": disableComment,
         "extended_until": extendedUntil,
-        "bill_start":
-            "${billStart!.year.toString().padLeft(4, '0')}-${billStart!.month.toString().padLeft(2, '0')}-${billStart!.day.toString().padLeft(2, '0')}",
+        "bill_start": billStart == null
+            ? null
+            : "${billStart?.year.toString().padLeft(4, '0')}-${billStart?.month.toString().padLeft(2, '0')}-${billStart?.day.toString().padLeft(2, '0')}",
         "is_iskaan": isIskaan,
         "is_provider": isProvider,
         "parent_id": parentId,
@@ -884,7 +885,7 @@ class User {
         profileImageUrl: json["profile_image_url"],
         myCityAssociations: json["my_city_associations"] == null
             ? []
-            : List<dynamic>.from(json["my_city_associations"]!.map((x) => x)),
+            : List<dynamic>.from(json["my_city_associations"]?.map((x) => x)),
         idFileUrl: json["id_file_url"],
       );
 
@@ -901,14 +902,17 @@ class User {
         "mobile": mobile,
         "designation": designation,
         "profile_picture": profilePicture,
-        "dob":
-            "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
+        "dob": dob == null
+            ? null
+            : "${dob?.year.toString().padLeft(4, '0')}-${dob?.month.toString().padLeft(2, '0')}-${dob?.day.toString().padLeft(2, '0')}",
         "passport_number": passportNumber,
-        "passport_expiry":
-            "${passportExpiry!.year.toString().padLeft(4, '0')}-${passportExpiry!.month.toString().padLeft(2, '0')}-${passportExpiry!.day.toString().padLeft(2, '0')}",
+        "passport_expiry": passportExpiry == null
+            ? null
+            : "${passportExpiry?.year.toString().padLeft(4, '0')}-${passportExpiry?.month.toString().padLeft(2, '0')}-${passportExpiry?.day.toString().padLeft(2, '0')}",
         "emirates_id": emiratesId,
-        "emirates_id_expiry":
-            "${emiratesIdExpiry!.year.toString().padLeft(4, '0')}-${emiratesIdExpiry!.month.toString().padLeft(2, '0')}-${emiratesIdExpiry!.day.toString().padLeft(2, '0')}",
+        "emirates_id_expiry": emiratesIdExpiry == null
+            ? null
+            : "${emiratesIdExpiry?.year.toString().padLeft(4, '0')}-${emiratesIdExpiry?.month.toString().padLeft(2, '0')}-${emiratesIdExpiry?.day.toString().padLeft(2, '0')}",
         "id_file": idFile,
         "is_email_verified": isEmailVerified,
         "is_mobile_verified": isMobileVerified,
