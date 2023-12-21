@@ -65,7 +65,7 @@ class DashboardPage extends StatelessWidget {
               height: 10,
             ),
             CustomText(
-              text: "My Properties",
+              text: "Utilities",
               color: context.read<AppThemeCubit>().state.primaryColor,
               fontWeight: FontWeight.bold,
             ),
@@ -73,6 +73,14 @@ class DashboardPage extends StatelessWidget {
               height: 10,
             ),
             categoriesRow(context),
+            const SizedBox(
+              height: 10,
+            ),
+            CustomText(
+              text: "My Properties",
+              color: context.read<AppThemeCubit>().state.primaryColor,
+              fontWeight: FontWeight.bold,
+            ),
             const SizedBox(
               height: 10,
             ),
@@ -93,28 +101,36 @@ class DashboardPage extends StatelessWidget {
   }
 
   Widget categoriesRow(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          iconButton(context, Icons.ac_unit, "Units Financial", onTap: () {
-            Navigator.pushNamed(context, AppRoutes.unitFinancial);
-          }),
-          BlocBuilder<DownloadSummaryCubit, DownloadSummaryState>(
-            builder: (context, state) {
-              return iconButton(context, Icons.download, "Download Summary",
-                  onTap: () {
-                context.read<DownloadSummaryCubit>().downloadDocument(context,
-                    "$baseUrl/mobile/owner/profile/download-financial-summary");
-              }, loadingState: state.loadingState);
-            },
-          ),
-          iconButton(context, Icons.share, "Shared Documents", onTap: () {
-            context.read<SharedDocumentsCubit>().getSharedDocuments(context);
-            Navigator.pushNamed(context, AppRoutes.sharedDocument);
-          }),
-        ],
+    List categories = [
+      iconButton(context, Icons.balance_outlined, "Units Financial", onTap: () {
+        Navigator.pushNamed(context, AppRoutes.unitFinancial);
+      }),
+      BlocBuilder<DownloadSummaryCubit, DownloadSummaryState>(
+        builder: (context, state) {
+          return iconButton(context, Icons.download, "Download Summary",
+              onTap: () {
+            context.read<DownloadSummaryCubit>().downloadDocument(context,
+                "$baseUrl/mobile/owner/profile/download-financial-summary");
+          }, loadingState: state.loadingState);
+        },
       ),
+      iconButton(context, Icons.document_scanner_outlined, "Shared Documents",
+          onTap: () {
+        context.read<SharedDocumentsCubit>().getSharedDocuments(context);
+        Navigator.pushNamed(context, AppRoutes.sharedDocument);
+      }),
+    ];
+    return GridView.builder(
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          childAspectRatio: 10 / 13),
+      itemCount: 3,
+      itemBuilder: (BuildContext context, int index) {
+        return categories[index];
+      },
     );
   }
 
@@ -123,33 +139,48 @@ class DashboardPage extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 2),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: context.read<AppThemeCubit>().state.primaryColor),
-        child: Row(
+          color: kWhite,
+          boxShadow: [
+            BoxShadow(spreadRadius: 2, blurRadius: 2, color: kGrey.shade200)
+          ],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
           children: [
-            loadingState == LoadingState.loading
-                ? const SizedBox(
-                    height: 12,
-                    width: 12,
-                    child: Center(
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    ),
+                    color: context
+                        .read<AppThemeCubit>()
+                        .state
+                        .primaryColor
+                        .withOpacity(0.2)),
+                child: loadingState == LoadingState.loading
+                    ? Center(
                         child: CircularProgressIndicator(
-                      color: kWhite,
-                    )))
-                : Icon(
-                    icon,
-                    color: kWhite,
-                    size: 15,
-                  ),
-            const SizedBox(
-              width: 10,
+                        color: context.read<AppThemeCubit>().state.primaryColor,
+                      ))
+                    : Icon(
+                        icon,
+                        color: context.read<AppThemeCubit>().state.primaryColor,
+                        size: 35,
+                      ),
+              ),
             ),
-            CustomText(
-              text: text,
-              color: kWhite,
-              fontsize: 12,
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: CustomText(
+                text: text.split(" ").toList().map((e) => e).join("\n"),
+                color: kBlack,
+                fontWeight: FontWeight.bold,
+                fontsize: 12,
+              ),
             )
           ],
         ),
@@ -157,11 +188,11 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  Widget comunitiesUi(List<CommunitiesDatum>? data) {
+  Widget comunitiesUi(List<Association>? data) {
     return ListView.builder(
       itemCount: data?.length,
       itemBuilder: (BuildContext context, int index) {
-        CommunitiesDatum? communitiesDatum = data?[index];
+        Association? communitiesDatum = data?[index];
         return InkWell(
           onTap: () {
             context.read<UnitsCubit>().getUnits(context, communitiesDatum?.id);
@@ -187,7 +218,7 @@ class DashboardPage extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    "$baseUrl/${communitiesDatum?.backgroundImage ?? ""}",
+                    communitiesDatum?.backgroundImageUrl ?? "",
                     height: 120,
                     width: 120,
                     fit: BoxFit.cover,
@@ -209,13 +240,15 @@ class DashboardPage extends StatelessWidget {
                   child: Column(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(5),
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 10),
                         width: double.infinity,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: kGrey.shade200),
-                        child: CustomText(
-                            text: communitiesDatum?.name ?? "Not provided"),
+                        child:
+                            CustomText(text: communitiesDatum?.name ?? " -- "),
                       ),
                       const SizedBox(
                         height: 10,

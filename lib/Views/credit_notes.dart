@@ -1,7 +1,9 @@
+import 'package:iskaanowner/Blocs/Credit%20Note%20Details/credit_note_details_cubit.dart';
+import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
-import '../Blocs/Credit Note Details/credit_note_details_cubit.dart';
+import '../Models/credit_notes.dart';
 import '../Utils/utils.dart';
 
 class CreditNotesPage extends StatelessWidget {
@@ -66,65 +68,114 @@ class CreditNotesPage extends StatelessWidget {
                   if (state.creditNotesModel?.creditNotes?.isEmpty ?? true) {
                     return emptyList();
                   }
-                  return SingleChildScrollView(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: DataTable(
-                        headingRowColor: MaterialStateColor.resolveWith(
-                            (states) => context
-                                .read<AppThemeCubit>()
-                                .state
-                                .primaryColor
-                                .withOpacity(0.1)),
-                        border: TableBorder.all(
-                            color: context
-                                .read<AppThemeCubit>()
-                                .state
-                                .primaryColor),
-                        columns: [
-                          "Date",
-                          "Reference",
-                          "Description",
-                          "Amount",
-                          "Actions",
-                        ]
-                            .map((e) => const SharedDocumentPage()
-                                .sharedDocumentDataColumn(e))
-                            .toList(),
-                        rows: List.generate(
-                          state.creditNotesModel?.creditNotes?.length ?? 0,
-                          (index) {
-                            Map? data = state
-                                .creditNotesModel?.creditNotes?[index]
-                                .toJson();
-                            data?.remove("id");
-                            return const ReceiptsPage().receiptsDataRow(
-                              context,
-                              data ?? {},
-                              urlOnTap: () {
-                                if ((data?["documents"] as List).isEmpty) {
-                                  Fluttertoast.showToast(
-                                      msg: "No documents found to download");
-                                  return;
-                                }
-                                launchUrl(Uri.parse(
-                                    (data?["documents"] as List).first));
-                              },
-                              onTap: () {
-                                context
-                                    .read<CreditNoteDetailsCubit>()
-                                    .getCreditNoteDetails(
-                                        context,
-                                        state.creditNotesModel
-                                            ?.creditNotes?[index].id);
-                                Navigator.pushNamed(
-                                    context, AppRoutes.creditNoteDetails);
-                              },
-                            );
-                          },
+                  return ListView.builder(
+                    itemCount: state.creditNotesModel?.creditNotes?.length ?? 0,
+                    itemBuilder: (BuildContext context, int index) {
+                      CreditNote? creditNote =
+                          state.creditNotesModel?.creditNotes?[index];
+                      return InkWell(
+                        onTap: () {
+                          context
+                              .read<CreditNoteDetailsCubit>()
+                              .getCreditNoteDetails(context, creditNote?.id);
+                          Navigator.pushNamed(
+                              context, AppRoutes.creditNoteDetails);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.symmetric(vertical: 5),
+                          decoration: BoxDecoration(
+                            color: kWhite,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: kGrey.shade200,
+                                  blurRadius: 2,
+                                  spreadRadius: 2)
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: context
+                                        .read<AppThemeCubit>()
+                                        .state
+                                        .primaryColor),
+                                padding: const EdgeInsets.all(10),
+                                child: const Icon(
+                                  Icons.note,
+                                  color: kWhite,
+                                ),
+                              ),
+                              const Gap(10),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CustomText(
+                                          text: creditNote?.reference ?? " -- ",
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        const Gap(10),
+                                        CustomText(
+                                          text: const OccupantPage()
+                                              .dateTimeFormatter(
+                                                  creditNote?.date),
+                                          color: kGrey,
+                                          fontsize: 12,
+                                        ),
+                                      ],
+                                    ),
+                                    CustomText(
+                                      text: creditNote?.description ?? " -- ",
+                                      fontsize: 14,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CustomText(
+                                          text:
+                                              "${(creditNote?.amount ?? 0).toStringAsFixed(2)} AED",
+                                          fontsize: 13,
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            if (creditNote
+                                                    ?.documents?.isEmpty ??
+                                                true) {
+                                              Fluttertoast.showToast(
+                                                  msg:
+                                                      "No documents found to download");
+                                              return;
+                                            }
+                                            launchUrl(Uri.parse(
+                                                creditNote?.documents?.first));
+                                          },
+                                          child: Icon(
+                                            Icons.download_outlined,
+                                            color: context
+                                                .read<AppThemeCubit>()
+                                                .state
+                                                .primaryColor,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   );
                 },
               ),
@@ -164,12 +215,18 @@ class CreditNotesPage extends StatelessWidget {
     );
   }
 
-  Widget emptyList() {
-    return const Center(
+  Widget emptyList(
+      {String lottie = "assets/not found.json", double? width = 200}) {
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CustomText(
+          LottieBuilder.asset(
+            lottie,
+            width: width,
+          ),
+          const Gap(20),
+          const CustomText(
             text: "No results found !!",
           ),
         ],

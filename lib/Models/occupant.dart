@@ -77,6 +77,7 @@ class Details {
   String? state;
   String? city;
   String? fullAddress;
+  String? type;
 
   Details({
     this.name,
@@ -86,6 +87,7 @@ class Details {
     this.passportExpiry,
     this.emiratesIdNumber,
     this.emiratesIdExpiry,
+    this.type,
     this.trnNumber,
     this.dob,
     this.tenancyContractExpiry,
@@ -118,6 +120,7 @@ class Details {
         state: json["state"],
         city: json["city"],
         fullAddress: json["full_address"],
+        type: json["type"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -139,6 +142,7 @@ class Details {
         "state": state,
         "city": city,
         "full_address": fullAddress,
+        "type": type,
       };
 }
 

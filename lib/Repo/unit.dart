@@ -256,7 +256,7 @@ class UnitsService {
     return await ExceptionService.applyTryCatch(() async {
       return await http.get(
           Uri.parse(
-            "$baseUrl/mobile/owner/property/accounting/ledgers/by-statement/$id?fromDate=${customDateRange?.start}&toDate=${customDateRange?.end}&ledgerIds[]=${individualLedger?.id}",
+            "$baseUrl/mobile/owner/property/accounting/ledgers/by-statement/$id?fromDate=${customDateRange?.start}&toDate=${customDateRange?.end}&ledgerIds[]=${individualLedger?.id}&limit=5&page=1",
           ),
           headers: {
             "Authorization":
@@ -278,7 +278,7 @@ class UnitsService {
     return await ExceptionService.applyTryCatch(() async {
       return await http.get(
           Uri.parse(
-            "$baseUrl/mobile/owner/property/accounting/ledgers/by-date/$id?fromDate=${customDateRange?.start}&toDate=${customDateRange?.end}&ledgerIds[]=${individualLedger?.id}",
+            "$baseUrl/mobile/owner/property/accounting/ledgers/by-date/$id?fromDate=${customDateRange?.start}&toDate=${customDateRange?.end}&ledgerIds[]=${individualLedger?.id}&limit=5&page=1",
           ),
           headers: {
             "Authorization":
@@ -300,7 +300,7 @@ class UnitsService {
     return await ExceptionService.applyTryCatch(() async {
       return await http.get(
           Uri.parse(
-            "$baseUrl/mobile/owner/property/accounting/ledgers/by-account/$id?fromDate=${customDateRange?.start}&toDate=${customDateRange?.end}&ledgerIds[]=${individualLedger?.id}",
+            "$baseUrl/mobile/owner/property/accounting/ledgers/by-account/$id?fromDate=${customDateRange?.start}&toDate=${customDateRange?.end}&ledgerIds[]=${individualLedger?.id}&limit=15&page=1",
           ),
           headers: {
             "Authorization":

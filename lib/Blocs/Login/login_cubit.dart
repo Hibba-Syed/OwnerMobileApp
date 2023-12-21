@@ -1,5 +1,4 @@
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
-import 'package:iskaanowner/Blocs/Companies/companies_cubit.dart';
 
 import '../../Utils/utils.dart';
 
@@ -32,47 +31,37 @@ class LoginCubit extends Cubit<LoginState> {
         emit(state.copyWith(
           loginModel: loginModelFromJson(value.response as String)[0],
         ));
-        return context.read<CompaniesCubit>().getCompanies(context).then((_) {
-          if (loginModelFromJson(value.response as String).length == 1 &&
-              (context
-                      .read<CompaniesCubit>()
-                      .state
-                      .companiesModel
-                      ?.record
-                      ?.isEmpty ??
-                  false)) {
-            Global.storageService.setAuthenticationModelString(
-                loginModelFromJson(value.response as String)[0]);
-            return context
-                .read<ProfileCubit>()
-                .getProfile(context)
-                .then((isLoaded) {
-              if (isLoaded) {
-                emit(state.copyWith(
-                  loginModel: loginModelFromJson(value.response as String)[0],
-                  loadingState: LoadingState.success,
-                ));
-                context.read<AppThemeCubit>().onChangeAppTheme(
-                    const SplashPage().parseHexColor(
-                        state.loginModel?.owner?.company?.themeColor ??
-                            "#751b50"));
-                const LoginPage().initialCalls(context);
-                return Navigator.pushReplacementNamed(
-                    context, AppRoutes.dashboard);
-              } else {
-                Fluttertoast.showToast(msg: "Unable to load profile");
-                emit(state.copyWith(loadingState: LoadingState.error));
-              }
-            });
-          } else {
-            emit(state.copyWith(
-              loginModel: loginModelFromJson(value.response as String)[0],
-              loadingState: LoadingState.success,
-            ));
-            return Navigator.pushNamed(context, AppRoutes.companies,
-                arguments: loginModelFromJson(value.response as String));
-          }
-        });
+        if (loginModelFromJson(value.response as String).length == 1) {
+          Global.storageService.setAuthenticationModelString(
+              loginModelFromJson(value.response as String)[0]);
+          return context
+              .read<ProfileCubit>()
+              .getProfile(context)
+              .then((isLoaded) {
+            if (isLoaded) {
+              emit(state.copyWith(
+                loginModel: loginModelFromJson(value.response as String)[0],
+                loadingState: LoadingState.success,
+              ));
+              context.read<AppThemeCubit>().onChangeAppTheme(const SplashPage()
+                  .parseHexColor(state.loginModel?.owner?.company?.themeColor ??
+                      "#751b50"));
+              const LoginPage().initialCalls(context);
+              return Navigator.pushReplacementNamed(
+                  context, AppRoutes.dashboard);
+            } else {
+              Fluttertoast.showToast(msg: "Unable to load profile");
+              emit(state.copyWith(loadingState: LoadingState.error));
+            }
+          });
+        } else {
+          emit(state.copyWith(
+            loginModel: loginModelFromJson(value.response as String)[0],
+            loadingState: LoadingState.success,
+          ));
+          return Navigator.pushNamed(context, AppRoutes.companies,
+              arguments: loginModelFromJson(value.response as String));
+        }
       }
       value as Failure;
       Fluttertoast.showToast(

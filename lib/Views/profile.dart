@@ -92,7 +92,7 @@ class ProfilePage extends StatelessWidget {
                             ),
                             CustomText(
                               text:
-                                  "Owner ID : ${state.profileModel?.record?.ownerNumber ?? "Not provided"}",
+                                  "Owner ID : ${state.profileModel?.record?.ownerNumber ?? " -- "}",
                               color: context
                                   .read<AppThemeCubit>()
                                   .state
@@ -118,7 +118,8 @@ class ProfilePage extends StatelessWidget {
                                 );
                               },
                               itemBuilder: (BuildContext context, int index) {
-                                return profileInfoTile(context,
+                                return profileInfoTile(
+                                  context,
                                   profileData[index]["title"] as String,
                                   profileData[index]["subTitle"] as String?,
                                   profileData[index]["icon"] as IconData,
@@ -137,7 +138,8 @@ class ProfilePage extends StatelessWidget {
                         height: 100,
                         width: 100,
                         errorBuilder: (context, error, stackTrace) =>
-                            const UnitsPage().roundedContainer(context,
+                            const UnitsPage().roundedContainer(
+                                context,
                                 const Icon(
                                   Icons.person_3_outlined,
                                   color: kWhite,
@@ -169,7 +171,7 @@ class ProfilePage extends StatelessWidget {
         fontsize: 15,
       ),
       subtitle: CustomText(
-        text: subTitle ?? "Not Provided",
+        text: subTitle ?? " -- ",
         textAlign: TextAlign.left,
         color: kGrey,
         fontsize: 13,

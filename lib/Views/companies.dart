@@ -1,6 +1,4 @@
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
-import 'package:iskaanowner/Blocs/Companies/companies_cubit.dart';
-import 'package:iskaanowner/Views/side_drawer.dart';
 
 import '../Utils/utils.dart';
 
@@ -142,93 +140,6 @@ class CompaniesPage extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(child: BlocBuilder<CompaniesCubit, CompaniesState>(
-              builder: (context, state) {
-                if (state.loadingState == LoadingState.loading) {
-                  return const CustomLoader();
-                }
-                state.companiesModel?.record?.removeWhere((company) =>
-                    loginModelList?.any(
-                        (owner) => owner.owner?.company?.id == company.id) ??
-                    false);
-                return Column(
-                  children: [
-                    const Gap(10),
-                    CustomText(
-                      text: "Same Profile in other companies",
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                      fontsize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    const Gap(10),
-                    Expanded(
-                      child: Wrap(
-                        spacing: 10,
-                        runSpacing: 10,
-                        children: state.companiesModel?.record
-                                ?.map(
-                                  (e) => Stack(
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          final GlobalKey<FormState> key =
-                                              GlobalKey();
-                                          final LoginCubit loginCubit =
-                                              context.read<LoginCubit>();
-                                          showModalBottomSheet(
-                                              context: context,
-                                              builder: (context) =>
-                                                  const SideDrawerPage()
-                                                      .addNewAccount(
-                                                          key, loginCubit));
-                                        },
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            CircleAvatar(
-                                              radius: 52,
-                                              backgroundColor: kGrey.shade200,
-                                              child: CircleAvatar(
-                                                radius: 50,
-                                                backgroundColor: kWhite,
-                                                child: CircleAvatar(
-                                                  backgroundColor: kWhite,
-                                                  radius: 40,
-                                                  foregroundImage: NetworkImage(
-                                                      e.faviconUrl ?? ""),
-                                                ),
-                                              ),
-                                            ),
-                                            CustomText(text: e.shortName ?? "")
-                                          ],
-                                        ),
-                                      ),
-                                      Positioned(
-                                        right: 0,
-                                        top: 0,
-                                        child: Container(
-                                          padding: const EdgeInsets.all(5),
-                                          decoration: const BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.red),
-                                          child: const Icon(
-                                            Icons.login,
-                                            color: kWhite,
-                                            size: 15,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                                .toList() ??
-                            [],
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ))
           ],
         ),
       ),

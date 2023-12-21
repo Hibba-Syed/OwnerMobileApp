@@ -13,13 +13,11 @@ class RowText extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(
-          child: CustomText(
-            text: text,
-            fontWeight: FontWeight.bold,
-            fontsize: 14,
-            textAlign: TextAlign.left,
-          ),
+        CustomText(
+          text: text,
+          fontWeight: FontWeight.bold,
+          fontsize: 14,
+          textAlign: TextAlign.left,
         ),
         const Gap(20),
         Expanded(

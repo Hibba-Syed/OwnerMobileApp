@@ -248,9 +248,11 @@ class UnitDetailsPage extends StatelessWidget {
               context,
               Icon(
                 tab["icon"],
-                color: kWhite,
+                color: context.read<AppThemeCubit>().state.primaryColor,
                 size: 40,
               ),
+              color: kWhite,
+              invert: true,
               padding: const EdgeInsets.all(20),
             ),
             const SizedBox(

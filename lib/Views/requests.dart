@@ -119,7 +119,7 @@ class RequestsPage extends StatelessWidget {
         const UnitsPage().roundedContainer(
           context,
           CustomText(
-            text: "Reference#: ${application?.reference ?? "Not provided"}",
+            text: "Reference#: ${application?.reference ?? " -- "}",
             fontsize: 12,
           ),
           color: const Color(0xfff3f8fb),
@@ -138,18 +138,19 @@ class RequestsPage extends StatelessWidget {
       children: [
         const UnitsPage().roundedContainer(
             context,
-            const Icon(
+            Icon(
               Icons.person,
-              color: kWhite,
+              color: context.read<AppThemeCubit>().state.primaryColor,
             ),
-            padding: const EdgeInsets.all(15)),
+            padding: const EdgeInsets.all(15),
+            invert: true),
         const SizedBox(
           width: 10,
         ),
         Expanded(
           child: const UnitsPage().roundedContainer(
             context,
-            CustomText(text: application?.clientName ?? "Not provided"),
+            CustomText(text: application?.clientName ?? " -- "),
             padding: const EdgeInsets.all(15),
             color: kGrey.shade200,
             alignment: Alignment.centerLeft,
@@ -172,7 +173,7 @@ class RequestsPage extends StatelessWidget {
                 size: 15,
               ),
               CustomText(
-                text: " ${application?.applicationType ?? "not provided"}",
+                text: " ${application?.applicationType ?? " -- "}",
                 color: kWhite,
                 fontsize: 12,
               )

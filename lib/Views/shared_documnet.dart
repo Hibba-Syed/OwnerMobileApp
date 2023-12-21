@@ -1,4 +1,8 @@
-import '../Blocs/App Theme/app_theme_cubit.dart';
+import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
+import 'package:path/path.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../Models/shared_document.dart';
 import '../Utils/utils.dart';
 
 class SharedDocumentPage extends StatelessWidget {
@@ -21,47 +25,34 @@ class SharedDocumentPage extends StatelessWidget {
               return const CustomLoader();
             }
             if (state.sharedDocumentsModel?.record?.isEmpty ?? true) {
-              return const CreditNotesPage().emptyList();
+              return const CreditNotesPage()
+                  .emptyList(lottie: "assets/document.json");
             }
-            return Padding(
+            return GridView.builder(
               padding: const EdgeInsets.all(10),
-              child: SingleChildScrollView(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                    headingRowColor: MaterialStateColor.resolveWith((states) =>
-                        context
-                            .read<AppThemeCubit>()
-                            .state
-                            .primaryColor
-                            .withOpacity(0.1)),
-                    border: TableBorder.all(
-                        color:
-                            context.read<AppThemeCubit>().state.primaryColor),
-                    columns: [
-                      "Document Name",
-                      unitId == null ? "Community" : "Unit",
-                      "Expiry Date",
-                      "Tags",
-                      "Documnet"
-                    ].map((e) => sharedDocumentDataColumn(e)).toList(),
-                    rows: state.sharedDocumentsModel?.record?.map((e) {
-                          Map data = e.toJson();
-                          return sharedDocumentTableRow(
-                            context,
-                            data["document_name"] as String? ?? " -- ",
-                            data["title"] as String? ?? " -- ",
-                            data["expDate"] as String? ?? " -- ",
-                            (data["tags"] as List? ?? [])
-                                .toString()
-                                .replaceAll("[", "")
-                                .replaceAll("]", ""),
-                          );
-                        }).toList() ??
-                        [],
-                  ),
-                ),
-              ),
+              itemCount: state.sharedDocumentsModel?.record?.length,
+              itemBuilder: (BuildContext context, int index) {
+                SharedDocumentsRecord? sharedDocumentsRecord =
+                    state.sharedDocumentsModel?.record?[index];
+                return Container(
+                  decoration: BoxDecoration(
+                      color: kWhite,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                            color: kGrey.shade200,
+                            blurRadius: 1,
+                            spreadRadius: 1)
+                      ]),
+                  child: sharedDocumentWidget(
+                      context, sharedDocumentsRecord, unitId),
+                );
+              },
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  childAspectRatio: 16 / 20),
             );
           },
         ));
@@ -75,43 +66,98 @@ class SharedDocumentPage extends StatelessWidget {
     ));
   }
 
-  DataRow sharedDocumentTableRow(
-    BuildContext context,
-    String docName,
-    String community,
-    String expDate,
-    String tags,
-  ) {
-    return DataRow(cells: <DataCell>[
-      DataCell(
-        CustomText(text: docName),
-      ),
-      DataCell(
-        CustomText(
-          text: community,
+  Widget sharedDocumentWidget(BuildContext context,
+      SharedDocumentsRecord? sharedDocumentsRecord, int? unitId) {
+    return Column(
+      children: [
+        Expanded(
+          child: Builder(builder: (context) {
+            String? url = sharedDocumentsRecord?.documents;
+            String asset = "assets/file.png";
+            String fileExtension = extension(url ?? "");
+            fileExtension = fileExtension.toLowerCase();
+            if (fileExtension == ".png" ||
+                fileExtension == ".jpeg" ||
+                fileExtension == ".jpg") {
+              asset = "assets/image.png";
+            }
+            if (fileExtension == ".doc" ||
+                fileExtension == ".xlsx" ||
+                fileExtension == ".docx") {
+              asset = "assets/doc.png";
+            }
+            if (fileExtension == ".pdf") {
+              asset = "assets/pdf.png";
+            }
+            return Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(50),
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
+                  color: context
+                      .read<AppThemeCubit>()
+                      .state
+                      .primaryColor
+                      .withOpacity(0.05)),
+              child: Image.asset(
+                asset,
+              ),
+            );
+          }),
         ),
-      ),
-      DataCell(
-        CustomText(text: expDate),
-      ),
-      DataCell(
-        CustomText(
-          text: tags,
-        ),
-      ),
-      DataCell(Row(
-        children: [
-          Icon(
-            Icons.visibility_outlined,
-            color: context.read<AppThemeCubit>().state.primaryColor,
+        Container(
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10),
+              ),
+              color: kWhite),
+          child: Padding(
+            padding: const EdgeInsets.all(5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(
+                        text: sharedDocumentsRecord?.documentName ?? "",
+                        fontWeight: FontWeight.bold,
+                        fontsize: 17,
+                        textAlign: TextAlign.left,
+                        maxLines: 1,
+                      ),
+                      CustomText(
+                        text: const OccupantPage().dateTimeFormatter(
+                            sharedDocumentsRecord?.expiryDate),
+                        color: kGrey,
+                        fontsize: 14,
+                        textAlign: TextAlign.left,
+                        maxLines: 1,
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton(
+                    onPressed: () {
+                      if (sharedDocumentsRecord?.documents != null) {
+                        launchUrl(
+                            Uri.parse(sharedDocumentsRecord?.documents ?? ""));
+                      }
+                    },
+                    icon: Icon(
+                      Icons.download_outlined,
+                      color: context.read<AppThemeCubit>().state.primaryColor,
+                    )),
+              ],
+            ),
           ),
-          const Gap(10),
-          CustomText(
-            text: "View",
-            color: context.read<AppThemeCubit>().state.primaryColor,
-          )
-        ],
-      )),
-    ]);
+        ),
+      ],
+    );
   }
 }

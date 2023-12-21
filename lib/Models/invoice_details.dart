@@ -4,102 +4,105 @@
 
 import 'dart:convert';
 
-InvoiceDetailsModel invoiceDetailsModelFromJson(String str) => InvoiceDetailsModel.fromJson(json.decode(str));
+InvoiceDetailsModel invoiceDetailsModelFromJson(String str) =>
+    InvoiceDetailsModel.fromJson(json.decode(str));
 
-String invoiceDetailsModelToJson(InvoiceDetailsModel data) => json.encode(data.toJson());
+String invoiceDetailsModelToJson(InvoiceDetailsModel data) =>
+    json.encode(data.toJson());
 
 class InvoiceDetailsModel {
-    int? id;
-    String? reference;
-    String? referenceCounter;
-    String? title;
-    String? type;
-    dynamic externalId;
-    dynamic invoiceExternalReference;
-    dynamic invoiceImportId;
-    int? associationId;
-    int? companyId;
-    int? unitId;
-    String? books;
-    String? invoiceableType;
-    int? invoiceableId;
-    int? userId;
-    dynamic memo;
-    dynamic note;
-    String? status;
-    String? allocatedStatus;
-    DateTime? datetime;
-    DateTime? dueDate;
-    dynamic invoiceExternalPdf;
-    String? pdfPath;
-    int? showResident;
-    int? showPaymentLink;
-    dynamic bankAccountId;
-    String? spo;
-    dynamic sentTo;
-    dynamic sent;
-    DateTime? createdAt;
-    DateTime? updatedAt;
-    dynamic deletedAt;
-    double? amount;
-    double? vat;
-    bool? isBalanced;
-    String? description;
-    String? pdfUrl;
-    List<Transaction>? transactions;
-    List<dynamic>? documents;
-    Association? association;
-    Invoiceable? invoiceable;
-    List<dynamic>? externalEntries;
-    dynamic invoiceImports;
+  int? id;
+  String? reference;
+  String? referenceCounter;
+  String? title;
+  String? type;
+  dynamic externalId;
+  dynamic invoiceExternalReference;
+  dynamic invoiceImportId;
+  int? associationId;
+  int? companyId;
+  int? unitId;
+  String? books;
+  String? invoiceableType;
+  int? invoiceableId;
+  int? userId;
+  dynamic memo;
+  dynamic note;
+  String? status;
+  String? allocatedStatus;
+  DateTime? datetime;
+  DateTime? dueDate;
+  dynamic invoiceExternalPdf;
+  String? pdfPath;
+  int? showResident;
+  int? showPaymentLink;
+  dynamic bankAccountId;
+  String? spo;
+  dynamic sentTo;
+  dynamic sent;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  dynamic deletedAt;
+  double? amount;
+  double? vat;
+  bool? isBalanced;
+  String? description;
+  String? pdfUrl;
+  List<Transaction>? transactions;
+  List<dynamic>? documents;
+  Association? association;
+  Invoiceable? invoiceable;
+  List<dynamic>? externalEntries;
+  dynamic invoiceImports;
 
-    InvoiceDetailsModel({
-        this.id,
-        this.reference,
-        this.referenceCounter,
-        this.title,
-        this.type,
-        this.externalId,
-        this.invoiceExternalReference,
-        this.invoiceImportId,
-        this.associationId,
-        this.companyId,
-        this.unitId,
-        this.books,
-        this.invoiceableType,
-        this.invoiceableId,
-        this.userId,
-        this.memo,
-        this.note,
-        this.status,
-        this.allocatedStatus,
-        this.datetime,
-        this.dueDate,
-        this.invoiceExternalPdf,
-        this.pdfPath,
-        this.showResident,
-        this.showPaymentLink,
-        this.bankAccountId,
-        this.spo,
-        this.sentTo,
-        this.sent,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt,
-        this.amount,
-        this.vat,
-        this.isBalanced,
-        this.description,
-        this.pdfUrl,
-        this.transactions,
-        this.documents,
-        this.association,
-        this.invoiceable,
-        this.externalEntries,
-        this.invoiceImports,
-    });
+  InvoiceDetailsModel({
+    this.id,
+    this.reference,
+    this.referenceCounter,
+    this.title,
+    this.type,
+    this.externalId,
+    this.invoiceExternalReference,
+    this.invoiceImportId,
+    this.associationId,
+    this.companyId,
+    this.unitId,
+    this.books,
+    this.invoiceableType,
+    this.invoiceableId,
+    this.userId,
+    this.memo,
+    this.note,
+    this.status,
+    this.allocatedStatus,
+    this.datetime,
+    this.dueDate,
+    this.invoiceExternalPdf,
+    this.pdfPath,
+    this.showResident,
+    this.showPaymentLink,
+    this.bankAccountId,
+    this.spo,
+    this.sentTo,
+    this.sent,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.amount,
+    this.vat,
+    this.isBalanced,
+    this.description,
+    this.pdfUrl,
+    this.transactions,
+    this.documents,
+    this.association,
+    this.invoiceable,
+    this.externalEntries,
+    this.invoiceImports,
+  });
 
-    factory InvoiceDetailsModel.fromJson(Map<String, dynamic> json) => InvoiceDetailsModel(
+  factory InvoiceDetailsModel.fromJson(Map<String, dynamic> json) =>
+      InvoiceDetailsModel(
         id: json["id"],
         reference: json["reference"],
         referenceCounter: json["reference_counter"],
@@ -119,8 +122,10 @@ class InvoiceDetailsModel {
         note: json["note"],
         status: json["status"],
         allocatedStatus: json["allocated_status"],
-        datetime: json["datetime"] == null ? null : DateTime.parse(json["datetime"]),
-        dueDate: json["due_date"] == null ? null : DateTime.parse(json["due_date"]),
+        datetime:
+            json["datetime"] == null ? null : DateTime.parse(json["datetime"]),
+        dueDate:
+            json["due_date"] == null ? null : DateTime.parse(json["due_date"]),
         invoiceExternalPdf: json["invoice_external_pdf"],
         pdfPath: json["pdf_path"],
         showResident: json["show_resident"],
@@ -129,23 +134,38 @@ class InvoiceDetailsModel {
         spo: json["spo"],
         sentTo: json["sent_to"],
         sent: json["sent"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
         deletedAt: json["deleted_at"],
         amount: json["amount"]?.toDouble(),
         vat: json["vat"]?.toDouble(),
         isBalanced: json["is_balanced"],
         description: json["description"],
         pdfUrl: json["pdf_url"],
-        transactions: json["transactions"] == null ? [] : List<Transaction>.from(json["transactions"]!.map((x) => Transaction.fromJson(x))),
-        documents: json["documents"] == null ? [] : List<dynamic>.from(json["documents"]!.map((x) => x)),
-        association: json["association"] == null ? null : Association.fromJson(json["association"]),
-        invoiceable: json["invoiceable"] == null ? null : Invoiceable.fromJson(json["invoiceable"]),
-        externalEntries: json["external_entries"] == null ? [] : List<dynamic>.from(json["external_entries"]!.map((x) => x)),
+        transactions: json["transactions"] == null
+            ? []
+            : List<Transaction>.from(
+                json["transactions"]!.map((x) => Transaction.fromJson(x))),
+        documents: json["documents"] == null
+            ? []
+            : List<dynamic>.from(json["documents"]!.map((x) => x)),
+        association: json["association"] == null
+            ? null
+            : Association.fromJson(json["association"]),
+        invoiceable: json["invoiceable"] == null
+            ? null
+            : Invoiceable.fromJson(json["invoiceable"]),
+        externalEntries: json["external_entries"] == null
+            ? []
+            : List<dynamic>.from(json["external_entries"]!.map((x) => x)),
         invoiceImports: json["invoice_imports"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "reference": reference,
         "reference_counter": referenceCounter,
@@ -165,8 +185,10 @@ class InvoiceDetailsModel {
         "note": note,
         "status": status,
         "allocated_status": allocatedStatus,
-        "datetime": "${datetime!.year.toString().padLeft(4, '0')}-${datetime!.month.toString().padLeft(2, '0')}-${datetime!.day.toString().padLeft(2, '0')}",
-        "due_date": "${dueDate!.year.toString().padLeft(4, '0')}-${dueDate!.month.toString().padLeft(2, '0')}-${dueDate!.day.toString().padLeft(2, '0')}",
+        "datetime":
+            "${datetime!.year.toString().padLeft(4, '0')}-${datetime!.month.toString().padLeft(2, '0')}-${datetime!.day.toString().padLeft(2, '0')}",
+        "due_date":
+            "${dueDate!.year.toString().padLeft(4, '0')}-${dueDate!.month.toString().padLeft(2, '0')}-${dueDate!.day.toString().padLeft(2, '0')}",
         "invoice_external_pdf": invoiceExternalPdf,
         "pdf_path": pdfPath,
         "show_resident": showResident,
@@ -183,75 +205,81 @@ class InvoiceDetailsModel {
         "is_balanced": isBalanced,
         "description": description,
         "pdf_url": pdfUrl,
-        "transactions": transactions == null ? [] : List<dynamic>.from(transactions!.map((x) => x.toJson())),
-        "documents": documents == null ? [] : List<dynamic>.from(documents!.map((x) => x)),
+        "transactions": transactions == null
+            ? []
+            : List<dynamic>.from(transactions!.map((x) => x.toJson())),
+        "documents": documents == null
+            ? []
+            : List<dynamic>.from(documents!.map((x) => x)),
         "association": association?.toJson(),
         "invoiceable": invoiceable?.toJson(),
-        "external_entries": externalEntries == null ? [] : List<dynamic>.from(externalEntries!.map((x) => x)),
+        "external_entries": externalEntries == null
+            ? []
+            : List<dynamic>.from(externalEntries!.map((x) => x)),
         "invoice_imports": invoiceImports,
-    };
+      };
 }
 
 class Association {
-    int? id;
-    String? name;
-    String? email;
-    String? address1;
-    dynamic address2;
-    int? cityId;
-    dynamic stateId;
-    int? countryId;
-    dynamic postcode;
-    String? trnNumber;
-    int? isTrn;
-    int? remainingUnit;
-    String? aboutPageImageUrl;
-    String? backgroundImageUrl;
-    String? logoImageUrl;
-    String? fullAddress;
-    int? unitsArea;
-    int? applicableArea;
-    int? suiteArea;
-    int? balconyArea;
-    String? filledParkings;
-    dynamic subdomain;
-    String? contractUrl;
-    dynamic gmap;
-    int? paymentGatewayEnabled;
-    City? city;
-    dynamic associationType;
+  int? id;
+  String? name;
+  String? email;
+  String? address1;
+  dynamic address2;
+  int? cityId;
+  dynamic stateId;
+  int? countryId;
+  dynamic postcode;
+  String? trnNumber;
+  int? isTrn;
+  int? remainingUnit;
+  String? aboutPageImageUrl;
+  String? backgroundImageUrl;
+  String? logoImageUrl;
+  String? fullAddress;
+  int? unitsArea;
+  int? applicableArea;
+  int? suiteArea;
+  int? balconyArea;
+  String? filledParkings;
+  dynamic subdomain;
+  String? contractUrl;
+  dynamic gmap;
+  int? paymentGatewayEnabled;
+  City? city;
+  dynamic associationType;
 
-    Association({
-        this.id,
-        this.name,
-        this.email,
-        this.address1,
-        this.address2,
-        this.cityId,
-        this.stateId,
-        this.countryId,
-        this.postcode,
-        this.trnNumber,
-        this.isTrn,
-        this.remainingUnit,
-        this.aboutPageImageUrl,
-        this.backgroundImageUrl,
-        this.logoImageUrl,
-        this.fullAddress,
-        this.unitsArea,
-        this.applicableArea,
-        this.suiteArea,
-        this.balconyArea,
-        this.filledParkings,
-        this.subdomain,
-        this.contractUrl,
-        this.gmap,
-        this.paymentGatewayEnabled,
-        this.city,
-        this.associationType,
-    });
+  Association({
+    this.id,
+    this.name,
+    this.email,
+    this.address1,
+    this.address2,
+    this.cityId,
+    this.stateId,
+    this.countryId,
+    this.postcode,
+    this.trnNumber,
+    this.isTrn,
+    this.remainingUnit,
+    this.aboutPageImageUrl,
+    this.backgroundImageUrl,
+    this.logoImageUrl,
+    this.fullAddress,
+    this.unitsArea,
+    this.applicableArea,
+    this.suiteArea,
+    this.balconyArea,
+    this.filledParkings,
+    this.subdomain,
+    this.contractUrl,
+    this.gmap,
+    this.paymentGatewayEnabled,
+    this.city,
+    this.associationType,
+  });
 
-    factory Association.fromJson(Map<String, dynamic> json) => Association(
+  factory Association.fromJson(Map<String, dynamic> json) => Association(
         id: json["id"],
         name: json["name"],
         email: json["email"],
@@ -272,16 +300,16 @@ class Association {
         applicableArea: json["applicable_area"],
         suiteArea: json["suite_area"],
         balconyArea: json["balcony_area"],
-        filledParkings: json["filled_parkings"],
+        filledParkings: json["filled_parkings"].toString(),
         subdomain: json["subdomain"],
         contractUrl: json["contract_url"],
         gmap: json["gmap"],
         paymentGatewayEnabled: json["payment_gateway_enabled"],
         city: json["city"] == null ? null : City.fromJson(json["city"]),
         associationType: json["association_type"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "email": email,
@@ -309,39 +337,43 @@ class Association {
         "payment_gateway_enabled": paymentGatewayEnabled,
         "city": city?.toJson(),
         "association_type": associationType,
-    };
+      };
 }
 
 class City {
-    int? id;
-    String? name;
-    int? stateId;
-    DateTime? createdAt;
-    DateTime? updatedAt;
-    String? label;
-    String? value;
+  int? id;
+  String? name;
+  int? stateId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? label;
+  String? value;
 
-    City({
-        this.id,
-        this.name,
-        this.stateId,
-        this.createdAt,
-        this.updatedAt,
-        this.label,
-        this.value,
-    });
+  City({
+    this.id,
+    this.name,
+    this.stateId,
+    this.createdAt,
+    this.updatedAt,
+    this.label,
+    this.value,
+  });
 
-    factory City.fromJson(Map<String, dynamic> json) => City(
+  factory City.fromJson(Map<String, dynamic> json) => City(
         id: json["id"],
         name: json["name"],
         stateId: json["state_id"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
         label: json["label"],
         value: json["value"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "state_id": stateId,
@@ -349,111 +381,111 @@ class City {
         "updated_at": updatedAt?.toIso8601String(),
         "label": label,
         "value": value,
-    };
+      };
 }
 
 class Invoiceable {
-    int? id;
-    int? associationId;
-    String? unitNumber;
-    String? name;
-    dynamic mollakUnitName;
-    int? unitSizeSqft;
-    int? unitTypeId;
-    int? componentId;
-    dynamic subComponentId;
-    dynamic balconyArea;
-    dynamic suiteArea;
-    dynamic applicableArea;
-    dynamic virtualAccountNumber;
-    dynamic plotNo;
-    int? parkingCount;
-    int? actualArea;
-    int? bedroomCount;
-    dynamic bathroomCount;
-    int? isOccupied;
-    dynamic datePurchased;
-    int? isActive;
-    dynamic saleDeed;
-    int? isParkingAvailable;
-    int? parkings;
-    dynamic adult;
-    dynamic child;
-    dynamic residentId;
-    dynamic agentId;
-    dynamic leaseCompanyId;
-    dynamic unitExternalId;
-    int? isMollakEnable;
-    int? recoveryReminderStatus;
-    String? status;
-    int? balance;
-    dynamic pdc;
-    int? isLfpExempt;
-    dynamic mollakBuildingEnglishName;
-    dynamic mollakBuildingArabicName;
-    String? dtcmPermit;
-    dynamic dtcmPermitStart;
-    dynamic dtcmPermitExpiry;
-    DateTime? updatedAt;
-    DateTime? createdAt;
-    dynamic deletedAt;
-    bool? isLegalNoticeActive;
-    bool? isRdcActive;
-    InvoiceableOwner? owner;
-    dynamic resident;
+  int? id;
+  int? associationId;
+  String? unitNumber;
+  String? name;
+  dynamic mollakUnitName;
+  int? unitSizeSqft;
+  int? unitTypeId;
+  int? componentId;
+  dynamic subComponentId;
+  dynamic balconyArea;
+  dynamic suiteArea;
+  dynamic applicableArea;
+  dynamic virtualAccountNumber;
+  dynamic plotNo;
+  int? parkingCount;
+  int? actualArea;
+  int? bedroomCount;
+  dynamic bathroomCount;
+  int? isOccupied;
+  dynamic datePurchased;
+  int? isActive;
+  dynamic saleDeed;
+  int? isParkingAvailable;
+  int? parkings;
+  dynamic adult;
+  dynamic child;
+  dynamic residentId;
+  dynamic agentId;
+  dynamic leaseCompanyId;
+  dynamic unitExternalId;
+  int? isMollakEnable;
+  int? recoveryReminderStatus;
+  String? status;
+  int? balance;
+  dynamic pdc;
+  int? isLfpExempt;
+  dynamic mollakBuildingEnglishName;
+  dynamic mollakBuildingArabicName;
+  String? dtcmPermit;
+  dynamic dtcmPermitStart;
+  dynamic dtcmPermitExpiry;
+  DateTime? updatedAt;
+  DateTime? createdAt;
+  dynamic deletedAt;
+  bool? isLegalNoticeActive;
+  bool? isRdcActive;
+  InvoiceableOwner? owner;
+  dynamic resident;
 
-    Invoiceable({
-        this.id,
-        this.associationId,
-        this.unitNumber,
-        this.name,
-        this.mollakUnitName,
-        this.unitSizeSqft,
-        this.unitTypeId,
-        this.componentId,
-        this.subComponentId,
-        this.balconyArea,
-        this.suiteArea,
-        this.applicableArea,
-        this.virtualAccountNumber,
-        this.plotNo,
-        this.parkingCount,
-        this.actualArea,
-        this.bedroomCount,
-        this.bathroomCount,
-        this.isOccupied,
-        this.datePurchased,
-        this.isActive,
-        this.saleDeed,
-        this.isParkingAvailable,
-        this.parkings,
-        this.adult,
-        this.child,
-        this.residentId,
-        this.agentId,
-        this.leaseCompanyId,
-        this.unitExternalId,
-        this.isMollakEnable,
-        this.recoveryReminderStatus,
-        this.status,
-        this.balance,
-        this.pdc,
-        this.isLfpExempt,
-        this.mollakBuildingEnglishName,
-        this.mollakBuildingArabicName,
-        this.dtcmPermit,
-        this.dtcmPermitStart,
-        this.dtcmPermitExpiry,
-        this.updatedAt,
-        this.createdAt,
-        this.deletedAt,
-        this.isLegalNoticeActive,
-        this.isRdcActive,
-        this.owner,
-        this.resident,
-    });
+  Invoiceable({
+    this.id,
+    this.associationId,
+    this.unitNumber,
+    this.name,
+    this.mollakUnitName,
+    this.unitSizeSqft,
+    this.unitTypeId,
+    this.componentId,
+    this.subComponentId,
+    this.balconyArea,
+    this.suiteArea,
+    this.applicableArea,
+    this.virtualAccountNumber,
+    this.plotNo,
+    this.parkingCount,
+    this.actualArea,
+    this.bedroomCount,
+    this.bathroomCount,
+    this.isOccupied,
+    this.datePurchased,
+    this.isActive,
+    this.saleDeed,
+    this.isParkingAvailable,
+    this.parkings,
+    this.adult,
+    this.child,
+    this.residentId,
+    this.agentId,
+    this.leaseCompanyId,
+    this.unitExternalId,
+    this.isMollakEnable,
+    this.recoveryReminderStatus,
+    this.status,
+    this.balance,
+    this.pdc,
+    this.isLfpExempt,
+    this.mollakBuildingEnglishName,
+    this.mollakBuildingArabicName,
+    this.dtcmPermit,
+    this.dtcmPermitStart,
+    this.dtcmPermitExpiry,
+    this.updatedAt,
+    this.createdAt,
+    this.deletedAt,
+    this.isLegalNoticeActive,
+    this.isRdcActive,
+    this.owner,
+    this.resident,
+  });
 
-    factory Invoiceable.fromJson(Map<String, dynamic> json) => Invoiceable(
+  factory Invoiceable.fromJson(Map<String, dynamic> json) => Invoiceable(
         id: json["id"],
         associationId: json["association_id"],
         unitNumber: json["unit_number"],
@@ -495,16 +527,22 @@ class Invoiceable {
         dtcmPermit: json["dtcm_permit"],
         dtcmPermitStart: json["dtcm_permit_start"],
         dtcmPermitExpiry: json["dtcm_permit_expiry"],
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
         deletedAt: json["deleted_at"],
         isLegalNoticeActive: json["is_legal_notice_active"],
         isRdcActive: json["is_rdc_active"],
-        owner: json["owner"] == null ? null : InvoiceableOwner.fromJson(json["owner"]),
+        owner: json["owner"] == null
+            ? null
+            : InvoiceableOwner.fromJson(json["owner"]),
         resident: json["resident"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "association_id": associationId,
         "unit_number": unitNumber,
@@ -553,39 +591,41 @@ class Invoiceable {
         "is_rdc_active": isRdcActive,
         "owner": owner?.toJson(),
         "resident": resident,
-    };
+      };
 }
 
 class InvoiceableOwner {
-    int? id;
-    int? ownerId;
-    int? unitId;
-    int? isPrimary;
-    int? isCurrent;
-    String? titleDeedUrl;
-    OwnerOwner? owner;
+  int? id;
+  int? ownerId;
+  int? unitId;
+  int? isPrimary;
+  int? isCurrent;
+  String? titleDeedUrl;
+  OwnerOwner? owner;
 
-    InvoiceableOwner({
-        this.id,
-        this.ownerId,
-        this.unitId,
-        this.isPrimary,
-        this.isCurrent,
-        this.titleDeedUrl,
-        this.owner,
-    });
+  InvoiceableOwner({
+    this.id,
+    this.ownerId,
+    this.unitId,
+    this.isPrimary,
+    this.isCurrent,
+    this.titleDeedUrl,
+    this.owner,
+  });
 
-    factory InvoiceableOwner.fromJson(Map<String, dynamic> json) => InvoiceableOwner(
+  factory InvoiceableOwner.fromJson(Map<String, dynamic> json) =>
+      InvoiceableOwner(
         id: json["id"],
         ownerId: json["owner_id"],
         unitId: json["unit_id"],
         isPrimary: json["is_primary"],
         isCurrent: json["is_current"],
         titleDeedUrl: json["title_deed_url"],
-        owner: json["owner"] == null ? null : OwnerOwner.fromJson(json["owner"]),
-    );
+        owner:
+            json["owner"] == null ? null : OwnerOwner.fromJson(json["owner"]),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "owner_id": ownerId,
         "unit_id": unitId,
@@ -593,43 +633,43 @@ class InvoiceableOwner {
         "is_current": isCurrent,
         "title_deed_url": titleDeedUrl,
         "owner": owner?.toJson(),
-    };
+      };
 }
 
 class OwnerOwner {
-    int? id;
-    String? firstName;
-    String? lastName;
-    String? trnNumber;
-    String? fullName;
-    String? idFileUrl;
-    String? titleDeedUrl;
-    String? tenancyContractUrl;
-    String? tradeLicenseUrl;
-    String? passportFileUrl;
-    String? emiratesIdFileUrl;
-    String? profileImageUrl;
-    String? fullAddress;
-    String? agentDocUrl;
+  int? id;
+  String? firstName;
+  String? lastName;
+  String? trnNumber;
+  String? fullName;
+  String? idFileUrl;
+  String? titleDeedUrl;
+  String? tenancyContractUrl;
+  String? tradeLicenseUrl;
+  String? passportFileUrl;
+  String? emiratesIdFileUrl;
+  String? profileImageUrl;
+  String? fullAddress;
+  String? agentDocUrl;
 
-    OwnerOwner({
-        this.id,
-        this.firstName,
-        this.lastName,
-        this.trnNumber,
-        this.fullName,
-        this.idFileUrl,
-        this.titleDeedUrl,
-        this.tenancyContractUrl,
-        this.tradeLicenseUrl,
-        this.passportFileUrl,
-        this.emiratesIdFileUrl,
-        this.profileImageUrl,
-        this.fullAddress,
-        this.agentDocUrl,
-    });
+  OwnerOwner({
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.trnNumber,
+    this.fullName,
+    this.idFileUrl,
+    this.titleDeedUrl,
+    this.tenancyContractUrl,
+    this.tradeLicenseUrl,
+    this.passportFileUrl,
+    this.emiratesIdFileUrl,
+    this.profileImageUrl,
+    this.fullAddress,
+    this.agentDocUrl,
+  });
 
-    factory OwnerOwner.fromJson(Map<String, dynamic> json) => OwnerOwner(
+  factory OwnerOwner.fromJson(Map<String, dynamic> json) => OwnerOwner(
         id: json["id"],
         firstName: json["first_name"],
         lastName: json["last_name"],
@@ -644,9 +684,9 @@ class OwnerOwner {
         profileImageUrl: json["profile_image_url"],
         fullAddress: json["full_address"],
         agentDocUrl: json["agent_doc_url"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "first_name": firstName,
         "last_name": lastName,
@@ -661,51 +701,51 @@ class OwnerOwner {
         "profile_image_url": profileImageUrl,
         "full_address": fullAddress,
         "agent_doc_url": agentDocUrl,
-    };
+      };
 }
 
 class Transaction {
-    int? id;
-    int? accountId;
-    String? type;
-    double? amount;
-    double? vat;
-    dynamic memo;
-    String? note;
-    dynamic userReference;
-    String? transactionableType;
-    int? transactionableId;
-    String? reason;
-    String? ledgerableName;
-    bool? isReconciled;
-    bool? isCash;
-    List<Ledgerable>? ledgerables;
-    double? totalAmount;
-    String? description;
-    Account? account;
+  int? id;
+  int? accountId;
+  String? type;
+  double? amount;
+  double? vat;
+  dynamic memo;
+  String? note;
+  dynamic userReference;
+  String? transactionableType;
+  int? transactionableId;
+  String? reason;
+  String? ledgerableName;
+  bool? isReconciled;
+  bool? isCash;
+  List<Ledgerable>? ledgerables;
+  double? totalAmount;
+  String? description;
+  Account? account;
 
-    Transaction({
-        this.id,
-        this.accountId,
-        this.type,
-        this.amount,
-        this.vat,
-        this.memo,
-        this.note,
-        this.userReference,
-        this.transactionableType,
-        this.transactionableId,
-        this.reason,
-        this.ledgerableName,
-        this.isReconciled,
-        this.isCash,
-        this.ledgerables,
-        this.totalAmount,
-        this.description,
-        this.account,
-    });
+  Transaction({
+    this.id,
+    this.accountId,
+    this.type,
+    this.amount,
+    this.vat,
+    this.memo,
+    this.note,
+    this.userReference,
+    this.transactionableType,
+    this.transactionableId,
+    this.reason,
+    this.ledgerableName,
+    this.isReconciled,
+    this.isCash,
+    this.ledgerables,
+    this.totalAmount,
+    this.description,
+    this.account,
+  });
 
-    factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
+  factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
         id: json["id"],
         accountId: json["account_id"],
         type: json["type"],
@@ -720,13 +760,17 @@ class Transaction {
         ledgerableName: json["ledgerable_name"],
         isReconciled: json["is_reconciled"],
         isCash: json["is_cash"],
-        ledgerables: json["ledgerables"] == null ? [] : List<Ledgerable>.from(json["ledgerables"]!.map((x) => Ledgerable.fromJson(x))),
+        ledgerables: json["ledgerables"] == null
+            ? []
+            : List<Ledgerable>.from(
+                json["ledgerables"]!.map((x) => Ledgerable.fromJson(x))),
         totalAmount: json["total_amount"]?.toDouble(),
         description: json["description"],
-        account: json["account"] == null ? null : Account.fromJson(json["account"]),
-    );
+        account:
+            json["account"] == null ? null : Account.fromJson(json["account"]),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "account_id": accountId,
         "type": type,
@@ -741,37 +785,39 @@ class Transaction {
         "ledgerable_name": ledgerableName,
         "is_reconciled": isReconciled,
         "is_cash": isCash,
-        "ledgerables": ledgerables == null ? [] : List<dynamic>.from(ledgerables!.map((x) => x.toJson())),
+        "ledgerables": ledgerables == null
+            ? []
+            : List<dynamic>.from(ledgerables!.map((x) => x.toJson())),
         "total_amount": totalAmount,
         "description": description,
         "account": account?.toJson(),
-    };
+      };
 }
 
 class Account {
-    int? id;
-    String? name;
-    dynamic invoiceTypeCode;
-    int? isVat;
-    String? title;
-    String? fullName;
-    String? longName;
-    bool? isUnitPrimary;
-    bool? isUnitShown;
+  int? id;
+  String? name;
+  dynamic invoiceTypeCode;
+  int? isVat;
+  String? title;
+  String? fullName;
+  String? longName;
+  bool? isUnitPrimary;
+  bool? isUnitShown;
 
-    Account({
-        this.id,
-        this.name,
-        this.invoiceTypeCode,
-        this.isVat,
-        this.title,
-        this.fullName,
-        this.longName,
-        this.isUnitPrimary,
-        this.isUnitShown,
-    });
+  Account({
+    this.id,
+    this.name,
+    this.invoiceTypeCode,
+    this.isVat,
+    this.title,
+    this.fullName,
+    this.longName,
+    this.isUnitPrimary,
+    this.isUnitShown,
+  });
 
-    factory Account.fromJson(Map<String, dynamic> json) => Account(
+  factory Account.fromJson(Map<String, dynamic> json) => Account(
         id: json["id"],
         name: json["name"],
         invoiceTypeCode: json["invoice_type_code"],
@@ -781,9 +827,9 @@ class Account {
         longName: json["long_name"],
         isUnitPrimary: json["is_unit_primary"],
         isUnitShown: json["is_unit_shown"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "invoice_type_code": invoiceTypeCode,
@@ -793,29 +839,29 @@ class Account {
         "long_name": longName,
         "is_unit_primary": isUnitPrimary,
         "is_unit_shown": isUnitShown,
-    };
+      };
 }
 
 class Ledgerable {
-    int? id;
-    String? name;
-    String? type;
+  int? id;
+  String? name;
+  String? type;
 
-    Ledgerable({
-        this.id,
-        this.name,
-        this.type,
-    });
+  Ledgerable({
+    this.id,
+    this.name,
+    this.type,
+  });
 
-    factory Ledgerable.fromJson(Map<String, dynamic> json) => Ledgerable(
+  factory Ledgerable.fromJson(Map<String, dynamic> json) => Ledgerable(
         id: json["id"],
         name: json["name"],
         type: json["type"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "type": type,
-    };
+      };
 }

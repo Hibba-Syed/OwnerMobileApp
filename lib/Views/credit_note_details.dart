@@ -70,21 +70,32 @@ class CreditNoteDetailsPage extends StatelessWidget {
                   ),
                   const Gap(10),
                   RowText(
-                    text:
-                        "Unit: ${state.creditNoteDetailsModel?.creditable?.unitNumber ?? ""}",
+                    text: "Unit:",
                     text2:
-                        "CreditNote No. ${state.creditNoteDetailsModel?.reference ?? ""}",
+                        state.creditNoteDetailsModel?.creditable?.unitNumber ??
+                            "",
                   ),
                   const Gap(10),
                   RowText(
-                    text: "Date",
+                    text: "CreditNote No.",
+                    text2: state.creditNoteDetailsModel?.reference ?? "",
+                  ),
+                  const Gap(10),
+                  RowText(
+                    text: "Date:",
                     text2: const OccupantPage().dateTimeFormatter(
                         state.creditNoteDetailsModel?.datetime),
                   ),
                   const Gap(10),
-                  const RowText(
-                    text: "Owner",
-                    text2: "Hammad Ahmad",
+                  RowText(
+                    text: "Owner:",
+                    text2: context
+                            .read<ProfileCubit>()
+                            .state
+                            .profileModel
+                            ?.record
+                            ?.fullName ??
+                        " -- ",
                   ),
                   const Gap(10),
                   SingleChildScrollView(
@@ -117,28 +128,6 @@ class CreditNoteDetailsPage extends StatelessWidget {
                                         })
                                     .toList() ??
                                 [])
-                            // [
-                            //   {
-                            //     "Account": "Access Card VAT",
-                            //     "Description": "",
-                            //     "Amount": "AED 10.48"
-                            //   },
-                            //   {
-                            //     "Account": "Access Card",
-                            //     "Description": "",
-                            //     "Amount": "AED 9.52"
-                            //   },
-                            //   {
-                            //     "Account": "Income Account",
-                            //     "Description": "",
-                            //     "Amount": "AED 9.52"
-                            //   },
-                            //   {
-                            //     "Account": "",
-                            //     "Description": "TOTAL",
-                            //     "Amount": "AED 50.50"
-                            //   },
-                            // ]
                             .map((e) => const LedgerPage()
                                 .ledgerDataRow(e, context: context))
                             .toList()),

@@ -48,7 +48,7 @@ class LedgerByDateModel {
 }
 
 class Record {
-  List<Datum>? data;
+  List<LedgerByDateDatum>? data;
   Meta? meta;
 
   Record({
@@ -59,7 +59,7 @@ class Record {
   factory Record.fromJson(Map<String, dynamic> json) => Record(
         data: json["data"] == null
             ? []
-            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+            : List<LedgerByDateDatum>.from(json["data"]!.map((x) => LedgerByDateDatum.fromJson(x))),
         meta: json["meta"] == null ? null : Meta.fromJson(json["meta"]),
       );
 
@@ -71,7 +71,7 @@ class Record {
       };
 }
 
-class Datum {
+class LedgerByDateDatum {
   int? id;
   DateTime? date;
   String? document;
@@ -84,7 +84,7 @@ class Datum {
   double? credit;
   double? balance;
 
-  Datum({
+  LedgerByDateDatum({
     this.id,
     this.date,
     this.document,
@@ -98,7 +98,7 @@ class Datum {
     this.balance,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory LedgerByDateDatum.fromJson(Map<String, dynamic> json) => LedgerByDateDatum(
         id: json["id"],
         date: json["date"] == null ? null : DateTime.parse(json["date"]),
         document: json["document"],

@@ -1,8 +1,5 @@
-import 'package:expandable/expandable.dart';
 import 'package:iskaanowner/Models/ledger_by_account.dart';
-import 'package:iskaanowner/Views/ledger_by_statement.dart';
 
-import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class LedgerByAccount extends StatelessWidget {
@@ -23,76 +20,54 @@ class LedgerByAccount extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             AccountDatum? accountDatum =
                 state.ledgerByAccountModel?.record?.data?[index];
-            return Container(
-              padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                        offset: const Offset(1, 1),
-                        color: kGrey.shade200,
-                        blurRadius: 2,
-                        spreadRadius: 2),
-                  ]),
-              child: ExpandablePanel(
-                header: CustomText(
-                  text: accountDatum?.ledgerName ?? "",
-                  textAlign: TextAlign.left,
-                  fontWeight: FontWeight.bold,
-                  maxLines: 1,
-                  fontsize: 17,
+            return InkWell(
+              onTap: () {
+                if (accountDatum?.ledgers?.isNotEmpty ?? false) {
+                  Navigator.pushNamed(context, AppRoutes.ledgerByAccountDetail,
+                      arguments: accountDatum);
+                }
+              },
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                          offset: const Offset(1, 1),
+                          color: kGrey.shade200,
+                          blurRadius: 2,
+                          spreadRadius: 2),
+                    ]),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          text: accountDatum?.ledgerName ?? "",
+                          textAlign: TextAlign.left,
+                          fontWeight: FontWeight.bold,
+                          maxLines: 1,
+                          fontsize: 17,
+                        ),
+                        const Gap(20),
+                        const Text(
+                          "0 AED",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    )),
+                    const Icon(Icons.keyboard_double_arrow_right_outlined)
+                  ],
                 ),
-                collapsed: const Text(
-                  "AED 0",
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                expanded: tableView(accountDatum?.ledgers, context),
               ),
             );
           },
         );
       },
-    );
-  }
-
-  Widget tableView(List<LedgerAccountDatum>? ledgers, BuildContext context) {
-    if (ledgers?.isEmpty ?? true) {
-      return const CreditNotesPage().emptyList();
-    }
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
-          headingRowColor: MaterialStateColor.resolveWith((states) => context
-              .read<AppThemeCubit>()
-              .state
-              .primaryColor
-              .withOpacity(0.1)),
-          border: TableBorder.all(
-              color: context.read<AppThemeCubit>().state.primaryColor),
-          columns: [
-            "Date",
-            "Document",
-            "Reference",
-            "Type",
-            "Transaction No",
-            "Description",
-            "Debit",
-            "Credit",
-            "Balance",
-          ]
-              .map(
-                  (e) => const SharedDocumentPage().sharedDocumentDataColumn(e))
-              .toList(),
-          rows: ledgers
-                  ?.map((e) => const LedgerPage().ledgerDataRow(
-                      e.toJson()..remove("id"),
-                      context: context,
-                      onTap: () => const LedgerByStatement()
-                          .decidePage(context, e.id, e.document)))
-                  .toList() ??
-              []),
     );
   }
 }

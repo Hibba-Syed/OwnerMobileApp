@@ -4,7 +4,6 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:iskaanowner/Blocs/Logout/logout_cubit.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
-import '../Blocs/Companies/companies_cubit.dart';
 import '../Models/profile.dart';
 import '../Utils/utils.dart';
 
@@ -67,6 +66,7 @@ class SideDrawerPage extends StatelessWidget {
                             .getAuthenticationModelString();
                         List<dynamic> users = jsonDecode(userList ?? "[]");
                         return AlertDialog(
+                          backgroundColor: kWhite,
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -84,118 +84,122 @@ class SideDrawerPage extends StatelessWidget {
                                 children: List.generate(users.length, (index) {
                                   LoginModel loginModel =
                                       LoginModel.fromJson(users[index]);
-                                  return Container(
-                                    padding: const EdgeInsets.all(10),
-                                    margin: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: kWhite,
-                                    ),
-                                    child: ListTile(
-                                      onTap: () async {
-                                        if (users[0] == users[index]) {
-                                          Fluttertoast.showToast(
-                                              msg: "Already logged In");
-                                          return;
-                                        }
-                                        Global.storageService
-                                            .setAuthenticationModelString(
-                                          LoginModel.fromJson(users[index]),
-                                          addItInFront: true,
-                                          index: index,
-                                        );
-                                        CoolAlert.show(
-                                            context: context,
-                                            type: CoolAlertType.loading,
-                                            lottieAsset: "assets/profile.json",
-                                            text: "Switching profile ... ");
-                                        String? jsonAuthModel = Global
-                                            .storageService
-                                            .getAuthenticationModelString();
-                                        if (jsonAuthModel != null) {
+                                  return InkWell(
+                                    onTap: () async {
+                                      if (users[0] == users[index]) {
+                                        Fluttertoast.showToast(
+                                            msg: "Already logged In");
+                                        return;
+                                      }
+                                      Global.storageService
+                                          .setAuthenticationModelString(
+                                        LoginModel.fromJson(users[index]),
+                                        addItInFront: true,
+                                        index: index,
+                                      );
+                                      CoolAlert.show(
+                                          context: context,
+                                          type: CoolAlertType.loading,
+                                          lottieAsset: "assets/profile.json",
+                                          text: "Switching profile ... ");
+                                      String? jsonAuthModel = Global
+                                          .storageService
+                                          .getAuthenticationModelString();
+                                      if (jsonAuthModel != null) {
+                                        context
+                                            .read<LoginCubit>()
+                                            .onChangeLoginModel(
+                                                LoginModel.fromJson(
+                                                    users[index]));
+                                        const LoginPage().initialCalls(context);
+                                        await context
+                                            .read<ProfileCubit>()
+                                            .getProfile(context)
+                                            .then((value) {
                                           context
-                                              .read<LoginCubit>()
-                                              .onChangeLoginModel(
-                                                  LoginModel.fromJson(
-                                                      users[index]));
-                                          const LoginPage()
-                                              .initialCalls(context);
-                                          await context
-                                              .read<ProfileCubit>()
-                                              .getProfile(context)
+                                              .read<AuthenticationCubit>()
+                                              .isDeviceSupported(context)
                                               .then((value) {
                                             context
-                                                .read<AuthenticationCubit>()
-                                                .isDeviceSupported(context)
-                                                .then((value) {
-                                              context
-                                                  .read<AppThemeCubit>()
-                                                  .onChangeAppTheme(
-                                                      const SplashPage()
-                                                          .parseHexColor(context
-                                                                  .read<
-                                                                      ProfileCubit>()
-                                                                  .state
-                                                                  .profileModel
-                                                                  ?.record
-                                                                  ?.company
-                                                                  ?.themeColor ??
-                                                              " 0xff751b50"));
-                                              if (value == true) {
-                                                return Navigator
-                                                    .pushReplacementNamed(
-                                                        context,
-                                                        AppRoutes
-                                                            .authorization);
-                                              }
+                                                .read<AppThemeCubit>()
+                                                .onChangeAppTheme(
+                                                    const SplashPage()
+                                                        .parseHexColor(context
+                                                                .read<
+                                                                    ProfileCubit>()
+                                                                .state
+                                                                .profileModel
+                                                                ?.record
+                                                                ?.company
+                                                                ?.themeColor ??
+                                                            " 0xff751b50"));
+                                            if (value == true) {
                                               return Navigator
                                                   .pushReplacementNamed(context,
-                                                      AppRoutes.dashboard);
-                                            });
+                                                      AppRoutes.authorization);
+                                            }
+                                            return Navigator
+                                                .pushReplacementNamed(context,
+                                                    AppRoutes.dashboard);
                                           });
-                                        } else {
-                                          Navigator.pushReplacementNamed(
-                                              context, AppRoutes.login);
-                                        }
-                                      },
-                                      leading: Container(
-                                          padding: const EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  offset: const Offset(1, 1),
-                                                  color: kGrey.shade200,
-                                                  spreadRadius: 2,
-                                                  blurRadius: 2,
-                                                )
-                                              ],
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              color: kWhite),
-                                          child: Image.network(
+                                        });
+                                      } else {
+                                        Navigator.pushReplacementNamed(
+                                            context, AppRoutes.login);
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(10),
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 10),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: kWhite,
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color: context
+                                                    .read<AppThemeCubit>()
+                                                    .state
+                                                    .primaryColor
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 2,
+                                                blurRadius: 2)
+                                          ]),
+                                      child: Row(
+                                        children: [
+                                          Image.network(
                                             loginModel.owner?.company
                                                     ?.faviconUrl ??
                                                 "",
                                             width: 30,
                                             height: 30,
-                                          )),
-                                      title: CustomText(
-                                          text: loginModel
-                                                  .owner?.company?.shortName ??
-                                              ""),
-                                      trailing: index == 0
-                                          ? Icon(
-                                              Icons.done,
-                                              color: context
-                                                  .read<AppThemeCubit>()
-                                                  .state
-                                                  .primaryColor,
-                                            )
-                                          : const Icon(
-                                              Icons.arrow_forward_ios_outlined,
-                                              size: 15,
+                                          ),
+                                          const Gap(10),
+                                          Expanded(
+                                            child: CustomText(
+                                              text: loginModel.owner?.company
+                                                      ?.shortName ??
+                                                  "",
+                                              textAlign: TextAlign.left,
                                             ),
+                                          ),
+                                          const Gap(10),
+                                          index == 0
+                                              ? Icon(
+                                                  Icons.done,
+                                                  color: context
+                                                      .read<AppThemeCubit>()
+                                                      .state
+                                                      .primaryColor,
+                                                )
+                                              : const Icon(
+                                                  Icons
+                                                      .arrow_forward_ios_outlined,
+                                                  size: 15,
+                                                ),
+                                        ],
+                                      ),
                                     ),
                                   );
                                 }),
@@ -215,12 +219,14 @@ class SideDrawerPage extends StatelessWidget {
                                     color: kWhite,
                                   ),
                                   function: () {
-                                    context
-                                        .read<CompaniesCubit>()
-                                        .getCompanies(context);
+                                    final GlobalKey<FormState> key =
+                                        GlobalKey();
+                                    final LoginCubit loginCubit =
+                                        context.read<LoginCubit>();
                                     showModalBottomSheet(
                                         context: context,
-                                        builder: (context) => showCompanies());
+                                        builder: (context) => addNewAccount(
+                                            context, key, loginCubit));
                                   })
                             ],
                           ),
@@ -315,113 +321,8 @@ class SideDrawerPage extends StatelessWidget {
     );
   }
 
-  Widget showCompanies() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: Padding(
-          padding: const EdgeInsets.all(10),
-          child: BlocBuilder<CompaniesCubit, CompaniesState>(
-            builder: (context, state) {
-              if (state.loadingState == LoadingState.loading) {
-                return const CustomLoader();
-              }
-              String? userList =
-                  Global.storageService.getAuthenticationModelString();
-              List<dynamic> users = jsonDecode(userList ?? "[]");
-              List<LoginModel> loginModelList = [];
-              for (var element in users) {
-                loginModelList.add(LoginModel.fromJson(element));
-              }
-              state.companiesModel?.record?.removeWhere((company) =>
-                  loginModelList
-                      .any((owner) => owner.owner?.company?.id == company.id));
-              return Column(
-                children: [
-                  const Gap(10),
-                  CustomText(
-                    text: "Select a company to Login",
-                    color: context.read<AppThemeCubit>().state.primaryColor,
-                    fontsize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  const Gap(10),
-                  Expanded(
-                    child: Center(
-                      child: Wrap(
-                        spacing: 10,
-                        runSpacing: 10,
-                        children: state.companiesModel?.record
-                                ?.map(
-                                  (e) => Stack(
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          final GlobalKey<FormState> key =
-                                              GlobalKey();
-                                          final LoginCubit loginCubit =
-                                              context.read<LoginCubit>();
-                                          showModalBottomSheet(
-                                              context: context,
-                                              builder: (context) =>
-                                                  addNewAccount(
-                                                      key, loginCubit));
-                                        },
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            CircleAvatar(
-                                              radius: 52,
-                                              backgroundColor: kGrey.shade200,
-                                              child: CircleAvatar(
-                                                radius: 50,
-                                                backgroundColor: kWhite,
-                                                child: CircleAvatar(
-                                                  backgroundColor: kWhite,
-                                                  radius: 40,
-                                                  foregroundImage: NetworkImage(
-                                                      e.faviconUrl ?? ""),
-                                                ),
-                                              ),
-                                            ),
-                                            CustomText(text: e.shortName ?? "")
-                                          ],
-                                        ),
-                                      ),
-                                      Positioned(
-                                        right: 0,
-                                        top: 0,
-                                        child: Container(
-                                          padding: const EdgeInsets.all(5),
-                                          decoration: const BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.red),
-                                          child: const Icon(
-                                            Icons.login,
-                                            color: kWhite,
-                                            size: 15,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                                .toList() ??
-                            [],
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget addNewAccount(GlobalKey<FormState> key, LoginCubit loginCubit) {
+  Widget addNewAccount(
+      BuildContext context, GlobalKey<FormState> key, LoginCubit loginCubit) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: Scaffold(
@@ -460,6 +361,15 @@ class SideDrawerPage extends StatelessWidget {
                           }
                           if (!value.contains("@")) {
                             return "Enter a Valid email";
+                          }
+                          if (value ==
+                              context
+                                  .read<ProfileCubit>()
+                                  .state
+                                  .profileModel
+                                  ?.record
+                                  ?.email) {
+                            return "You are already logged in with this email";
                           }
                           return null;
                         },

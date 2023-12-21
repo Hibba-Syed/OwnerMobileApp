@@ -1,5 +1,4 @@
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
-import 'package:iskaanowner/Blocs/Companies/companies_cubit.dart';
 import 'package:iskaanowner/Blocs/Credit%20Note%20Details/credit_note_details_cubit.dart';
 import 'package:iskaanowner/Blocs/Invoice%20details/invoice_details_cubit.dart';
 import 'package:iskaanowner/Blocs/Logout/logout_cubit.dart';
@@ -10,6 +9,7 @@ import 'package:iskaanowner/Blocs/Send%20OTP/send_otp_cubit.dart';
 import 'package:iskaanowner/Blocs/Unit%20Financials/unit_financials_cubit.dart';
 import 'package:iskaanowner/Blocs/Verify%20Otp/verify_otp_cubit.dart';
 import 'package:iskaanowner/Views/companies.dart';
+import 'package:iskaanowner/Views/ledger_by_account_details.dart';
 import 'package:iskaanowner/Views/otp_verification.dart';
 import 'package:iskaanowner/Views/reset_password.dart';
 
@@ -29,11 +29,9 @@ class AppPages {
             create: (context) => AuthenticationCubit(),
           )),
       PageEntity(
-          route: AppRoutes.companies,
-          page: const CompaniesPage(),
-          bloc: BlocProvider(
-            create: (context) => CompaniesCubit(),
-          )),
+        route: AppRoutes.companies,
+        page: const CompaniesPage(),
+      ),
       PageEntity(
         route: AppRoutes.login,
         page: const LoginPage(),
@@ -186,6 +184,10 @@ class AppPages {
             ],
             child: const LedgerPage(),
           )),
+      PageEntity(
+        route: AppRoutes.ledgerByAccountDetail,
+        page: const LedgerByAccountDetailsPage(),
+      ),
       PageEntity(
         route: AppRoutes.creditNotes,
         page: const CreditNotesPage(),

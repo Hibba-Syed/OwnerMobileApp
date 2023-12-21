@@ -39,6 +39,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
           context: context,
           type: CoolAlertType.info,
           text: "Set a password on your phone from settings");
+    } catch (e) {
+      emit(state.copyWith(isAuthenticating: false));
     }
   }
 }

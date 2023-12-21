@@ -63,7 +63,7 @@ class HappinessCenterPage extends StatelessWidget {
                       context,
                       "Comumnity",
                       (state.communitiesModel?.associations
-                              ?.map((e) => e.name ?? "Not Provided")
+                              ?.map((e) => e.name ?? " -- ")
                               .toList() ??
                           [])
                         ..insert(0, "Select"), onSelected: (value) {

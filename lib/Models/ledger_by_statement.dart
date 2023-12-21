@@ -70,7 +70,7 @@ class Record {
 class Data {
   int? totalLedgers;
   List<Ledger>? ledgers;
-  int? currentPage;
+  String? currentPage;
   int? perPage;
   int? totalPages;
 
@@ -88,7 +88,7 @@ class Data {
             ? []
             : List<Ledger>.from(
                 json["ledgers"]!.map((x) => Ledger.fromJson(x))),
-        currentPage: json["current_page"],
+        currentPage: json["current_page"].toString(),
         perPage: json["per_page"],
         totalPages: json["total_pages"],
       );

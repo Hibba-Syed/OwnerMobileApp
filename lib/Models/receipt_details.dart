@@ -399,7 +399,7 @@ class Association {
         applicableArea: json["applicable_area"],
         suiteArea: json["suite_area"],
         balconyArea: json["balcony_area"],
-        filledParkings: json["filled_parkings"],
+        filledParkings: json["filled_parkings"].toString(),
         subdomain: json["subdomain"],
         contractUrl: json["contract_url"],
         gmap: json["gmap"],

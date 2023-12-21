@@ -46,11 +46,13 @@ class Unit {
     String? residentName;
     int? unitId;
     String? unitNumber;
-    int? balance;
     int? unitSizeSqft;
     int? bedroomCount;
     int? bathroomCount;
     int? parkings;
+    double? unitCharges;
+    double? unitPayment;
+    double? unitBalance;
     bool? isLegalNoticeActive;
     bool? isRdcActive;
 
@@ -60,11 +62,13 @@ class Unit {
         this.residentName,
         this.unitId,
         this.unitNumber,
-        this.balance,
         this.unitSizeSqft,
         this.bedroomCount,
         this.bathroomCount,
         this.parkings,
+        this.unitCharges,
+        this.unitPayment,
+        this.unitBalance,
         this.isLegalNoticeActive,
         this.isRdcActive,
     });
@@ -75,11 +79,13 @@ class Unit {
         residentName: json["resident_name"],
         unitId: json["unit_id"],
         unitNumber: json["unit_number"],
-        balance: json["balance"],
         unitSizeSqft: json["unit_size_sqft"],
         bedroomCount: json["bedroom_count"],
         bathroomCount: json["bathroom_count"],
         parkings: json["parkings"],
+        unitCharges: json["unit_charges"]?.toDouble(),
+        unitPayment: json["unit_payment"]?.toDouble(),
+        unitBalance: json["unit_balance"]?.toDouble(),
         isLegalNoticeActive: json["is_legal_notice_active"],
         isRdcActive: json["is_rdc_active"],
     );
@@ -90,11 +96,13 @@ class Unit {
         "resident_name": residentName,
         "unit_id": unitId,
         "unit_number": unitNumber,
-        "balance": balance,
         "unit_size_sqft": unitSizeSqft,
         "bedroom_count": bedroomCount,
         "bathroom_count": bathroomCount,
         "parkings": parkings,
+        "unit_charges": unitCharges,
+        "unit_payment": unitPayment,
+        "unit_balance": unitBalance,
         "is_legal_notice_active": isLegalNoticeActive,
         "is_rdc_active": isRdcActive,
     };

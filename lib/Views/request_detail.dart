@@ -143,10 +143,14 @@ class RequestDetailPage extends StatelessWidget {
                             children: [
                               const UnitsPage().roundedContainer(
                                   context,
-                                  const Icon(
+                                  Icon(
                                     Icons.person_outline,
-                                    color: kWhite,
+                                    color: context
+                                        .read<AppThemeCubit>()
+                                        .state
+                                        .primaryColor,
                                   ),
+                                  invert: true,
                                   padding: const EdgeInsets.all(20)),
                               const SizedBox(
                                 width: 10,

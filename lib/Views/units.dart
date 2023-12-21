@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
@@ -38,10 +36,17 @@ class UnitsPage extends StatelessWidget {
                   if (state.loadingState == LoadingState.loading) {
                     return const CustomLoader();
                   }
+
                   return ListView.builder(
                     itemCount: state.unitsModel?.units?.length,
                     itemBuilder: (BuildContext context, int index) {
                       Unit? unit = state.unitsModel?.units?[index];
+                      List infoList = [
+                        infoCards(context, unit?.unitSizeSqft, "Size"),
+                        infoCards(context, unit?.bedroomCount, "Bedroom"),
+                        infoCards(context, unit?.bathroomCount, "Bathroom"),
+                        infoCards(context, unit?.parkings, "Parking"),
+                      ];
                       return InkWell(
                         onTap: () {
                           Navigator.pushNamed(
@@ -69,152 +74,66 @@ class UnitsPage extends StatelessWidget {
                             ],
                           ),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               cardHeader(context, unit),
-                              Row(
+                              const Gap(10),
+                              Stack(
+                                alignment: Alignment.center,
                                 children: [
-                                  roundedContainer(
-                                    context,
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const Icon(
-                                          Icons.home_outlined,
-                                          color: kWhite,
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        CustomText(
-                                          text: unit?.unitNumber ?? "",
-                                          color: kWhite,
-                                          maxLines: 1,
-                                        ),
-                                      ],
-                                    ),
-                                    margin: const EdgeInsets.only(left: 10),
-                                    width: 70,
-                                    padding: const EdgeInsets.all(10),
+                                  Divider(
+                                    color: context
+                                        .read<AppThemeCubit>()
+                                        .state
+                                        .primaryColor,
                                   ),
-                                  Expanded(
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Divider(
-                                          color: context
-                                              .read<AppThemeCubit>()
-                                              .state
-                                              .primaryColor,
-                                        ),
-                                        SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              const Gap(10),
-                                              roundedContainer(
-                                                context,
-                                                Column(
-                                                  children: [
-                                                    CustomText(
-                                                      text:
-                                                          (unit?.unitSizeSqft ??
-                                                                  0)
-                                                              .toString(),
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                    const CustomText(
-                                                      text: "Size",
-                                                      fontsize: 12,
-                                                    )
-                                                  ],
-                                                ),
-                                                invert: true,
-                                                padding:
-                                                    const EdgeInsets.all(5),
-                                              ),
-                                              const Gap(10),
-                                              roundedContainer(
-                                                context,
-                                                Column(
-                                                  children: [
-                                                    CustomText(
-                                                      text:
-                                                          (unit?.bedroomCount ??
-                                                                  0)
-                                                              .toString(),
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                    const CustomText(
-                                                      text: "Bedroom",
-                                                      fontsize: 12,
-                                                    )
-                                                  ],
-                                                ),
-                                                invert: true,
-                                                padding:
-                                                    const EdgeInsets.all(5),
-                                              ),
-                                              const Gap(10),
-                                              roundedContainer(
-                                                context,
-                                                Column(
-                                                  children: [
-                                                    CustomText(
-                                                      text:
-                                                          (unit?.bathroomCount ??
-                                                                  0)
-                                                              .toString(),
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                    const CustomText(
-                                                      text: "Bathroom",
-                                                      fontsize: 12,
-                                                    )
-                                                  ],
-                                                ),
-                                                invert: true,
-                                                padding:
-                                                    const EdgeInsets.all(5),
-                                              ),
-                                              const Gap(10),
-                                              roundedContainer(
-                                                context,
-                                                Column(
-                                                  children: [
-                                                    CustomText(
-                                                      text:
-                                                          (unit?.parkings ?? 0)
-                                                              .toString(),
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                    const CustomText(
-                                                      text: "Parking",
-                                                      fontsize: 12,
-                                                    )
-                                                  ],
-                                                ),
-                                                invert: true,
-                                                padding:
-                                                    const EdgeInsets.all(5),
-                                              ),
-                                              const Gap(10),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                  GridView.builder(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    shrinkWrap: true,
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 4,
+                                            mainAxisSpacing: 10,
+                                            crossAxisSpacing: 10,
+                                            childAspectRatio: 2 / 2.5),
+                                    itemCount: infoList.length,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return infoList[index];
+                                    },
                                   ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 10,
+                              Divider(
+                                color: context
+                                    .read<AppThemeCubit>()
+                                    .state
+                                    .primaryColor,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const CustomText(
+                                      text: "Balance",
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    const Gap(10),
+                                    const Expanded(child: Divider()),
+                                    const Gap(10),
+                                    CustomText(
+                                      text:
+                                          "${unit?.unitBalance?.toStringAsFixed(2)} AED",
+                                      fontsize: 12,
+                                      // color: kWhite,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -224,9 +143,58 @@ class UnitsPage extends StatelessWidget {
                   );
                 },
               ),
-            )
+            ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget infoCards(BuildContext context, int? number, String? text) {
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(color: kGrey.shade200, blurRadius: 1, spreadRadius: 1)
+        ],
+        borderRadius: BorderRadius.circular(10),
+        color: kWhite,
+      ),
+      child: Column(
+        children: [
+          Expanded(
+            child: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: context
+                    .read<AppThemeCubit>()
+                    .state
+                    .primaryColor
+                    .withOpacity(0.2),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+              ),
+              child: Container(
+                decoration:
+                    const BoxDecoration(shape: BoxShape.circle, color: kWhite),
+                padding: const EdgeInsets.all(15),
+                child: CustomText(
+                  text: (number ?? 0).toString(),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(5),
+            child: CustomText(
+              text: text ?? " -- ",
+              fontsize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+          )
+        ],
       ),
     );
   }
@@ -260,66 +228,19 @@ class UnitsPage extends StatelessWidget {
   }
 
   Widget cardHeader(BuildContext context, Unit? unit) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          // roundedContainer(
-          //   CustomText(
-          //     text: unit?.name ?? "",
-          //     color: context.read<AppThemeCubit>().state.primaryColor,
-          //     fontsize: 12,
-          //   ),
-          //   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-          //   color: context.read<AppThemeCubit>().state.primaryColor.withOpacity(0.1),
-          // ),
-          roundedContainer(
-            context,
-            CustomText(
-              text: "Balance : ${unit?.balance} AED",
-              color: kWhite,
-              fontsize: 12,
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+      decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(10),
+            bottomRight: Radius.circular(10),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget tenantInfo(BuildContext context, Unit? unit) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Row(
-        children: [
-          roundedContainer(
-            context,
-            Row(
-              children: [
-                Icon(
-                  CupertinoIcons.person_alt_circle,
-                  color: context.read<AppThemeCubit>().state.primaryColor,
-                  size: 15,
-                ),
-                CustomText(
-                  text: " Occupant",
-                  color: context.read<AppThemeCubit>().state.primaryColor,
-                  fontsize: 12,
-                )
-              ],
-            ),
-            invert: true,
-            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          CustomText(
-            text: unit?.residentName ?? "",
-            fontWeight: FontWeight.bold,
-          )
-        ],
+          color: context.read<AppThemeCubit>().state.primaryColor),
+      child: CustomText(
+        text: unit?.unitNumber ?? "",
+        color: kWhite,
+        fontWeight: FontWeight.bold,
+        fontsize: 18,
       ),
     );
   }
@@ -332,29 +253,34 @@ class UnitsPage extends StatelessWidget {
         child: Row(
           children: contacts
               .map(
-                (e) => roundedContainer(
-                  context,
-                  Row(
-                    children: [
-                      Icon(
-                        e["icon"] as IconData,
-                        color: context.read<AppThemeCubit>().state.primaryColor,
-                        size: 15,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      CustomText(
-                        text: e["name"] as String,
-                        color: context.read<AppThemeCubit>().state.primaryColor,
-                        fontsize: 12,
-                      )
-                    ],
+                (e) => InkWell(
+                  onTap: e["onTap"],
+                  child: roundedContainer(
+                    context,
+                    Row(
+                      children: [
+                        Icon(
+                          e["icon"] as IconData,
+                          color:
+                              context.read<AppThemeCubit>().state.primaryColor,
+                          size: 15,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        CustomText(
+                          text: e["name"] as String,
+                          color:
+                              context.read<AppThemeCubit>().state.primaryColor,
+                          fontsize: 12,
+                        )
+                      ],
+                    ),
+                    invert: true,
+                    margin: const EdgeInsets.only(right: 5),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                   ),
-                  invert: true,
-                  margin: const EdgeInsets.only(right: 5),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                 ),
               )
               .toList(),

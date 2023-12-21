@@ -28,71 +28,135 @@ class OccupantPage extends StatelessWidget {
           if (state.occupantModel?.occupant == null) {
             return const CreditNotesPage().emptyList();
           }
-          List<Map<String, String?>> occupantData = [
+          List<Map<String, dynamic>> occupantData = [
             {
+              "icon": Icon(
+                Icons.merge_type_outlined,
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
               "key": "Type",
-              "value": state.occupantModel?.occupant?.details?.name,
+              "value": state.occupantModel?.occupant?.details?.type,
             },
             {
+              "icon": Icon(
+                Icons.email_outlined,
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
               "key": "Primary Email",
               "value": state.occupantModel?.occupant?.details?.primaryEmail,
             },
             {
+              "icon": Icon(
+                Icons.email_outlined,
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
               "key": "Secondary Email",
               "value": state.occupantModel?.occupant?.details?.primaryEmail,
             },
             {
+              "icon": Icon(
+                Icons.phone_outlined,
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
               "key": "Primary Phone",
               "value": state.occupantModel?.occupant?.details?.primaryPhone,
             },
             {
+              "icon": Icon(
+                Icons.card_membership_outlined,
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
               "key": "Passport No.",
               "value": state.occupantModel?.occupant?.details?.passportNumber,
             },
             {
+              "icon": Icon(
+                Icons.calendar_month_outlined,
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
               "key": "Passport Expiry",
               "value": dateTimeFormatter(
                   state.occupantModel?.occupant?.details?.passportExpiry),
             },
             {
+              "icon": Icon(
+                Icons.numbers_outlined,
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
               "key": "Emirates ID No.",
               "value": state.occupantModel?.occupant?.details?.emiratesIdNumber,
             },
             {
+              "icon": Icon(
+                Icons.calendar_month_outlined,
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
               "key": "Emirates ID Expiry",
               "value": dateTimeFormatter(
                   state.occupantModel?.occupant?.details?.emiratesIdExpiry),
             },
             {
+              "icon": Icon(
+                Icons.numbers_outlined,
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
               "key": "TRN",
               "value": state.occupantModel?.occupant?.details?.trnNumber,
             },
             {
+              "icon": Icon(
+                Icons.calendar_month_outlined,
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
               "key": "Date of Birth",
               "value": state.occupantModel?.occupant?.details?.dob,
             },
             {
+              "icon": Icon(
+                Icons.calendar_month_outlined,
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
               "key": "Tenancy Contract Expiry",
               "value": dateTimeFormatter(state
                   .occupantModel?.occupant?.details?.tenancyContractExpiry),
             },
             {
+              "icon": Icon(
+                Icons.title_outlined,
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
               "key": "Title Deed No.",
               "value": state.occupantModel?.occupant?.details?.titleDeedNumber,
             },
             {
+              "icon": Icon(
+                Icons.location_city_outlined,
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
               "key": "Country",
               "value": state.occupantModel?.occupant?.details?.country,
             },
             {
+              "icon": Icon(
+                Icons.web_stories_outlined,
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
               "key": "State",
               "value": state.occupantModel?.occupant?.details?.state,
             },
             {
+              "icon": Icon(
+                Icons.location_city_outlined,
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
               "key": "City",
               "value": state.occupantModel?.occupant?.details?.city,
             },
             {
+              "icon": Icon(
+                Icons.streetview_outlined,
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
               "key": "Address",
               "value": state.occupantModel?.occupant?.details?.fullAddress,
             },
@@ -114,69 +178,106 @@ class OccupantPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      CustomText(
-                        text: "Occupant : ",
-                        fontWeight: FontWeight.bold,
-                        color: context.read<AppThemeCubit>().state.primaryColor,
-                      ),
-                      CustomText(
-                        text: state.occupantModel?.occupant?.details?.name ??
-                            "Not provided",
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ],
+                  CustomText(
+                    text:
+                        state.occupantModel?.occupant?.details?.name ?? " -- ",
+                    fontWeight: FontWeight.bold,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                    fontsize: 20,
+                    textAlign: TextAlign.left,
                   ),
-                  const SizedBox(
-                    height: 10,
+                  const Gap(5),
+                  Divider(
+                    color: context.read<AppThemeCubit>().state.primaryColor,
                   ),
-                  Table(
-                    border: TableBorder.all(
-                        color:
-                            context.read<AppThemeCubit>().state.primaryColor),
-                    columnWidths: const {
-                      0: FixedColumnWidth(120),
-                      1: FlexColumnWidth(1),
-                    },
+                  const Gap(5),
+                  Column(
                     children: occupantData
-                        .map(
-                          (e) => const OwnersPage().tableRow(
-                            context,
-                            e["key"] ?? "",
-                            e["value"] ?? "not provided",
-                          ),
-                        )
+                        .map((e) => ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              dense: true,
+                              leading: Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: kGrey.shade200),
+                                child: e["icon"],
+                              ),
+                              title: CustomText(
+                                text: e["key"] ?? "",
+                                textAlign: TextAlign.left,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              subtitle: CustomText(
+                                text: e["value"] ?? " -- ",
+                                textAlign: TextAlign.left,
+                                color: kGrey,
+                                fontsize: 15,
+                              ),
+                            ))
                         .toList(),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CustomText(
-                    text: "Emergency Contact Details",
+                  const Gap(5),
+                  Divider(
                     color: context.read<AppThemeCubit>().state.primaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontsize: 20,
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  emergencyContactCard(
-                      context,
+                  const Gap(5),
+                  if (state.occupantModel?.occupant?.emergencyContactDetails
+                              ?.alternativeEmergencyContactName !=
+                          null ||
                       state.occupantModel?.occupant?.emergencyContactDetails
-                              ?.emergencyContactName ??
-                          "not Provided"),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  emergencyContactCard(
-                      context,
+                              ?.emergencyContactName !=
+                          null)
+                    CustomText(
+                      text: "Emergency Contact Details",
+                      color: context.read<AppThemeCubit>().state.primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontsize: 20,
+                    ),
+                  if (state.occupantModel?.occupant?.emergencyContactDetails
+                              ?.alternativeEmergencyContactName !=
+                          null ||
                       state.occupantModel?.occupant?.emergencyContactDetails
-                              ?.alternativeEmergencyContactName ??
-                          "not Provided"),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                              ?.emergencyContactName !=
+                          null)
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  if (state.occupantModel?.occupant?.emergencyContactDetails
+                          ?.emergencyContactName !=
+                      null)
+                    emergencyContactCard(
+                        context,
+                        state.occupantModel?.occupant?.emergencyContactDetails
+                                ?.emergencyContactName ??
+                            " -- ",
+                        phoneNumber: state.occupantModel?.occupant
+                            ?.emergencyContactDetails?.emergencyContactPhone),
+                  if (state.occupantModel?.occupant?.emergencyContactDetails
+                          ?.emergencyContactName !=
+                      null)
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  if (state.occupantModel?.occupant?.emergencyContactDetails
+                          ?.alternativeEmergencyContactName !=
+                      null)
+                    emergencyContactCard(
+                        context,
+                        state.occupantModel?.occupant?.emergencyContactDetails
+                                ?.alternativeEmergencyContactName ??
+                            " -- ",
+                        phoneNumber: state
+                            .occupantModel
+                            ?.occupant
+                            ?.emergencyContactDetails
+                            ?.alternativeEmergencyContactPhone),
+                  if (state.occupantModel?.occupant?.emergencyContactDetails
+                          ?.alternativeEmergencyContactName !=
+                      null)
+                    const SizedBox(
+                      height: 10,
+                    ),
                   if (state.occupantModel?.occupant?.vehicles != null &&
                       (state.occupantModel?.occupant?.vehicles?.isNotEmpty ??
                           false))
@@ -294,7 +395,7 @@ class OccupantPage extends StatelessWidget {
         boxShadow: [
           BoxShadow(
               offset: const Offset(1, 1),
-              color: kGrey.shade200,
+              color: kGrey.shade300,
               spreadRadius: 2,
               blurRadius: 2),
         ],
@@ -304,14 +405,14 @@ class OccupantPage extends StatelessWidget {
           Row(
             children: [
               const UnitsPage().roundedContainer(
-                context,
-                const Icon(
-                  Icons.person,
-                  color: kWhite,
-                  size: 25,
-                ),
-                padding: const EdgeInsets.all(20),
-              ),
+                  context,
+                  Icon(
+                    Icons.person,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                    size: 25,
+                  ),
+                  padding: const EdgeInsets.all(20),
+                  invert: true),
               const SizedBox(
                 width: 10,
               ),

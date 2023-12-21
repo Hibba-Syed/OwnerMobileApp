@@ -1,3 +1,5 @@
+import 'package:url_launcher/url_launcher.dart';
+
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Models/compliances.dart';
 import '../Utils/utils.dart';
@@ -40,14 +42,14 @@ class CompliancesPage extends StatelessWidget {
                   if (state.loadingState == LoadingState.loading) {
                     return const CustomLoader();
                   }
-                  if (state.compliancesModel?.compliance?.isEmpty ?? true) {
+                  if (state.compliancesModel?.compliances?.isEmpty ?? true) {
                     return const CreditNotesPage().emptyList();
                   }
                   return ListView.builder(
-                    itemCount: state.compliancesModel?.compliance?.length,
+                    itemCount: state.compliancesModel?.compliances?.length,
                     itemBuilder: (BuildContext context, int index) {
-                      ComplianceElement? complianceElement =
-                          state.compliancesModel?.compliance?[index];
+                      Compliance? compliance =
+                          state.compliancesModel?.compliances?[index];
                       return Container(
                         padding: const EdgeInsets.all(10),
                         margin: const EdgeInsets.symmetric(vertical: 5),
@@ -80,7 +82,7 @@ class CompliancesPage extends StatelessWidget {
                                 ),
                                 CustomText(
                                   text:
-                                      "Compliance: ${complianceElement?.name ?? "not provided"}",
+                                      "Compliance: ${compliance?.name ?? " -- "}",
                                   fontWeight: FontWeight.bold,
                                   fontsize: 15,
                                 )
@@ -96,7 +98,7 @@ class CompliancesPage extends StatelessWidget {
                                   children: [
                                     Icon(
                                       Icons.calendar_month_outlined,
-                                      size: 18,
+                                      size: 15,
                                       color: context
                                           .read<AppThemeCubit>()
                                           .state
@@ -104,8 +106,8 @@ class CompliancesPage extends StatelessWidget {
                                     ),
                                     CustomText(
                                       text:
-                                          "Date: ${const OccupantPage().dateTimeFormatter(complianceElement?.compliance?.datetime)}",
-                                      fontsize: 14,
+                                          "Date: ${const OccupantPage().dateTimeFormatter(compliance?.duedate)}",
+                                      fontsize: 12,
                                     )
                                   ],
                                 ),
@@ -113,7 +115,7 @@ class CompliancesPage extends StatelessWidget {
                                   children: [
                                     Icon(
                                       Icons.calendar_month_outlined,
-                                      size: 18,
+                                      size: 15,
                                       color: context
                                           .read<AppThemeCubit>()
                                           .state
@@ -121,8 +123,8 @@ class CompliancesPage extends StatelessWidget {
                                     ),
                                     CustomText(
                                       text:
-                                          "Expiry Date: ${const OccupantPage().dateTimeFormatter(complianceElement?.compliance?.expiry)}",
-                                      fontsize: 14,
+                                          "Expiry Date: ${const OccupantPage().dateTimeFormatter(compliance?.expiry)}",
+                                      fontsize: 12,
                                     )
                                   ],
                                 ),
@@ -137,27 +139,40 @@ class CompliancesPage extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const UnitsPage().roundedContainer(
-                                  context,
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.visibility_outlined,
-                                        color: context
-                                            .read<AppThemeCubit>()
-                                            .state
-                                            .primaryColor,
-                                        size: 18,
-                                      ),
-                                      const CustomText(
-                                        text: " Certificate",
-                                        fontsize: 14,
-                                      )
-                                    ],
+                                InkWell(
+                                  onTap: () {
+                                    if (compliance?.certificate != null &&
+                                        compliance?.certificate != "") {
+                                      launchUrl(Uri.parse(
+                                          compliance?.certificate ?? ""));
+                                      return;
+                                    }
+                                    Fluttertoast.showToast(
+                                        msg:
+                                            "No certificate found to download");
+                                  },
+                                  child: const UnitsPage().roundedContainer(
+                                    context,
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.visibility_outlined,
+                                          color: context
+                                              .read<AppThemeCubit>()
+                                              .state
+                                              .primaryColor,
+                                          size: 18,
+                                        ),
+                                        const CustomText(
+                                          text: " Certificate",
+                                          fontsize: 14,
+                                        )
+                                      ],
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 5),
+                                    invert: true,
                                   ),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 5),
-                                  invert: true,
                                 ),
                               ],
                             ),

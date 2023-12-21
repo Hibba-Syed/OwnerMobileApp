@@ -69,30 +69,56 @@ class InvoiceDetailsPage extends StatelessWidget {
                     fontsize: 18,
                   ),
                   const Gap(10),
-                  RowText(
-                    text:
-                        "Unit: ${state.invoiceDetailsModel?.invoiceable?.name ?? ""}",
-                    text2: state.invoiceDetailsModel?.title ?? "",
+                  CustomText(
+                    text: state.invoiceDetailsModel?.title ?? "",
+                    fontWeight: FontWeight.bold,
+                    fontsize: 18,
                   ),
                   const Gap(10),
                   RowText(
-                    text:
-                        "Owner Name: ${state.invoiceDetailsModel?.invoiceable?.owner?.owner?.fullName ?? ""}",
-                    text2:
-                        "Invoice No: ${state.invoiceDetailsModel?.reference ?? ""}",
+                    text: "Unit:",
+                    text2: state.invoiceDetailsModel?.invoiceable?.name ?? "",
                   ),
                   const Gap(10),
                   RowText(
-                    text: "Owner Email: imhammadahmad94@gmail.com",
-                    text2:
-                        "Invoice Date: ${const OccupantPage().dateTimeFormatter(state.invoiceDetailsModel?.datetime)}",
+                    text: "Invoice No: ",
+                    text2: state.invoiceDetailsModel?.reference ?? "",
                   ),
                   const Gap(10),
                   RowText(
-                    text:
-                        "Owner TRN: ${state.invoiceDetailsModel?.invoiceable?.owner?.owner?.trnNumber}",
-                    text2:
-                        "Due Date: ${const OccupantPage().dateTimeFormatter(state.invoiceDetailsModel?.dueDate)}",
+                    text: "Owner Name:",
+                    text2: state.invoiceDetailsModel?.invoiceable?.owner?.owner
+                            ?.fullName ??
+                        "",
+                  ),
+                  const Gap(10),
+                  RowText(
+                      text: "Owner Email:",
+                      text2: context
+                              .read<ProfileCubit>()
+                              .state
+                              .profileModel
+                              ?.record
+                              ?.email ??
+                          " -- "),
+                  const Gap(10),
+                  RowText(
+                    text: "Invoice Date: ",
+                    text2: const OccupantPage()
+                        .dateTimeFormatter(state.invoiceDetailsModel?.datetime),
+                  ),
+                  const Gap(10),
+                  RowText(
+                    text: "Owner TRN:",
+                    text2: state.invoiceDetailsModel?.invoiceable?.owner?.owner
+                            ?.trnNumber ??
+                        " -- ",
+                  ),
+                  const Gap(10),
+                  RowText(
+                    text: "Due Date:",
+                    text2: const OccupantPage()
+                        .dateTimeFormatter(state.invoiceDetailsModel?.dueDate),
                   ),
                   const Gap(10),
                   SingleChildScrollView(

@@ -12,7 +12,7 @@ String sharedDocumentsModelToJson(SharedDocumentsModel data) =>
 
 class SharedDocumentsModel {
   String? status;
-  List<Record>? record;
+  List<SharedDocumentsRecord>? record;
   int? code;
   dynamic meta;
   bool? requestStatus;
@@ -32,7 +32,7 @@ class SharedDocumentsModel {
         status: json["status"],
         record: json["record"] == null
             ? []
-            : List<Record>.from(json["record"]!.map((x) => Record.fromJson(x))),
+            : List<SharedDocumentsRecord>.from(json["record"]!.map((x) => SharedDocumentsRecord.fromJson(x))),
         code: json["code"],
         meta: json["meta"],
         requestStatus: json["request_status"],
@@ -51,14 +51,14 @@ class SharedDocumentsModel {
       };
 }
 
-class Record {
+class SharedDocumentsRecord {
   String? documentName;
   String? title;
   DateTime? expiryDate;
   List<String>? tags;
   String? documents;
 
-  Record({
+  SharedDocumentsRecord({
     this.documentName,
     this.title,
     this.expiryDate,
@@ -66,7 +66,7 @@ class Record {
     this.documents,
   });
 
-  factory Record.fromJson(Map<String, dynamic> json) => Record(
+  factory SharedDocumentsRecord.fromJson(Map<String, dynamic> json) => SharedDocumentsRecord(
         documentName: json["document_name"],
         title: json["title"],
         expiryDate: json["expiry_date"] == null

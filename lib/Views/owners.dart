@@ -28,72 +28,140 @@ class OwnersPage extends StatelessWidget {
             itemCount: state.ownersModel?.units?.owners?.length,
             itemBuilder: (BuildContext context, int index) {
               Owner? owner = state.ownersModel?.units?.owners?[index];
-              List<Map<String, String?>> ownerData = [
+              List<Map<String, dynamic>> ownerData = [
                 {
+                  "icon": Icon(
+                    Icons.person_outline,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                  ),
                   "key": "Arabic Name",
                   "value": owner?.detail?.arabicName,
                 },
                 {
+                  "icon": Icon(
+                    Icons.person_outline,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                  ),
                   "key": "Mollak Owner Name",
                   "value": owner?.detail?.name,
                 },
                 {
+                  "icon": Icon(
+                    Icons.email_outlined,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                  ),
                   "key": "Primary Email",
                   "value": owner?.detail?.primaryEmail,
                 },
                 {
+                  "icon": Icon(
+                    Icons.email_outlined,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                  ),
                   "key": "Secondary Email",
                   "value": owner?.detail?.secondaryEmail,
                 },
                 {
+                  "icon": Icon(
+                    Icons.phone_outlined,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                  ),
                   "key": "Primary Phone",
                   "value": owner?.detail?.primaryPhone,
                 },
                 {
+                  "icon": Icon(
+                    Icons.phone_outlined,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                  ),
                   "key": "Secondary Phone",
                   "value": owner?.detail?.secondaryPhone,
                 },
                 {
+                  "icon": Icon(
+                    Icons.card_membership_outlined,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                  ),
                   "key": "Passport No.",
                   "value": owner?.detail?.passportNumber,
                 },
                 {
+                  "icon": Icon(
+                    Icons.calendar_month_outlined,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                  ),
                   "key": "Passport Expiry",
                   "value": owner?.detail?.passportExpiry,
                 },
                 {
+                  "icon": Icon(
+                    Icons.numbers_outlined,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                  ),
                   "key": "Emirates ID No.",
                   "value": owner?.detail?.emiratesIdNumber,
                 },
                 {
+                  "icon": Icon(
+                    Icons.calendar_month_outlined,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                  ),
                   "key": "Emirates ID Expiry",
                   "value": owner?.detail?.emiratesIdExpiry,
                 },
                 {
+                  "icon": Icon(
+                    Icons.numbers_outlined,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                  ),
                   "key": "TRN",
                   "value": owner?.detail?.trnNumber,
                 },
                 {
+                  "icon": Icon(
+                    Icons.title_outlined,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                  ),
                   "key": "Title Deed No.",
                   "value": owner?.detail?.titleDeedNumber,
                 },
                 {
+                  "icon": Icon(
+                    Icons.calendar_month_outlined,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                  ),
                   "key": "Date of Birth",
                   "value": owner?.detail?.dob,
                 },
                 {
+                  "icon": Icon(
+                    Icons.location_city_outlined,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                  ),
                   "key": "Country",
                   "value": owner?.detail?.country,
                 },
                 {
+                  "icon": Icon(
+                    Icons.web_stories_outlined,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                  ),
                   "key": "State",
                   "value": owner?.detail?.state,
                 },
                 {
+                  "icon": Icon(
+                    Icons.location_city_outlined,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                  ),
                   "key": "City",
                   "value": owner?.detail?.city,
                 },
                 {
+                  "icon": Icon(
+                    Icons.streetview_outlined,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                  ),
                   "key": "Address",
                   "value": owner?.detail?.fullAddress,
                 },
@@ -118,27 +186,15 @@ class OwnersPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          child: Row(
-                            children: [
-                              CustomText(
-                                text: "Owner : ",
-                                fontWeight: FontWeight.bold,
-                                color: context
-                                    .read<AppThemeCubit>()
-                                    .state
-                                    .primaryColor,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: CustomText(
-                                  text: "${owner?.detail?.name}",
-                                  fontWeight: FontWeight.bold,
-                                  textAlign: TextAlign.left,
-                                ),
-                              ),
-                            ],
+                          child: CustomText(
+                            text: "${owner?.detail?.name}",
+                            fontWeight: FontWeight.bold,
+                            color: context
+                                .read<AppThemeCubit>()
+                                .state
+                                .primaryColor,
+                            fontsize: 20,
+                            textAlign: TextAlign.left,
                           ),
                         ),
                         if (owner?.detail?.isPrimary == 1)
@@ -150,7 +206,7 @@ class OwnersPage extends StatelessWidget {
                               const UnitsPage().roundedContainer(
                                   context,
                                   const CustomText(
-                                    text: "Primary Owner",
+                                    text: "Primary",
                                     color: kWhite,
                                   ),
                                   padding: const EdgeInsets.symmetric(
@@ -159,30 +215,42 @@ class OwnersPage extends StatelessWidget {
                           ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 10,
+                    const Gap(5),
+                    Divider(
+                      color: context.read<AppThemeCubit>().state.primaryColor,
                     ),
-                    Table(
-                      border: TableBorder.all(
-                          color:
-                              context.read<AppThemeCubit>().state.primaryColor),
-                      columnWidths: const {
-                        0: FixedColumnWidth(120),
-                        1: FlexColumnWidth(1),
-                      },
+                    const Gap(5),
+                    Column(
                       children: ownerData
-                          .map(
-                            (e) => tableRow(
-                              context,
-                              e["key"] ?? "",
-                              e["value"] ?? "not provided",
-                            ),
-                          )
+                          .map((e) => ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                dense: true,
+                                leading: Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: kGrey.shade200),
+                                  child: e["icon"],
+                                ),
+                                title: CustomText(
+                                  text: e["key"] ?? "",
+                                  textAlign: TextAlign.left,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                subtitle: CustomText(
+                                  text: e["value"] ?? " -- ",
+                                  textAlign: TextAlign.left,
+                                  color: kGrey,
+                                  fontsize: 15,
+                                ),
+                              ))
                           .toList(),
                     ),
-                    const SizedBox(
-                      height: 10,
+                    const Gap(5),
+                    Divider(
+                      color: context.read<AppThemeCubit>().state.primaryColor,
                     ),
+                    const Gap(5),
                     CustomText(
                       text: "Documents",
                       color: context.read<AppThemeCubit>().state.primaryColor,
@@ -217,7 +285,7 @@ class OwnersPage extends StatelessWidget {
           InkWell(
             onTap: () {
               if (url != null) {
-                launchUrl(Uri.parse("$baseUrl/$url"));
+                launchUrl(Uri.parse(url));
               }
             },
             child: const UnitsPage().roundedContainer(
@@ -255,6 +323,7 @@ class OwnersPage extends StatelessWidget {
       children: [
         TableCell(
           child: Container(
+            alignment: Alignment.centerLeft,
             height: 50,
             padding: const EdgeInsets.symmetric(horizontal: 5),
             color: context
@@ -262,7 +331,10 @@ class OwnersPage extends StatelessWidget {
                 .state
                 .primaryColor
                 .withOpacity(0.1),
-            child: Center(child: CustomText(text: key)),
+            child: CustomText(
+              text: key,
+              textAlign: TextAlign.left,
+            ),
           ),
         ),
         TableCell(

@@ -12,7 +12,7 @@ String unitFinancialsModelToJson(UnitFinancialsModel data) =>
 
 class UnitFinancialsModel {
   String? status;
-  List<Record>? record;
+  List<UnitFinancialsRecord>? record;
   int? code;
   dynamic meta;
   bool? requestStatus;
@@ -32,7 +32,7 @@ class UnitFinancialsModel {
         status: json["status"],
         record: json["record"] == null
             ? []
-            : List<Record>.from(json["record"]!.map((x) => Record.fromJson(x))),
+            : List<UnitFinancialsRecord>.from(json["record"]!.map((x) => UnitFinancialsRecord.fromJson(x))),
         code: json["code"],
         meta: json["meta"],
         requestStatus: json["request_status"],
@@ -51,20 +51,20 @@ class UnitFinancialsModel {
       };
 }
 
-class Record {
+class UnitFinancialsRecord {
   int? unitId;
   String? communityName;
   String? unitNumber;
   double? balance;
 
-  Record({
+  UnitFinancialsRecord({
     this.unitId,
     this.communityName,
     this.unitNumber,
     this.balance,
   });
 
-  factory Record.fromJson(Map<String, dynamic> json) => Record(
+  factory UnitFinancialsRecord.fromJson(Map<String, dynamic> json) => UnitFinancialsRecord(
         unitId: json["unit_id"],
         communityName: json["community_name"],
         unitNumber: json["unit_number"],

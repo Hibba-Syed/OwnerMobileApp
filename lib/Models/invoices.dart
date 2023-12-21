@@ -53,25 +53,26 @@ class Invoice {
   String? reference;
   String? mollakReference;
   String? description;
+  List<dynamic>? documents;
 
-  Invoice({
-    this.id,
-    this.date,
-    this.dueDate,
-    this.reference,
-    this.mollakReference,
-    this.description,
-  });
+  Invoice(
+      {this.id,
+      this.date,
+      this.dueDate,
+      this.reference,
+      this.mollakReference,
+      this.description,
+      this.documents});
 
   factory Invoice.fromJson(Map<String, dynamic> json) => Invoice(
-        id: json["id"],
-        date: json["date"] == null ? null : DateTime.parse(json["date"]),
-        dueDate:
-            json["due_date"] == null ? null : DateTime.parse(json["due_date"]),
-        reference: json["reference"],
-        mollakReference: json["mollak_reference"],
-        description: json["description"],
-      );
+      id: json["id"],
+      date: json["date"] == null ? null : DateTime.parse(json["date"]),
+      dueDate:
+          json["due_date"] == null ? null : DateTime.parse(json["due_date"]),
+      reference: json["reference"],
+      mollakReference: json["mollak_reference"],
+      description: json["description"],
+      documents: json["documents"] ?? []);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -82,5 +83,6 @@ class Invoice {
         "reference": reference,
         "mollak_reference": mollakReference,
         "description": description,
+        "documents": documents
       };
 }

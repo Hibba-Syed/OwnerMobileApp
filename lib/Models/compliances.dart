@@ -10,14 +10,14 @@ String compliancesModelToJson(CompliancesModel data) => json.encode(data.toJson(
 
 class CompliancesModel {
     int? totalCompliance;
-    List<ComplianceElement>? compliance;
+    List<Compliance>? compliances;
     int? currentPage;
     int? perPage;
     int? totalPages;
 
     CompliancesModel({
         this.totalCompliance,
-        this.compliance,
+        this.compliances,
         this.currentPage,
         this.perPage,
         this.totalPages,
@@ -25,7 +25,7 @@ class CompliancesModel {
 
     factory CompliancesModel.fromJson(Map<String, dynamic> json) => CompliancesModel(
         totalCompliance: json["totalCompliance"],
-        compliance: json["compliance"] == null ? [] : List<ComplianceElement>.from(json["compliance"]!.map((x) => ComplianceElement.fromJson(x))),
+        compliances: json["compliances"] == null ? [] : List<Compliance>.from(json["compliances"]!.map((x) => Compliance.fromJson(x))),
         currentPage: json["current_page"],
         perPage: json["per_page"],
         totalPages: json["total_pages"],
@@ -33,61 +33,41 @@ class CompliancesModel {
 
     Map<String, dynamic> toJson() => {
         "totalCompliance": totalCompliance,
-        "compliance": compliance == null ? [] : List<dynamic>.from(compliance!.map((x) => x.toJson())),
+        "compliances": compliances == null ? [] : List<dynamic>.from(compliances!.map((x) => x.toJson())),
         "current_page": currentPage,
         "per_page": perPage,
         "total_pages": totalPages,
     };
 }
 
-class ComplianceElement {
+class Compliance {
     int? id;
     String? name;
-    bool? isDeleteable;
-    ComplianceCompliance? compliance;
+    DateTime? duedate;
+    DateTime? expiry;
+    String? certificate;
 
-    ComplianceElement({
+    Compliance({
         this.id,
         this.name,
-        this.isDeleteable,
-        this.compliance,
+        this.duedate,
+        this.expiry,
+        this.certificate,
     });
 
-    factory ComplianceElement.fromJson(Map<String, dynamic> json) => ComplianceElement(
+    factory Compliance.fromJson(Map<String, dynamic> json) => Compliance(
         id: json["id"],
         name: json["name"],
-        isDeleteable: json["is_deleteable"],
-        compliance: json["compliance"] == null ? null : ComplianceCompliance.fromJson(json["compliance"]),
+        duedate: json["duedate"] == null ? null : DateTime.parse(json["duedate"]),
+        expiry: json["expiry"] == null ? null : DateTime.parse(json["expiry"]),
+        certificate: json["certificate"],
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "is_deleteable": isDeleteable,
-        "compliance": compliance?.toJson(),
-    };
-}
-
-class ComplianceCompliance {
-    DateTime? datetime;
-    DateTime? expiry;
-    int? compliancelabelId;
-
-    ComplianceCompliance({
-        this.datetime,
-        this.expiry,
-        this.compliancelabelId,
-    });
-
-    factory ComplianceCompliance.fromJson(Map<String, dynamic> json) => ComplianceCompliance(
-        datetime: json["datetime"] == null ? null : DateTime.parse(json["datetime"]),
-        expiry: json["expiry"] == null ? null : DateTime.parse(json["expiry"]),
-        compliancelabelId: json["compliancelabel_id"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "datetime": datetime?.toIso8601String(),
+        "duedate": duedate?.toIso8601String(),
         "expiry": expiry?.toIso8601String(),
-        "compliancelabel_id": compliancelabelId,
+        "certificate": certificate,
     };
 }

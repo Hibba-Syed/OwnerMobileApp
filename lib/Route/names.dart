@@ -18,6 +18,7 @@ class AppRoutes {
   static const unitFinancial = "/unitFinancial";
   static const sharedDocument = "/sharedDocument";
   static const ledger = "/ledger";
+  static const ledgerByAccountDetail = "/ledgerByAccountDetail";
   static const otpVerification = "/otpVerification";
   static const resetPassword = "/resetPassword";
   static const invoices = "/invoices";

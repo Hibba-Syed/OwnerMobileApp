@@ -152,7 +152,7 @@ class LedgerAccountDatum {
 }
 
 class Meta {
-  int? openingBalance;
+  double? openingBalance;
   double? closingBalance;
 
   Meta({
@@ -161,7 +161,7 @@ class Meta {
   });
 
   factory Meta.fromJson(Map<String, dynamic> json) => Meta(
-        openingBalance: json["opening_balance"],
+        openingBalance: json["opening_balance"]?.toDouble(),
         closingBalance: json["closing_balance"]?.toDouble(),
       );
 

@@ -1,6 +1,7 @@
 import 'package:iskaanowner/Blocs/Unit%20Financials/unit_financials_cubit.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
+import '../Models/unit_financials.dart';
 import '../Utils/utils.dart';
 
 class UnitFinancialPage extends StatelessWidget {
@@ -50,7 +51,7 @@ class UnitFinancialPage extends StatelessWidget {
                             return;
                           }
                           Fluttertoast.showToast(
-                              msg: "Select a unit to export");
+                              msg: "Long press and select units to export");
                         },
                         icon: downloadLedgerState.loadingState ==
                                 LoadingState.loading
@@ -64,7 +65,7 @@ class UnitFinancialPage extends StatelessWidget {
                                 ),
                               )
                             : const Icon(
-                                Icons.document_scanner_outlined,
+                                Icons.import_export_outlined,
                                 color: kWhite,
                               ),
                       );
@@ -74,78 +75,121 @@ class UnitFinancialPage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                      headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => context
-                              .read<AppThemeCubit>()
-                              .state
-                              .primaryColor
-                              .withOpacity(0.1)),
-                      border: TableBorder.all(
-                          color:
-                              context.read<AppThemeCubit>().state.primaryColor),
-                      columns: [
-                        "",
-                        "Community",
-                        "Unit Number",
-                        "Balance",
-                      ]
-                          .map((e) => const SharedDocumentPage()
-                              .sharedDocumentDataColumn(e))
-                          .toList(),
-                      rows: state.unitFinancialsModel?.record
-                              ?.map((e) => const LedgerPage().ledgerDataRow(
-                                  e.toJson()..remove("unit_id"),
-                                  enableCheckbox: true,
-                                  context: context,
-                                  id: e.unitId,
-                                  selectedUnits: state.selectedUnits))
-                              .toList() ??
-                          []),
-                )
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: state.unitFinancialsModel?.record?.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      UnitFinancialsRecord? unitFinancialsRecord =
+                          state.unitFinancialsModel?.record?[index];
+                      var modifedList = List.from(state.selectedUnits);
+                      int? checkboxIndex = modifedList.indexWhere(
+                          (element) => element == unitFinancialsRecord?.unitId);
+                      return Container(
+                        margin: const EdgeInsets.symmetric(vertical: 5),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: kWhite,
+                            boxShadow: [
+                              BoxShadow(
+                                color: kGrey.shade200,
+                                spreadRadius: 2,
+                                blurRadius: 2,
+                              )
+                            ]),
+                        child: ListTile(
+                          onLongPress: () {
+                            context
+                                .read<UnitFinancialsCubit>()
+                                .onChangeSelectedUnits(
+                                    [unitFinancialsRecord?.unitId]);
+                          },
+                          onTap: () {
+                            if (state.selectedUnits.isNotEmpty) {
+                              if (checkboxIndex != -1) {
+                                modifedList.removeAt(checkboxIndex);
+                              } else {
+                                modifedList.add(unitFinancialsRecord?.unitId);
+                              }
+                              context
+                                  .read<UnitFinancialsCubit>()
+                                  .onChangeSelectedUnits(modifedList);
+                            }
+                          },
+                          leading: AnimatedCrossFade(
+                              firstChild: Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: kGrey.shade200),
+                                  child: Icon(
+                                    Icons.place,
+                                    color: context
+                                        .read<AppThemeCubit>()
+                                        .state
+                                        .primaryColor,
+                                  )),
+                              secondChild: Checkbox(
+                                visualDensity: VisualDensity.comfortable,
+                                value: checkboxIndex != -1 ? true : false,
+                                onChanged: (value) {
+                                  if (checkboxIndex != -1) {
+                                    modifedList.removeAt(checkboxIndex);
+                                  } else {
+                                    modifedList
+                                        .add(unitFinancialsRecord?.unitId);
+                                  }
+                                  context
+                                      .read<UnitFinancialsCubit>()
+                                      .onChangeSelectedUnits(modifedList);
+                                },
+                              ),
+                              crossFadeState: state.selectedUnits.isEmpty
+                                  ? CrossFadeState.showFirst
+                                  : CrossFadeState.showSecond,
+                              duration: const Duration(seconds: 1)),
+                          title: CustomText(
+                            text: unitFinancialsRecord?.communityName ?? " -- ",
+                            textAlign: TextAlign.left,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          subtitle: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CustomText(
+                                text:
+                                    unitFinancialsRecord?.unitNumber ?? " -- ",
+                                textAlign: TextAlign.left,
+                                fontsize: 14,
+                                color: kGrey,
+                              ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: context
+                                        .read<AppThemeCubit>()
+                                        .state
+                                        .primaryColor
+                                        .withOpacity(0.2)),
+                                child: CustomText(
+                                  text:
+                                      "${(unitFinancialsRecord?.balance ?? 0).toStringAsFixed(2)} AED",
+                                  fontsize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ],
             ),
           );
         },
       ),
-    );
-  }
-
-  TableRow unitFinancialTableRow(
-      String community, String unitNumber, String balance,
-      {FontWeight? fontWeight, Color? color}) {
-    return TableRow(
-      children: [
-        Container(
-          color: color,
-          child: TableCell(
-            child: CustomText(
-              text: community,
-              fontWeight: fontWeight,
-            ),
-          ),
-        ),
-        Container(
-          color: color,
-          child: TableCell(
-            child: CustomText(
-              text: unitNumber,
-              fontWeight: fontWeight,
-            ),
-          ),
-        ),
-        Container(
-          color: color,
-          child: TableCell(
-            child: CustomText(
-              text: balance,
-              fontWeight: fontWeight,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

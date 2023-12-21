@@ -70,22 +70,30 @@ class ReceiptDetailsPage extends StatelessWidget {
                   ),
                   const Gap(10),
                   RowText(
-                    text:
-                        "Unit: ${state.receiptDetailsModel?.unitwise?[0].name ?? ""}",
-                    text2:
-                        "Receipt No. ${state.receiptDetailsModel?.reference ?? ""}",
+                    text: "Unit:",
+                    text2: state.receiptDetailsModel?.unitwise?[0].name ?? "",
                   ),
                   const Gap(10),
                   RowText(
-                    text: "Payment Method",
+                    text: "Receipt No.",
+                    text2: state.receiptDetailsModel?.reference ?? "",
+                  ),
+                  const Gap(10),
+                  RowText(
+                    text: "Payment Method:",
                     text2: state.receiptDetailsModel?.paymentMethod ?? "",
                   ),
                   const Gap(10),
                   RowText(
-                    text:
-                        "Payment Date: ${const OccupantPage().dateTimeFormatter(state.receiptDetailsModel?.paymentDate)}",
-                    text2:
-                        "Receipt Date: ${const OccupantPage().dateTimeFormatter(state.receiptDetailsModel?.datetime)}",
+                    text: "Payment Date:",
+                    text2: const OccupantPage().dateTimeFormatter(
+                        state.receiptDetailsModel?.paymentDate),
+                  ),
+                  const Gap(10),
+                  RowText(
+                    text: "Receipt Date:",
+                    text2: const OccupantPage()
+                        .dateTimeFormatter(state.receiptDetailsModel?.datetime),
                   ),
                   const Gap(10),
                   SingleChildScrollView(

@@ -1,4 +1,4 @@
-import 'package:iskaanowner/Blocs/Receipt%20details/receipt_details_cubit.dart';
+import 'package:iskaanowner/Models/receipts.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
@@ -60,52 +60,100 @@ class ReceiptsPage extends StatelessWidget {
                   if (state.receiptsModel?.receipts?.isEmpty ?? true) {
                     return const CreditNotesPage().emptyList();
                   }
-                  return SingleChildScrollView(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: DataTable(
-                          headingRowColor: MaterialStateColor.resolveWith(
-                              (states) => context
-                                  .read<AppThemeCubit>()
-                                  .state
-                                  .primaryColor
-                                  .withOpacity(0.1)),
-                          border: TableBorder.all(
-                              color: context
-                                  .read<AppThemeCubit>()
-                                  .state
-                                  .primaryColor),
-                          columns: [
-                            "Date",
-                            "Reference",
-                            "Paid by",
-                            "Amount",
-                            "Actions",
-                          ]
-                              .map((e) => const SharedDocumentPage()
-                                  .sharedDocumentDataColumn(e))
-                              .toList(),
-                          rows: state.receiptsModel?.receipts?.map((e) {
-                                Map data = e.toJson();
-                                data.remove("id");
-                                data["paid_by"] = data["paid_by"] +
-                                    " (${data["payee_type"]})";
-                                data.remove("payee_type");
-                                data["actions"] = null;
-                                return receiptsDataRow(
-                                  context,
-                                  data,
-                                  onTap: () {
-                                    context
-                                        .read<ReceiptDetailsCubit>()
-                                        .getReceiptDetails(context, e.id);
-                                    Navigator.pushNamed(
-                                        context, AppRoutes.receiptDetails);
-                                  },
-                                );
-                              }).toList() ??
-                              []),
-                    ),
+                  return ListView.builder(
+                    itemCount: state.receiptsModel?.receipts?.length ?? 0,
+                    itemBuilder: (BuildContext context, int index) {
+                      Receipt? receipt = state.receiptsModel?.receipts?[index];
+                      return Container(
+                        padding: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.symmetric(vertical: 5),
+                        decoration: BoxDecoration(
+                          color: kWhite,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                                color: kGrey.shade200,
+                                blurRadius: 2,
+                                spreadRadius: 2)
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: context
+                                      .read<AppThemeCubit>()
+                                      .state
+                                      .primaryColor),
+                              padding: const EdgeInsets.all(10),
+                              child: const Icon(
+                                Icons.receipt_outlined,
+                                color: kWhite,
+                              ),
+                            ),
+                            const Gap(10),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      CustomText(
+                                        text: receipt?.reference ?? " -- ",
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      const Gap(10),
+                                      CustomText(
+                                        text: const OccupantPage()
+                                            .dateTimeFormatter(
+                                                receipt?.datetime),
+                                        color: kGrey,
+                                        fontsize: 12,
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      CustomText(
+                                        text: receipt?.paidBy ?? " -- ",
+                                        fontsize: 14,
+                                      ),
+                                      CustomText(
+                                        text:
+                                            " (${receipt?.payeeType ?? " -- "})",
+                                        fontsize: 12,
+                                        color: kGrey,
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      CustomText(
+                                        text:
+                                            "${(receipt?.amount ?? 0).toStringAsFixed(2)} AED",
+                                        fontsize: 13,
+                                      ),
+                                      Icon(
+                                        Icons.download_outlined,
+                                        color: context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor,
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
                   );
                 },
               ),
