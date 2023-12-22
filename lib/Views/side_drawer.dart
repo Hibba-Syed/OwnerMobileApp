@@ -40,7 +40,7 @@ class SideDrawerPage extends StatelessWidget {
                   height: 10,
                 ),
                 CustomText(
-                  text: profileModel?.record?.fullName ?? "Unkown",
+                  text: profileModel?.record?.firstName ?? "Unknown",
                   fontsize: 14,
                   fontWeight: FontWeight.bold,
                 ),

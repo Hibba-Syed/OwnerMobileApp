@@ -56,7 +56,7 @@ class DashboardPage extends StatelessWidget {
             ),
             CustomText(
               text:
-                  "${setGreeting()} ${context.read<ProfileCubit>().state.profileModel?.record?.fullName ?? ""}!",
+                  "${setGreeting()} ${context.read<ProfileCubit>().state.profileModel?.record?.firstName ?? ""}!",
               fontWeight: FontWeight.bold,
               fontsize: 20,
               color: kBlack,

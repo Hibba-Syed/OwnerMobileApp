@@ -8,12 +8,23 @@ import 'package:iskaanowner/Blocs/Reset%20Password/reset_password_cubit.dart';
 import 'package:iskaanowner/Blocs/Send%20OTP/send_otp_cubit.dart';
 import 'package:iskaanowner/Blocs/Unit%20Financials/unit_financials_cubit.dart';
 import 'package:iskaanowner/Blocs/Verify%20Otp/verify_otp_cubit.dart';
+import 'package:iskaanowner/Views/Requests/ad_details.dart';
+import 'package:iskaanowner/Views/Requests/cs_details.dart';
+import 'package:iskaanowner/Views/Requests/dp_details.dart';
+import 'package:iskaanowner/Views/Requests/tp_details.dart';
+import 'package:iskaanowner/Views/Requests/fo_details.dart';
+import 'package:iskaanowner/Views/Requests/hb_details.dart';
+import 'package:iskaanowner/Views/Requests/ri_details.dart';
+import 'package:iskaanowner/Views/Requests/ss_details.dart';
+import 'package:iskaanowner/Views/Requests/wp_details.dart';
+import 'package:iskaanowner/Views/Requests/mi_details.dart';
 import 'package:iskaanowner/Views/companies.dart';
 import 'package:iskaanowner/Views/ledger_by_account_details.dart';
 import 'package:iskaanowner/Views/otp_verification.dart';
 import 'package:iskaanowner/Views/reset_password.dart';
 
 import '../Utils/utils.dart';
+import '../Views/Requests/mo_details.dart';
 
 class AppPages {
   static List<PageEntity> routes() {
@@ -108,15 +119,56 @@ class AppPages {
               BlocProvider(
                 create: (context) => RequestsFiltersCubit(),
               ),
+              BlocProvider(
+                create: (context) => RequestDetailsCubit(),
+              ),
             ],
             child: const RequestsPage(),
           )),
       PageEntity(
-          route: AppRoutes.requestDetails,
-          page: const RequestDetailPage(),
-          bloc: BlocProvider(
-            create: (context) => RequestDetailsCubit(),
-          )),
+        route: AppRoutes.adDetails,
+        page: const AdDetailsPage(),
+      ),
+      PageEntity(
+        route: AppRoutes.foDetails,
+        page: const FoDetailsPage(),
+      ),
+      PageEntity(
+        route: AppRoutes.riDetails,
+        page: const RiDetailsPage(),
+      ),
+      PageEntity(
+        route: AppRoutes.wpDetails,
+        page: const WpDetailsPage(),
+      ),
+      PageEntity(
+        route: AppRoutes.ssDetails,
+        page: const SsDetailsPage(),
+      ),
+      PageEntity(
+        route: AppRoutes.csDetails,
+        page: const CsDetailsPage(),
+      ),
+      PageEntity(
+        route: AppRoutes.hbDetails,
+        page: const HbDetailsPage(),
+      ),
+      PageEntity(
+        route: AppRoutes.moDetails,
+        page: const MoDetailsPage(),
+      ),
+      PageEntity(
+        route: AppRoutes.dpDetails,
+        page: const DpDetailsPage(),
+      ),
+      PageEntity(
+        route: AppRoutes.tpDetails,
+        page: const TpDetailsPage(),
+      ),
+      PageEntity(
+        route: AppRoutes.miDetails,
+        page: const MiDetailsPage(),
+      ),
       PageEntity(
           route: AppRoutes.compliances,
           page: const CompliancesPage(),

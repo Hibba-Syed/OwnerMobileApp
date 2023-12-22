@@ -40,9 +40,9 @@ class SharedDocumentPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(
-                            color: kGrey.shade200,
-                            blurRadius: 1,
-                            spreadRadius: 1)
+                            color: kGrey.shade300,
+                            blurRadius: 2,
+                            spreadRadius: 2)
                       ]),
                   child: sharedDocumentWidget(
                       context, sharedDocumentsRecord, unitId),
@@ -71,42 +71,61 @@ class SharedDocumentPage extends StatelessWidget {
     return Column(
       children: [
         Expanded(
-          child: Builder(builder: (context) {
-            String? url = sharedDocumentsRecord?.documents;
-            String asset = "assets/file.png";
-            String fileExtension = extension(url ?? "");
-            fileExtension = fileExtension.toLowerCase();
-            if (fileExtension == ".png" ||
-                fileExtension == ".jpeg" ||
-                fileExtension == ".jpg") {
-              asset = "assets/image.png";
-            }
-            if (fileExtension == ".doc" ||
-                fileExtension == ".xlsx" ||
-                fileExtension == ".docx") {
-              asset = "assets/doc.png";
-            }
-            if (fileExtension == ".pdf") {
-              asset = "assets/pdf.png";
-            }
-            return Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(50),
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
+          child: Stack(
+            children: [
+              Builder(builder: (context) {
+                String? url = sharedDocumentsRecord?.documents;
+                String asset = "assets/file.png";
+                String fileExtension = extension(url ?? "");
+                fileExtension = fileExtension.toLowerCase();
+                if (fileExtension == ".png" ||
+                    fileExtension == ".jpeg" ||
+                    fileExtension == ".jpg") {
+                  asset = "assets/image.png";
+                }
+                if (fileExtension == ".doc" ||
+                    fileExtension == ".xlsx" ||
+                    fileExtension == ".docx") {
+                  asset = "assets/doc.png";
+                }
+                if (fileExtension == ".pdf") {
+                  asset = "assets/pdf.png";
+                }
+                return Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(50),
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
+                      ),
+                      color: context
+                          .read<AppThemeCubit>()
+                          .state
+                          .primaryColor
+                          .withOpacity(0.05)),
+                  child: Image.asset(
+                    asset,
                   ),
-                  color: context
-                      .read<AppThemeCubit>()
-                      .state
-                      .primaryColor
-                      .withOpacity(0.05)),
-              child: Image.asset(
-                asset,
-              ),
-            );
-          }),
+                );
+              }),
+              Container(
+                margin: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: context.read<AppThemeCubit>().state.primaryColor),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 5,
+                  horizontal: 10,
+                ),
+                child: CustomText(
+                  text: sharedDocumentsRecord?.title ?? " -- ",
+                  color: kWhite,
+                  fontsize: 13,
+                ),
+              )
+            ],
+          ),
         ),
         Container(
           decoration: const BoxDecoration(

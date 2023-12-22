@@ -4,70 +4,79 @@
 
 import 'dart:convert';
 
-CompliancesModel compliancesModelFromJson(String str) => CompliancesModel.fromJson(json.decode(str));
+CompliancesModel compliancesModelFromJson(String str) =>
+    CompliancesModel.fromJson(json.decode(str));
 
-String compliancesModelToJson(CompliancesModel data) => json.encode(data.toJson());
+String compliancesModelToJson(CompliancesModel data) =>
+    json.encode(data.toJson());
 
 class CompliancesModel {
-    int? totalCompliance;
-    List<Compliance>? compliances;
-    int? currentPage;
-    int? perPage;
-    int? totalPages;
+  int? totalCompliance;
+  List<Compliance>? compliances;
+  int? currentPage;
+  int? perPage;
+  int? totalPages;
 
-    CompliancesModel({
-        this.totalCompliance,
-        this.compliances,
-        this.currentPage,
-        this.perPage,
-        this.totalPages,
-    });
+  CompliancesModel({
+    this.totalCompliance,
+    this.compliances,
+    this.currentPage,
+    this.perPage,
+    this.totalPages,
+  });
 
-    factory CompliancesModel.fromJson(Map<String, dynamic> json) => CompliancesModel(
+  factory CompliancesModel.fromJson(Map<String, dynamic> json) =>
+      CompliancesModel(
         totalCompliance: json["totalCompliance"],
-        compliances: json["compliances"] == null ? [] : List<Compliance>.from(json["compliances"]!.map((x) => Compliance.fromJson(x))),
+        compliances: json["compliances"] == null
+            ? []
+            : List<Compliance>.from(
+                json["compliances"]!.map((x) => Compliance.fromJson(x))),
         currentPage: json["current_page"],
         perPage: json["per_page"],
         totalPages: json["total_pages"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "totalCompliance": totalCompliance,
-        "compliances": compliances == null ? [] : List<dynamic>.from(compliances!.map((x) => x.toJson())),
+        "compliances": compliances == null
+            ? []
+            : List<dynamic>.from(compliances!.map((x) => x.toJson())),
         "current_page": currentPage,
         "per_page": perPage,
         "total_pages": totalPages,
-    };
+      };
 }
 
 class Compliance {
-    int? id;
-    String? name;
-    DateTime? duedate;
-    DateTime? expiry;
-    String? certificate;
+  int? id;
+  String? name;
+  DateTime? duedate;
+  DateTime? expiry;
+  String? certificate;
 
-    Compliance({
-        this.id,
-        this.name,
-        this.duedate,
-        this.expiry,
-        this.certificate,
-    });
+  Compliance({
+    this.id,
+    this.name,
+    this.duedate,
+    this.expiry,
+    this.certificate,
+  });
 
-    factory Compliance.fromJson(Map<String, dynamic> json) => Compliance(
+  factory Compliance.fromJson(Map<String, dynamic> json) => Compliance(
         id: json["id"],
         name: json["name"],
-        duedate: json["duedate"] == null ? null : DateTime.parse(json["duedate"]),
+        duedate:
+            json["duedate"] == null ? null : DateTime.parse(json["duedate"]),
         expiry: json["expiry"] == null ? null : DateTime.parse(json["expiry"]),
         certificate: json["certificate"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "duedate": duedate?.toIso8601String(),
         "expiry": expiry?.toIso8601String(),
         "certificate": certificate,
-    };
+      };
 }

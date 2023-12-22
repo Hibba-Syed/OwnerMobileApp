@@ -39,7 +39,6 @@ export 'package:iskaanowner/Views/ledger.dart';
 export 'package:iskaanowner/Views/notifications.dart';
 export 'package:iskaanowner/Views/receipt_details.dart';
 export 'package:iskaanowner/Views/receipts.dart';
-export 'package:iskaanowner/Views/request_detail.dart';
 export 'package:iskaanowner/Views/shared_documnet.dart';
 export 'package:iskaanowner/Views/splash.dart';
 export 'package:iskaanowner/Views/unit_financial.dart';

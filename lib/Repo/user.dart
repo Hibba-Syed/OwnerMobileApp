@@ -127,8 +127,9 @@ class UserService {
       request.headers.addAll(headers);
 
       return await request.send().then((response) async {
+        String body = await response.stream.bytesToString();
         if (response.statusCode == 200) {
-          return Success(200, await response.stream.bytesToString());
+          return Success(200, body);
         }
         return Failure(
             400, response.reasonPhrase ?? "unable to change password");

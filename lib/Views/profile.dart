@@ -23,32 +23,32 @@ class ProfilePage extends StatelessWidget {
             {
               "icon": Icons.email_outlined,
               "title": "Email",
-              "subTitle": state.profileModel?.record?.email ?? "",
+              "subTitle": state.profileModel?.record?.email,
             },
             {
               "icon": Icons.phone_outlined,
               "title": "Phoe",
-              "subTitle": state.profileModel?.record?.primaryPhone ?? "",
+              "subTitle": state.profileModel?.record?.primaryPhone,
             },
             {
               "icon": Icons.cake_outlined,
               "title": "D.O.B",
-              "subTitle": state.profileModel?.record?.dob ?? "",
+              "subTitle": state.profileModel?.record?.dob,
             },
             {
               "icon": Icons.padding_outlined,
               "title": "Passport Number",
-              "subTitle": state.profileModel?.record?.passportNumber ?? "",
+              "subTitle": state.profileModel?.record?.passportNumber,
             },
             {
               "icon": Icons.calendar_month_outlined,
               "title": "Passport Expiry",
-              "subTitle": state.profileModel?.record?.passportExpiry ?? "",
+              "subTitle": state.profileModel?.record?.passportExpiry,
             },
             {
               "icon": Icons.perm_identity_outlined,
               "title": "Emirates ID",
-              "subTitle": state.profileModel?.record?.emiratesIdNumber ?? "",
+              "subTitle": state.profileModel?.record?.emiratesIdNumber,
             },
             {
               "icon": Icons.email_outlined,

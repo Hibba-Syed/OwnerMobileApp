@@ -165,7 +165,7 @@ class HappinessCenterPage extends StatelessWidget {
                                   onTap: () {
                                     context
                                         .read<HappinessCenterCubit>()
-                                        .onChangeRadioValue("Common area");
+                                        .onChangeRadioValue("Common Area");
                                   },
                                   child: Container(
                                     height: 50,
@@ -187,7 +187,7 @@ class HappinessCenterPage extends StatelessWidget {
                                                 .primaryColor
                                             : kGrey.shade200),
                                     child: CustomText(
-                                      text: "Common area",
+                                      text: "Common Area",
                                       color: state.radioValue.toLowerCase() ==
                                               "common area"
                                           ? kWhite
@@ -198,39 +198,6 @@ class HappinessCenterPage extends StatelessWidget {
                               )
                             ],
                           ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   children: [
-                        //     Row(
-                        //       children: <Widget>[
-                        //         Radio(
-                        //           value: 'Unit',
-                        //           groupValue: state.radioValue,
-                        //           onChanged: (value) {
-                        //             context
-                        //                 .read<HappinessCenterCubit>()
-                        //                 .onChangeRadioValue(value);
-                        //           },
-                        //         ),
-                        //          Text('Unit'),
-                        //       ],
-                        //     ),
-                        //     Row(
-                        //       children: <Widget>[
-                        //         Radio(
-                        //           value: 'Common area',
-                        //           groupValue: state.radioValue,
-                        //           onChanged: (value) {
-                        //             context
-                        //                 .read<HappinessCenterCubit>()
-                        //                 .onChangeRadioValue(value);
-                        //           },
-                        //         ),
-                        //          Text('Common Area'),
-                        //       ],
-                        //     ),
-                        //   ],
-                        // ),
                         Builder(builder: (context) {
                           if (state.complaintType?.toLowerCase() !=
                               "complaint") {

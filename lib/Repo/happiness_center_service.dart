@@ -36,15 +36,7 @@ class HappinessCenterService {
     String message,
   ) async {
     return await ExceptionService.applyTryCatch(() async {
-      var headers = {
-        "Authorization":
-            "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
-      };
-      var request = http.MultipartRequest(
-          'POST',
-          Uri.parse(
-              'http://api.synergic360.com/mobile/services/happiness-center'));
-      request.fields.addAll({
+      final body = {
         'status': 'Open',
         'type': type,
         'recipient_type': 'owner',
@@ -63,15 +55,25 @@ class HappinessCenterService {
                 .toString(),
         'subject': subject,
         'message': message
-      });
+      };
+      var headers = {
+        "Authorization":
+            "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+      };
+      var request = http.MultipartRequest(
+          'POST',
+          Uri.parse(
+              'http://api.synergic360.com/mobile/services/happiness-center'));
+      request.fields.addAll(body);
       for (var element in fileList) {
         request.files.add(
             await http.MultipartFile.fromPath('attachments[]', element.path));
       }
       request.headers.addAll(headers);
       return await request.send().then((value) async {
+        String body = await value.stream.bytesToString();
         if (value.statusCode == 201) {
-          return Success(200, await value.stream.bytesToString());
+          return Success(200, body);
         }
         return Failure(400, "Unable to submit query");
       });

@@ -59,15 +59,19 @@ class RequestsPage extends StatelessWidget {
                           state.requestsModel?.applications?[index];
                       return InkWell(
                         onTap: () {
-                          context
-                              .read<RequestDetailsCubit>()
-                              .getRequestDetails(context, application?.id);
-                          Navigator.pushNamed(context, AppRoutes.requestDetails,
-                              arguments: [
-                                application?.id,
-                                application?.reference,
-                                application?.applicationType,
-                              ]);
+                          context.read<RequestDetailsCubit>().getRequestDetails(
+                              context,
+                              application?.id,
+                              application?.applicationType);
+                          String? routeName =
+                              getRouteName(application?.applicationType);
+                          if (routeName != null) {
+                            Navigator.pushNamed(context, routeName, arguments: [
+                              application?.id,
+                              application?.reference,
+                              application?.applicationType,
+                            ]);
+                          }
                         },
                         child: Container(
                           padding: const EdgeInsets.all(10),
@@ -267,5 +271,42 @@ class RequestsPage extends StatelessWidget {
         );
       },
     );
+  }
+
+  String? getRouteName(String? type) {
+    if (type?.toLowerCase() == "ad") {
+      return AppRoutes.adDetails;
+    }
+    if (type?.toLowerCase() == "fo") {
+      return AppRoutes.foDetails;
+    }
+    if (type?.toLowerCase() == "ri") {
+      return AppRoutes.riDetails;
+    }
+    if (type?.toLowerCase() == "wp") {
+      return AppRoutes.wpDetails;
+    }
+    if (type?.toLowerCase() == "ss") {
+      return AppRoutes.ssDetails;
+    }
+    if (type?.toLowerCase() == "cs") {
+      return AppRoutes.csDetails;
+    }
+    if (type?.toLowerCase() == "hb") {
+      return AppRoutes.hbDetails;
+    }
+    if (type?.toLowerCase() == "mo") {
+      return AppRoutes.moDetails;
+    }
+    if (type?.toLowerCase() == "dp") {
+      return AppRoutes.dpDetails;
+    }
+    if (type?.toLowerCase() == "tp") {
+      return AppRoutes.tpDetails;
+    }
+    if (type?.toLowerCase() == "mi") {
+      return AppRoutes.miDetails;
+    }
+    return null;
   }
 }

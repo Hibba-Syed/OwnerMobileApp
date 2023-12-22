@@ -1,4 +1,5 @@
 import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
+import 'package:iskaanowner/Views/ledger_by_account_details.dart';
 import 'package:iskaanowner/Views/ledger_by_statement.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
@@ -42,14 +43,14 @@ class NotificationsPage extends StatelessWidget {
                     Row(
                       children: [
                         CircleAvatar(
-                          radius: 30,
-                          backgroundColor:
-                              context.read<AppThemeCubit>().state.primaryColor,
-                          child: const Icon(
-                            Icons.list_outlined,
-                            color: kWhite,
-                          ),
-                        ),
+                            radius: 30,
+                            backgroundColor: context
+                                .read<AppThemeCubit>()
+                                .state
+                                .primaryColor,
+                            child: const LedgerByAccountDetailsPage()
+                                .ledgerIcon(notificationRecord?.objectType,
+                                    icon: Icons.list_outlined)),
                         const SizedBox(width: 10),
                         Expanded(
                           child: Column(

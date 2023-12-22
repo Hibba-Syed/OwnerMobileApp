@@ -108,7 +108,7 @@ class UnitDetailsPage extends StatelessWidget {
               child: const Row(
                 children: [
                   Icon(
-                    Icons.share,
+                    Icons.document_scanner_outlined,
                     color: kWhite,
                     size: 18,
                   ),

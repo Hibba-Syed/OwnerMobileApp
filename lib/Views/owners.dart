@@ -281,41 +281,51 @@ class OwnersPage extends StatelessWidget {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CustomText(text: text),
-          InkWell(
-            onTap: () {
-              if (url != null) {
-                launchUrl(Uri.parse(url));
-              }
-            },
-            child: const UnitsPage().roundedContainer(
-                context,
-                Row(
-                  children: [
-                    Icon(
-                      Icons.visibility,
-                      color: url == null
-                          ? kGrey
-                          : context.read<AppThemeCubit>().state.primaryColor,
-                    ),
-                    CustomText(
-                      text: " View",
-                      color: url == null
-                          ? kGrey
-                          : context.read<AppThemeCubit>().state.primaryColor,
-                    )
-                  ],
-                ),
-                invert: true,
-                color: kWhite,
-                padding: const EdgeInsets.symmetric(horizontal: 10)),
-          ),
+          Expanded(
+              child: CustomText(
+            text: text,
+            textAlign: TextAlign.left,
+          )),
+          viewButton(context, url)
         ],
       ),
       color: kGrey.shade200,
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       margin: const EdgeInsets.symmetric(vertical: 5),
     );
+  }
+
+  Widget viewButton(BuildContext context, String? url) {
+    return const UnitsPage().roundedContainer(
+        context,
+        InkWell(
+          onTap: () {
+            if (url != null && url != "$baseUrl/null" && url != "") {
+              launchUrl(Uri.parse(url));
+            }
+          },
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.visibility,
+                color: (url == null || url == "$baseUrl/null" || url == "")
+                    ? kGrey
+                    : context.read<AppThemeCubit>().state.primaryColor,
+              ),
+              CustomText(
+                text: " View",
+                color: (url == null || url == "$baseUrl/null" || url == "")
+                    ? kGrey
+                    : context.read<AppThemeCubit>().state.primaryColor,
+              )
+            ],
+          ),
+        ),
+        invert:
+            (url == null || url == "$baseUrl/null" || url == "") ? false : true,
+        color: kWhite,
+        padding: const EdgeInsets.symmetric(horizontal: 10));
   }
 
   TableRow tableRow(BuildContext context, String key, String value) {

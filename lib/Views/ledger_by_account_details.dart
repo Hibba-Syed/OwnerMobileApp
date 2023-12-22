@@ -151,7 +151,7 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget ledgerIcon(String? type) {
+  Widget ledgerIcon(String? type, {IconData? icon}) {
     if (type?.toLowerCase() == "receipt") {
       return const Icon(
         Icons.receipt_outlined,
@@ -170,8 +170,8 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
         color: kWhite,
       );
     }
-    return const Icon(
-      Icons.balance,
+    return Icon(
+      icon ?? Icons.balance,
       color: kWhite,
     );
   }
