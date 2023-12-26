@@ -13,7 +13,7 @@ class SharedDocumentPage extends StatelessWidget {
     int? unitId = ModalRoute.of(context)?.settings.arguments as int?;
     return Scaffold(
         appBar: BaseAppBar(
-          title: "Shared Documnets",
+          title: "Shared Documents",
           appBar: AppBar(),
           widgets: const [],
           appBarHeight: 50,

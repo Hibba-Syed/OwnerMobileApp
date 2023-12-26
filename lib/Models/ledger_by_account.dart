@@ -105,7 +105,7 @@ class LedgerAccountDatum {
   String? type;
   String? transactionNo;
   String? description;
-  dynamic debit;
+  double? debit;
   double? credit;
   double? balance;
 
@@ -131,7 +131,7 @@ class LedgerAccountDatum {
         type: json["type"],
         transactionNo: json["transaction_no"],
         description: json["description"],
-        debit: json["debit"],
+        debit: json["debit"]?.toDouble(),
         credit: json["credit"]?.toDouble(),
         balance: json["balance"]?.toDouble(),
       );

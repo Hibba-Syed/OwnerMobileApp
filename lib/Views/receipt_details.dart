@@ -25,160 +25,229 @@ class ReceiptDetailsPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: kGrey.shade100),
+                        child: const Icon(
+                          Icons.person_outline,
+                          size: 30,
+                        ),
+                      ),
+                      const Gap(10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomText(
+                              text: context
+                                      .read<ProfileCubit>()
+                                      .state
+                                      .profileModel
+                                      ?.record
+                                      ?.company
+                                      ?.name ??
+                                  "",
+                              fontWeight: FontWeight.bold,
+                              fontsize: 18,
+                              textAlign: TextAlign.left,
+                            ),
+                            const Gap(10),
+                            CustomText(
+                              text: context
+                                      .read<ProfileCubit>()
+                                      .state
+                                      .profileModel
+                                      ?.record
+                                      ?.company
+                                      ?.address1 ??
+                                  "",
+                              textAlign: TextAlign.left,
+                              fontsize: 12,
+                              color: kGrey,
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  const Gap(10),
+                  CustomText(
+                    text: "Details",
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  const Gap(10),
                   Container(
-                    padding: const EdgeInsets.all(40),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: kGrey.shade100),
-                    child: const Icon(
-                      Icons.person_outline,
-                      size: 30,
+                      color: kWhite,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: kGrey.shade200,
+                          blurRadius: 2,
+                          spreadRadius: 2,
+                        )
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomText(
+                              text: state.receiptDetailsModel?.title ?? "",
+                              fontWeight: FontWeight.bold,
+                              fontsize: 18,
+                            ),
+                            const Gap(10),
+                            CustomText(
+                              text: state
+                                      .receiptDetailsModel?.association?.name ??
+                                  "",
+                              fontsize: 12,
+                              color: kGrey,
+                            ),
+                          ],
+                        ),
+                        const Divider(),
+                        const Gap(10),
+                        RowText(
+                          text: "TRN:",
+                          text2: state.receiptDetailsModel?.association
+                                  ?.trnNumber ??
+                              "",
+                        ),
+                        const Gap(10),
+                        RowText(
+                          text: "Unit:",
+                          text2: state.receiptDetailsModel?.unitwise?[0].name ??
+                              "",
+                        ),
+                        const Gap(10),
+                        RowText(
+                          text: "Receipt No.",
+                          text2: state.receiptDetailsModel?.reference ?? "",
+                        ),
+                        const Gap(10),
+                        RowText(
+                          text: "Payment Method:",
+                          text2: state.receiptDetailsModel?.paymentMethod ?? "",
+                        ),
+                        const Gap(10),
+                        RowText(
+                          text: "Payment Date:",
+                          text2: const OccupantPage().dateTimeFormatter(
+                              state.receiptDetailsModel?.paymentDate),
+                        ),
+                        const Gap(10),
+                        RowText(
+                          text: "Receipt Date:",
+                          text2: const OccupantPage().dateTimeFormatter(
+                              state.receiptDetailsModel?.datetime),
+                        ),
+                        const Gap(10),
+                        RowText(
+                          text: "Paid by:",
+                          text2: state.receiptDetailsModel?.unitwise?[0].owner
+                                  ?.fullName ??
+                              "",
+                        ),
+                        const Gap(10),
+                        RowText(
+                          text: "Phone:",
+                          text2: state.receiptDetailsModel?.unitwise?[0].owner
+                                  ?.mobile ??
+                              "",
+                        ),
+                        const Gap(10),
+                        RowText(
+                          text: "Email:",
+                          text2: state.receiptDetailsModel?.unitwise?[0].owner
+                                  ?.email ??
+                              "",
+                        ),
+                        const Gap(10),
+                        RowText(
+                          text: "Bank account:",
+                          text2: state.receiptDetailsModel?.account?.type,
+                        ),
+                      ],
                     ),
                   ),
                   const Gap(10),
-                  const CustomText(
-                    text: "Community Management Company",
-                    fontWeight: FontWeight.bold,
-                    fontsize: 18,
-                  ),
-                  const Gap(10),
-                  const CustomText(
-                      text:
-                          "1004 IT Plaza Dubai Silicon Oasis, P.O. Box 12345, Dubai, United"),
-                  const Gap(10),
-                  const CustomText(text: "Arab Emirates"),
-                  const Gap(10),
                   CustomText(
-                    text: state.receiptDetailsModel?.association?.name ?? "",
+                    text: "Transactions",
+                    color: context.read<AppThemeCubit>().state.primaryColor,
                     fontWeight: FontWeight.bold,
-                    fontsize: 18,
                   ),
                   const Gap(10),
-                  const CustomText(
-                      text: "Silicon Oasis, Dubai, United Arab Emirates"),
-                  const Gap(10),
-                  CustomText(
-                      text:
-                          state.receiptDetailsModel?.association?.email ?? ""),
-                  const Gap(10),
-                  CustomText(
-                    text:
-                        "TRN: ${state.receiptDetailsModel?.association?.trnNumber ?? ""}",
-                    fontWeight: FontWeight.bold,
-                    fontsize: 18,
-                  ),
-                  const Gap(10),
-                  RowText(
-                    text: "Unit:",
-                    text2: state.receiptDetailsModel?.unitwise?[0].name ?? "",
-                  ),
-                  const Gap(10),
-                  RowText(
-                    text: "Receipt No.",
-                    text2: state.receiptDetailsModel?.reference ?? "",
-                  ),
-                  const Gap(10),
-                  RowText(
-                    text: "Payment Method:",
-                    text2: state.receiptDetailsModel?.paymentMethod ?? "",
-                  ),
-                  const Gap(10),
-                  RowText(
-                    text: "Payment Date:",
-                    text2: const OccupantPage().dateTimeFormatter(
-                        state.receiptDetailsModel?.paymentDate),
-                  ),
-                  const Gap(10),
-                  RowText(
-                    text: "Receipt Date:",
-                    text2: const OccupantPage()
-                        .dateTimeFormatter(state.receiptDetailsModel?.datetime),
-                  ),
-                  const Gap(10),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: DataTable(
-                        headingRowColor: MaterialStateColor.resolveWith(
-                            (states) => context
-                                .read<AppThemeCubit>()
-                                .state
-                                .primaryColor
-                                .withOpacity(0.1)),
-                        border: TableBorder.all(
-                            color: context
-                                .read<AppThemeCubit>()
-                                .state
-                                .primaryColor),
-                        columns: [
-                          "Account",
-                          "Description",
-                          "Amount",
-                        ]
-                            .map((e) => const SharedDocumentPage()
-                                .sharedDocumentDataColumn(e))
-                            .toList(),
-                        rows: (state.receiptDetailsModel?.transactions
-                                    ?.map((e) => {
-                                          "Account": e.account?.name,
-                                          "Description": e.description,
-                                          "Amount": e.totalAmount,
-                                        })
-                                    .toList() ??
-                                [])
-                            // [
-                            //   {
-                            //     "Account": "Access Card VAT",
-                            //     "Description": "",
-                            //     "Amount": "AED 10.48"
-                            //   },
-                            //   {
-                            //     "Account": "Access Card",
-                            //     "Description": "",
-                            //     "Amount": "AED 9.52"
-                            //   },
-                            //   {
-                            //     "Account": "Income Account",
-                            //     "Description": "",
-                            //     "Amount": "AED 9.52"
-                            //   },
-                            //   {
-                            //     "Account": "",
-                            //     "Description": "TOTAL",
-                            //     "Amount": "AED 50.50"
-                            //   },
-                            // ]
-                            .map((e) => const LedgerPage()
-                                .ledgerDataRow(e, context: context))
-                            .toList()),
-                  ),
-                  const Gap(10),
-                  RowText(
-                    text: "PAID BY:",
-                    text2: state.receiptDetailsModel?.unitwise?[0].owner
-                            ?.fullName ??
-                        "",
-                  ),
-                  const Gap(10),
-                  RowText(
-                    text: "PHONE:",
-                    text2:
-                        state.receiptDetailsModel?.unitwise?[0].owner?.mobile ??
-                            "",
-                  ),
-                  const Gap(10),
-                  RowText(
-                    text: "EMAIL:",
-                    text2:
-                        state.receiptDetailsModel?.unitwise?[0].owner?.email ??
-                            "",
-                  ),
-                  const Gap(10),
-                  const RowText(
-                    text: "BANK ACCOUNT:",
-                    text2: "Current",
-                  ),
-                  const Gap(10),
+                  Column(
+                    children: state.receiptDetailsModel?.transactions
+                            ?.map(
+                              (e) => Container(
+                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: kWhite,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        blurRadius: 2,
+                                        spreadRadius: 2,
+                                        color: kGrey.shade200),
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CustomText(
+                                          text: e.account?.title ?? "",
+                                          fontWeight: FontWeight.bold,
+                                          fontsize: 18,
+                                        ),
+                                        Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 5),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: context
+                                                    .read<AppThemeCubit>()
+                                                    .state
+                                                    .primaryColor
+                                                    .withOpacity(0.2)),
+                                            child: CustomText(
+                                                text: e.type?.capitalize() ??
+                                                    "")),
+                                      ],
+                                    ),
+                                    CustomText(
+                                        text: e.description == "" ||
+                                                e.description == " "
+                                            ? " -- "
+                                            : e.description ?? " -- "),
+                                    RowText(
+                                      text: "Amount",
+                                      text2: formatCurrency(e.amount ?? 0),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                            .toList() ??
+                        [],
+                  )
                 ],
               ),
             ),
@@ -186,5 +255,14 @@ class ReceiptDetailsPage extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+extension StringExtension on String {
+  String capitalize() {
+    if (isEmpty) {
+      return this;
+    }
+    return this[0].toUpperCase() + substring(1);
   }
 }

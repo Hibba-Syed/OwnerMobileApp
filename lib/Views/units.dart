@@ -127,8 +127,8 @@ class UnitsPage extends StatelessWidget {
                                     const Expanded(child: Divider()),
                                     const Gap(10),
                                     CustomText(
-                                      text:
-                                          "${unit?.unitBalance?.toStringAsFixed(2)} AED",
+                                      text: formatCurrency(
+                                          unit?.unitBalance ?? 0),
                                       fontsize: 12,
                                       // color: kWhite,
                                     ),

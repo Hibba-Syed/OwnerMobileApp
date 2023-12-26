@@ -43,6 +43,8 @@ class LoginCubit extends Cubit<LoginState> {
                 loginModel: loginModelFromJson(value.response as String)[0],
                 loadingState: LoadingState.success,
               ));
+              Global.storageService
+                  .setLoginCreds([state.email, state.password]);
               context.read<AppThemeCubit>().onChangeAppTheme(const SplashPage()
                   .parseHexColor(state.loginModel?.owner?.company?.themeColor ??
                       "#751b50"));

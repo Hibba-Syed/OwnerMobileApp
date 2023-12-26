@@ -50,16 +50,8 @@ class OwnersPage extends StatelessWidget {
                     Icons.email_outlined,
                     color: context.read<AppThemeCubit>().state.primaryColor,
                   ),
-                  "key": "Primary Email",
+                  "key": "Email",
                   "value": owner?.detail?.primaryEmail,
-                },
-                {
-                  "icon": Icon(
-                    Icons.email_outlined,
-                    color: context.read<AppThemeCubit>().state.primaryColor,
-                  ),
-                  "key": "Secondary Email",
-                  "value": owner?.detail?.secondaryEmail,
                 },
                 {
                   "icon": Icon(

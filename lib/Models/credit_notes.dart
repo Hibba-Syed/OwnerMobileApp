@@ -53,7 +53,7 @@ class CreditNote {
   DateTime? date;
   String? reference;
   String? description;
-  int? amount;
+  double? amount;
   List<dynamic>? documents;
 
   CreditNote({
@@ -70,7 +70,7 @@ class CreditNote {
       date: json["date"] == null ? null : DateTime.parse(json["date"]),
       reference: json["reference"],
       description: json["description"],
-      amount: json["amount"],
+      amount: json["amount"]?.toDouble(),
       documents: json["documents"] ?? []);
 
   Map<String, dynamic> toJson() => {

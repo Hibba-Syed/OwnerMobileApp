@@ -150,6 +150,7 @@ class UnitDetailsPage extends StatelessWidget {
         "name": "Requests",
         "icon": Icons.request_page_outlined,
         "onTap": () {
+          context.read<RequestsCubit>().resetFilters();
           context.read<RequestsCubit>().getRequests(context, unitId);
           return Navigator.pushNamed(context, AppRoutes.requests,
               arguments: [unitNo, unitId]);
@@ -185,6 +186,7 @@ class UnitDetailsPage extends StatelessWidget {
         "name": "Ledger",
         "icon": Icons.account_balance,
         "onTap": () {
+          context.read<LedgerCubit>().reset(context);
           context.read<LedgerCubit>().getLedgerByStatement(context, unitId);
           context.read<LedgerCubit>().getLedgerByDate(context, unitId);
           context.read<LedgerCubit>().getLedgerByAccount(context, unitId);
@@ -196,6 +198,7 @@ class UnitDetailsPage extends StatelessWidget {
         "name": "Invoices",
         "icon": Icons.receipt_long,
         "onTap": () {
+          context.read<InvoicesCubit>().reset();
           context.read<InvoicesCubit>().getInvoices(context, unitId);
           return Navigator.pushNamed(context, AppRoutes.invoices,
               arguments: [unitNo, unitId]);
@@ -205,6 +208,7 @@ class UnitDetailsPage extends StatelessWidget {
         "name": "Receipts",
         "icon": Icons.receipt,
         "onTap": () {
+          context.read<ReceiptsCubit>().reset();
           context.read<ReceiptsCubit>().getReceipts(context, unitId);
           return Navigator.pushNamed(context, AppRoutes.receipts,
               arguments: [unitNo, unitId]);
@@ -214,6 +218,7 @@ class UnitDetailsPage extends StatelessWidget {
         "name": "Credit Notes",
         "icon": Icons.note,
         "onTap": () {
+          context.read<CreditNotesCubit>().reset();
           context.read<CreditNotesCubit>().getCreditNotes(context, unitId);
           return Navigator.pushNamed(context, AppRoutes.creditNotes,
               arguments: [unitNo, unitId]);

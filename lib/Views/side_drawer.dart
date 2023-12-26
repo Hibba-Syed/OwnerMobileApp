@@ -54,186 +54,151 @@ class SideDrawerPage extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
                   child: CustomButton(
-                    text: "Switch Accoount",
-                    icon: const Icon(
-                      Icons.contacts_outlined,
-                      color: kWhite,
-                    ),
-                    function: () => showDialog(
-                      context: context,
-                      builder: (context) {
-                        String? userList = Global.storageService
-                            .getAuthenticationModelString();
-                        List<dynamic> users = jsonDecode(userList ?? "[]");
-                        return AlertDialog(
-                          backgroundColor: kWhite,
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              CustomText(
-                                text: "Select a Profile",
-                                color: context
-                                    .read<AppThemeCubit>()
-                                    .state
-                                    .primaryColor,
-                                fontsize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              const Gap(10),
-                              Column(
-                                children: List.generate(users.length, (index) {
-                                  LoginModel loginModel =
-                                      LoginModel.fromJson(users[index]);
-                                  return InkWell(
-                                    onTap: () async {
-                                      if (users[0] == users[index]) {
-                                        Fluttertoast.showToast(
-                                            msg: "Already logged In");
-                                        return;
-                                      }
-                                      Global.storageService
-                                          .setAuthenticationModelString(
-                                        LoginModel.fromJson(users[index]),
-                                        addItInFront: true,
-                                        index: index,
-                                      );
-                                      CoolAlert.show(
-                                          context: context,
-                                          type: CoolAlertType.loading,
-                                          lottieAsset: "assets/profile.json",
-                                          text: "Switching profile ... ");
-                                      String? jsonAuthModel = Global
-                                          .storageService
-                                          .getAuthenticationModelString();
-                                      if (jsonAuthModel != null) {
-                                        context
-                                            .read<LoginCubit>()
-                                            .onChangeLoginModel(
-                                                LoginModel.fromJson(
-                                                    users[index]));
-                                        const LoginPage().initialCalls(context);
-                                        await context
-                                            .read<ProfileCubit>()
-                                            .getProfile(context)
-                                            .then((value) {
-                                          context
-                                              .read<AuthenticationCubit>()
-                                              .isDeviceSupported(context)
-                                              .then((value) {
-                                            context
-                                                .read<AppThemeCubit>()
-                                                .onChangeAppTheme(
-                                                    const SplashPage()
-                                                        .parseHexColor(context
-                                                                .read<
-                                                                    ProfileCubit>()
-                                                                .state
-                                                                .profileModel
-                                                                ?.record
-                                                                ?.company
-                                                                ?.themeColor ??
-                                                            " 0xff751b50"));
-                                            if (value == true) {
-                                              return Navigator
-                                                  .pushReplacementNamed(context,
-                                                      AppRoutes.authorization);
-                                            }
-                                            return Navigator
-                                                .pushReplacementNamed(context,
-                                                    AppRoutes.dashboard);
-                                          });
-                                        });
-                                      } else {
-                                        Navigator.pushReplacementNamed(
-                                            context, AppRoutes.login);
-                                      }
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      margin: const EdgeInsets.symmetric(
-                                          vertical: 10),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: kWhite,
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: context
-                                                    .read<AppThemeCubit>()
-                                                    .state
-                                                    .primaryColor
-                                                    .withOpacity(0.1),
-                                                spreadRadius: 2,
-                                                blurRadius: 2)
-                                          ]),
-                                      child: Row(
-                                        children: [
-                                          Image.network(
-                                            loginModel.owner?.company
-                                                    ?.faviconUrl ??
-                                                "",
-                                            width: 30,
-                                            height: 30,
-                                          ),
-                                          const Gap(10),
-                                          Expanded(
-                                            child: CustomText(
-                                              text: loginModel.owner?.company
-                                                      ?.shortName ??
-                                                  "",
-                                              textAlign: TextAlign.left,
-                                            ),
-                                          ),
-                                          const Gap(10),
-                                          index == 0
-                                              ? Icon(
-                                                  Icons.done,
-                                                  color: context
-                                                      .read<AppThemeCubit>()
-                                                      .state
-                                                      .primaryColor,
-                                                )
-                                              : const Icon(
-                                                  Icons
-                                                      .arrow_forward_ios_outlined,
-                                                  size: 15,
-                                                ),
-                                        ],
-                                      ),
+                      text: "Switch Accoount",
+                      icon: const Icon(
+                        Icons.contacts_outlined,
+                        color: kWhite,
+                      ),
+                      function: () => showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context) {
+                            String? userList = Global.storageService
+                                .getAuthenticationModelString();
+                            List<dynamic> users = jsonDecode(userList ?? "[]");
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Gap(10),
+                                CustomText(
+                                  text: "Select a Profile",
+                                  color: context
+                                      .read<AppThemeCubit>()
+                                      .state
+                                      .primaryColor,
+                                  fontsize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                const Gap(10),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height / 2,
+                                  child: GridView.builder(
+                                    padding: const EdgeInsets.all(5),
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      mainAxisSpacing: 10,
+                                      crossAxisSpacing: 10,
                                     ),
-                                  );
-                                }),
-                              ),
-                              const Gap(10),
-                              Divider(
-                                color: context
-                                    .read<AppThemeCubit>()
-                                    .state
-                                    .primaryColor,
-                              ),
-                              const Gap(10),
-                              CustomButton(
-                                  text: "Add Account",
-                                  icon: const Icon(
-                                    Icons.add,
-                                    color: kWhite,
+                                    itemCount: users.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      LoginModel loginModel =
+                                          LoginModel.fromJson(users[index]);
+                                      return InkWell(
+                                        onTap: () async => await onProfileTap(
+                                            context, users, index),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Stack(
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsets.all(
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.05),
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          color: kWhite),
+                                                  child: Image.network(
+                                                    loginModel.owner?.company
+                                                            ?.faviconUrl ??
+                                                        "",
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.1,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.1,
+                                                  ),
+                                                ),
+                                                if (index == 0)
+                                                  Positioned(
+                                                    right: 0,
+                                                    top: 0,
+                                                    child: Container(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              5),
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              color:
+                                                                  Colors.green),
+                                                      child: const Icon(
+                                                        Icons.done,
+                                                        color: kWhite,
+                                                        size: 15,
+                                                      ),
+                                                    ),
+                                                  )
+                                              ],
+                                            ),
+                                            CustomText(
+                                                text:
+                                                    "${loginModel.owner?.firstName ?? " -- "} ${loginModel.owner?.lastName ?? " -- "}"),
+                                            CustomText(
+                                              text: loginModel
+                                                      .owner?.company?.name ??
+                                                  "",
+                                              fontsize: 12,
+                                              color: kGrey,
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    },
                                   ),
-                                  function: () {
-                                    final GlobalKey<FormState> key =
-                                        GlobalKey();
-                                    final LoginCubit loginCubit =
-                                        context.read<LoginCubit>();
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) => addNewAccount(
-                                            context, key, loginCubit));
-                                  })
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                                ),
+                                Divider(
+                                  color: context
+                                      .read<AppThemeCubit>()
+                                      .state
+                                      .primaryColor,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: CustomButton(
+                                      text: "Add Account",
+                                      icon: const Icon(
+                                        Icons.add,
+                                        color: kWhite,
+                                      ),
+                                      function: () {
+                                        final GlobalKey<FormState> key =
+                                            GlobalKey();
+                                        final LoginCubit loginCubit =
+                                            context.read<LoginCubit>();
+                                        showModalBottomSheet(
+                                            context: context,
+                                            builder: (context) => addNewAccount(
+                                                context, key, loginCubit));
+                                      }),
+                                )
+                              ],
+                            );
+                          })),
                 )
               ],
             ),
@@ -435,5 +400,53 @@ class SideDrawerPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> onProfileTap(BuildContext context, List users, int index) async {
+    if (users[0] == users[index]) {
+      Fluttertoast.showToast(msg: "Already logged In");
+      return;
+    }
+    Global.storageService.setAuthenticationModelString(
+      LoginModel.fromJson(users[index]),
+      addItInFront: true,
+      index: index,
+    );
+    CoolAlert.show(
+        context: context,
+        type: CoolAlertType.loading,
+        lottieAsset: "assets/profile.json",
+        text: "Switching profile ... ");
+    String? jsonAuthModel =
+        Global.storageService.getAuthenticationModelString();
+    if (jsonAuthModel != null) {
+      context
+          .read<LoginCubit>()
+          .onChangeLoginModel(LoginModel.fromJson(users[index]));
+      const LoginPage().initialCalls(context);
+      await context.read<ProfileCubit>().getProfile(context).then((value) {
+        context
+            .read<AuthenticationCubit>()
+            .isDeviceSupported(context)
+            .then((value) {
+          context.read<AppThemeCubit>().onChangeAppTheme(const SplashPage()
+              .parseHexColor(context
+                      .read<ProfileCubit>()
+                      .state
+                      .profileModel
+                      ?.record
+                      ?.company
+                      ?.themeColor ??
+                  " 0xff751b50"));
+          if (value == true) {
+            return Navigator.pushReplacementNamed(
+                context, AppRoutes.authorization);
+          }
+          return Navigator.pushReplacementNamed(context, AppRoutes.dashboard);
+        });
+      });
+    } else {
+      Navigator.pushReplacementNamed(context, AppRoutes.login);
+    }
   }
 }

@@ -185,7 +185,7 @@ class RequestsPage extends StatelessWidget {
           ),
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         ),
-        const Spacer(),
+        const Gap(10),
         if (application?.clientPhone != null)
           const UnitsPage().roundedContainer(
             context,

@@ -173,8 +173,8 @@ class UnitFinancialPage extends StatelessWidget {
                                         .primaryColor
                                         .withOpacity(0.2)),
                                 child: CustomText(
-                                  text:
-                                      "${(unitFinancialsRecord?.balance ?? 0).toStringAsFixed(2)} AED",
+                                  text: formatCurrency(
+                                      unitFinancialsRecord?.balance ?? 0),
                                   fontsize: 12,
                                 ),
                               ),

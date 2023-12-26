@@ -1,4 +1,4 @@
-import 'package:iskaanowner/Blocs/Credit%20Note%20Details/credit_note_details_cubit.dart';
+import 'package:iskaanowner/Views/ledger_by_statement.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -75,11 +75,8 @@ class CreditNotesPage extends StatelessWidget {
                           state.creditNotesModel?.creditNotes?[index];
                       return InkWell(
                         onTap: () {
-                          context
-                              .read<CreditNoteDetailsCubit>()
-                              .getCreditNoteDetails(context, creditNote?.id);
-                          Navigator.pushNamed(
-                              context, AppRoutes.creditNoteDetails);
+                          const LedgerByStatement().decidePage(
+                              context, creditNote?.id, "credit_memo");
                         },
                         child: Container(
                           padding: const EdgeInsets.all(10),
@@ -141,8 +138,8 @@ class CreditNotesPage extends StatelessWidget {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         CustomText(
-                                          text:
-                                              "${(creditNote?.amount ?? 0).toStringAsFixed(2)} AED",
+                                          text: formatCurrency(
+                                              creditNote?.amount ?? 0),
                                           fontsize: 13,
                                         ),
                                         InkWell(

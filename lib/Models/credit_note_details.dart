@@ -422,7 +422,7 @@ class Transaction {
   int? ledgerableId;
   String? books;
   String? type;
-  int? amount;
+  double? amount;
   int? vat;
   int? vatRate;
   int? advanceAmount;
@@ -517,7 +517,7 @@ class Transaction {
         ledgerableId: json["ledgerable_id"],
         books: json["books"],
         type: json["type"],
-        amount: json["amount"],
+        amount: json["amount"]?.toDouble(),
         vat: json["vat"],
         vatRate: json["vat_rate"],
         advanceAmount: json["advance_amount"],

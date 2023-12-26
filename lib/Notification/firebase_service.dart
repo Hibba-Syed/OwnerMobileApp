@@ -19,17 +19,18 @@ class FirebaseNotificationService {
     await firebaseMessaging.requestPermission();
   }
 
-  handleTokenStatus(BuildContext context) async {
+  handleTokenStatus(BuildContext context, String accessToken) async {
     if (kDebugMode) {
       print(await firebaseMessaging.getToken());
     }
     tokenSteam = firebaseMessaging.onTokenRefresh.listen((event) async {
-      await makeFirebaseTokenRequest(context);
+      await makeFirebaseTokenRequest(context, accessToken);
     });
   }
 
   Future<void> makeFirebaseTokenRequest(
     BuildContext context,
+    String accessToken,
   ) async {
     await firebaseMessaging.getToken().then((value) {
       Uri url = Uri.parse("$baseUrl/mobile/owner/auth/update/device-token");
@@ -37,8 +38,7 @@ class FirebaseNotificationService {
         "device_type": Platform.isAndroid ? "Android" : "IOS",
         "device_token": value,
       }, headers: {
-        "Authorization":
-            "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+        "Authorization": "Bearer $accessToken"
       }).then((value) {
         if (kDebugMode) {
           print(value.body);

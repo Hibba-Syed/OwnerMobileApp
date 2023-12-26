@@ -28,6 +28,18 @@ class StorageService {
     return await _prefs.setString("users", jsonEncode([value]));
   }
 
+  Future<bool> setLoginCreds(List creds) async {
+    return await _prefs.setString("creds", jsonEncode(creds));
+  }
+
+  List? getLoginCreds() {
+    String? creds = _prefs.getString("creds");
+    if (creds == null) {
+      return null;
+    }
+    return jsonDecode(creds);
+  }
+
   String? getAuthenticationModelString() {
     return _prefs.getString("users");
   }

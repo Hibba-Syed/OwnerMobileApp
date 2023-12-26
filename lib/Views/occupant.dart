@@ -42,15 +42,7 @@ class OccupantPage extends StatelessWidget {
                 Icons.email_outlined,
                 color: context.read<AppThemeCubit>().state.primaryColor,
               ),
-              "key": "Primary Email",
-              "value": state.occupantModel?.occupant?.details?.primaryEmail,
-            },
-            {
-              "icon": Icon(
-                Icons.email_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
-              "key": "Secondary Email",
+              "key": "Email",
               "value": state.occupantModel?.occupant?.details?.primaryEmail,
             },
             {

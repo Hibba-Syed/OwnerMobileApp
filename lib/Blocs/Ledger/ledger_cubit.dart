@@ -26,6 +26,22 @@ class LedgerCubit extends Cubit<LedgerState> {
     emit(state.copyWith(customDateRange: customDateRange));
   }
 
+  void reset(BuildContext context) {
+    emit(state.copyWith(
+      ledgerType: context
+          .read<LedgerTypesCubit>()
+          .state
+          .ledgerTypesModel
+          ?.record
+          ?.ledgers
+          ?.first,
+      customDateRange: DateTimeRange(
+        start: DateTime(DateTime.now().year, 1, 1),
+        end: DateTime(DateTime.now().year, 12, 31),
+      ),
+    ));
+  }
+
   void onChangeKeyword(int? year) {
     emit(state.copyWith(year: year));
   }

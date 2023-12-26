@@ -110,6 +110,75 @@ class LoginPage extends StatelessWidget {
                       onChanged: (password) =>
                           loginCubit.onChangePassword(password),
                     ),
+                    if (Global.storageService.getLoginCreds() != null &&
+                        context
+                            .read<AuthenticationCubit>()
+                            .isSupportedBiometrcs)
+                      Row(
+                        children: [
+                          const Expanded(child: Divider()),
+                          const Gap(10),
+                          CustomText(
+                            text: "OR",
+                            color: context
+                                .read<AppThemeCubit>()
+                                .state
+                                .primaryColor,
+                          ),
+                          const Gap(10),
+                          const Expanded(child: Divider())
+                        ],
+                      ),
+                    if (Global.storageService.getLoginCreds() != null &&
+                        context
+                            .read<AuthenticationCubit>()
+                            .isSupportedBiometrcs)
+                      const Gap(10),
+                    if (Global.storageService.getLoginCreds() != null &&
+                        context
+                            .read<AuthenticationCubit>()
+                            .isSupportedBiometrcs)
+                      CustomButton(
+                          text: "Biometric Login",
+                          textColor:
+                              context.read<AppThemeCubit>().state.primaryColor,
+                          invert: true,
+                          icon: Builder(builder: (context) {
+                            IconData icon = Icons.security_outlined;
+                            if (context
+                                    .read<AuthenticationCubit>()
+                                    .getBiometricName(context) ==
+                                "face") {
+                              icon = Icons.face_outlined;
+                            }
+                            if (context
+                                    .read<AuthenticationCubit>()
+                                    .getBiometricName(context) ==
+                                "fingerprint") {
+                              icon = Icons.fingerprint_outlined;
+                            }
+                            return Icon(
+                              icon,
+                              color: context
+                                  .read<AppThemeCubit>()
+                                  .state
+                                  .primaryColor,
+                            );
+                          }),
+                          function: () {
+                            context.read<LoginCubit>().onChangeEmail(
+                                Global.storageService.getLoginCreds()?[0]);
+                            context.read<LoginCubit>().onChangePassword(
+                                Global.storageService.getLoginCreds()?[1]);
+                            context
+                                .read<AuthenticationCubit>()
+                                .authenticate(context, loginAuth: true);
+                          }),
+                    if (Global.storageService.getLoginCreds() != null &&
+                        context
+                            .read<AuthenticationCubit>()
+                            .isSupportedBiometrcs)
+                      const Gap(10),
                     Align(
                       alignment: Alignment.centerRight,
                       child: InkWell(
@@ -140,7 +209,7 @@ class LoginPage extends StatelessWidget {
                               }
                             });
                       },
-                    )
+                    ),
                   ],
                 ),
               );
@@ -264,8 +333,10 @@ class LoginPage extends StatelessWidget {
 
   void initialCalls(BuildContext context) {
     LocalNotificationService(context).initialize();
-    FirebaseNotificationService().handleTokenStatus(context);
-    FirebaseNotificationService().makeFirebaseTokenRequest(context);
+    FirebaseNotificationService().handleTokenStatus(context,
+        context.read<LoginCubit>().state.loginModel?.accessToken ?? "");
+    FirebaseNotificationService().makeFirebaseTokenRequest(context,
+        context.read<LoginCubit>().state.loginModel?.accessToken ?? "");
     FirebaseNotificationService().handleOnTapBackground(context);
     FirebaseNotificationService().handleOnMessage();
     FirebaseNotificationService().handleAppOpened(context);

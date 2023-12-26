@@ -10,6 +10,8 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<AuthenticationCubit>().isDeviceSupported(context);
+    context.read<AuthenticationCubit>().getAvailableBiometric(context);
     Future.delayed(3.seconds, () async {
       String? jsonAuthModel =
           Global.storageService.getAuthenticationModelString();
