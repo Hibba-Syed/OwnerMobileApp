@@ -4,8 +4,37 @@ import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Models/unit_financials.dart';
 import '../Utils/utils.dart';
 
-class UnitFinancialPage extends StatelessWidget {
+class UnitFinancialPage extends StatefulWidget {
   const UnitFinancialPage({super.key});
+
+  @override
+  State<UnitFinancialPage> createState() => _UnitFinancialPageState();
+}
+
+class _UnitFinancialPageState extends State<UnitFinancialPage> {
+  final ScrollController _scrollController = ScrollController();
+  @override
+  void initState() {
+    _scrollController.addListener(scrollListener);
+    super.initState();
+  }
+
+  scrollListener() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      UnitFinancialsCubit unitFinancialsCubit =
+          context.read<UnitFinancialsCubit>();
+      if (unitFinancialsCubit.state.loadMoreState != LoadingState.loading) {
+        unitFinancialsCubit.getMoreUnitFinancials(context);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(scrollListener);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,10 +106,11 @@ class UnitFinancialPage extends StatelessWidget {
                 ),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: state.unitFinancialsModel?.record?.length,
+                    controller: _scrollController,
+                    itemCount: state.unitFinancialsModel?.unitSummaries?.length,
                     itemBuilder: (BuildContext context, int index) {
-                      UnitFinancialsRecord? unitFinancialsRecord =
-                          state.unitFinancialsModel?.record?[index];
+                      UnitSummary? unitFinancialsRecord =
+                          state.unitFinancialsModel?.unitSummaries?[index];
                       var modifedList = List.from(state.selectedUnits);
                       int? checkboxIndex = modifedList.indexWhere(
                           (element) => element == unitFinancialsRecord?.unitId);
@@ -185,6 +215,11 @@ class UnitFinancialPage extends StatelessWidget {
                     },
                   ),
                 ),
+                if (state.loadMoreState == LoadingState.loading)
+                  const SizedBox(
+                    height: 100,
+                    child: Center(child: CircularProgressIndicator()),
+                  )
               ],
             ),
           );

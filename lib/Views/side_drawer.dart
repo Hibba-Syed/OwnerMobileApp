@@ -164,6 +164,7 @@ class SideDrawerPage extends StatelessWidget {
                                                   "",
                                               fontsize: 12,
                                               color: kGrey,
+                                              textAlign: TextAlign.center,
                                             )
                                           ],
                                         ),

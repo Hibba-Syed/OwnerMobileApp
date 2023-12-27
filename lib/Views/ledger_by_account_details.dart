@@ -1,5 +1,3 @@
-import 'package:iskaanowner/Views/ledger_by_statement.dart';
-
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Models/ledger_by_account.dart';
 import '../Utils/utils.dart';
@@ -27,8 +25,8 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
               accountDatum?.ledgers?[index];
           return InkWell(
             onTap: () {
-              const LedgerByStatement().decidePage(context,
-                  ledgerAccountDatum?.id, ledgerAccountDatum?.document);
+              const LedgerPage().decidePage(context, ledgerAccountDatum?.id,
+                  ledgerAccountDatum?.document);
             },
             child: Container(
               padding: const EdgeInsets.all(10),

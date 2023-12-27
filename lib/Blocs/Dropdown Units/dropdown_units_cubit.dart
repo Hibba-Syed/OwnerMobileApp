@@ -7,7 +7,7 @@ class DropdownUnitsCubit extends Cubit<DropdownUnitsState> {
 
   Future<void> getUnits(BuildContext context, int? id) async {
     emit(state.copyWith(loadingState: LoadingState.loading));
-    await UnitsService.getUnits(context, id).then((value) {
+    await UnitsService.getUnits(context, id, 1, limit: 5000).then((value) {
       if (value is Success) {
         return emit(state.copyWith(
           unitsModel: unitsModelFromJson(value.response as String),

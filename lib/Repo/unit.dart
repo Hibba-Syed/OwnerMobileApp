@@ -6,11 +6,12 @@ import 'package:iskaanowner/Models/ledgers_type.dart';
 import '../Utils/utils.dart';
 
 class UnitsService {
-  static Future<Object?> getUnits(BuildContext context, int? id) async {
+  static Future<Object?> getUnits(BuildContext context, int? id, int page,
+      {int limit = 10}) async {
     return await ExceptionService.applyTryCatch(() async {
       return await http.get(
           Uri.parse(
-            "$baseUrl/mobile/owner/property/community-units/$id",
+            "$baseUrl/mobile/owner/property/community-units/$id?page=$page&limit=$limit",
           ),
           headers: {
             "Authorization":
@@ -66,6 +67,7 @@ class UnitsService {
     String? keyword,
     String? requestType,
     String? status,
+    int page,
   ) async {
     return await ExceptionService.applyTryCatch(() async {
       String filter = "?keyword=";
@@ -77,7 +79,7 @@ class UnitsService {
       }
       return await http.get(
           Uri.parse(
-            "$baseUrl/mobile/owner/property/applications/$id$filter",
+            "$baseUrl/mobile/owner/property/applications/$id$filter&page=$page",
           ),
           headers: {
             "Authorization":
@@ -92,11 +94,11 @@ class UnitsService {
   }
 
   static Future<Object?> getUnitCompliances(
-      BuildContext context, int? id, String? keyword) async {
+      BuildContext context, int? id, String? keyword, int page) async {
     return await ExceptionService.applyTryCatch(() async {
       return await http.get(
           Uri.parse(
-            "$baseUrl/mobile/owner/property/compliance?complianceable_type=unit&complianceable_id=$id&search=$keyword",
+            "$baseUrl/mobile/owner/property/compliance?complianceable_type=unit&complianceable_id=$id&search=$keyword&page=$page",
           ),
           headers: {
             "Authorization":
@@ -116,6 +118,7 @@ class UnitsService {
     String search,
     DateTimeRange? dateTimeRange,
     DateTimeRange? dueDateTimeRange,
+    int page,
   ) async {
     return await ExceptionService.applyTryCatch(() async {
       String filter = "";
@@ -129,7 +132,7 @@ class UnitsService {
       }
       return await http.get(
           Uri.parse(
-            "$baseUrl/mobile/owner/property/accounting/invoices?unit_id=$id&search=$search$filter",
+            "$baseUrl/mobile/owner/property/accounting/invoices?unit_id=$id&search=$search$filter&page=$page",
           ),
           headers: {
             "Authorization":
@@ -206,7 +209,7 @@ class UnitsService {
   }
 
   static Future<Object?> getUnitCreditNotes(BuildContext context, int? id,
-      String? keyword, DateTimeRange? dateTimeRange) async {
+      String? keyword, DateTimeRange? dateTimeRange, int page) async {
     return await ExceptionService.applyTryCatch(() async {
       String filter = "";
       if (dateTimeRange != null) {
@@ -215,7 +218,7 @@ class UnitsService {
       }
       return await http.get(
           Uri.parse(
-            "$baseUrl/mobile/owner/property/accounting/credit-notes?creditable_type=unit&creditable_id=$id&search=$keyword$filter",
+            "$baseUrl/mobile/owner/property/accounting/credit-notes?creditable_type=unit&creditable_id=$id&search=$keyword$filter&page=$page",
           ),
           headers: {
             "Authorization":
@@ -252,11 +255,12 @@ class UnitsService {
       BuildContext context,
       int? id,
       IndividualLedger? individualLedger,
-      DateTimeRange? customDateRange) async {
+      DateTimeRange? customDateRange,
+      int page) async {
     return await ExceptionService.applyTryCatch(() async {
       return await http.get(
           Uri.parse(
-            "$baseUrl/mobile/owner/property/accounting/ledgers/by-statement/$id?fromDate=${customDateRange?.start}&toDate=${customDateRange?.end}&ledgerIds[]=${individualLedger?.id}&limit=5&page=1",
+            "$baseUrl/mobile/owner/property/accounting/ledgers/by-statement/$id?fromDate=${customDateRange?.start}&toDate=${customDateRange?.end}&ledgerIds[]=${individualLedger?.id}&limit=5&page=$page",
           ),
           headers: {
             "Authorization":
@@ -274,11 +278,12 @@ class UnitsService {
       BuildContext context,
       int? id,
       IndividualLedger? individualLedger,
-      DateTimeRange? customDateRange) async {
+      DateTimeRange? customDateRange,
+      int page) async {
     return await ExceptionService.applyTryCatch(() async {
       return await http.get(
           Uri.parse(
-            "$baseUrl/mobile/owner/property/accounting/ledgers/by-date/$id?fromDate=${customDateRange?.start}&toDate=${customDateRange?.end}&ledgerIds[]=${individualLedger?.id}&limit=5&page=1",
+            "$baseUrl/mobile/owner/property/accounting/ledgers/by-date/$id?fromDate=${customDateRange?.start}&toDate=${customDateRange?.end}&ledgerIds[]=${individualLedger?.id}&limit=5&page=$page",
           ),
           headers: {
             "Authorization":
@@ -293,14 +298,16 @@ class UnitsService {
   }
 
   static Future<Object?> getUnitLedgerByAccount(
-      BuildContext context,
-      int? id,
-      IndividualLedger? individualLedger,
-      DateTimeRange? customDateRange) async {
+    BuildContext context,
+    int? id,
+    IndividualLedger? individualLedger,
+    DateTimeRange? customDateRange,
+    int page,
+  ) async {
     return await ExceptionService.applyTryCatch(() async {
       return await http.get(
           Uri.parse(
-            "$baseUrl/mobile/owner/property/accounting/ledgers/by-account/$id?fromDate=${customDateRange?.start}&toDate=${customDateRange?.end}&ledgerIds[]=${individualLedger?.id}&limit=15&page=1",
+            "$baseUrl/mobile/owner/property/accounting/ledgers/by-account/$id?fromDate=${customDateRange?.start}&toDate=${customDateRange?.end}&ledgerIds[]=${individualLedger?.id}&limit=15&page=$page",
           ),
           headers: {
             "Authorization":
@@ -369,11 +376,12 @@ class UnitsService {
     });
   }
 
-  static Future<Object?> getUnitFinancials(BuildContext context) async {
+  static Future<Object?> getUnitFinancials(
+      BuildContext context, int page) async {
     return await ExceptionService.applyTryCatch(() async {
       return await http.get(
           Uri.parse(
-            "$baseUrl/mobile/owner/profile/units-financial-summary",
+            "$baseUrl/mobile/owner/profile/units-financial-summary?page=$page",
           ),
           headers: {
             "Authorization":

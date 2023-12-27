@@ -1,4 +1,5 @@
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
+import 'package:iskaanowner/Widgets/shared_document_list_page.dart';
 import 'package:path/path.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,42 +20,8 @@ class SharedDocumentPage extends StatelessWidget {
           appBarHeight: 50,
           automaticallyImplyLeading: true,
         ),
-        body: BlocBuilder<SharedDocumentsCubit, SharedDocumentsState>(
-          builder: (context, state) {
-            if (state.loadingState == LoadingState.loading) {
-              return const CustomLoader();
-            }
-            if (state.sharedDocumentsModel?.record?.isEmpty ?? true) {
-              return const CreditNotesPage()
-                  .emptyList(lottie: "assets/document.json");
-            }
-            return GridView.builder(
-              padding: const EdgeInsets.all(10),
-              itemCount: state.sharedDocumentsModel?.record?.length,
-              itemBuilder: (BuildContext context, int index) {
-                SharedDocumentsRecord? sharedDocumentsRecord =
-                    state.sharedDocumentsModel?.record?[index];
-                return Container(
-                  decoration: BoxDecoration(
-                      color: kWhite,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                            color: kGrey.shade300,
-                            blurRadius: 2,
-                            spreadRadius: 2)
-                      ]),
-                  child: sharedDocumentWidget(
-                      context, sharedDocumentsRecord, unitId),
-                );
-              },
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  childAspectRatio: 16 / 20),
-            );
-          },
+        body: SharedDocumentsListPage(
+          unitId: unitId,
         ));
   }
 
@@ -67,7 +34,7 @@ class SharedDocumentPage extends StatelessWidget {
   }
 
   Widget sharedDocumentWidget(BuildContext context,
-      SharedDocumentsRecord? sharedDocumentsRecord, int? unitId) {
+      SharedDocument? sharedDocumentsRecord, int? unitId) {
     return Column(
       children: [
         Expanded(

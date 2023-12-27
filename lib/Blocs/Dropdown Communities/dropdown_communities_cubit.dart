@@ -7,7 +7,8 @@ class DropdownCommunitiesCubit extends Cubit<DropdownCommunitiesState> {
 
   Future<void> getCommunities(BuildContext context) async {
     emit(state.copyWith(loadingState: LoadingState.loading));
-    await CommunitiesService.getCommunities(context).then((value) {
+    await CommunitiesService.getCommunities(context, 1, limit: 5000)
+        .then((value) {
       if (value is Success) {
         return emit(state.copyWith(
           communitiesModel: communitiesModelFromJson(value.response as String),

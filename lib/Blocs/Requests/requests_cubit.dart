@@ -23,10 +23,15 @@ class RequestsCubit extends Cubit<RequestsState> {
   }
 
   Future<void> getRequests(BuildContext context, int? id) async {
-    emit(state.copyWith(loadingState: LoadingState.loading));
+    emit(state.copyWith(loadingState: LoadingState.loading, page: 1));
     await UnitsService.getUnitRequests(
-            context, id, state.keyword, state.requestType, state.status)
-        .then((value) {
+      context,
+      id,
+      state.keyword,
+      state.requestType,
+      state.status,
+      state.page,
+    ).then((value) {
       if (value is Success) {
         return emit(state.copyWith(
           requestsModel: requestsModelFromJson(value.response as String),
@@ -35,8 +40,39 @@ class RequestsCubit extends Cubit<RequestsState> {
       }
       value as Failure;
       Fluttertoast.showToast(
-          msg: value.errorResponse as String? ?? "Unable to get owners");
+          msg: value.errorResponse as String? ?? "Unable to get requests");
       emit(state.copyWith(loadingState: LoadingState.error));
+    });
+  }
+
+  Future<void> getMoreRequests(BuildContext context, int? id) async {
+    emit(state.copyWith(
+        loadMoreState: LoadingState.loading, page: state.page + 1));
+    await UnitsService.getUnitRequests(context, id, state.keyword,
+            state.requestType, state.status, state.page)
+        .then((value) {
+      if (value is Success) {
+        if (requestsModelFromJson(value.response as String)
+                .applications
+                ?.isNotEmpty ??
+            false) {
+          state.requestsModel?.applications?.addAll(
+              requestsModelFromJson(value.response as String).applications ??
+                  []);
+          return emit(state.copyWith(
+            requestsModel: state.requestsModel,
+            loadMoreState: LoadingState.success,
+          ));
+        }
+        Fluttertoast.showToast(msg: "No further results found");
+        return emit(state.copyWith(
+          loadMoreState: LoadingState.success,
+        ));
+      }
+      value as Failure;
+      Fluttertoast.showToast(
+          msg: value.errorResponse as String? ?? "Unable to get requests");
+      emit(state.copyWith(loadMoreState: LoadingState.error));
     });
   }
 }

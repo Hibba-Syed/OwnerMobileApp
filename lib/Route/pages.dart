@@ -11,17 +11,18 @@ import 'package:iskaanowner/Blocs/Verify%20Otp/verify_otp_cubit.dart';
 import 'package:iskaanowner/Views/Requests/ad_details.dart';
 import 'package:iskaanowner/Views/Requests/cs_details.dart';
 import 'package:iskaanowner/Views/Requests/dp_details.dart';
-import 'package:iskaanowner/Views/Requests/tp_details.dart';
 import 'package:iskaanowner/Views/Requests/fo_details.dart';
 import 'package:iskaanowner/Views/Requests/hb_details.dart';
+import 'package:iskaanowner/Views/Requests/mi_details.dart';
 import 'package:iskaanowner/Views/Requests/ri_details.dart';
 import 'package:iskaanowner/Views/Requests/ss_details.dart';
+import 'package:iskaanowner/Views/Requests/tp_details.dart';
 import 'package:iskaanowner/Views/Requests/wp_details.dart';
-import 'package:iskaanowner/Views/Requests/mi_details.dart';
 import 'package:iskaanowner/Views/companies.dart';
 import 'package:iskaanowner/Views/ledger_by_account_details.dart';
 import 'package:iskaanowner/Views/otp_verification.dart';
 import 'package:iskaanowner/Views/reset_password.dart';
+import 'package:iskaanowner/Views/web_view.dart';
 
 import '../Utils/utils.dart';
 import '../Views/Requests/mo_details.dart';
@@ -42,6 +43,10 @@ class AppPages {
       PageEntity(
         route: AppRoutes.companies,
         page: const CompaniesPage(),
+      ),
+      PageEntity(
+        route: AppRoutes.myWebView,
+        page: const MyWebView(),
       ),
       PageEntity(
         route: AppRoutes.login,

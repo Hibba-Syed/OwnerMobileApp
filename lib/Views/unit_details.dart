@@ -1,5 +1,3 @@
-import 'package:url_launcher/url_launcher.dart';
-
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
@@ -24,8 +22,12 @@ class UnitDetailsPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          await launchUrl(
-              Uri.parse("http://onlinistfze.synergic360.com/$unitSlug"));
+          // await launchUrl(
+          //     Uri.parse("http://onlinistfze.synergic360.com/$unitSlug"));
+          Navigator.pushNamed(context, AppRoutes.myWebView, arguments: [
+            communityName,
+            "http://onlinistfze.synergic360.com/$unitSlug"
+          ]);
         },
         label: const Row(
           children: [Icon(Icons.link), CustomText(text: " E-Services")],
@@ -84,18 +86,24 @@ class UnitDetailsPage extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          children: [
-            Icon(
-              Icons.location_city,
-              color: context.read<AppThemeCubit>().state.primaryColor,
-            ),
-            CustomText(
-              text: " $communityName",
-              fontWeight: FontWeight.bold,
-            ),
-          ],
+        Expanded(
+          child: Row(
+            children: [
+              Icon(
+                Icons.location_city,
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
+              const Gap(10),
+              Expanded(
+                child: CustomText(
+                  text: " $communityName",
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ),
+        const Gap(20),
         const UnitsPage().roundedContainer(
             context,
             InkWell(

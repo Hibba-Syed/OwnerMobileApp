@@ -1,3 +1,5 @@
+import 'package:iskaanowner/Widgets/units_list_page.dart';
+
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
@@ -7,7 +9,9 @@ class UnitsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? communityName =
-        ModalRoute.of(context)?.settings.arguments as String?;
+        (ModalRoute.of(context)?.settings.arguments as List).first as String?;
+    int? communityId =
+        (ModalRoute.of(context)?.settings.arguments as List).last as int?;
     return Scaffold(
       appBar: BaseAppBar(
         title: communityName ?? "",
@@ -31,119 +35,10 @@ class UnitsPage extends StatelessWidget {
               height: 10,
             ),
             Expanded(
-              child: BlocBuilder<UnitsCubit, UnitsState>(
-                builder: (context, state) {
-                  if (state.loadingState == LoadingState.loading) {
-                    return const CustomLoader();
-                  }
-
-                  return ListView.builder(
-                    itemCount: state.unitsModel?.units?.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      Unit? unit = state.unitsModel?.units?[index];
-                      List infoList = [
-                        infoCards(context, unit?.unitSizeSqft, "Size"),
-                        infoCards(context, unit?.bedroomCount, "Bedroom"),
-                        infoCards(context, unit?.bathroomCount, "Bathroom"),
-                        infoCards(context, unit?.parkings, "Parking"),
-                      ];
-                      return InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            AppRoutes.unitDetails,
-                            arguments: [
-                              communityName,
-                              unit?.unitNumber,
-                              unit?.unitId,
-                              unit?.slug,
-                            ],
-                          );
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: kWhite,
-                            boxShadow: [
-                              BoxShadow(
-                                  offset: const Offset(1, 1),
-                                  color: kGrey.shade300,
-                                  blurRadius: 2,
-                                  spreadRadius: 2),
-                            ],
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              cardHeader(context, unit),
-                              const Gap(10),
-                              Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Divider(
-                                    color: context
-                                        .read<AppThemeCubit>()
-                                        .state
-                                        .primaryColor,
-                                  ),
-                                  GridView.builder(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
-                                    shrinkWrap: true,
-                                    gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 4,
-                                            mainAxisSpacing: 10,
-                                            crossAxisSpacing: 10,
-                                            childAspectRatio: 2 / 2.5),
-                                    itemCount: infoList.length,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return infoList[index];
-                                    },
-                                  ),
-                                ],
-                              ),
-                              Divider(
-                                color: context
-                                    .read<AppThemeCubit>()
-                                    .state
-                                    .primaryColor,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const CustomText(
-                                      text: "Balance",
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    const Gap(10),
-                                    const Expanded(child: Divider()),
-                                    const Gap(10),
-                                    CustomText(
-                                      text: formatCurrency(
-                                          unit?.unitBalance ?? 0),
-                                      fontsize: 12,
-                                      // color: kWhite,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
+                child: UnitsListPage(
+              communityName: communityName,
+              communityId: communityId,
+            )),
           ],
         ),
       ),

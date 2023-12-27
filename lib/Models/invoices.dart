@@ -12,7 +12,7 @@ String invoicesModelToJson(InvoicesModel data) => json.encode(data.toJson());
 class InvoicesModel {
   int? totalInvoices;
   List<Invoice>? invoices;
-  int? currentPage;
+  String? currentPage;
   int? perPage;
   int? totalPages;
 
@@ -30,7 +30,7 @@ class InvoicesModel {
             ? []
             : List<Invoice>.from(
                 json["invoices"]!.map((x) => Invoice.fromJson(x))),
-        currentPage: json["current_page"],
+        currentPage: json["current_page"]?.toString(),
         perPage: json["per_page"],
         totalPages: json["total_pages"],
       );

@@ -1,9 +1,7 @@
-import 'package:iskaanowner/Views/ledger_by_statement.dart';
+import 'package:iskaanowner/Widgets/credit_notes_list_page.dart';
 import 'package:lottie/lottie.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
-import '../Models/credit_notes.dart';
 import '../Utils/utils.dart';
 
 class CreditNotesPage extends StatelessWidget {
@@ -60,123 +58,9 @@ class CreditNotesPage extends StatelessWidget {
               height: 10,
             ),
             Expanded(
-              child: BlocBuilder<CreditNotesCubit, CreditNotesState>(
-                builder: (context, state) {
-                  if (state.loadingState == LoadingState.loading) {
-                    return const CustomLoader();
-                  }
-                  if (state.creditNotesModel?.creditNotes?.isEmpty ?? true) {
-                    return emptyList();
-                  }
-                  return ListView.builder(
-                    itemCount: state.creditNotesModel?.creditNotes?.length ?? 0,
-                    itemBuilder: (BuildContext context, int index) {
-                      CreditNote? creditNote =
-                          state.creditNotesModel?.creditNotes?[index];
-                      return InkWell(
-                        onTap: () {
-                          const LedgerByStatement().decidePage(
-                              context, creditNote?.id, "credit_memo");
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          margin: const EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                            color: kWhite,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: kGrey.shade200,
-                                  blurRadius: 2,
-                                  spreadRadius: 2)
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: context
-                                        .read<AppThemeCubit>()
-                                        .state
-                                        .primaryColor),
-                                padding: const EdgeInsets.all(10),
-                                child: const Icon(
-                                  Icons.note,
-                                  color: kWhite,
-                                ),
-                              ),
-                              const Gap(10),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        CustomText(
-                                          text: creditNote?.reference ?? " -- ",
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        const Gap(10),
-                                        CustomText(
-                                          text: const OccupantPage()
-                                              .dateTimeFormatter(
-                                                  creditNote?.date),
-                                          color: kGrey,
-                                          fontsize: 12,
-                                        ),
-                                      ],
-                                    ),
-                                    CustomText(
-                                      text: creditNote?.description ?? " -- ",
-                                      fontsize: 14,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        CustomText(
-                                          text: formatCurrency(
-                                              creditNote?.amount ?? 0),
-                                          fontsize: 13,
-                                        ),
-                                        InkWell(
-                                          onTap: () {
-                                            if (creditNote
-                                                    ?.documents?.isEmpty ??
-                                                true) {
-                                              Fluttertoast.showToast(
-                                                  msg:
-                                                      "No documents found to download");
-                                              return;
-                                            }
-                                            launchUrl(Uri.parse(
-                                                creditNote?.documents?.first));
-                                          },
-                                          child: Icon(
-                                            Icons.download_outlined,
-                                            color: context
-                                                .read<AppThemeCubit>()
-                                                .state
-                                                .primaryColor,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            )
+                child: CreditNotesListPage(
+              unitId: unitId,
+            ))
           ],
         ),
       ),

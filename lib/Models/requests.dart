@@ -12,7 +12,7 @@ String requestsModelToJson(RequestsModel data) => json.encode(data.toJson());
 class RequestsModel {
   int? totalApplications;
   List<Application>? applications;
-  int? currentPage;
+  String? currentPage;
   int? perPage;
   int? totalPages;
 
@@ -30,7 +30,7 @@ class RequestsModel {
             ? []
             : List<Application>.from(
                 json["applications"]!.map((x) => Application.fromJson(x))),
-        currentPage: json["current_page"],
+        currentPage: json["current_page"].toString(),
         perPage: json["per_page"],
         totalPages: json["total_pages"],
       );

@@ -13,7 +13,7 @@ String compliancesModelToJson(CompliancesModel data) =>
 class CompliancesModel {
   int? totalCompliance;
   List<Compliance>? compliances;
-  int? currentPage;
+  String? currentPage;
   int? perPage;
   int? totalPages;
 
@@ -32,7 +32,7 @@ class CompliancesModel {
             ? []
             : List<Compliance>.from(
                 json["compliances"]!.map((x) => Compliance.fromJson(x))),
-        currentPage: json["current_page"],
+        currentPage: json["current_page"]?.toString(),
         perPage: json["per_page"],
         totalPages: json["total_pages"],
       );

@@ -11,54 +11,51 @@ String sharedDocumentsModelToJson(SharedDocumentsModel data) =>
     json.encode(data.toJson());
 
 class SharedDocumentsModel {
-  String? status;
-  List<SharedDocumentsRecord>? record;
-  int? code;
-  dynamic meta;
-  bool? requestStatus;
-  String? message;
+  int? totalDocuments;
+  List<SharedDocument>? sharedDocuments;
+  String? currentPage;
+  int? perPage;
+  int? totalPages;
 
   SharedDocumentsModel({
-    this.status,
-    this.record,
-    this.code,
-    this.meta,
-    this.requestStatus,
-    this.message,
+    this.totalDocuments,
+    this.sharedDocuments,
+    this.currentPage,
+    this.perPage,
+    this.totalPages,
   });
 
   factory SharedDocumentsModel.fromJson(Map<String, dynamic> json) =>
       SharedDocumentsModel(
-        status: json["status"],
-        record: json["record"] == null
+        totalDocuments: json["totalDocuments"],
+        sharedDocuments: json["shared_documents"] == null
             ? []
-            : List<SharedDocumentsRecord>.from(json["record"]!.map((x) => SharedDocumentsRecord.fromJson(x))),
-        code: json["code"],
-        meta: json["meta"],
-        requestStatus: json["request_status"],
-        message: json["message"],
+            : List<SharedDocument>.from(json["shared_documents"]!
+                .map((x) => SharedDocument.fromJson(x))),
+        currentPage: json["current_page"],
+        perPage: json["per_page"],
+        totalPages: json["total_pages"],
       );
 
   Map<String, dynamic> toJson() => {
-        "status": status,
-        "record": record == null
+        "totalDocuments": totalDocuments,
+        "shared_documents": sharedDocuments == null
             ? []
-            : List<dynamic>.from(record!.map((x) => x.toJson())),
-        "code": code,
-        "meta": meta,
-        "request_status": requestStatus,
-        "message": message,
+            : List<dynamic>.from(sharedDocuments!.map((x) => x.toJson())),
+        "current_page": currentPage,
+        "per_page": perPage,
+        "total_pages": totalPages,
       };
 }
 
-class SharedDocumentsRecord {
+class SharedDocument {
   String? documentName;
   String? title;
   DateTime? expiryDate;
   List<String>? tags;
   String? documents;
 
-  SharedDocumentsRecord({
+  SharedDocument({
     this.documentName,
     this.title,
     this.expiryDate,
@@ -66,7 +63,7 @@ class SharedDocumentsRecord {
     this.documents,
   });
 
-  factory SharedDocumentsRecord.fromJson(Map<String, dynamic> json) => SharedDocumentsRecord(
+  factory SharedDocument.fromJson(Map<String, dynamic> json) => SharedDocument(
         documentName: json["document_name"],
         title: json["title"],
         expiryDate: json["expiry_date"] == null
@@ -81,8 +78,7 @@ class SharedDocumentsRecord {
   Map<String, dynamic> toJson() => {
         "document_name": documentName,
         "title": title,
-        "expiry_date":
-            "${expiryDate!.year.toString().padLeft(4, '0')}-${expiryDate!.month.toString().padLeft(2, '0')}-${expiryDate!.day.toString().padLeft(2, '0')}",
+        "expiry_date": expiryDate,
         "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
         "documents": documents,
       };

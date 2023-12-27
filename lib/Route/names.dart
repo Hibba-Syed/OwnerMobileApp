@@ -7,6 +7,7 @@ class AppRoutes {
   static const units = "/units";
   static const unitDetails = "/unitDetails";
   static const owners = "/owners";
+  static const myWebView = "/myWebView";
   static const occupant = "/occupant";
   static const requests = "/requests";
   static const adDetails = "/adDetails";

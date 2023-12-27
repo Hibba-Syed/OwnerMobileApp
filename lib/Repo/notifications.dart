@@ -5,11 +5,12 @@ import 'package:http/http.dart' as http;
 import '../Utils/utils.dart';
 
 class NotificationsService {
-  static Future<Object?> getNotifications(BuildContext context) async {
+  static Future<Object?> getNotifications(
+      BuildContext context, int page) async {
     return await ExceptionService.applyTryCatch(() async {
       return await http.get(
           Uri.parse(
-            "$baseUrl/mobile/owner/profile/notifications",
+            "$baseUrl/mobile/owner/profile/notifications?page=$page",
           ),
           headers: {
             "Authorization":

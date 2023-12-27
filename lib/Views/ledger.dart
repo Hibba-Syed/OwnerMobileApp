@@ -3,6 +3,9 @@ import 'package:iskaanowner/Views/ledger_by_date.dart';
 import 'package:iskaanowner/Views/ledger_by_statement.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
+import '../Blocs/Credit Note Details/credit_note_details_cubit.dart';
+import '../Blocs/Invoice details/invoice_details_cubit.dart';
+import '../Blocs/Receipt details/receipt_details_cubit.dart';
 import '../Blocs/Unit Financials/unit_financials_cubit.dart';
 import '../Utils/utils.dart';
 
@@ -137,15 +140,21 @@ class LedgerPage extends StatelessWidget {
                   ],
                 ),
               ),
-              const Expanded(
+              Expanded(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: TabBarView(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     children: [
-                      LedgerByStatement(),
-                      LedgerByDate(),
-                      LedgerByAccount(),
+                      LedgerByStatement(
+                        unitId: unitId,
+                      ),
+                      LedgerByDate(
+                        unitId: unitId,
+                      ),
+                      LedgerByAccount(
+                        unitId: unitId,
+                      ),
                     ],
                   ),
                 ),
@@ -356,5 +365,24 @@ class LedgerPage extends StatelessWidget {
         return DropdownMenuEntry<String>(value: value, label: value);
       }).toList(),
     );
+  }
+
+  void decidePage(BuildContext context, int? id, String? document) {
+    String? page;
+    if (document?.toLowerCase() == "receipt") {
+      context.read<ReceiptDetailsCubit>().getReceiptDetails(context, id);
+      page = AppRoutes.receiptDetails;
+    }
+    if (document?.toLowerCase().contains("credit") ?? false) {
+      context.read<CreditNoteDetailsCubit>().getCreditNoteDetails(context, id);
+      page = AppRoutes.creditNoteDetails;
+    }
+    if (document?.toLowerCase() == "invoice") {
+      context.read<InvoiceDetailsCubit>().getInvoiceDetails(context, id);
+      page = AppRoutes.invoiceDetails;
+    }
+    if (page != null) {
+      Navigator.pushNamed(context, page);
+    }
   }
 }

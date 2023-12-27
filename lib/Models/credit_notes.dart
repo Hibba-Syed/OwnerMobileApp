@@ -13,7 +13,7 @@ String creditNotesModelToJson(CreditNotesModel data) =>
 class CreditNotesModel {
   int? totalCreditNotes;
   List<CreditNote>? creditNotes;
-  int? currentPage;
+  String? currentPage;
   int? perPage;
   int? totalPages;
 
@@ -32,7 +32,7 @@ class CreditNotesModel {
             ? []
             : List<CreditNote>.from(
                 json["credit_notes"]!.map((x) => CreditNote.fromJson(x))),
-        currentPage: json["current_page"],
+        currentPage: json["current_page"]?.toString(),
         perPage: json["per_page"],
         totalPages: json["total_pages"],
       );

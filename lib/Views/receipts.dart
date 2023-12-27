@@ -1,8 +1,6 @@
-import 'package:iskaanowner/Models/receipts.dart';
-
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
-import 'ledger_by_statement.dart';
+import '../Widgets/receipts_list_page.dart';
 
 class ReceiptsPage extends StatelessWidget {
   const ReceiptsPage({super.key});
@@ -53,118 +51,9 @@ class ReceiptsPage extends StatelessWidget {
               height: 10,
             ),
             Expanded(
-              child: BlocBuilder<ReceiptsCubit, ReceiptsState>(
-                builder: (context, state) {
-                  if (state.loadingState == LoadingState.loading) {
-                    return const CustomLoader();
-                  }
-                  if (state.receiptsModel?.receipts?.isEmpty ?? true) {
-                    return const CreditNotesPage().emptyList();
-                  }
-                  return ListView.builder(
-                    itemCount: state.receiptsModel?.receipts?.length ?? 0,
-                    itemBuilder: (BuildContext context, int index) {
-                      Receipt? receipt = state.receiptsModel?.receipts?[index];
-                      return InkWell(
-                        onTap: () {
-                          const LedgerByStatement()
-                              .decidePage(context, receipt?.id, "receipt");
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          margin: const EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                            color: kWhite,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: kGrey.shade200,
-                                  blurRadius: 2,
-                                  spreadRadius: 2)
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: context
-                                        .read<AppThemeCubit>()
-                                        .state
-                                        .primaryColor),
-                                padding: const EdgeInsets.all(10),
-                                child: const Icon(
-                                  Icons.receipt_outlined,
-                                  color: kWhite,
-                                ),
-                              ),
-                              const Gap(10),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        CustomText(
-                                          text: receipt?.reference ?? " -- ",
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        const Gap(10),
-                                        CustomText(
-                                          text: const OccupantPage()
-                                              .dateTimeFormatter(
-                                                  receipt?.datetime),
-                                          color: kGrey,
-                                          fontsize: 12,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        CustomText(
-                                          text: receipt?.paidBy ?? " -- ",
-                                          fontsize: 14,
-                                        ),
-                                        CustomText(
-                                          text:
-                                              " (${receipt?.payeeType ?? " -- "})",
-                                          fontsize: 12,
-                                          color: kGrey,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        CustomText(
-                                          text: formatCurrency(
-                                              receipt?.amount ?? 0),
-                                          fontsize: 13,
-                                        ),
-                                        Icon(
-                                          Icons.download_outlined,
-                                          color: context
-                                              .read<AppThemeCubit>()
-                                              .state
-                                              .primaryColor,
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            )
+                child: ReceiptsListPage(
+              unitId: unitId,
+            ))
           ],
         ),
       ),

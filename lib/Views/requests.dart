@@ -1,4 +1,5 @@
 import 'package:iskaanowner/Models/requests.dart';
+import 'package:iskaanowner/Widgets/request_list_page.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
@@ -44,72 +45,9 @@ class RequestsPage extends StatelessWidget {
               height: 10,
             ),
             Expanded(
-              child: BlocBuilder<RequestsCubit, RequestsState>(
-                builder: (context, state) {
-                  if (state.loadingState == LoadingState.loading) {
-                    return const CustomLoader();
-                  }
-                  if (state.requestsModel?.applications?.isEmpty ?? true) {
-                    return const CreditNotesPage().emptyList();
-                  }
-                  return ListView.builder(
-                    itemCount: state.requestsModel?.applications?.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      Application? application =
-                          state.requestsModel?.applications?[index];
-                      return InkWell(
-                        onTap: () {
-                          context.read<RequestDetailsCubit>().getRequestDetails(
-                              context,
-                              application?.id,
-                              application?.applicationType);
-                          String? routeName =
-                              getRouteName(application?.applicationType);
-                          if (routeName != null) {
-                            Navigator.pushNamed(context, routeName, arguments: [
-                              application?.id,
-                              application?.reference,
-                              application?.applicationType,
-                            ]);
-                          }
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          margin: const EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: kWhite,
-                            boxShadow: [
-                              BoxShadow(
-                                  offset: const Offset(
-                                    1,
-                                    1,
-                                  ),
-                                  spreadRadius: 2,
-                                  blurRadius: 2,
-                                  color: kGrey.shade200),
-                            ],
-                          ),
-                          child: Column(
-                            children: [
-                              requestCardHeader(context, application),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              requestCardBody(context, application),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              requestCardFooter(context, application),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
+                child: RequestListPage(
+              unitId: unitId,
+            )),
           ],
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:iskaanowner/Views/side_drawer.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
+import '../Widgets/comunities_list_page.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -84,16 +85,7 @@ class DashboardPage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Expanded(
-              child: BlocBuilder<CommunitiesCubit, CommunitiesState>(
-                builder: (context, state) {
-                  if (state.loadingState == LoadingState.loading) {
-                    return const CustomLoader();
-                  }
-                  return comunitiesUi(state.communitiesModel?.associations);
-                },
-              ),
-            )
+            const Expanded(child: CommunitiesListPage())
           ],
         ),
       ),
@@ -185,155 +177,6 @@ class DashboardPage extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Widget comunitiesUi(List<Association>? data) {
-    return ListView.builder(
-      itemCount: data?.length,
-      itemBuilder: (BuildContext context, int index) {
-        Association? communitiesDatum = data?[index];
-        return InkWell(
-          onTap: () {
-            context.read<UnitsCubit>().getUnits(context, communitiesDatum?.id);
-            Navigator.pushNamed(context, AppRoutes.units,
-                arguments: communitiesDatum?.name);
-          },
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 5),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: kWhite,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                    offset: const Offset(1, 1),
-                    spreadRadius: 2,
-                    blurRadius: 2,
-                    color: kGrey.shade200),
-              ],
-            ),
-            child: Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    communitiesDatum?.backgroundImageUrl ?? "",
-                    height: 120,
-                    width: 120,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) =>
-                        const UnitsPage().roundedContainer(
-                            context,
-                            const Icon(
-                              Icons.image_outlined,
-                            ),
-                            color: kGrey.shade300,
-                            height: 120,
-                            width: 120),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 10),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: kGrey.shade200),
-                        child:
-                            CustomText(text: communitiesDatum?.name ?? " -- "),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            width: 70,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: context
-                                      .read<AppThemeCubit>()
-                                      .state
-                                      .primaryColor),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Column(
-                              children: [
-                                CustomText(
-                                  text: (communitiesDatum?.unitCount ?? 0)
-                                      .toString(),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                const CustomText(
-                                  text: "Units",
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                              child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: (communitiesDatum?.units as List)
-                                  .map(
-                                    (e) => Container(
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 5),
-                                      width: 70,
-                                      padding: const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: context
-                                              .read<AppThemeCubit>()
-                                              .state
-                                              .primaryColor),
-                                      child: Column(
-                                        children: [
-                                          const Icon(
-                                            Icons.home_outlined,
-                                            color: kWhite,
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          CustomText(
-                                            text: e.toString(),
-                                            color: kWhite,
-                                            maxLines: 1,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ))
-                        ],
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 

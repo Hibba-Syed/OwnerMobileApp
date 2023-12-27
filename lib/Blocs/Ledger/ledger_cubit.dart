@@ -46,10 +46,12 @@ class LedgerCubit extends Cubit<LedgerState> {
     emit(state.copyWith(year: year));
   }
 
+  /// -------- by Statement --------
   Future<void> getLedgerByStatement(BuildContext context, int? id) async {
-    emit(state.copyWith(loadingState: LoadingState.loading));
-    await UnitsService.getUnitLedgerByStatement(
-            context, id, state.ledgerType, state.customDateRange)
+    emit(state.copyWith(
+        loadingState: LoadingState.loading, pageLedgerByStatement: 1));
+    await UnitsService.getUnitLedgerByStatement(context, id, state.ledgerType,
+            state.customDateRange, state.pageLedgerByStatement)
         .then((value) {
       if (value is Success) {
         return emit(state.copyWith(
@@ -67,10 +69,49 @@ class LedgerCubit extends Cubit<LedgerState> {
     });
   }
 
+  Future<void> getMoreLedgerByStatement(BuildContext context, int? id) async {
+    emit(state.copyWith(
+        loadMoreLedgerByStatementState: LoadingState.loading,
+        pageLedgerByStatement: state.pageLedgerByStatement + 1));
+    await UnitsService.getUnitLedgerByStatement(context, id, state.ledgerType,
+            state.customDateRange, state.pageLedgerByStatement)
+        .then((value) {
+      if (value is Success) {
+        if (ledgerByStatementModelFromJson(value.response as String)
+                .record
+                ?.data
+                ?.ledgers
+                ?.isNotEmpty ??
+            false) {
+          state.ledgerByStatementModel?.record?.data?.ledgers?.addAll(
+              ledgerByStatementModelFromJson(value.response as String)
+                      .record
+                      ?.data
+                      ?.ledgers ??
+                  []);
+          return emit(state.copyWith(
+            ledgerByStatementModel: state.ledgerByStatementModel,
+            loadMoreLedgerByStatementState: LoadingState.success,
+          ));
+        }
+        Fluttertoast.showToast(msg: "No further results found");
+        return emit(state.copyWith(
+          loadMoreLedgerByStatementState: LoadingState.success,
+        ));
+      }
+      value as Failure;
+      Fluttertoast.showToast(
+          msg: value.errorResponse as String? ?? "Unable to get Legder");
+      emit(state.copyWith(loadMoreLedgerByStatementState: LoadingState.error));
+    });
+  }
+
+  /// -------- by Date --------
   Future<void> getLedgerByDate(BuildContext context, int? id) async {
-    emit(state.copyWith(loadingState: LoadingState.loading));
-    await UnitsService.getUnitLedgerByDate(
-            context, id, state.ledgerType, state.customDateRange)
+    emit(state.copyWith(
+        loadingState: LoadingState.loading, pageLedgerByDate: 1));
+    await UnitsService.getUnitLedgerByDate(context, id, state.ledgerType,
+            state.customDateRange, state.pageLedgerByDate)
         .then((value) {
       if (value is Success) {
         return emit(state.copyWith(
@@ -87,10 +128,47 @@ class LedgerCubit extends Cubit<LedgerState> {
     });
   }
 
+  Future<void> getMoreLedgerByDate(BuildContext context, int? id) async {
+    emit(state.copyWith(
+        loadMoreLedgerByDateState: LoadingState.loading,
+        pageLedgerByDate: state.pageLedgerByDate + 1));
+    await UnitsService.getUnitLedgerByDate(context, id, state.ledgerType,
+            state.customDateRange, state.pageLedgerByDate)
+        .then((value) {
+      if (value is Success) {
+        if (ledgerByDateModelFromJson(value.response as String)
+                .record
+                ?.data
+                ?.isNotEmpty ??
+            false) {
+          state.ledgerByDateModel?.record?.data?.addAll(
+              ledgerByDateModelFromJson(value.response as String)
+                      .record
+                      ?.data ??
+                  []);
+          return emit(state.copyWith(
+            ledgerByDateModel: state.ledgerByDateModel,
+            loadMoreLedgerByDateState: LoadingState.success,
+          ));
+        }
+        Fluttertoast.showToast(msg: "No further results found");
+        return emit(state.copyWith(
+          loadMoreLedgerByDateState: LoadingState.success,
+        ));
+      }
+      value as Failure;
+      Fluttertoast.showToast(
+          msg: value.errorResponse as String? ?? "Unable to get Legder");
+      emit(state.copyWith(loadMoreLedgerByDateState: LoadingState.error));
+    });
+  }
+
+  /// -------- by Account --------
   Future<void> getLedgerByAccount(BuildContext context, int? id) async {
-    emit(state.copyWith(loadingState: LoadingState.loading));
-    await UnitsService.getUnitLedgerByAccount(
-            context, id, state.ledgerType, state.customDateRange)
+    emit(state.copyWith(
+        loadingState: LoadingState.loading, pageLedgerByAccount: 1));
+    await UnitsService.getUnitLedgerByAccount(context, id, state.ledgerType,
+            state.customDateRange, state.pageLedgerByAccount)
         .then((value) {
       if (value is Success) {
         return emit(state.copyWith(
@@ -105,6 +183,41 @@ class LedgerCubit extends Cubit<LedgerState> {
             value.errorResponse as String? ?? "Unable to get ledger by account",
       );
       emit(state.copyWith(loadingState: LoadingState.error));
+    });
+  }
+
+  Future<void> getMoreLedgerByAccount(BuildContext context, int? id) async {
+    emit(state.copyWith(
+        loadMoreLedgerByAccountState: LoadingState.loading,
+        pageLedgerByAccount: state.pageLedgerByAccount + 1));
+    await UnitsService.getUnitLedgerByAccount(context, id, state.ledgerType,
+            state.customDateRange, state.pageLedgerByAccount)
+        .then((value) {
+      if (value is Success) {
+        if (ledgerByAccountModelFromJson(value.response as String)
+                .record
+                ?.data
+                ?.isNotEmpty ??
+            false) {
+          state.ledgerByAccountModel?.record?.data?.addAll(
+              ledgerByAccountModelFromJson(value.response as String)
+                      .record
+                      ?.data ??
+                  []);
+          return emit(state.copyWith(
+            ledgerByAccountModel: state.ledgerByAccountModel,
+            loadMoreLedgerByAccountState: LoadingState.success,
+          ));
+        }
+        Fluttertoast.showToast(msg: "No further results found");
+        return emit(state.copyWith(
+          loadMoreLedgerByAccountState: LoadingState.success,
+        ));
+      }
+      value as Failure;
+      Fluttertoast.showToast(
+          msg: value.errorResponse as String? ?? "Unable to get Legder");
+      emit(state.copyWith(loadMoreLedgerByAccountState: LoadingState.error));
     });
   }
 }
