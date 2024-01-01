@@ -116,7 +116,7 @@ class CreditNotesPage extends StatelessWidget {
           ),
           const Gap(20),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50),
+            padding: const EdgeInsets.symmetric(horizontal: 100),
             child: CustomButton(text: "Refresh", function: ontap),
           )
         ],

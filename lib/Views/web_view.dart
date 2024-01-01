@@ -57,7 +57,7 @@ class _MyWebViewState extends State<MyWebView> {
             const Center(
               child: CircularProgressIndicator(),
             ),
-          if (isError) const CreditNotesPage().emptyList(),
+          // if (isError) const CreditNotesPage().emptyList(),
         ],
       ),
     );

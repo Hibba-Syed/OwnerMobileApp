@@ -43,10 +43,11 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
         if (state.loadingState == LoadingState.loading) {
           return const CustomLoader();
         }
-        if ((state.sharedDocumentsModel?.sharedDocuments?.isEmpty ?? true) ||
-            (state.loadMoreState == LoadingState.error)) {
+        if (state.sharedDocumentsModel?.sharedDocuments?.isEmpty ?? true) {
           return const CreditNotesPage()
-              .emptyList(lottie: "assets/document.json");
+              .emptyList(lottie: "assets/document.json",ontap:(){context
+                      .read<SharedDocumentsCubit>()
+                      .getSharedDocuments(context);});
         }
         return Column(
           children: [

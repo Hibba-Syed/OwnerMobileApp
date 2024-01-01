@@ -338,15 +338,6 @@ class SideDrawerPage extends StatelessWidget {
                           if (!value.contains("@")) {
                             return "Enter a Valid email";
                           }
-                          if (value ==
-                              context
-                                  .read<ProfileCubit>()
-                                  .state
-                                  .profileModel
-                                  ?.record
-                                  ?.email) {
-                            return "You are already logged in with this email";
-                          }
                           return null;
                         },
                         onChanged: (email) => loginCubit.onChangeEmail(email),

@@ -48,8 +48,19 @@ class CreditNoteDetailsPage extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: kGrey.shade100),
-                          child: Image.asset(
-                            "assets/logo.png",
+                          child: Image.network(
+                            context
+                                    .read<ProfileCubit>()
+                                    .state
+                                    .profileModel
+                                    ?.record
+                                    ?.company
+                                    ?.logoUrl ??
+                                "",
+                            errorBuilder: (context, error, stackTrace) =>
+                                const SizedBox(
+                                    width: 40,
+                                    child: Icon(Icons.person_outline)),
                             width: 40,
                           ),
                         ),

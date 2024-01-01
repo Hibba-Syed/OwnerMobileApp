@@ -87,57 +87,49 @@ class UnitDetailsPage extends StatelessWidget {
 
   Widget unitDetailHeader(
       BuildContext context, String? communityName, int? unitId) {
-    return (communityName?.isEmpty ?? true)
-        ? const SizedBox.shrink()
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.location_city,
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                    ),
-                    const Gap(10),
-                    Expanded(
-                      child: CustomText(
-                        text: " ${communityName ?? ""}",
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.location_city,
+              color: context.read<AppThemeCubit>().state.primaryColor,
+            ),
+            const Gap(10),
+            Flexible(
+              child: CustomText(
+                text: " $communityName",
+                fontWeight: FontWeight.bold,
               ),
-              const Gap(20),
-              const UnitsPage().roundedContainer(
-                  context,
-                  InkWell(
-                    onTap: () {
-                      context
-                          .read<SharedDocumentsCubit>()
-                          .getSharedDocuments(context, unitId: unitId);
-                      Navigator.pushNamed(context, AppRoutes.sharedDocument);
-                    },
-                    child: const Row(
-                      children: [
-                        Icon(
-                          Icons.document_scanner_outlined,
-                          color: kWhite,
-                          size: 18,
-                        ),
-                        CustomText(
-                          text: " Shared Documents",
-                          color: kWhite,
-                          fontsize: 15,
-                        )
-                      ],
-                    ),
-                  ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5)),
-            ],
-          );
+            ),
+          ],
+        ),
+        const Gap(20),
+        Align(
+          alignment: Alignment.centerRight,
+          child: CustomButton(
+            text: "Shared Documents",
+            function: () {
+              context
+                  .read<SharedDocumentsCubit>()
+                  .getSharedDocuments(context, unitId: unitId);
+              Navigator.pushNamed(context, AppRoutes.sharedDocument);
+            },
+            buttonColor: context
+                .read<AppThemeCubit>()
+                .state
+                .primaryColor
+                .withOpacity(0.2),
+            textColor: context.read<AppThemeCubit>().state.primaryColor,
+            icon: Icon(
+              Icons.document_scanner_outlined,
+              color: context.read<AppThemeCubit>().state.primaryColor,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget unitDetailsUnitInfo(

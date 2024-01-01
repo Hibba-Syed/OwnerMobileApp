@@ -58,6 +58,10 @@ class InvoiceDetailsPage extends StatelessWidget {
                                     ?.company
                                     ?.logoUrl ??
                                 "",
+                            errorBuilder: (context, error, stackTrace) =>
+                                const SizedBox(
+                                    width: 40,
+                                    child: Icon(Icons.person_outline)),
                             width: 40,
                           ),
                         ),
@@ -222,8 +226,13 @@ class InvoiceDetailsPage extends StatelessWidget {
                           ],
                         ),
                         height: MediaQuery.of(context).size.height / 2,
-                        child: const CreditNotesPage()
-                            .emptyList(message: "No transactions found"),
+                        child: const CreditNotesPage().emptyList(
+                            message: "No transactions found",
+                            ontap: () {
+                              context
+                                  .read<InvoiceDetailsCubit>()
+                                  .getInvoiceDetails(context, invoiceId);
+                            }),
                       ),
                     Column(
                       children: state.invoiceDetailsModel?.transactions
