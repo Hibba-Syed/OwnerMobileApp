@@ -29,7 +29,7 @@ class SideDrawerPage extends StatelessWidget {
                 const UnitsPage().roundedContainer(
                   context,
                   Image.network(
-                    profileModel?.record?.company?.faviconUrl ?? "",
+                    profileModel?.record?.company?.logoUrl ?? "",
                     width: 95,
                     height: 95,
                   ),
@@ -118,7 +118,7 @@ class SideDrawerPage extends StatelessWidget {
                                                           color: kWhite),
                                                   child: Image.network(
                                                     loginModel.owner?.company
-                                                            ?.faviconUrl ??
+                                                            ?.logoUrl ??
                                                         "",
                                                     width:
                                                         MediaQuery.of(context)
@@ -448,7 +448,7 @@ class SideDrawerPage extends StatelessWidget {
                       ?.record
                       ?.company
                       ?.themeColor ??
-                  " 0xff751b50"));
+                  "#751b50"));
           if (value == true) {
             return Navigator.pushReplacementNamed(
                 context, AppRoutes.authorization);

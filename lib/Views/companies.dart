@@ -89,7 +89,7 @@ class CompaniesPage extends StatelessWidget {
                               decoration: const BoxDecoration(
                                   shape: BoxShape.circle, color: kWhite),
                               child: Image.network(
-                                loginModel.owner?.company?.faviconUrl ?? "",
+                                loginModel.owner?.company?.logoUrl ?? "",
                                 width: MediaQuery.of(context).size.width * 0.1,
                                 height: MediaQuery.of(context).size.width * 0.1,
                               ),

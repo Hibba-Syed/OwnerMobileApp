@@ -26,7 +26,9 @@ class OwnersPage extends StatelessWidget {
           if (state.loadingState == LoadingState.loading) {
             return const CustomLoader();
           }
-
+          if (state.ownersModel?.units?.owners?.isEmpty ?? true) {
+            return const CreditNotesPage().emptyList();
+          }
           return RefreshIndicator(
             onRefresh: () async {
               context.read<OwnersCubit>().getOwners(context, unitId);
@@ -328,39 +330,5 @@ class OwnersPage extends StatelessWidget {
             (url == null || url == "$baseUrl/null" || url == "") ? false : true,
         color: kWhite,
         padding: const EdgeInsets.symmetric(horizontal: 10));
-  }
-
-  TableRow tableRow(BuildContext context, String key, String value) {
-    return TableRow(
-      children: [
-        TableCell(
-          child: Container(
-            alignment: Alignment.centerLeft,
-            height: 50,
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            color: context
-                .read<AppThemeCubit>()
-                .state
-                .primaryColor
-                .withOpacity(0.1),
-            child: CustomText(
-              text: key,
-              textAlign: TextAlign.left,
-            ),
-          ),
-        ),
-        TableCell(
-          child: Container(
-            height: 50,
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            alignment: Alignment.centerLeft,
-            child: CustomText(
-              text: value,
-              textAlign: TextAlign.left,
-            ),
-          ),
-        ),
-      ],
-    );
   }
 }

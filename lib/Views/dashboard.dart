@@ -18,6 +18,13 @@ class DashboardPage extends StatelessWidget {
                 ?.record
                 ?.company
                 ?.shortName) ??
+            capitalizeFirstWord(context
+                .read<ProfileCubit>()
+                .state
+                .profileModel
+                ?.record
+                ?.company
+                ?.name) ??
             "",
         leading: Builder(builder: (context) {
           return IconButton(

@@ -42,8 +42,15 @@ class InvoiceDetailsPage extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: kGrey.shade100),
-                          child: Image.asset(
-                            "assets/logo.png",
+                          child: Image.network(
+                            context
+                                    .read<ProfileCubit>()
+                                    .state
+                                    .profileModel
+                                    ?.record
+                                    ?.company
+                                    ?.logoUrl ??
+                                "",
                             width: 40,
                           ),
                         ),
