@@ -35,10 +35,11 @@ class UnitsPage extends StatelessWidget {
               height: 10,
             ),
             Expanded(
-                child: UnitsListPage(
-              communityName: communityName,
-              communityId: communityId,
-            )),
+              child: UnitsListPage(
+                communityName: communityName,
+                communityId: communityId,
+              ),
+            ),
           ],
         ),
       ),
