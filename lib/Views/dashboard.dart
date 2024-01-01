@@ -85,7 +85,9 @@ class DashboardPage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const Expanded(child: CommunitiesListPage())
+            const Expanded(
+              child: CommunitiesListPage(),
+            ),
           ],
         ),
       ),
