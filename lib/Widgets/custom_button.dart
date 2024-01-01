@@ -7,7 +7,7 @@ class CustomButton extends StatelessWidget {
   final Widget? icon;
   final Color textColor;
   final TextAlign? textAlign;
-  final VoidCallback function;
+  final void Function()? function;
   final int maxLines;
   final bool invert;
   final double? width;

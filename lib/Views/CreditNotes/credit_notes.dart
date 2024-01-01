@@ -100,7 +100,8 @@ class CreditNotesPage extends StatelessWidget {
   Widget emptyList(
       {String lottie = "assets/not found.json",
       double? width = 200,
-      String? message}) {
+      String? message,
+      void Function()? ontap}) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -113,6 +114,11 @@ class CreditNotesPage extends StatelessWidget {
           CustomText(
             text: message ?? "No results found !!",
           ),
+          const Gap(20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50),
+            child: CustomButton(text: "Refresh", function: ontap),
+          )
         ],
       ),
     );
