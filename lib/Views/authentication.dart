@@ -34,29 +34,34 @@ class AuthenticationPage extends StatelessWidget {
             )
           ],
           appBarHeight: 50),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          LottieBuilder.asset(
-            "assets/auth.json",
-          ),
-          BlocBuilder<AuthenticationCubit, AuthenticationState>(
-            builder: (context, state) {
-              return CustomButton(
-                  buttonColor: context.read<AppThemeCubit>().state.primaryColor,
-                  textColor: kWhite,
-                  text: state.isAuthenticating
-                      ? "Authenticating"
-                      : "Authenticate",
-                  width: MediaQuery.of(context).size.width / 2,
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  function: () {
-                    context.read<AuthenticationCubit>().authenticate(context);
-                  });
-            },
-          )
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            LottieBuilder.asset(
+              "assets/auth.json",
+              width: 200,
+            ),
+            const Gap(20),
+            BlocBuilder<AuthenticationCubit, AuthenticationState>(
+              builder: (context, state) {
+                return CustomButton(
+                    buttonColor:
+                        context.read<AppThemeCubit>().state.primaryColor,
+                    textColor: kWhite,
+                    text: state.isAuthenticating
+                        ? "Authenticating"
+                        : "Authenticate",
+                    width: MediaQuery.of(context).size.width / 2,
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    function: () {
+                      context.read<AuthenticationCubit>().authenticate(context);
+                    });
+              },
+            )
+          ],
+        ),
       ),
     );
   }

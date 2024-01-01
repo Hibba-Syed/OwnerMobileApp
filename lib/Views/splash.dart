@@ -12,26 +12,27 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     context.read<AuthenticationCubit>().isDeviceSupported(context);
     context.read<AuthenticationCubit>().getAvailableBiometric(context);
-    Future.delayed(3.seconds, () async {
-      String? jsonAuthModel =
-          Global.storageService.getAuthenticationModelString();
-      if (jsonAuthModel != null) {
-        context.read<LoginCubit>().onChangeLoginModel(
-            LoginModel.fromJson(jsonDecode(jsonAuthModel)[0]));
-        const LoginPage().initialCalls(context);
-        await context.read<ProfileCubit>().getProfile(context).then((value) {
-          context
-              .read<AuthenticationCubit>()
-              .isDeviceSupported(context)
-              .then((value) {
-            context.read<AppThemeCubit>().onChangeAppTheme(parseHexColor(context
-                    .read<ProfileCubit>()
-                    .state
-                    .profileModel
-                    ?.record
-                    ?.company
-                    ?.themeColor ??
-                " #751b50"));
+
+    String? jsonAuthModel =
+        Global.storageService.getAuthenticationModelString();
+    if (jsonAuthModel != null) {
+      context.read<LoginCubit>().onChangeLoginModel(
+          LoginModel.fromJson(jsonDecode(jsonAuthModel)[0]));
+      const LoginPage().initialCalls(context);
+      context.read<ProfileCubit>().getProfile(context).then((value) {
+        context
+            .read<AuthenticationCubit>()
+            .isDeviceSupported(context)
+            .then((value) {
+          context.read<AppThemeCubit>().onChangeAppTheme(parseHexColor(context
+                  .read<ProfileCubit>()
+                  .state
+                  .profileModel
+                  ?.record
+                  ?.company
+                  ?.themeColor ??
+              " #751b50"));
+          Future.delayed(3.seconds, () {
             if (value == true) {
               return Navigator.pushReplacementNamed(
                   context, AppRoutes.authorization);
@@ -39,10 +40,13 @@ class SplashPage extends StatelessWidget {
             return Navigator.pushReplacementNamed(context, AppRoutes.dashboard);
           });
         });
-      } else {
+      });
+    } else {
+      Future.delayed(3.seconds, () {
         Navigator.pushReplacementNamed(context, AppRoutes.login);
-      }
-    });
+      });
+    }
+
     return Scaffold(
       body: Stack(
         children: [
