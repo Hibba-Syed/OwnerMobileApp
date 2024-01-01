@@ -55,160 +55,183 @@ class _LedgerByDateState extends State<LedgerByDate> {
                 itemBuilder: (BuildContext context, int index) {
                   LedgerByDateDatum? ledgerByDateDatum =
                       state.ledgerByDateModel?.record?.data?[index];
-                  return InkWell(
-                    onTap: () {
-                      const LedgerPage().decidePage(context,
-                          ledgerByDateDatum?.id, ledgerByDateDatum?.document);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.symmetric(vertical: 5),
-                      decoration: BoxDecoration(
-                        color: kWhite,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                              color: kGrey.shade200,
-                              blurRadius: 2,
-                              spreadRadius: 2)
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: context
-                                        .read<AppThemeCubit>()
-                                        .state
-                                        .primaryColor),
-                                padding: const EdgeInsets.all(10),
-                                child: const LedgerByAccountDetailsPage()
-                                    .ledgerIcon(ledgerByDateDatum?.document),
-                              ),
-                              const Gap(10),
-                              CustomText(
-                                text: " ${ledgerByDateDatum?.type ?? " -- "}",
-                                fontWeight: FontWeight.bold,
-                              ),
-                              const Gap(10),
-                              const Spacer(),
-                              const Gap(10),
-                              Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 5),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: context
-                                          .read<AppThemeCubit>()
-                                          .state
-                                          .primaryColor
-                                          .withOpacity(0.2)),
-                                  child: CustomText(
-                                      text: ledgerByDateDatum?.document
-                                                  ?.toLowerCase() ==
-                                              "credit_memo"
-                                          ? "Credit Note"
-                                          : ledgerByDateDatum?.document == "" ||
-                                                  ledgerByDateDatum?.document ==
-                                                      " "
-                                              ? "JV"
-                                              : ledgerByDateDatum?.document ??
-                                                  "JV")),
+                  return Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          const LedgerPage().decidePage(
+                              context,
+                              ledgerByDateDatum?.id,
+                              ledgerByDateDatum?.document);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.symmetric(vertical: 5),
+                          decoration: BoxDecoration(
+                            color: kWhite,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: kGrey.shade200,
+                                  blurRadius: 2,
+                                  spreadRadius: 2)
                             ],
                           ),
-                          const Gap(10),
-                          Row(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: CustomText(
-                                  text: ledgerByDateDatum?.account ?? " -- ",
-                                  fontsize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  textAlign: TextAlign.left,
-                                ),
+                              Row(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor),
+                                    padding: const EdgeInsets.all(10),
+                                    child: const LedgerByAccountDetailsPage()
+                                        .ledgerIcon(
+                                            ledgerByDateDatum?.document),
+                                  ),
+                                  const Gap(10),
+                                  CustomText(
+                                    text:
+                                        " ${ledgerByDateDatum?.type ?? " -- "}",
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  const Gap(10),
+                                  const Spacer(),
+                                  const Gap(10),
+                                  Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: context
+                                              .read<AppThemeCubit>()
+                                              .state
+                                              .primaryColor
+                                              .withOpacity(0.2)),
+                                      child: CustomText(
+                                          text: ledgerByDateDatum?.document
+                                                      ?.toLowerCase() ==
+                                                  "credit_memo"
+                                              ? "Credit Note"
+                                              : ledgerByDateDatum?.document ==
+                                                          "" ||
+                                                      ledgerByDateDatum
+                                                              ?.document ==
+                                                          " "
+                                                  ? "JV"
+                                                  : ledgerByDateDatum
+                                                          ?.document ??
+                                                      "JV")),
+                                ],
                               ),
                               const Gap(10),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: CustomText(
+                                      text:
+                                          ledgerByDateDatum?.account ?? " -- ",
+                                      fontsize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                  const Gap(10),
+                                  CustomText(
+                                    text: const OccupantPage()
+                                        .dateTimeFormatter(
+                                            ledgerByDateDatum?.date),
+                                    color: kGrey,
+                                    fontsize: 12,
+                                  ),
+                                ],
+                              ),
                               CustomText(
-                                text: const OccupantPage()
-                                    .dateTimeFormatter(ledgerByDateDatum?.date),
+                                text:
+                                    ledgerByDateDatum?.transactionNo ?? " -- ",
+                                fontsize: 13,
+                              ),
+                              CustomText(
+                                text: ledgerByDateDatum?.reference ?? " -- ",
+                                fontWeight: FontWeight.w500,
+                                fontsize: 17,
+                              ),
+                              CustomText(
+                                text: ledgerByDateDatum?.description ?? " -- ",
+                                fontsize: 15,
+                              ),
+                              const Gap(10),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const CustomText(
+                                    text: "Debit : ",
+                                    fontsize: 13,
+                                  ),
+                                  CustomText(
+                                    text: formatCurrency(
+                                        ledgerByDateDatum?.debit ?? 0),
+                                    fontsize: 13,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const CustomText(
+                                    text: "Credit : ",
+                                    fontsize: 13,
+                                  ),
+                                  CustomText(
+                                    text: formatCurrency(
+                                        ledgerByDateDatum?.credit ?? 0),
+                                    fontsize: 13,
+                                  ),
+                                ],
+                              ),
+                              const Divider(
                                 color: kGrey,
-                                fontsize: 12,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const CustomText(
+                                    text: "Balance : ",
+                                    fontsize: 13,
+                                  ),
+                                  CustomText(
+                                    text: formatCurrency(
+                                        ledgerByDateDatum?.balance ?? 0),
+                                    fontsize: 13,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                          CustomText(
-                            text: ledgerByDateDatum?.transactionNo ?? " -- ",
-                            fontsize: 13,
-                          ),
-                          CustomText(
-                            text: ledgerByDateDatum?.reference ?? " -- ",
-                            fontWeight: FontWeight.w500,
-                            fontsize: 17,
-                          ),
-                          CustomText(
-                            text: ledgerByDateDatum?.description ?? " -- ",
-                            fontsize: 15,
-                          ),
-                          const Gap(10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const CustomText(
-                                text: "Debit : ",
-                                fontsize: 13,
-                              ),
-                              CustomText(
-                                text: formatCurrency(
-                                    ledgerByDateDatum?.debit ?? 0),
-                                fontsize: 13,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const CustomText(
-                                text: "Credit : ",
-                                fontsize: 13,
-                              ),
-                              CustomText(
-                                text: formatCurrency(
-                                    ledgerByDateDatum?.credit ?? 0),
-                                fontsize: 13,
-                              ),
-                            ],
-                          ),
-                          const Divider(
-                            color: kGrey,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const CustomText(
-                                text: "Balance : ",
-                                fontsize: 13,
-                              ),
-                              CustomText(
-                                text: formatCurrency(
-                                    ledgerByDateDatum?.balance ?? 0),
-                                fontsize: 13,
-                              ),
-                            ],
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
+                      if ((index + 1) ==
+                          state.ledgerByDateModel?.record?.data?.length)
+                        const SizedBox(
+                          height: 150,
+                        ),
+                    ],
                   );
                 },
               ),
             ),
             if (state.loadMoreLedgerByDateState == LoadingState.loading)
               const SizedBox(
-                height: 100,
+                height: 150,
                 child: Center(child: CircularProgressIndicator()),
               )
           ],

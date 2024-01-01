@@ -78,9 +78,16 @@ class MoDetailsPage extends StatelessWidget {
                       state.moDetailsModel?.record?.clientEmail),
                   const AdDetailsPage().supportingDocuments(context, [
                     {
-                      "name": "Owner Noc (ask Hammad)",
-                      "url":
-                          "$baseUrl/${state.moDetailsModel?.record?.titleDeed}",
+                      "name": "Title Deed",
+                      "url": state.moDetailsModel?.record?.titleDeedUrl,
+                    },
+                    {
+                      "name": "ID File",
+                      "url": state.moDetailsModel?.record?.clientIdFileUrl,
+                    },
+                    {
+                      "name": "Passport File",
+                      "url": state.moDetailsModel?.record?.passportFileUrl,
                     },
                   ])
                 ],

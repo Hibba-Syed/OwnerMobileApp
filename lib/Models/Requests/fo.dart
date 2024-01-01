@@ -50,7 +50,7 @@ class Record {
     int? companyId;
     int? associationId;
     int? unitId;
-    dynamic accountId;
+    int? accountId;
     dynamic incomeType;
     int? assigneeId;
     String? applicationType;
@@ -72,13 +72,13 @@ class Record {
     String? passportNumber;
     dynamic clientCountryId;
     String? clientType;
-    dynamic description;
+    String? description;
     dynamic deletedAt;
     String? status;
     dynamic securityNumber;
-    dynamic payableAmount;
-    dynamic securityDeposit;
-    String? paymentStatus;
+    int? payableAmount;
+    int? securityDeposit;
+    dynamic paymentStatus;
     dynamic paymentRef;
     int? documentsStatus;
     int? securityDepositRefundStatus;
@@ -88,11 +88,11 @@ class Record {
     dynamic tradeLicenseExpiry;
     String? titleDeed;
     String? titleDeedNumber;
-    String? tenancyContract;
-    DateTime? tenancyContractExpiry;
+    dynamic tenancyContract;
+    dynamic tenancyContractExpiry;
     dynamic notifyStatus;
-    int? serviceChargeStatus;
-    dynamic convenienceFee;
+    dynamic serviceChargeStatus;
+    int? convenienceFee;
     dynamic convenienceFeeAccount;
     dynamic approvalNote;
     dynamic rejectionNote;
@@ -103,13 +103,12 @@ class Record {
     dynamic processNote;
     dynamic documentNote;
     dynamic securityNote;
-    String? nocNote;
+    dynamic nocNote;
     dynamic refundNote;
     dynamic paymentNote;
     dynamic terms;
     DateTime? createdAt;
     DateTime? updatedAt;
-    Association? association;
     String? clientIdFileUrl;
     String? passportFileUrl;
     String? titleDeedUrl;
@@ -118,9 +117,11 @@ class Record {
     bool? isMailable;
     String? fullName;
     String? profileImageUrl;
-    Application? application;
+    Association? association;
     Unit? unit;
-    List<dynamic>? documents;
+    Application? application;
+    dynamic evidence;
+    List<Document>? documents;
 
     Record({
         this.id,
@@ -187,7 +188,6 @@ class Record {
         this.terms,
         this.createdAt,
         this.updatedAt,
-        this.association,
         this.clientIdFileUrl,
         this.passportFileUrl,
         this.titleDeedUrl,
@@ -196,8 +196,10 @@ class Record {
         this.isMailable,
         this.fullName,
         this.profileImageUrl,
-        this.application,
+        this.association,
         this.unit,
+        this.application,
+        this.evidence,
         this.documents,
     });
 
@@ -246,7 +248,7 @@ class Record {
         titleDeed: json["title_deed"],
         titleDeedNumber: json["title_deed_number"],
         tenancyContract: json["tenancy_contract"],
-        tenancyContractExpiry: json["tenancy_contract_expiry"] == null ? null : DateTime.parse(json["tenancy_contract_expiry"]),
+        tenancyContractExpiry: json["tenancy_contract_expiry"],
         notifyStatus: json["notify_status"],
         serviceChargeStatus: json["service_charge_status"],
         convenienceFee: json["convenience_fee"],
@@ -266,7 +268,6 @@ class Record {
         terms: json["terms"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-        association: json["association"] == null ? null : Association.fromJson(json["association"]),
         clientIdFileUrl: json["client_id_file_url"],
         passportFileUrl: json["passport_file_url"],
         titleDeedUrl: json["title_deed_url"],
@@ -275,9 +276,11 @@ class Record {
         isMailable: json["is_mailable"],
         fullName: json["full_name"],
         profileImageUrl: json["profile_image_url"],
-        application: json["application"] == null ? null : Application.fromJson(json["application"]),
+        association: json["association"] == null ? null : Association.fromJson(json["association"]),
         unit: json["unit"] == null ? null : Unit.fromJson(json["unit"]),
-        documents: json["documents"] == null ? [] : List<dynamic>.from(json["documents"]!.map((x) => x)),
+        application: json["application"] == null ? null : Application.fromJson(json["application"]),
+        evidence: json["evidence"],
+        documents: json["documents"] == null ? [] : List<Document>.from(json["documents"]!.map((x) => Document.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -325,7 +328,7 @@ class Record {
         "title_deed": titleDeed,
         "title_deed_number": titleDeedNumber,
         "tenancy_contract": tenancyContract,
-        "tenancy_contract_expiry": "${tenancyContractExpiry!.year.toString().padLeft(4, '0')}-${tenancyContractExpiry!.month.toString().padLeft(2, '0')}-${tenancyContractExpiry!.day.toString().padLeft(2, '0')}",
+        "tenancy_contract_expiry": tenancyContractExpiry,
         "notify_status": notifyStatus,
         "service_charge_status": serviceChargeStatus,
         "convenience_fee": convenienceFee,
@@ -345,7 +348,6 @@ class Record {
         "terms": terms,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
-        "association": association?.toJson(),
         "client_id_file_url": clientIdFileUrl,
         "passport_file_url": passportFileUrl,
         "title_deed_url": titleDeedUrl,
@@ -354,9 +356,11 @@ class Record {
         "is_mailable": isMailable,
         "full_name": fullName,
         "profile_image_url": profileImageUrl,
-        "application": application?.toJson(),
+        "association": association?.toJson(),
         "unit": unit?.toJson(),
-        "documents": documents == null ? [] : List<dynamic>.from(documents!.map((x) => x)),
+        "application": application?.toJson(),
+        "evidence": evidence,
+        "documents": documents == null ? [] : List<dynamic>.from(documents!.map((x) => x.toJson())),
     };
 }
 
@@ -368,13 +372,13 @@ class Application {
     int? noOfStaffExpected;
     DateTime? startDate;
     DateTime? endDate;
-    dynamic fitoutFee;
-    String? feePaymentStatus;
+    int? fitoutFee;
+    dynamic feePaymentStatus;
     dynamic paymentRef;
-    int? totalPayableFee;
-    dynamic securityDeposit;
+    dynamic totalPayableFee;
+    int? securityDeposit;
     dynamic securityDepositDetails;
-    String? securityDepositStatus;
+    dynamic securityDepositStatus;
     dynamic securityChequeDetails;
     dynamic securityChequeAttachment;
     dynamic rejectionNote;
@@ -399,13 +403,13 @@ class Application {
     dynamic securityNumber;
     int? isElectricity;
     String? type;
-    int? isDewaNocApplied;
-    int? isFinalNocApplied;
+    dynamic isDewaNocApplied;
+    dynamic isFinalNocApplied;
     dynamic dewaNocFee;
     dynamic finalNocFee;
     dynamic dewaNocPaymentStatus;
     dynamic finalNocPaymentStatus;
-    int? finalNocDocumentStatus;
+    dynamic finalNocDocumentStatus;
     String? appointmentLetterUrl;
     String? tradeLicenseContractorUrl;
     String? securityChequeAttachmentUrl;
@@ -420,7 +424,7 @@ class Application {
     String? dewaNocPaymentStatusLbl;
     String? finalNocPaymentStatusLbl;
     List<dynamic>? addons;
-    List<Dewanoc>? dewanoc;
+    List<dynamic>? dewanoc;
 
     Application({
         this.id,
@@ -545,7 +549,7 @@ class Application {
         dewaNocPaymentStatusLbl: json["dewa_noc_payment_status_lbl"],
         finalNocPaymentStatusLbl: json["final_noc_payment_status_lbl"],
         addons: json["addons"] == null ? [] : List<dynamic>.from(json["addons"]!.map((x) => x)),
-        dewanoc: json["dewanoc"] == null ? [] : List<Dewanoc>.from(json["dewanoc"]!.map((x) => Dewanoc.fromJson(x))),
+        dewanoc: json["dewanoc"] == null ? [] : List<dynamic>.from(json["dewanoc"]!.map((x) => x)),
     );
 
     Map<String, dynamic> toJson() => {
@@ -608,75 +612,47 @@ class Application {
         "dewa_noc_payment_status_lbl": dewaNocPaymentStatusLbl,
         "final_noc_payment_status_lbl": finalNocPaymentStatusLbl,
         "addons": addons == null ? [] : List<dynamic>.from(addons!.map((x) => x)),
-        "dewanoc": dewanoc == null ? [] : List<dynamic>.from(dewanoc!.map((x) => x.toJson())),
-    };
-}
-
-class Dewanoc {
-    int? id;
-    int? applicationFitOutId;
-    String? plotNo;
-    String? meterAcNo;
-    String? meterPremiseNo;
-    String? approvedLoad;
-    String? connectedLoad;
-    String? mdbReference;
-    String? smdbReference;
-    DateTime? createdAt;
-    DateTime? updatedAt;
-
-    Dewanoc({
-        this.id,
-        this.applicationFitOutId,
-        this.plotNo,
-        this.meterAcNo,
-        this.meterPremiseNo,
-        this.approvedLoad,
-        this.connectedLoad,
-        this.mdbReference,
-        this.smdbReference,
-        this.createdAt,
-        this.updatedAt,
-    });
-
-    factory Dewanoc.fromJson(Map<String, dynamic> json) => Dewanoc(
-        id: json["id"],
-        applicationFitOutId: json["application_fit_out_id"],
-        plotNo: json["plot_no"],
-        meterAcNo: json["meter_ac_no"],
-        meterPremiseNo: json["meter_premise_no"],
-        approvedLoad: json["approved_load"],
-        connectedLoad: json["connected_load"],
-        mdbReference: json["mdb_reference"],
-        smdbReference: json["smdb_reference"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "application_fit_out_id": applicationFitOutId,
-        "plot_no": plotNo,
-        "meter_ac_no": meterAcNo,
-        "meter_premise_no": meterPremiseNo,
-        "approved_load": approvedLoad,
-        "connected_load": connectedLoad,
-        "mdb_reference": mdbReference,
-        "smdb_reference": smdbReference,
-        "created_at": createdAt?.toIso8601String(),
-        "updated_at": updatedAt?.toIso8601String(),
+        "dewanoc": dewanoc == null ? [] : List<dynamic>.from(dewanoc!.map((x) => x)),
     };
 }
 
 class Association {
     int? id;
     String? name;
+    int? remainingUnit;
+    String? aboutPageImageUrl;
+    String? backgroundImageUrl;
+    String? logoImageUrl;
+    String? fullAddress;
+    int? unitsArea;
+    int? applicableArea;
+    int? suiteArea;
+    int? balconyArea;
+    String? filledParkings;
+    dynamic subdomain;
+    String? contractUrl;
+    dynamic gmap;
+    int? paymentGatewayEnabled;
     dynamic city;
     dynamic associationType;
 
     Association({
         this.id,
         this.name,
+        this.remainingUnit,
+        this.aboutPageImageUrl,
+        this.backgroundImageUrl,
+        this.logoImageUrl,
+        this.fullAddress,
+        this.unitsArea,
+        this.applicableArea,
+        this.suiteArea,
+        this.balconyArea,
+        this.filledParkings,
+        this.subdomain,
+        this.contractUrl,
+        this.gmap,
+        this.paymentGatewayEnabled,
         this.city,
         this.associationType,
     });
@@ -684,6 +660,20 @@ class Association {
     factory Association.fromJson(Map<String, dynamic> json) => Association(
         id: json["id"],
         name: json["name"],
+        remainingUnit: json["remaining_unit"],
+        aboutPageImageUrl: json["about_page_image_url"],
+        backgroundImageUrl: json["background_image_url"],
+        logoImageUrl: json["logo_image_url"],
+        fullAddress: json["full_address"],
+        unitsArea: json["units_area"],
+        applicableArea: json["applicable_area"],
+        suiteArea: json["suite_area"],
+        balconyArea: json["balcony_area"],
+        filledParkings: json["filled_parkings"],
+        subdomain: json["subdomain"],
+        contractUrl: json["contract_url"],
+        gmap: json["gmap"],
+        paymentGatewayEnabled: json["payment_gateway_enabled"],
         city: json["city"],
         associationType: json["association_type"],
     );
@@ -691,8 +681,138 @@ class Association {
     Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
+        "remaining_unit": remainingUnit,
+        "about_page_image_url": aboutPageImageUrl,
+        "background_image_url": backgroundImageUrl,
+        "logo_image_url": logoImageUrl,
+        "full_address": fullAddress,
+        "units_area": unitsArea,
+        "applicable_area": applicableArea,
+        "suite_area": suiteArea,
+        "balcony_area": balconyArea,
+        "filled_parkings": filledParkings,
+        "subdomain": subdomain,
+        "contract_url": contractUrl,
+        "gmap": gmap,
+        "payment_gateway_enabled": paymentGatewayEnabled,
         "city": city,
         "association_type": associationType,
+    };
+}
+
+class Document {
+    int? id;
+    int? companyId;
+    dynamic userId;
+    int? objectId;
+    String? objectType;
+    String? name;
+    dynamic folderName;
+    dynamic description;
+    String? path;
+    String? fileType;
+    String? mimeType;
+    String? fileExt;
+    dynamic issueDate;
+    dynamic expiryDate;
+    String? status;
+    dynamic type;
+    String? category;
+    dynamic note;
+    dynamic shareWith;
+    dynamic shareEndDate;
+    dynamic shareWithUnit;
+    dynamic shareEndDateUnit;
+    dynamic emailSent;
+    DateTime? createdAt;
+    DateTime? updatedAt;
+    String? pathUrl;
+
+    Document({
+        this.id,
+        this.companyId,
+        this.userId,
+        this.objectId,
+        this.objectType,
+        this.name,
+        this.folderName,
+        this.description,
+        this.path,
+        this.fileType,
+        this.mimeType,
+        this.fileExt,
+        this.issueDate,
+        this.expiryDate,
+        this.status,
+        this.type,
+        this.category,
+        this.note,
+        this.shareWith,
+        this.shareEndDate,
+        this.shareWithUnit,
+        this.shareEndDateUnit,
+        this.emailSent,
+        this.createdAt,
+        this.updatedAt,
+        this.pathUrl,
+    });
+
+    factory Document.fromJson(Map<String, dynamic> json) => Document(
+        id: json["id"],
+        companyId: json["company_id"],
+        userId: json["user_id"],
+        objectId: json["object_id"],
+        objectType: json["object_type"],
+        name: json["name"],
+        folderName: json["folder_name"],
+        description: json["description"],
+        path: json["path"],
+        fileType: json["file_type"],
+        mimeType: json["mime_type"],
+        fileExt: json["file_ext"],
+        issueDate: json["issue_date"],
+        expiryDate: json["expiry_date"],
+        status: json["status"],
+        type: json["type"],
+        category: json["category"],
+        note: json["note"],
+        shareWith: json["share_with"],
+        shareEndDate: json["share_end_date"],
+        shareWithUnit: json["share_with_unit"],
+        shareEndDateUnit: json["share_end_date_unit"],
+        emailSent: json["email_sent"],
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        pathUrl: json["path_url"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "company_id": companyId,
+        "user_id": userId,
+        "object_id": objectId,
+        "object_type": objectType,
+        "name": name,
+        "folder_name": folderName,
+        "description": description,
+        "path": path,
+        "file_type": fileType,
+        "mime_type": mimeType,
+        "file_ext": fileExt,
+        "issue_date": issueDate,
+        "expiry_date": expiryDate,
+        "status": status,
+        "type": type,
+        "category": category,
+        "note": note,
+        "share_with": shareWith,
+        "share_end_date": shareEndDate,
+        "share_with_unit": shareWithUnit,
+        "share_end_date_unit": shareEndDateUnit,
+        "email_sent": emailSent,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "path_url": pathUrl,
     };
 }
 

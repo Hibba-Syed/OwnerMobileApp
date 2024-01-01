@@ -10,22 +10,30 @@ class MyWebView extends StatefulWidget {
 }
 
 class _MyWebViewState extends State<MyWebView> {
+  bool isLoading = true;
+  bool isError = false;
   final WebViewController webViewController = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted);
   @override
   void dispose() {
-    webViewController.removeJavaScriptChannel('flutter_inject');
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     webViewController.setNavigationDelegate(NavigationDelegate(
-      onPageStarted: (url) => _startListeningForAntBtn(),
+      onWebResourceError: (error) => setState(() {
+        isLoading = false;
+        isError = true;
+      }),
       onPageFinished: (String url) {
-        print("finished: $url");
-        webViewController.runJavaScript(
-            'document.getElementsByClassName("ant-btn")[1].style.display="none";');
+        setState(() {
+          isLoading = false;
+        });
+        Future.delayed(const Duration(seconds: 5), () {
+          webViewController.runJavaScript(
+              'document.getElementsByClassName("ant-btn")[1].style.display="none";');
+        });
       },
     ));
     webViewController.loadRequest(Uri.parse(
@@ -42,34 +50,16 @@ class _MyWebViewState extends State<MyWebView> {
         appBarHeight: 50,
         automaticallyImplyLeading: true,
       ),
-      body: WebViewWidget(controller: webViewController),
-    );
-  }
-
-  void _startListeningForAntBtn() {
-    print("inside  ././././/n.//n");
-    const checkAntBtnScript = '''
-      var antBtnInterval = setInterval(function() {
-        console.log("working");
-        var antBtnElement = document.getElementsByClassName("ant-btn");
-        if (antBtnElement) {
-          clearInterval(antBtnInterval);
-          window.flutter_inject.postMessage('AntBtnAvailable');
-        }
-      }, 100);
-    ''';
-
-    webViewController.runJavaScript(checkAntBtnScript);
-    webViewController.setOnConsoleMessage((message) {
-      print(message);
-    });
-    webViewController.addJavaScriptChannel(
-      'flutter_inject',
-      onMessageReceived: (message) {
-        if (message.message == 'AntBtnAvailable') {
-          print('Element with class "ant-btn" is now available.');
-        }
-      },
+      body: Stack(
+        children: [
+          WebViewWidget(controller: webViewController),
+          if (isLoading)
+            const Center(
+              child: CircularProgressIndicator(),
+            ),
+          if (isError) const CreditNotesPage().emptyList(),
+        ],
+      ),
     );
   }
 }

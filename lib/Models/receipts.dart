@@ -53,6 +53,7 @@ class Receipt {
   String? paidBy;
   String? payeeType;
   double? amount;
+  String? document;
 
   Receipt({
     this.id,
@@ -61,6 +62,7 @@ class Receipt {
     this.paidBy,
     this.payeeType,
     this.amount,
+    this.document,
   });
 
   factory Receipt.fromJson(Map<String, dynamic> json) => Receipt(
@@ -71,6 +73,7 @@ class Receipt {
         paidBy: json["paid_by"],
         payeeType: json["payee_type"],
         amount: json["amount"]?.toDouble(),
+        document: json["document"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -81,5 +84,6 @@ class Receipt {
         "paid_by": paidBy,
         "payee_type": payeeType,
         "amount": amount,
+        "document": document,
       };
 }

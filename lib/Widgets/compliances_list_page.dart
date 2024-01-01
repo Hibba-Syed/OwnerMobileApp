@@ -55,137 +55,150 @@ class _ReceiptListPageState extends State<CompliancesListPage> {
                 itemBuilder: (BuildContext context, int index) {
                   Compliance? compliance =
                       state.compliancesModel?.compliances?[index];
-                  return Container(
-                    padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.symmetric(vertical: 5),
-                    decoration: BoxDecoration(
-                      color: kWhite,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: const Offset(
-                            1,
-                            1,
-                          ),
-                          spreadRadius: 2,
-                          blurRadius: 2,
-                          color: kGrey.shade200,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.task_outlined,
-                              color: context
-                                  .read<AppThemeCubit>()
-                                  .state
-                                  .primaryColor,
-                              size: 18,
+                  return Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.symmetric(vertical: 5),
+                        decoration: BoxDecoration(
+                          color: kWhite,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              offset: const Offset(
+                                1,
+                                1,
+                              ),
+                              spreadRadius: 2,
+                              blurRadius: 2,
+                              color: kGrey.shade200,
                             ),
-                            CustomText(
-                              text: "Compliance: ${compliance?.name ?? " -- "}",
-                              fontWeight: FontWeight.bold,
-                              fontsize: 15,
-                            )
                           ],
                         ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Column(
                           children: [
                             Row(
                               children: [
                                 Icon(
-                                  Icons.calendar_month_outlined,
-                                  size: 15,
+                                  Icons.task_outlined,
                                   color: context
                                       .read<AppThemeCubit>()
                                       .state
                                       .primaryColor,
+                                  size: 18,
                                 ),
                                 CustomText(
                                   text:
-                                      "Date: ${const OccupantPage().dateTimeFormatter(compliance?.duedate)}",
-                                  fontsize: 12,
+                                      "Compliance: ${compliance?.name ?? " -- "}",
+                                  fontWeight: FontWeight.bold,
+                                  fontsize: 15,
                                 )
                               ],
+                            ),
+                            const SizedBox(
+                              height: 5,
                             ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Icon(
-                                  Icons.calendar_month_outlined,
-                                  size: 15,
-                                  color: context
-                                      .read<AppThemeCubit>()
-                                      .state
-                                      .primaryColor,
-                                ),
-                                CustomText(
-                                  text:
-                                      "Expiry Date: ${const OccupantPage().dateTimeFormatter(compliance?.expiry)}",
-                                  fontsize: 12,
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                        Divider(
-                          color:
-                              context.read<AppThemeCubit>().state.primaryColor,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                if (compliance?.certificate != null &&
-                                    compliance?.certificate != "") {
-                                  launchUrl(
-                                      Uri.parse(compliance?.certificate ?? ""));
-                                  return;
-                                }
-                                Fluttertoast.showToast(
-                                    msg: "No certificate found to download");
-                              },
-                              child: const UnitsPage().roundedContainer(
-                                context,
                                 Row(
                                   children: [
                                     Icon(
-                                      Icons.visibility_outlined,
+                                      Icons.calendar_month_outlined,
+                                      size: 15,
                                       color: context
                                           .read<AppThemeCubit>()
                                           .state
                                           .primaryColor,
-                                      size: 18,
                                     ),
-                                    const CustomText(
-                                      text: " Certificate",
-                                      fontsize: 14,
+                                    CustomText(
+                                      text:
+                                          "Date: ${const OccupantPage().dateTimeFormatter(compliance?.duedate)}",
+                                      fontsize: 12,
                                     )
                                   ],
                                 ),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5),
-                                invert: true,
-                              ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.calendar_month_outlined,
+                                      size: 15,
+                                      color: context
+                                          .read<AppThemeCubit>()
+                                          .state
+                                          .primaryColor,
+                                    ),
+                                    CustomText(
+                                      text:
+                                          "Expiry Date: ${const OccupantPage().dateTimeFormatter(compliance?.expiry)}",
+                                      fontsize: 12,
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Divider(
+                              color: context
+                                  .read<AppThemeCubit>()
+                                  .state
+                                  .primaryColor,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    if (compliance?.certificate != null &&
+                                        compliance?.certificate != "") {
+                                      launchUrl(Uri.parse(
+                                          compliance?.certificate ?? ""));
+                                      return;
+                                    }
+                                    Fluttertoast.showToast(
+                                        msg:
+                                            "No certificate found to download");
+                                  },
+                                  child: const UnitsPage().roundedContainer(
+                                    context,
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.visibility_outlined,
+                                          color: context
+                                              .read<AppThemeCubit>()
+                                              .state
+                                              .primaryColor,
+                                          size: 18,
+                                        ),
+                                        const CustomText(
+                                          text: " Certificate",
+                                          fontsize: 14,
+                                        )
+                                      ],
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 5),
+                                    invert: true,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                      if ((index + 1) ==
+                          state.compliancesModel?.compliances?.length)
+                        const SizedBox(
+                          height: 150,
+                        ),
+                    ],
                   );
                 },
               ),
             ),
             if (state.loadMoreState == LoadingState.loading)
               const SizedBox(
-                height: 100,
+                height: 150,
                 child: Center(child: CircularProgressIndicator()),
               )
           ],

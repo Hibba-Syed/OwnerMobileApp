@@ -101,10 +101,12 @@ class InvoiceDetailsPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            CustomText(
-                              text: state.invoiceDetailsModel?.title ?? "",
-                              fontWeight: FontWeight.bold,
-                              fontsize: 18,
+                            Expanded(
+                              child: CustomText(
+                                text: state.invoiceDetailsModel?.title ?? "",
+                                fontWeight: FontWeight.bold,
+                                fontsize: 18,
+                              ),
                             ),
                             const Gap(10),
                             CustomText(
@@ -181,6 +183,24 @@ class InvoiceDetailsPage extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                   const Gap(10),
+                  if (state.invoiceDetailsModel?.transactions?.isEmpty ?? true)
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 5),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: kWhite,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                              blurRadius: 2,
+                              spreadRadius: 2,
+                              color: kGrey.shade200),
+                        ],
+                      ),
+                      height: MediaQuery.of(context).size.height / 2,
+                      child: const CreditNotesPage()
+                          .emptyList(message: "No transactions found"),
+                    ),
                   Column(
                     children: state.invoiceDetailsModel?.transactions
                             ?.map(
@@ -201,14 +221,19 @@ class InvoiceDetailsPage extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        CustomText(
-                                          text: e.account?.title ?? "",
-                                          fontWeight: FontWeight.bold,
-                                          fontsize: 18,
+                                        Expanded(
+                                          child: CustomText(
+                                            text: e.account?.title ?? "",
+                                            fontWeight: FontWeight.bold,
+                                            fontsize: 18,
+                                          ),
                                         ),
+                                        const Gap(10),
                                         Container(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 10, vertical: 5),

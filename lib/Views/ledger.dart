@@ -104,7 +104,7 @@ class LedgerPage extends StatelessWidget {
                               ),
                             )
                           : const Icon(
-                              Icons.document_scanner_outlined,
+                              Icons.description_outlined,
                               color: kWhite,
                             ),
                     ),

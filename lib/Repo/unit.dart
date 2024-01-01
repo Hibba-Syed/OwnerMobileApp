@@ -29,7 +29,7 @@ class UnitsService {
     return await ExceptionService.applyTryCatch(() async {
       return await http.get(
           Uri.parse(
-            "$baseUrl/mobile/owner/property/owner/$id ",
+            "$baseUrl/mobile/owner/property/owner/$id",
           ),
           headers: {
             "Authorization":
@@ -358,11 +358,11 @@ class UnitsService {
   }
 
   static Future<Object?> getUnitRequestDetails(
-      BuildContext context, int? requestId) async {
+      BuildContext context, int? requestId,String? applicationType) async {
     return await ExceptionService.applyTryCatch(() async {
       return await http.get(
           Uri.parse(
-            "$baseUrl/mobile/owner/property/applications/$requestId/details",
+            "$baseUrl/mobile/owner/property/applications/$requestId/$applicationType/details",
           ),
           headers: {
             "Authorization":

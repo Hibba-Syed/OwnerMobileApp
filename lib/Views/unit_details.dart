@@ -1,3 +1,5 @@
+import 'package:url_launcher/url_launcher.dart';
+
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
@@ -22,12 +24,9 @@ class UnitDetailsPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          // await launchUrl(
-          //     Uri.parse("http://onlinistfze.synergic360.com/$unitSlug"));
-          Navigator.pushNamed(context, AppRoutes.myWebView, arguments: [
-            communityName,
-            "http://onlinistfze.synergic360.com/$unitSlug"
-          ]);
+          await launchUrl(Uri.parse(
+            "http://onlinistfze.synergic360.com/$unitSlug",
+          ));
         },
         label: const Row(
           children: [Icon(Icons.link), CustomText(text: " E-Services")],
@@ -137,8 +136,8 @@ class UnitDetailsPage extends StatelessWidget {
       BuildContext context, String? unitNo, int? unitId) {
     List detailTabs = [
       {
-        "name": "Owner",
-        "icon": Icons.person_outline,
+        "name": "Owners",
+        "icon": Icons.group_outlined,
         "onTap": () {
           context.read<OwnersCubit>().getOwners(context, unitId);
           return Navigator.pushNamed(context, AppRoutes.owners,
@@ -147,7 +146,7 @@ class UnitDetailsPage extends StatelessWidget {
       },
       {
         "name": "Occupant",
-        "icon": Icons.person_4_outlined,
+        "icon": Icons.person_outlined,
         "onTap": () {
           context.read<OccupantCubit>().getOccupant(context, unitId);
           return Navigator.pushNamed(context, AppRoutes.occupant,
@@ -156,7 +155,7 @@ class UnitDetailsPage extends StatelessWidget {
       },
       {
         "name": "Requests",
-        "icon": Icons.request_page_outlined,
+        "icon": Icons.notifications_outlined,
         "onTap": () {
           context.read<RequestsCubit>().resetFilters();
           context.read<RequestsCubit>().getRequests(context, unitId);
@@ -165,7 +164,7 @@ class UnitDetailsPage extends StatelessWidget {
         }
       },
       {
-        "name": "Complainces",
+        "name": "Compliances",
         "icon": Icons.done,
         "onTap": () {
           context.read<CompliancesCubit>().getCompliances(context, unitId);

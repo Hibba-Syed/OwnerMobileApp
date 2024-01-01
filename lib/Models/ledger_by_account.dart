@@ -48,52 +48,60 @@ class LedgerByAccountModel {
 }
 
 class Record {
-  List<AccountDatum>? data;
+  List<AccountDatum>? ledgers;
   Meta? meta;
 
   Record({
-    this.data,
+    this.ledgers,
     this.meta,
   });
 
   factory Record.fromJson(Map<String, dynamic> json) => Record(
-        data: json["data"] == null
+        ledgers: json["ledgers"] == null
             ? []
             : List<AccountDatum>.from(
-                json["data"]!.map((x) => AccountDatum.fromJson(x))),
+                json["ledgers"]!.map((x) => AccountDatum.fromJson(x))),
         meta: json["meta"] == null ? null : Meta.fromJson(json["meta"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "data": data == null
+        "ledgers": ledgers == null
             ? []
-            : List<dynamic>.from(data!.map((x) => x.toJson())),
+            : List<dynamic>.from(ledgers!.map((x) => x.toJson())),
         "meta": meta?.toJson(),
       };
 }
 
 class AccountDatum {
-  String? ledgerName;
-  List<LedgerAccountDatum>? ledgers;
+  String? name;
+  List<LedgerAccountDatum>? transactions;
+  double? openingBalance;
+  double? closingBalance;
 
   AccountDatum({
-    this.ledgerName,
-    this.ledgers,
+    this.name,
+    this.transactions,
+    this.openingBalance,
+    this.closingBalance,
   });
 
   factory AccountDatum.fromJson(Map<String, dynamic> json) => AccountDatum(
-        ledgerName: json["ledger_name"],
-        ledgers: json["ledgers"] == null
+        name: json["name"],
+        transactions: json["transactions"] == null
             ? []
-            : List<LedgerAccountDatum>.from(
-                json["ledgers"]!.map((x) => LedgerAccountDatum.fromJson(x))),
+            : List<LedgerAccountDatum>.from(json["transactions"]!
+                .map((x) => LedgerAccountDatum.fromJson(x))),
+        openingBalance: json["opening_balance"]?.toDouble(),
+        closingBalance: json["closing_balance"]?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
-        "ledger_name": ledgerName,
-        "ledgers": ledgers == null
+        "name": name,
+        "transactions": transactions == null
             ? []
-            : List<dynamic>.from(ledgers!.map((x) => x.toJson())),
+            : List<dynamic>.from(transactions!.map((x) => x.toJson())),
+        "opening_balance": openingBalance,
+        "closing_balance": closingBalance,
       };
 }
 

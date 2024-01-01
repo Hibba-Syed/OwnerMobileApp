@@ -1,3 +1,4 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
 
 import '../Utils/utils.dart';
@@ -14,6 +15,7 @@ class CompaniesPage extends StatelessWidget {
         title: "Select Company",
         appBar: AppBar(),
         widgets: const [],
+        automaticallyImplyLeading: true,
         appBarHeight: 50,
       ),
       bottomNavigationBar: Padding(
@@ -21,12 +23,18 @@ class CompaniesPage extends StatelessWidget {
         child: CustomButton(
             text: "Add all verified profiles",
             function: () {
+              CoolAlert.show(
+                  context: context,
+                  type: CoolAlertType.loading,
+                  barrierDismissible: false,
+                  lottieAsset: "assets/loader.json");
               for (LoginModel loginModel in loginModelList ?? []) {
                 Global.storageService.setAuthenticationModelString(loginModel);
               }
               context.read<LoginCubit>().onChangeLoginModel(loginModelList?[0]);
               context.read<ProfileCubit>().getProfile(context).then((isLoaded) {
                 if (isLoaded) {
+                  Navigator.pop(context);
                   context.read<AppThemeCubit>().onChangeAppTheme(
                       const SplashPage().parseHexColor(
                           loginModelList?[0].owner?.company?.themeColor ??
@@ -35,6 +43,7 @@ class CompaniesPage extends StatelessWidget {
                   return Navigator.pushReplacementNamed(
                       context, AppRoutes.dashboard);
                 } else {
+                  Navigator.pop(context);
                   Fluttertoast.showToast(
                       msg: "Unable to load profile, please try again !");
                 }
@@ -58,85 +67,66 @@ class CompaniesPage extends StatelessWidget {
             const Gap(10),
             Expanded(
               child: Center(
-                child: Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: loginModelList
-                          ?.map((e) => InkWell(
-                                onTap: () {
-                                  Global.storageService
-                                      .setAuthenticationModelString(e);
-                                  context
-                                      .read<LoginCubit>()
-                                      .onChangeLoginModel(e);
-                                  context
-                                      .read<ProfileCubit>()
-                                      .getProfile(context)
-                                      .then((isLoaded) {
-                                    if (isLoaded) {
-                                      context
-                                          .read<AppThemeCubit>()
-                                          .onChangeAppTheme(const SplashPage()
-                                              .parseHexColor(e.owner?.company
-                                                      ?.themeColor ??
-                                                  "#751b50"));
-                                      const LoginPage().initialCalls(context);
-                                      return Navigator.pushReplacementNamed(
-                                          context, AppRoutes.dashboard);
-                                    } else {
-                                      Fluttertoast.showToast(
-                                          msg:
-                                              "Unable to load profile, please try again !");
-                                    }
-                                  });
-                                },
-                                child: Stack(
-                                  children: [
-                                    Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        CircleAvatar(
-                                          radius: 52,
-                                          backgroundColor: kGrey.shade200,
-                                          child: CircleAvatar(
-                                            radius: 50,
-                                            backgroundColor: kWhite,
-                                            child: CircleAvatar(
-                                              backgroundColor: kWhite,
-                                              radius: 40,
-                                              foregroundImage: NetworkImage(e
-                                                      .owner
-                                                      ?.company
-                                                      ?.faviconUrl ??
-                                                  ""),
-                                            ),
-                                          ),
-                                        ),
-                                        CustomText(
-                                            text: e.owner?.company?.shortName ??
-                                                "")
-                                      ],
-                                    ),
-                                    Positioned(
-                                      right: 0,
-                                      top: 0,
-                                      child: Container(
-                                        padding: const EdgeInsets.all(5),
-                                        decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.green),
-                                        child: const Icon(
-                                          Icons.done,
-                                          color: kWhite,
-                                          size: 15,
-                                        ),
-                                      ),
-                                    )
-                                  ],
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(5),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                  ),
+                  itemCount: loginModelList?.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    LoginModel loginModel = loginModelList![index];
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Stack(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(
+                                  MediaQuery.of(context).size.width * 0.05),
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle, color: kWhite),
+                              child: Image.network(
+                                loginModel.owner?.company?.faviconUrl ?? "",
+                                width: MediaQuery.of(context).size.width * 0.1,
+                                height: MediaQuery.of(context).size.width * 0.1,
+                              ),
+                            ),
+                            Positioned(
+                              right: 0,
+                              top: 0,
+                              child: Container(
+                                padding: const EdgeInsets.all(5),
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.green),
+                                child: const Icon(
+                                  Icons.done,
+                                  color: kWhite,
+                                  size: 15,
                                 ),
-                              ))
-                          .toList() ??
-                      [],
+                              ),
+                            )
+                          ],
+                        ),
+                        CustomText(
+                          text:
+                              "${loginModel.owner?.firstName?.capitalize() ?? " -- "} ${loginModel.owner?.lastName?.capitalize() ?? " -- "}",
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                        ),
+                        CustomText(
+                          text: loginModel.owner?.company?.name ?? "",
+                          fontsize: 12,
+                          maxLines: 2,
+                          color: kGrey,
+                          textAlign: TextAlign.center,
+                        )
+                      ],
+                    );
+                  },
                 ),
               ),
             ),

@@ -57,6 +57,7 @@ class LoginCubit extends Cubit<LoginState> {
             }
           });
         } else {
+          Global.storageService.setLoginCreds([state.email, state.password]);
           emit(state.copyWith(
             loginModel: loginModelFromJson(value.response as String)[0],
             loadingState: LoadingState.success,

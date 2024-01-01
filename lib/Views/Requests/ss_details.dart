@@ -1,5 +1,6 @@
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
 import 'package:iskaanowner/Views/Requests/ad_details.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../Utils/utils.dart';
 
@@ -35,7 +36,7 @@ class SsDetailsPage extends StatelessWidget {
                 children: [
                   const AdDetailsPage().header(
                     context,
-                        state.ssDetailsModel?.record?.unit?.unitNumber ?? " -- ",
+                    state.ssDetailsModel?.record?.unit?.unitNumber ?? " -- ",
                     state.ssDetailsModel?.record?.association?.name ?? " -- ",
                     state.ssDetailsModel?.record?.createdAt,
                     state.ssDetailsModel?.record?.status,
@@ -79,11 +80,13 @@ class SsDetailsPage extends StatelessWidget {
                       ["Name", "Phone", "Passport/EID"],
                       [
                         [
-                          state.ssDetailsModel?.record?.application
-                                  ?.companyName ??
+                          state.ssDetailsModel?.record?.company?.name ?? " -- ",
+                          state.ssDetailsModel?.record?.company
+                                  ?.contactNumber ??
                               " -- ",
-                          "ask hammad",
-                          "ask hammad"
+                          state.ssDetailsModel?.record?.company?.user
+                                  ?.passportNumber ??
+                              " -- ",
                         ]
                       ],
                       title: "Add Ons"),
@@ -102,9 +105,20 @@ class SsDetailsPage extends StatelessWidget {
                           padding: const EdgeInsets.all(10),
                           child: Column(
                             children: [
-                              const RowText(
+                              RowText(
                                 text: "Tourism License",
                                 text2: "View",
+                                onTap: () {
+                                  if (state.ssDetailsModel?.record?.application
+                                          ?.tourismLicense ==
+                                      null) {
+                                    Fluttertoast.showToast(
+                                        msg: "No licenses found to view");
+                                    return;
+                                  }
+                                  launchUrl(Uri.parse(
+                                      "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.tourismLicense}"));
+                                },
                               ),
                               RowText(
                                 text: "Tourism License Expiry",
@@ -113,9 +127,21 @@ class SsDetailsPage extends StatelessWidget {
                                         ?.tourismLicenseExpiry),
                               ),
                               const Gap(10),
-                              const RowText(
+                              RowText(
                                 text: "Company All Risk Insurance",
                                 text2: "View",
+                                onTap: () {
+                                  if (state.ssDetailsModel?.record?.application
+                                          ?.companyRiskInsurance ==
+                                      null) {
+                                    Fluttertoast.showToast(
+                                        msg:
+                                            "No Company All Risk Insurance found to view");
+                                    return;
+                                  }
+                                  launchUrl(Uri.parse(
+                                      "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.companyRiskInsurance}"));
+                                },
                               ),
                               RowText(
                                 text: "Company All Risk Insurance Expiry",
@@ -124,9 +150,20 @@ class SsDetailsPage extends StatelessWidget {
                                         ?.tourismLicenseExpiry),
                               ),
                               const Gap(10),
-                              const RowText(
+                              RowText(
                                 text: "Visa Copy",
                                 text2: "View",
+                                onTap: () {
+                                  if (state.ssDetailsModel?.record?.application
+                                          ?.visaCopy ==
+                                      null) {
+                                    Fluttertoast.showToast(
+                                        msg: "No Visa copy found to view");
+                                    return;
+                                  }
+                                  launchUrl(Uri.parse(
+                                      "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.visaCopy}"));
+                                },
                               ),
                               RowText(
                                 text: "Visa Copy Expiry",
@@ -135,9 +172,20 @@ class SsDetailsPage extends StatelessWidget {
                                         ?.visaCopyExpiry),
                               ),
                               const Gap(10),
-                              const RowText(
+                              RowText(
                                 text: "Rera ID",
                                 text2: "View",
+                                onTap: () {
+                                  if (state.ssDetailsModel?.record?.application
+                                          ?.reraId ==
+                                      null) {
+                                    Fluttertoast.showToast(
+                                        msg: "No Rera id found to view");
+                                    return;
+                                  }
+                                  launchUrl(Uri.parse(
+                                      "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.reraId}"));
+                                },
                               ),
                               RowText(
                                 text: "Rera ID Expiry",
@@ -146,9 +194,20 @@ class SsDetailsPage extends StatelessWidget {
                                         ?.reraIdExpiry),
                               ),
                               const Gap(10),
-                              const RowText(
+                              RowText(
                                 text: "DTCM Permit",
                                 text2: "View",
+                                onTap: () {
+                                  if (state.ssDetailsModel?.record?.application
+                                          ?.dtcmPermit ==
+                                      null) {
+                                    Fluttertoast.showToast(
+                                        msg: "No DTCM Permit found to view");
+                                    return;
+                                  }
+                                  launchUrl(Uri.parse(
+                                      "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.dtcmPermit}"));
+                                },
                               ),
                               RowText(
                                 text: "DTCM Permit Expiry",
@@ -167,17 +226,17 @@ class SsDetailsPage extends StatelessWidget {
                     {
                       "name": "Title Deed",
                       "url":
-                          "$baseUrl/${state.ssDetailsModel?.record?.titleDeed}",
+                          "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.titleDeed}",
                     },
                     {
                       "name": "ID File",
                       "url":
-                          "$baseUrl/${state.ssDetailsModel?.record?.clientIdFile}",
+                          "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.clientIdFile}",
                     },
                     {
                       "name": "Passport File",
                       "url":
-                          "$baseUrl/${state.ssDetailsModel?.record?.passportFile}",
+                          "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.passportFile}",
                     },
                   ])
                 ],

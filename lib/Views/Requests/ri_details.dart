@@ -86,13 +86,16 @@ class RiDetailsPage extends StatelessWidget {
                       {
                         "icon": Icons.request_page_outlined,
                         "title": "Move In Request Ref#",
-                        "subTitle": "ask hammad",
+                        "subTitle": state.riDetailsModel?.record?.moveInRequest
+                                ?.application?.reference ??
+                            " -- ",
                       },
                       {
                         "icon": Icons.question_answer_outlined,
                         "title": "Status",
-                        "subTitle":
-                            state.riDetailsModel?.record?.status ?? " -- ",
+                        "subTitle": state.riDetailsModel?.record?.moveInRequest
+                                ?.application?.status ??
+                            " -- ",
                       },
                       {
                         "icon": Icons.people_outlined,

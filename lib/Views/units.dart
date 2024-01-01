@@ -94,14 +94,17 @@ class UnitsPage extends StatelessWidget {
     );
   }
 
-  Widget roundedContainer(BuildContext context, Widget child,
-      {EdgeInsetsGeometry? margin,
-      double? width,
-      double? height,
-      EdgeInsetsGeometry? padding,
-      bool invert = false,
-      AlignmentGeometry? alignment,
-      Color? color}) {
+  Widget roundedContainer(
+    BuildContext context,
+    Widget child, {
+    EdgeInsetsGeometry? margin,
+    double? width,
+    double? height,
+    EdgeInsetsGeometry? padding,
+    bool invert = false,
+    AlignmentGeometry? alignment,
+    Color? color,
+  }) {
     return Container(
       margin: margin,
       width: width,
@@ -115,7 +118,8 @@ class UnitsPage extends StatelessWidget {
             : color ?? context.read<AppThemeCubit>().state.primaryColor,
         border: invert
             ? Border.all(
-                color: context.read<AppThemeCubit>().state.primaryColor)
+                color:
+                    color ?? context.read<AppThemeCubit>().state.primaryColor)
             : null,
       ),
       child: child,

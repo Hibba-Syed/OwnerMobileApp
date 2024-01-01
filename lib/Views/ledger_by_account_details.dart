@@ -11,7 +11,7 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
         ModalRoute.of(context)?.settings.arguments as AccountDatum?;
     return Scaffold(
       appBar: BaseAppBar(
-        title: accountDatum?.ledgerName ?? "",
+        title: accountDatum?.name ?? "",
         appBar: AppBar(),
         automaticallyImplyLeading: true,
         widgets: const [],
@@ -19,10 +19,10 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(10),
-        itemCount: accountDatum?.ledgers?.length,
+        itemCount: accountDatum?.transactions?.length,
         itemBuilder: (BuildContext context, int index) {
           LedgerAccountDatum? ledgerAccountDatum =
-              accountDatum?.ledgers?[index];
+              accountDatum?.transactions?[index];
           return InkWell(
             onTap: () {
               const LedgerPage().decidePage(context, ledgerAccountDatum?.id,

@@ -19,7 +19,8 @@ class RequestDetailsCubit extends Cubit<RequestDetailsState> {
   Future<void> getRequestDetails(
       BuildContext context, int? requestId, String? type) async {
     emit(state.copyWith(loadingState: LoadingState.loading));
-    await UnitsService.getUnitRequestDetails(context, requestId).then((value) {
+    await UnitsService.getUnitRequestDetails(context, requestId, type)
+        .then((value) {
       if (value is Success) {
         if (type?.toLowerCase() == "ad") {
           return emit(state.copyWith(

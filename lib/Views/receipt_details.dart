@@ -101,10 +101,12 @@ class ReceiptDetailsPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            CustomText(
-                              text: state.receiptDetailsModel?.title ?? "",
-                              fontWeight: FontWeight.bold,
-                              fontsize: 18,
+                            Expanded(
+                              child: CustomText(
+                                text: state.receiptDetailsModel?.title ?? "",
+                                fontWeight: FontWeight.bold,
+                                fontsize: 18,
+                              ),
                             ),
                             const Gap(10),
                             CustomText(
@@ -208,14 +210,19 @@ class ReceiptDetailsPage extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        CustomText(
-                                          text: e.account?.title ?? "",
-                                          fontWeight: FontWeight.bold,
-                                          fontsize: 18,
+                                        Expanded(
+                                          child: CustomText(
+                                            text: e.account?.title ?? "",
+                                            fontWeight: FontWeight.bold,
+                                            fontsize: 18,
+                                          ),
                                         ),
+                                        const Gap(10),
                                         Container(
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 10, vertical: 5),

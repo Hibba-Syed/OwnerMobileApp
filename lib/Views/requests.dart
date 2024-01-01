@@ -150,7 +150,7 @@ class RequestsPage extends StatelessWidget {
             CustomText(
               text: "●",
               fontsize: 12,
-              color: Colors.amber.shade100,
+              color: getStatusColor(application?.status),
             ),
             const SizedBox(
               width: 10,
@@ -160,9 +160,11 @@ class RequestsPage extends StatelessWidget {
               CustomText(
                 text: application?.status ?? "No status",
                 fontsize: 12,
+                color: getStatusColor(application?.status),
               ),
+              invert: true,
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-              color: Colors.amber.shade100,
+              color: getStatusColor(application?.status),
             ),
           ],
         ),
@@ -246,5 +248,56 @@ class RequestsPage extends StatelessWidget {
       return AppRoutes.miDetails;
     }
     return null;
+  }
+
+  Color getStatusColor(String? status) {
+    Color color = kGrey;
+    status = status?.toLowerCase();
+    if (status == "pending") {
+      color = const Color(0xffffd550);
+    }
+    if (status == "rescheduled") {
+      color = const Color(0xfff7a802);
+    }
+    if (status == "onhold") {
+      color = const Color(0xffffc353);
+    }
+    if (status == "wait for documnets") {
+      color = const Color(0xff00c851);
+    }
+    if (status == "processed") {
+      color = const Color(0xff00c851);
+    }
+    if (status == "approved") {
+      color = const Color(0xff00c851);
+    }
+    if (status == "waiting for payment") {
+      color = const Color(0xff9f9f9f);
+    }
+    if (status == "payment clear") {
+      color = const Color(0xff00c851);
+    }
+    if (status == "notified") {
+      color = const Color(0xff459eed);
+    }
+    if (status == "security clear") {
+      color = const Color(0xff64d57e);
+    }
+    if (status == "refund") {
+      color = const Color(0xff500886);
+    }
+    if (status == "noc issued") {
+      color = const Color(0xffffd550);
+    }
+    if (status == "completed") {
+      color = const Color(0xff19843d);
+    }
+    if (status == "cancelled") {
+      color = const Color(0xffff4444);
+    }
+    if (status == "declined") {
+      color = const Color(0xffff4444);
+    }
+    return color;
   }
 }

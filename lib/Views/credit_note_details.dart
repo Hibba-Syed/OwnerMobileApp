@@ -101,10 +101,12 @@ class CreditNoteDetailsPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            CustomText(
-                              text: state.creditNoteDetailsModel?.title ?? "",
-                              fontWeight: FontWeight.bold,
-                              fontsize: 18,
+                            Expanded(
+                              child: CustomText(
+                                text: state.creditNoteDetailsModel?.title ?? "",
+                                fontWeight: FontWeight.bold,
+                                fontsize: 18,
+                              ),
                             ),
                             const Gap(10),
                             CustomText(
@@ -183,14 +185,19 @@ class CreditNoteDetailsPage extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        CustomText(
-                                          text: e.account?.title ?? "",
-                                          fontWeight: FontWeight.bold,
-                                          fontsize: 18,
+                                        Expanded(
+                                          child: CustomText(
+                                            text: e.account?.title ?? "",
+                                            fontWeight: FontWeight.bold,
+                                            fontsize: 18,
+                                          ),
                                         ),
+                                        const Gap(10),
                                         Container(
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 10, vertical: 5),
@@ -214,8 +221,7 @@ class CreditNoteDetailsPage extends StatelessWidget {
                                             : e.description ?? " -- "),
                                     RowText(
                                       text: "Amount",
-                                      text2: formatCurrency(
-                                          e.amount ?? 0),
+                                      text2: formatCurrency(e.amount ?? 0),
                                     ),
                                   ],
                                 ),

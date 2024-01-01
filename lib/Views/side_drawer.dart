@@ -156,8 +156,10 @@ class SideDrawerPage extends StatelessWidget {
                                               ],
                                             ),
                                             CustomText(
-                                                text:
-                                                    "${loginModel.owner?.firstName ?? " -- "} ${loginModel.owner?.lastName ?? " -- "}"),
+                                              text:
+                                                  "${loginModel.owner?.firstName ?? " -- "} ${loginModel.owner?.lastName ?? " -- "}",
+                                              textAlign: TextAlign.center,
+                                            ),
                                             CustomText(
                                               text: loginModel
                                                       .owner?.company?.name ??
@@ -225,6 +227,14 @@ class SideDrawerPage extends StatelessWidget {
         ),
         ListTile(
           onTap: () {
+            context
+                .read<HappinessCenterCubit>()
+                .onChangeComplaintType("select");
+            context.read<HappinessCenterCubit>().onChangeCommunityId(0);
+            context.read<HappinessCenterCubit>().onChangeUnitId(0);
+            context.read<HappinessCenterCubit>().onChangeService("");
+            context.read<HappinessCenterCubit>().onChangeMessage("");
+            context.read<HappinessCenterCubit>().onChangeFiles([]);
             Navigator.pushNamed(context, AppRoutes.happinessCenter);
           },
           leading: Icon(

@@ -52,63 +52,72 @@ class _RequestListPageState extends State<RequestListPage> {
                 itemBuilder: (BuildContext context, int index) {
                   Application? application =
                       state.requestsModel?.applications?[index];
-                  return InkWell(
-                    onTap: () {
-                      context.read<RequestDetailsCubit>().getRequestDetails(
-                          context,
-                          application?.id,
-                          application?.applicationType);
-                      String? routeName = const RequestsPage()
-                          .getRouteName(application?.applicationType);
-                      if (routeName != null) {
-                        Navigator.pushNamed(context, routeName, arguments: [
-                          application?.id,
-                          application?.reference,
-                          application?.applicationType,
-                        ]);
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.symmetric(vertical: 5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: kWhite,
-                        boxShadow: [
-                          BoxShadow(
-                              offset: const Offset(
-                                1,
-                                1,
+                  return Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          context.read<RequestDetailsCubit>().getRequestDetails(
+                              context,
+                              application?.id,
+                              application?.applicationType);
+                          String? routeName = const RequestsPage()
+                              .getRouteName(application?.applicationType);
+                          if (routeName != null) {
+                            Navigator.pushNamed(context, routeName, arguments: [
+                              application?.id,
+                              application?.reference,
+                              application?.applicationType,
+                            ]);
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.symmetric(vertical: 5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: kWhite,
+                            boxShadow: [
+                              BoxShadow(
+                                  offset: const Offset(
+                                    1,
+                                    1,
+                                  ),
+                                  spreadRadius: 2,
+                                  blurRadius: 2,
+                                  color: kGrey.shade200),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              const RequestsPage()
+                                  .requestCardHeader(context, application),
+                              const SizedBox(
+                                height: 10,
                               ),
-                              spreadRadius: 2,
-                              blurRadius: 2,
-                              color: kGrey.shade200),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          const RequestsPage()
-                              .requestCardHeader(context, application),
-                          const SizedBox(
-                            height: 10,
+                              const RequestsPage()
+                                  .requestCardBody(context, application),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const RequestsPage()
+                                  .requestCardFooter(context, application),
+                            ],
                           ),
-                          const RequestsPage()
-                              .requestCardBody(context, application),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const RequestsPage()
-                              .requestCardFooter(context, application),
-                        ],
+                        ),
                       ),
-                    ),
+                      if ((index + 1) ==
+                          state.requestsModel?.applications?.length)
+                        const SizedBox(
+                          height: 150,
+                        ),
+                    ],
                   );
                 },
               ),
             ),
             if (state.loadMoreState == LoadingState.loading)
               const SizedBox(
-                height: 100,
+                height: 150,
                 child: Center(child: CircularProgressIndicator()),
               )
           ],

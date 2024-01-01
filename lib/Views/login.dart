@@ -38,7 +38,7 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget loginHeaderImage() {
-    return Image.asset("assets/login_header.png");
+    return Image.asset("assets/login_header.png",width: double.infinity,fit: BoxFit.cover,);
   }
 
   Widget loginUi(BuildContext context, GlobalKey<FormState> key) {

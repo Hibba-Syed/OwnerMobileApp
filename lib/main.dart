@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -21,7 +22,12 @@ Future<void> main() async {
   );
   await Global.init();
   await FirebaseNotificationService().getPermissions();
-  runApp(const MyApp());
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => const MyApp(), // Wrap your app
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -33,6 +39,8 @@ class MyApp extends StatelessWidget {
       providers: [...AppPages.allBlocProviders(context)],
       child: Builder(builder: (context) {
         return MaterialApp(
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
           title: 'Iskaan Owner',
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(

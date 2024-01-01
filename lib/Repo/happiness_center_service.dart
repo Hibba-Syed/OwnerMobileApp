@@ -73,7 +73,7 @@ class HappinessCenterService {
       return await request.send().then((value) async {
         String body = await value.stream.bytesToString();
         if (value.statusCode == 201) {
-          return Success(200, body);
+          return Success(201, body);
         }
         return Failure(400, "Unable to submit query");
       });

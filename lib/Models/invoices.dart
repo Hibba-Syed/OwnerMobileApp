@@ -53,7 +53,7 @@ class Invoice {
   String? reference;
   String? mollakReference;
   String? description;
-  List<dynamic>? documents;
+  String? documents;
 
   Invoice(
       {this.id,
@@ -72,7 +72,7 @@ class Invoice {
       reference: json["reference"],
       mollakReference: json["mollak_reference"],
       description: json["description"],
-      documents: json["documents"] ?? []);
+      documents: json["document"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -83,6 +83,6 @@ class Invoice {
         "reference": reference,
         "mollak_reference": mollakReference,
         "description": description,
-        "documents": documents
+        "document": documents
       };
 }

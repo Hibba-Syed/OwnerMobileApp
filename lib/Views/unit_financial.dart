@@ -94,7 +94,7 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
                                 ),
                               )
                             : const Icon(
-                                Icons.import_export_outlined,
+                                Icons.description_outlined,
                                 color: kWhite,
                               ),
                       );
@@ -114,54 +114,29 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
                       var modifedList = List.from(state.selectedUnits);
                       int? checkboxIndex = modifedList.indexWhere(
                           (element) => element == unitFinancialsRecord?.unitId);
-                      return Container(
-                        margin: const EdgeInsets.symmetric(vertical: 5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: kWhite,
-                            boxShadow: [
-                              BoxShadow(
-                                color: kGrey.shade200,
-                                spreadRadius: 2,
-                                blurRadius: 2,
-                              )
-                            ]),
-                        child: ListTile(
-                          onLongPress: () {
-                            context
-                                .read<UnitFinancialsCubit>()
-                                .onChangeSelectedUnits(
-                                    [unitFinancialsRecord?.unitId]);
-                          },
-                          onTap: () {
-                            if (state.selectedUnits.isNotEmpty) {
-                              if (checkboxIndex != -1) {
-                                modifedList.removeAt(checkboxIndex);
-                              } else {
-                                modifedList.add(unitFinancialsRecord?.unitId);
-                              }
-                              context
-                                  .read<UnitFinancialsCubit>()
-                                  .onChangeSelectedUnits(modifedList);
-                            }
-                          },
-                          leading: AnimatedCrossFade(
-                              firstChild: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: kGrey.shade200),
-                                  child: Icon(
-                                    Icons.place,
-                                    color: context
-                                        .read<AppThemeCubit>()
-                                        .state
-                                        .primaryColor,
-                                  )),
-                              secondChild: Checkbox(
-                                visualDensity: VisualDensity.comfortable,
-                                value: checkboxIndex != -1 ? true : false,
-                                onChanged: (value) {
+                      return Column(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: kWhite,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: kGrey.shade200,
+                                    spreadRadius: 2,
+                                    blurRadius: 2,
+                                  )
+                                ]),
+                            child: ListTile(
+                              onLongPress: () {
+                                context
+                                    .read<UnitFinancialsCubit>()
+                                    .onChangeSelectedUnits(
+                                        [unitFinancialsRecord?.unitId]);
+                              },
+                              onTap: () {
+                                if (state.selectedUnits.isNotEmpty) {
                                   if (checkboxIndex != -1) {
                                     modifedList.removeAt(checkboxIndex);
                                   } else {
@@ -171,53 +146,90 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
                                   context
                                       .read<UnitFinancialsCubit>()
                                       .onChangeSelectedUnits(modifedList);
-                                },
-                              ),
-                              crossFadeState: state.selectedUnits.isEmpty
-                                  ? CrossFadeState.showFirst
-                                  : CrossFadeState.showSecond,
-                              duration: const Duration(seconds: 1)),
-                          title: CustomText(
-                            text: unitFinancialsRecord?.communityName ?? " -- ",
-                            textAlign: TextAlign.left,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          subtitle: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomText(
-                                text:
-                                    unitFinancialsRecord?.unitNumber ?? " -- ",
+                                }
+                              },
+                              leading: AnimatedCrossFade(
+                                  firstChild: Container(
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: kGrey.shade200),
+                                      child: Icon(
+                                        Icons.place,
+                                        color: context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor,
+                                      )),
+                                  secondChild: Checkbox(
+                                    visualDensity: VisualDensity.comfortable,
+                                    value: checkboxIndex != -1 ? true : false,
+                                    onChanged: (value) {
+                                      if (checkboxIndex != -1) {
+                                        modifedList.removeAt(checkboxIndex);
+                                      } else {
+                                        modifedList
+                                            .add(unitFinancialsRecord?.unitId);
+                                      }
+                                      context
+                                          .read<UnitFinancialsCubit>()
+                                          .onChangeSelectedUnits(modifedList);
+                                    },
+                                  ),
+                                  crossFadeState: state.selectedUnits.isEmpty
+                                      ? CrossFadeState.showFirst
+                                      : CrossFadeState.showSecond,
+                                  duration: const Duration(seconds: 1)),
+                              title: CustomText(
+                                text: unitFinancialsRecord?.communityName ??
+                                    " -- ",
                                 textAlign: TextAlign.left,
-                                fontsize: 14,
-                                color: kGrey,
+                                fontWeight: FontWeight.bold,
                               ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: context
-                                        .read<AppThemeCubit>()
-                                        .state
-                                        .primaryColor
-                                        .withOpacity(0.2)),
-                                child: CustomText(
-                                  text: formatCurrency(
-                                      unitFinancialsRecord?.balance ?? 0),
-                                  fontsize: 12,
-                                ),
+                              subtitle: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText(
+                                    text: unitFinancialsRecord?.unitNumber ??
+                                        " -- ",
+                                    textAlign: TextAlign.left,
+                                    fontsize: 14,
+                                    color: kGrey,
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor
+                                            .withOpacity(0.2)),
+                                    child: CustomText(
+                                      text: formatCurrency(
+                                          unitFinancialsRecord?.balance ?? 0),
+                                      fontsize: 12,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
+                          if ((index + 1) ==
+                              state.unitFinancialsModel?.unitSummaries?.length)
+                            const SizedBox(
+                              height: 150,
+                            ),
+                        ],
                       );
                     },
                   ),
                 ),
                 if (state.loadMoreState == LoadingState.loading)
                   const SizedBox(
-                    height: 100,
+                    height: 150,
                     child: Center(child: CircularProgressIndicator()),
                   )
               ],

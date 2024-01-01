@@ -67,7 +67,9 @@ class HappinessCenterCubit extends Cubit<HappinessCenterState> {
       state.communityId.toString(),
       state.radioValue,
       state.unitId.toString(),
-      state.service ?? "",
+      state.service == ""
+          ? state.complaintType ?? ""
+          : state.service ?? (state.complaintType ?? ""),
       state.message ?? "",
     ).then((value) {
       if (value is Success) {
@@ -79,7 +81,7 @@ class HappinessCenterCubit extends Cubit<HappinessCenterState> {
       }
       value as Failure;
       Fluttertoast.showToast(
-          msg: value.errorResponse as String? ?? "Unable to change password");
+          msg: value.errorResponse as String? ?? "Unable to submitt query");
       emit(state.copyWith(loadingState: LoadingState.error));
     });
   }

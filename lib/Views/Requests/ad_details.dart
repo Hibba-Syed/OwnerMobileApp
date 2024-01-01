@@ -68,7 +68,7 @@ class AdDetailsPage extends StatelessWidget {
                               ?.map((e) => [
                                     e.deviceType ?? " -- ",
                                     (e.deviceCount ?? 0).toString(),
-                                    "${e.cost ?? "0"} AED "
+                                    formatCurrency(e.cost ?? 0)
                                   ])
                               .toList() ??
                           []),
@@ -352,7 +352,7 @@ class AdDetailsPage extends StatelessWidget {
                       .map(
                         (e) => Expanded(
                             child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 2),
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: CustomText(
                             text: e,
                             fontWeight: FontWeight.bold,
@@ -380,7 +380,7 @@ class AdDetailsPage extends StatelessWidget {
                             ?.map((e) => Expanded(
                                     child: Padding(
                                   padding:
-                                      const EdgeInsets.symmetric(horizontal: 2),
+                                      const EdgeInsets.symmetric(horizontal: 5),
                                   child: CustomText(
                                     text: e,
                                     textAlign: TextAlign.left,

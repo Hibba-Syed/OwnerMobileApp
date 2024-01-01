@@ -54,7 +54,7 @@ class CreditNote {
   String? reference;
   String? description;
   double? amount;
-  List<dynamic>? documents;
+  String? documents;
 
   CreditNote({
     this.id,
@@ -71,7 +71,7 @@ class CreditNote {
       reference: json["reference"],
       description: json["description"],
       amount: json["amount"]?.toDouble(),
-      documents: json["documents"] ?? []);
+      documents: json["document"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -80,6 +80,6 @@ class CreditNote {
         "reference": reference,
         "description": description,
         "amount": amount,
-        "documents": documents
+        "document": documents
       };
 }

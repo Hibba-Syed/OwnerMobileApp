@@ -196,13 +196,13 @@ class LedgerCubit extends Cubit<LedgerState> {
       if (value is Success) {
         if (ledgerByAccountModelFromJson(value.response as String)
                 .record
-                ?.data
+                ?.ledgers
                 ?.isNotEmpty ??
             false) {
-          state.ledgerByAccountModel?.record?.data?.addAll(
+          state.ledgerByAccountModel?.record?.ledgers?.addAll(
               ledgerByAccountModelFromJson(value.response as String)
                       .record
-                      ?.data ??
+                      ?.ledgers ??
                   []);
           return emit(state.copyWith(
             ledgerByAccountModel: state.ledgerByAccountModel,

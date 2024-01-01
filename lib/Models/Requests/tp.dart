@@ -50,8 +50,8 @@ class Record {
     int? companyId;
     int? associationId;
     int? unitId;
-    dynamic accountId;
-    dynamic incomeType;
+    int? accountId;
+    String? incomeType;
     int? assigneeId;
     String? applicationType;
     int? applicationId;
@@ -76,8 +76,8 @@ class Record {
     dynamic deletedAt;
     String? status;
     dynamic securityNumber;
-    dynamic payableAmount;
-    dynamic securityDeposit;
+    int? payableAmount;
+    int? securityDeposit;
     dynamic paymentStatus;
     dynamic paymentRef;
     int? documentsStatus;
@@ -92,7 +92,7 @@ class Record {
     dynamic tenancyContractExpiry;
     dynamic notifyStatus;
     dynamic serviceChargeStatus;
-    dynamic convenienceFee;
+    int? convenienceFee;
     dynamic convenienceFeeAccount;
     dynamic approvalNote;
     dynamic rejectionNote;
@@ -109,7 +109,6 @@ class Record {
     dynamic terms;
     DateTime? createdAt;
     DateTime? updatedAt;
-    Association? association;
     String? clientIdFileUrl;
     String? passportFileUrl;
     String? titleDeedUrl;
@@ -118,8 +117,10 @@ class Record {
     bool? isMailable;
     String? fullName;
     String? profileImageUrl;
-    Application? application;
+    Association? association;
     Unit? unit;
+    Application? application;
+    List<Document>? documents;
 
     Record({
         this.id,
@@ -186,7 +187,6 @@ class Record {
         this.terms,
         this.createdAt,
         this.updatedAt,
-        this.association,
         this.clientIdFileUrl,
         this.passportFileUrl,
         this.titleDeedUrl,
@@ -195,8 +195,10 @@ class Record {
         this.isMailable,
         this.fullName,
         this.profileImageUrl,
-        this.application,
+        this.association,
         this.unit,
+        this.application,
+        this.documents,
     });
 
     factory Record.fromJson(Map<String, dynamic> json) => Record(
@@ -264,7 +266,6 @@ class Record {
         terms: json["terms"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-        association: json["association"] == null ? null : Association.fromJson(json["association"]),
         clientIdFileUrl: json["client_id_file_url"],
         passportFileUrl: json["passport_file_url"],
         titleDeedUrl: json["title_deed_url"],
@@ -273,8 +274,10 @@ class Record {
         isMailable: json["is_mailable"],
         fullName: json["full_name"],
         profileImageUrl: json["profile_image_url"],
-        application: json["application"] == null ? null : Application.fromJson(json["application"]),
+        association: json["association"] == null ? null : Association.fromJson(json["association"]),
         unit: json["unit"] == null ? null : Unit.fromJson(json["unit"]),
+        application: json["application"] == null ? null : Application.fromJson(json["application"]),
+        documents: json["documents"] == null ? [] : List<Document>.from(json["documents"]!.map((x) => Document.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -342,7 +345,6 @@ class Record {
         "terms": terms,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
-        "association": association?.toJson(),
         "client_id_file_url": clientIdFileUrl,
         "passport_file_url": passportFileUrl,
         "title_deed_url": titleDeedUrl,
@@ -351,8 +353,10 @@ class Record {
         "is_mailable": isMailable,
         "full_name": fullName,
         "profile_image_url": profileImageUrl,
-        "application": application?.toJson(),
+        "association": association?.toJson(),
         "unit": unit?.toJson(),
+        "application": application?.toJson(),
+        "documents": documents == null ? [] : List<dynamic>.from(documents!.map((x) => x.toJson())),
     };
 }
 
@@ -370,9 +374,9 @@ class Application {
     dynamic rejectionNote;
     dynamic moreDocuments;
     dynamic requestStatus;
-    dynamic transferFee;
+    int? transferFee;
     dynamic transferFeeRefrence;
-    dynamic transferSecurityDeposit;
+    int? transferSecurityDeposit;
     dynamic transferSecurityChequeDetails;
     dynamic transferSecurityChequeAttachment;
     dynamic transferSecurityStatus;
@@ -760,21 +764,21 @@ class Seller {
     String? sellerName;
     dynamic sellerResidenceNumber;
     String? sellerCellularNumber;
-    dynamic sellerOfficeNumber;
+    String? sellerOfficeNumber;
     dynamic sellerPassportNumber;
-    dynamic sellerPassportExpiry;
+    DateTime? sellerPassportExpiry;
     String? sellerEmail;
     dynamic sellerCitizenship;
     dynamic sellerResidentialStreetAddress;
-    dynamic sellerResidentialCity;
-    dynamic sellerResidentialCountry;
-    dynamic sellerResidentialPobox;
-    dynamic sellerResidentialZip;
+    String? sellerResidentialCity;
+    String? sellerResidentialCountry;
+    String? sellerResidentialPobox;
+    String? sellerResidentialZip;
     dynamic sellerCommunicationStreetAddress;
-    dynamic sellerCommunicationCity;
-    dynamic sellerCommunicationCountry;
-    dynamic sellerCommunicationPobox;
-    dynamic sellerCommunicationZip;
+    String? sellerCommunicationCity;
+    String? sellerCommunicationCountry;
+    String? sellerCommunicationPobox;
+    String? sellerCommunicationZip;
     String? sellerPassport;
     dynamic sellerVisa;
     String? sellerEmiratesId;
@@ -831,7 +835,7 @@ class Seller {
         sellerCellularNumber: json["seller_cellular_number"],
         sellerOfficeNumber: json["seller_office_number"],
         sellerPassportNumber: json["seller_passport_number"],
-        sellerPassportExpiry: json["seller_passport_expiry"],
+        sellerPassportExpiry: json["seller_passport_expiry"] == null ? null : DateTime.parse(json["seller_passport_expiry"]),
         sellerEmail: json["seller_email"],
         sellerCitizenship: json["seller_citizenship"],
         sellerResidentialStreetAddress: json["seller_residential_street_address"],
@@ -866,7 +870,7 @@ class Seller {
         "seller_cellular_number": sellerCellularNumber,
         "seller_office_number": sellerOfficeNumber,
         "seller_passport_number": sellerPassportNumber,
-        "seller_passport_expiry": sellerPassportExpiry,
+        "seller_passport_expiry": "${sellerPassportExpiry!.year.toString().padLeft(4, '0')}-${sellerPassportExpiry!.month.toString().padLeft(2, '0')}-${sellerPassportExpiry!.day.toString().padLeft(2, '0')}",
         "seller_email": sellerEmail,
         "seller_citizenship": sellerCitizenship,
         "seller_residential_street_address": sellerResidentialStreetAddress,
@@ -895,12 +899,40 @@ class Seller {
 class Association {
     int? id;
     String? name;
+    int? remainingUnit;
+    String? aboutPageImageUrl;
+    String? backgroundImageUrl;
+    String? logoImageUrl;
+    String? fullAddress;
+    int? unitsArea;
+    int? applicableArea;
+    int? suiteArea;
+    int? balconyArea;
+    String? filledParkings;
+    dynamic subdomain;
+    String? contractUrl;
+    dynamic gmap;
+    int? paymentGatewayEnabled;
     dynamic city;
     dynamic associationType;
 
     Association({
         this.id,
         this.name,
+        this.remainingUnit,
+        this.aboutPageImageUrl,
+        this.backgroundImageUrl,
+        this.logoImageUrl,
+        this.fullAddress,
+        this.unitsArea,
+        this.applicableArea,
+        this.suiteArea,
+        this.balconyArea,
+        this.filledParkings,
+        this.subdomain,
+        this.contractUrl,
+        this.gmap,
+        this.paymentGatewayEnabled,
         this.city,
         this.associationType,
     });
@@ -908,6 +940,20 @@ class Association {
     factory Association.fromJson(Map<String, dynamic> json) => Association(
         id: json["id"],
         name: json["name"],
+        remainingUnit: json["remaining_unit"],
+        aboutPageImageUrl: json["about_page_image_url"],
+        backgroundImageUrl: json["background_image_url"],
+        logoImageUrl: json["logo_image_url"],
+        fullAddress: json["full_address"],
+        unitsArea: json["units_area"],
+        applicableArea: json["applicable_area"],
+        suiteArea: json["suite_area"],
+        balconyArea: json["balcony_area"],
+        filledParkings: json["filled_parkings"],
+        subdomain: json["subdomain"],
+        contractUrl: json["contract_url"],
+        gmap: json["gmap"],
+        paymentGatewayEnabled: json["payment_gateway_enabled"],
         city: json["city"],
         associationType: json["association_type"],
     );
@@ -915,8 +961,138 @@ class Association {
     Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
+        "remaining_unit": remainingUnit,
+        "about_page_image_url": aboutPageImageUrl,
+        "background_image_url": backgroundImageUrl,
+        "logo_image_url": logoImageUrl,
+        "full_address": fullAddress,
+        "units_area": unitsArea,
+        "applicable_area": applicableArea,
+        "suite_area": suiteArea,
+        "balcony_area": balconyArea,
+        "filled_parkings": filledParkings,
+        "subdomain": subdomain,
+        "contract_url": contractUrl,
+        "gmap": gmap,
+        "payment_gateway_enabled": paymentGatewayEnabled,
         "city": city,
         "association_type": associationType,
+    };
+}
+
+class Document {
+    int? id;
+    int? companyId;
+    dynamic userId;
+    int? objectId;
+    String? objectType;
+    String? name;
+    dynamic folderName;
+    dynamic description;
+    String? path;
+    String? fileType;
+    String? mimeType;
+    String? fileExt;
+    dynamic issueDate;
+    dynamic expiryDate;
+    String? status;
+    dynamic type;
+    String? category;
+    dynamic note;
+    dynamic shareWith;
+    dynamic shareEndDate;
+    dynamic shareWithUnit;
+    dynamic shareEndDateUnit;
+    dynamic emailSent;
+    DateTime? createdAt;
+    DateTime? updatedAt;
+    String? pathUrl;
+
+    Document({
+        this.id,
+        this.companyId,
+        this.userId,
+        this.objectId,
+        this.objectType,
+        this.name,
+        this.folderName,
+        this.description,
+        this.path,
+        this.fileType,
+        this.mimeType,
+        this.fileExt,
+        this.issueDate,
+        this.expiryDate,
+        this.status,
+        this.type,
+        this.category,
+        this.note,
+        this.shareWith,
+        this.shareEndDate,
+        this.shareWithUnit,
+        this.shareEndDateUnit,
+        this.emailSent,
+        this.createdAt,
+        this.updatedAt,
+        this.pathUrl,
+    });
+
+    factory Document.fromJson(Map<String, dynamic> json) => Document(
+        id: json["id"],
+        companyId: json["company_id"],
+        userId: json["user_id"],
+        objectId: json["object_id"],
+        objectType: json["object_type"],
+        name: json["name"],
+        folderName: json["folder_name"],
+        description: json["description"],
+        path: json["path"],
+        fileType: json["file_type"],
+        mimeType: json["mime_type"],
+        fileExt: json["file_ext"],
+        issueDate: json["issue_date"],
+        expiryDate: json["expiry_date"],
+        status: json["status"],
+        type: json["type"],
+        category: json["category"],
+        note: json["note"],
+        shareWith: json["share_with"],
+        shareEndDate: json["share_end_date"],
+        shareWithUnit: json["share_with_unit"],
+        shareEndDateUnit: json["share_end_date_unit"],
+        emailSent: json["email_sent"],
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        pathUrl: json["path_url"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "company_id": companyId,
+        "user_id": userId,
+        "object_id": objectId,
+        "object_type": objectType,
+        "name": name,
+        "folder_name": folderName,
+        "description": description,
+        "path": path,
+        "file_type": fileType,
+        "mime_type": mimeType,
+        "file_ext": fileExt,
+        "issue_date": issueDate,
+        "expiry_date": expiryDate,
+        "status": status,
+        "type": type,
+        "category": category,
+        "note": note,
+        "share_with": shareWith,
+        "share_end_date": shareEndDate,
+        "share_with_unit": shareWithUnit,
+        "share_end_date_unit": shareEndDateUnit,
+        "email_sent": emailSent,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "path_url": pathUrl,
     };
 }
 

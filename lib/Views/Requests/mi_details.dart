@@ -67,12 +67,16 @@ class MiDetailsPage extends StatelessWidget {
                       {
                         "icon": Icons.attach_money_outlined,
                         "title": "Resident Information Reference",
-                        "subTitle": "ask hammad",
+                        "subTitle": state.miDetailsModel?.record?.application
+                                ?.residentInformation?.reference ??
+                            "",
                       },
                       {
                         "icon": Icons.attach_money_outlined,
                         "title": "Resident Information Status",
-                        "subTitle": "ask hammad",
+                        "subTitle": state.miDetailsModel?.record?.application
+                                ?.residentInformation?.status ??
+                            "",
                       },
                       {
                         "icon": Icons.attach_money_outlined,
@@ -95,24 +99,21 @@ class MiDetailsPage extends StatelessWidget {
                       state.miDetailsModel?.record?.clientEmail),
                   const AdDetailsPage().supportingDocuments(context, [
                     {
-                      "name": "Emirates ID Or Passport/Visa (Ask Hammad)",
-                      "url":
-                          "$baseUrl/${state.miDetailsModel?.record?.titleDeed}",
+                      "name": "Emirates ID Or Passport/Visa",
+                      "url": "${state.miDetailsModel?.record?.clientIdFileUrl}",
                     },
                     {
                       "name": "Title Deed",
-                      "url":
-                          "$baseUrl/${state.miDetailsModel?.record?.titleDeed}",
+                      "url": "${state.miDetailsModel?.record?.titleDeedUrl}",
                     },
                     {
-                      "name": "Tenancy Contact (ask hammad)",
+                      "name": "Tenancy Contact",
                       "url":
-                          "$baseUrl/${state.miDetailsModel?.record?.clientIdFile}",
+                          "${state.miDetailsModel?.record?.tenancyContractUrl}",
                     },
                     {
-                      "name": "Trade License (ask hammad)",
-                      "url":
-                          "$baseUrl/${state.miDetailsModel?.record?.passportFile}",
+                      "name": "Trade License",
+                      "url": "${state.miDetailsModel?.record?.tradeLicenseUrl}",
                     },
                   ])
                 ],
