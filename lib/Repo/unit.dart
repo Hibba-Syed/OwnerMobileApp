@@ -358,7 +358,7 @@ class UnitsService {
   }
 
   static Future<Object?> getUnitRequestDetails(
-      BuildContext context, int? requestId,String? applicationType) async {
+      BuildContext context, int? requestId, String? applicationType) async {
     return await ExceptionService.applyTryCatch(() async {
       return await http.get(
           Uri.parse(
