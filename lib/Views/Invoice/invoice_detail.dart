@@ -23,12 +23,13 @@ class InvoiceDetailsPage extends StatelessWidget {
             return const CustomLoader();
           }
           return RefreshIndicator(
-            onRefresh: ()async{
+            onRefresh: () async {
               context
                   .read<InvoiceDetailsCubit>()
                   .getInvoiceDetails(context, invoiceId);
             },
             child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Column(
@@ -41,9 +42,9 @@ class InvoiceDetailsPage extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: kGrey.shade100),
-                          child: const Icon(
-                            Icons.person_outline,
-                            size: 30,
+                          child: Image.asset(
+                            "assets/logo.png",
+                            width: 40,
                           ),
                         ),
                         const Gap(10),
@@ -117,8 +118,8 @@ class InvoiceDetailsPage extends StatelessWidget {
                               ),
                               const Gap(10),
                               CustomText(
-                                text: state
-                                        .invoiceDetailsModel?.association?.name ??
+                                text: state.invoiceDetailsModel?.association
+                                        ?.name ??
                                     "",
                                 fontsize: 12,
                                 color: kGrey,
@@ -136,8 +137,9 @@ class InvoiceDetailsPage extends StatelessWidget {
                           const Gap(10),
                           RowText(
                             text: "Unit:",
-                            text2: state.invoiceDetailsModel?.invoiceable?.name ??
-                                "",
+                            text2:
+                                state.invoiceDetailsModel?.invoiceable?.name ??
+                                    "",
                           ),
                           const Gap(10),
                           RowText(
@@ -190,7 +192,8 @@ class InvoiceDetailsPage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                     const Gap(10),
-                    if (state.invoiceDetailsModel?.transactions?.isEmpty ?? true)
+                    if (state.invoiceDetailsModel?.transactions?.isEmpty ??
+                        true)
                       Container(
                         margin: const EdgeInsets.symmetric(vertical: 5),
                         padding: const EdgeInsets.all(10),
@@ -212,7 +215,8 @@ class InvoiceDetailsPage extends StatelessWidget {
                       children: state.invoiceDetailsModel?.transactions
                               ?.map(
                                 (e) => Container(
-                                  margin: const EdgeInsets.symmetric(vertical: 5),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 5),
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
                                     color: kWhite,
@@ -225,7 +229,8 @@ class InvoiceDetailsPage extends StatelessWidget {
                                     ],
                                   ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         crossAxisAlignment:
@@ -254,7 +259,8 @@ class InvoiceDetailsPage extends StatelessWidget {
                                                   .withOpacity(0.2),
                                             ),
                                             child: CustomText(
-                                                text: e.type?.capitalize() ?? ""),
+                                                text:
+                                                    e.type?.capitalize() ?? ""),
                                           ),
                                         ],
                                       ),

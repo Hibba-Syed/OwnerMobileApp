@@ -8,6 +8,8 @@ import 'package:iskaanowner/Blocs/Reset%20Password/reset_password_cubit.dart';
 import 'package:iskaanowner/Blocs/Send%20OTP/send_otp_cubit.dart';
 import 'package:iskaanowner/Blocs/Unit%20Financials/unit_financials_cubit.dart';
 import 'package:iskaanowner/Blocs/Verify%20Otp/verify_otp_cubit.dart';
+import 'package:iskaanowner/Views/Auth/otp_verification.dart';
+import 'package:iskaanowner/Views/Auth/reset_password.dart';
 import 'package:iskaanowner/Views/Requests/details/ad_details.dart';
 import 'package:iskaanowner/Views/Requests/details/cs_details.dart';
 import 'package:iskaanowner/Views/Requests/details/dp_details.dart';
@@ -20,8 +22,6 @@ import 'package:iskaanowner/Views/Requests/details/tp_details.dart';
 import 'package:iskaanowner/Views/Requests/details/wp_details.dart';
 import 'package:iskaanowner/Views/companies.dart';
 import 'package:iskaanowner/Views/ledger/ledger_by_account_details.dart';
-import 'package:iskaanowner/Views/Auth/otp_verification.dart';
-import 'package:iskaanowner/Views/Auth/reset_password.dart';
 import 'package:iskaanowner/Views/web_view.dart';
 
 import '../Utils/utils.dart';
@@ -101,7 +101,7 @@ class AppPages {
       ),
       PageEntity(
         route: AppRoutes.owners,
-        page:  OwnersPage(),
+        page: const OwnersPage(),
         bloc: BlocProvider(
           create: (context) => OwnersCubit(),
         ),
