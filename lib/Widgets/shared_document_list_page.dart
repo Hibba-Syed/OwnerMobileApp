@@ -50,31 +50,36 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
         return Column(
           children: [
             Expanded(
-              child: GridView.builder(
-                padding: const EdgeInsets.all(10),
-                itemCount: state.sharedDocumentsModel?.sharedDocuments?.length,
-                itemBuilder: (BuildContext context, int index) {
-                  SharedDocument? sharedDocumentsRecord =
-                      state.sharedDocumentsModel?.sharedDocuments?[index];
-                  return Container(
-                    decoration: BoxDecoration(
-                        color: kWhite,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                              color: kGrey.shade300,
-                              blurRadius: 2,
-                              spreadRadius: 2)
-                        ]),
-                    child: const SharedDocumentPage().sharedDocumentWidget(
-                        context, sharedDocumentsRecord, widget.unitId),
-                  );
+              child: RefreshIndicator(
+                onRefresh: ()async{
+                  context.read<SharedDocumentsCubit>().getSharedDocuments(context);
                 },
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
-                    childAspectRatio: 16 / 20),
+                child: GridView.builder(
+                  padding: const EdgeInsets.all(10),
+                  itemCount: state.sharedDocumentsModel?.sharedDocuments?.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    SharedDocument? sharedDocumentsRecord =
+                        state.sharedDocumentsModel?.sharedDocuments?[index];
+                    return Container(
+                      decoration: BoxDecoration(
+                          color: kWhite,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                                color: kGrey.shade300,
+                                blurRadius: 2,
+                                spreadRadius: 2)
+                          ]),
+                      child: const SharedDocumentPage().sharedDocumentWidget(
+                          context, sharedDocumentsRecord, widget.unitId),
+                    );
+                  },
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                      childAspectRatio: 16 / 20),
+                ),
               ),
             ),
             if (state.loadMoreState == LoadingState.loading)

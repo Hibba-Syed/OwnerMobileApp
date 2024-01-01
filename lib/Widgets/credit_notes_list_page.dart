@@ -23,9 +23,9 @@ class _CreditNotesListPageState extends State<CreditNotesListPage> {
   scrollListener() {
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent) {
-      CompliancesCubit compliancesCubit = context.read<CompliancesCubit>();
-      if (compliancesCubit.state.loadMoreState != LoadingState.loading) {
-        compliancesCubit.getMoreCompliances(context, widget.unitId);
+      CreditNotesCubit creditNotesCubit = context.read<CreditNotesCubit>();
+      if (creditNotesCubit.state.loadMoreState != LoadingState.loading) {
+        creditNotesCubit.getMoreCreditNotes(context, widget.unitId);
       }
     }
   }
@@ -49,121 +49,127 @@ class _CreditNotesListPageState extends State<CreditNotesListPage> {
         return Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                itemCount: state.creditNotesModel?.creditNotes?.length ?? 0,
-                itemBuilder: (BuildContext context, int index) {
-                  CreditNote? creditNote =
-                      state.creditNotesModel?.creditNotes?[index];
-
-                  return Column(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          const LedgerPage().decidePage(
-                              context, creditNote?.id, "credit_memo");
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          margin: const EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                            color: kWhite,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: kGrey.shade200,
-                                  blurRadius: 2,
-                                  spreadRadius: 2)
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: context
-                                        .read<AppThemeCubit>()
-                                        .state
-                                        .primaryColor),
-                                padding: const EdgeInsets.all(10),
-                                child: const Icon(
-                                  Icons.note,
-                                  color: kWhite,
-                                ),
-                              ),
-                              const Gap(10),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        CustomText(
-                                          text: creditNote?.reference ?? " -- ",
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        const Gap(10),
-                                        CustomText(
-                                          text: const OccupantPage()
-                                              .dateTimeFormatter(
-                                                  creditNote?.date),
-                                          color: kGrey,
-                                          fontsize: 12,
-                                        ),
-                                      ],
-                                    ),
-                                    CustomText(
-                                      text: creditNote?.description ?? " -- ",
-                                      fontsize: 14,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        CustomText(
-                                          text: formatCurrency(
-                                              creditNote?.amount ?? 0),
-                                          fontsize: 13,
-                                        ),
-                                        InkWell(
-                                          onTap: () {
-                                            if (creditNote
-                                                    ?.documents?.isEmpty ??
-                                                true) {
-                                              Fluttertoast.showToast(
-                                                  msg:
-                                                      "No documents found to download");
-                                              return;
-                                            }
-                                            launchUrl(Uri.parse(
-                                                creditNote?.documents ?? ""));
-                                          },
-                                          child: Icon(
-                                            Icons.download_outlined,
-                                            color: context
-                                                .read<AppThemeCubit>()
-                                                .state
-                                                .primaryColor,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      if ((index + 1) ==
-                          state.creditNotesModel?.creditNotes?.length)
-                        const SizedBox(
-                          height: 150,
-                        ),
-                    ],
-                  );
+              child: RefreshIndicator(
+                onRefresh: ()async{
+                  context.read<CreditNotesCubit>().getCreditNotes(context, widget.unitId);
                 },
+                child: ListView.builder(
+                  itemCount: state.creditNotesModel?.creditNotes?.length ?? 0,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemBuilder: (BuildContext context, int index) {
+                    CreditNote? creditNote =
+                        state.creditNotesModel?.creditNotes?[index];
+
+                    return Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            const LedgerPage().decidePage(
+                                context, creditNote?.id, "credit_memo");
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            decoration: BoxDecoration(
+                              color: kWhite,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: kGrey.shade200,
+                                    blurRadius: 2,
+                                    spreadRadius: 2)
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: context
+                                          .read<AppThemeCubit>()
+                                          .state
+                                          .primaryColor),
+                                  padding: const EdgeInsets.all(10),
+                                  child: const Icon(
+                                    Icons.note,
+                                    color: kWhite,
+                                  ),
+                                ),
+                                const Gap(10),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          CustomText(
+                                            text: creditNote?.reference ?? " -- ",
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          const Gap(10),
+                                          CustomText(
+                                            text: const OccupantPage()
+                                                .dateTimeFormatter(
+                                                    creditNote?.date),
+                                            color: kGrey,
+                                            fontsize: 12,
+                                          ),
+                                        ],
+                                      ),
+                                      CustomText(
+                                        text: creditNote?.description ?? " -- ",
+                                        fontsize: 14,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          CustomText(
+                                            text: formatCurrency(
+                                                creditNote?.amount ?? 0),
+                                            fontsize: 13,
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              if (creditNote
+                                                      ?.documents?.isEmpty ??
+                                                  true) {
+                                                Fluttertoast.showToast(
+                                                    msg:
+                                                        "No documents found to download");
+                                                return;
+                                              }
+                                              launchUrl(Uri.parse(
+                                                  creditNote?.documents ?? ""));
+                                            },
+                                            child: Icon(
+                                              Icons.download_outlined,
+                                              color: context
+                                                  .read<AppThemeCubit>()
+                                                  .state
+                                                  .primaryColor,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        if ((index + 1) ==
+                            state.creditNotesModel?.creditNotes?.length)
+                          const SizedBox(
+                            height: 150,
+                          ),
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
             if (state.loadMoreState == LoadingState.loading)

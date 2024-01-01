@@ -1,5 +1,5 @@
 import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
-import 'package:iskaanowner/Views/ledger_by_account_details.dart';
+import 'package:iskaanowner/Views/ledger/ledger_by_account_details.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Models/notifications.dart';

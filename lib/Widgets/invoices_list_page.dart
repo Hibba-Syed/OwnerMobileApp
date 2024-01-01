@@ -24,9 +24,9 @@ class _InvoicesListPageState extends State<InvoicesListPage> {
   scrollListener() {
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent) {
-      CompliancesCubit compliancesCubit = context.read<CompliancesCubit>();
-      if (compliancesCubit.state.loadMoreState != LoadingState.loading) {
-        compliancesCubit.getMoreCompliances(context, widget.unitId);
+      InvoicesCubit invoicesCubit = context.read<InvoicesCubit>();
+      if (invoicesCubit.state.loadMoreState != LoadingState.loading) {
+        invoicesCubit.getMoreInvoices(context, widget.unitId);
       }
     }
   }
@@ -50,146 +50,152 @@ class _InvoicesListPageState extends State<InvoicesListPage> {
         return Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                controller: _scrollController,
-                itemCount: state.invoicesModel?.invoices?.length ?? 0,
-                itemBuilder: (BuildContext context, int index) {
-                  Invoice? invoice = state.invoicesModel?.invoices?[index];
-                  return Column(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          context
-                              .read<InvoiceDetailsCubit>()
-                              .getInvoiceDetails(context, invoice?.id);
-                          Navigator.pushNamed(
-                              context, AppRoutes.invoiceDetails);
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          margin: const EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                            color: kWhite,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: kGrey.shade200,
-                                  blurRadius: 2,
-                                  spreadRadius: 2)
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: context
-                                        .read<AppThemeCubit>()
-                                        .state
-                                        .primaryColor),
-                                padding: const EdgeInsets.all(10),
-                                child: const Icon(
-                                  Icons.receipt_long_outlined,
-                                  color: kWhite,
-                                ),
-                              ),
-                              const Gap(10),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        CustomText(
-                                          text: invoice?.reference ?? " -- ",
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        const Gap(10),
-                                        CustomText(
-                                          text: const OccupantPage()
-                                              .dateTimeFormatter(invoice?.date),
-                                          color: kGrey,
-                                          fontsize: 12,
-                                        ),
-                                      ],
-                                    ),
-                                    CustomText(
-                                      text: invoice?.description == ""
-                                          ? " -- "
-                                          : invoice?.description ?? " -- ",
-                                      fontsize: 14,
-                                    ),
-                                    Row(
-                                      children: [
-                                        const CustomText(
-                                          text: "Mollak reference . ",
-                                          fontsize: 13,
-                                        ),
-                                        CustomText(
-                                          text: invoice?.mollakReference ??
-                                              " -- ",
-                                          fontsize: 13,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            const CustomText(
-                                              text: "Due at . ",
-                                              fontsize: 12,
-                                            ),
-                                            CustomText(
-                                              text: const OccupantPage()
-                                                  .dateTimeFormatter(
-                                                      invoice?.dueDate),
-                                              fontsize: 12,
-                                              fontWeight: FontWeight.bold,
-                                            )
-                                          ],
-                                        ),
-                                        InkWell(
-                                          onTap: () {
-                                            if (invoice?.documents?.isEmpty ??
-                                                true) {
-                                              Fluttertoast.showToast(
-                                                  msg:
-                                                      "No documents found to download");
-                                              return;
-                                            }
-                                            launchUrl(Uri.parse(
-                                                invoice?.documents ?? ""));
-                                          },
-                                          child: Icon(
-                                            Icons.download_outlined,
-                                            color: context
-                                                .read<AppThemeCubit>()
-                                                .state
-                                                .primaryColor,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      if ((index + 1) == state.invoicesModel?.invoices?.length)
-                        const SizedBox(
-                          height: 150,
-                        ),
-                    ],
-                  );
+              child: RefreshIndicator(
+                onRefresh: ()async{
+                  context.read<InvoicesCubit>().getInvoices(context, widget.unitId);
                 },
+                child: ListView.builder(
+                  controller: _scrollController,
+                  itemCount: state.invoicesModel?.invoices?.length ?? 0,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemBuilder: (BuildContext context, int index) {
+                    Invoice? invoice = state.invoicesModel?.invoices?[index];
+                    return Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            context
+                                .read<InvoiceDetailsCubit>()
+                                .getInvoiceDetails(context, invoice?.id);
+                            Navigator.pushNamed(
+                                context, AppRoutes.invoiceDetails,arguments: invoice?.id);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            decoration: BoxDecoration(
+                              color: kWhite,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: kGrey.shade200,
+                                    blurRadius: 2,
+                                    spreadRadius: 2)
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: context
+                                          .read<AppThemeCubit>()
+                                          .state
+                                          .primaryColor),
+                                  padding: const EdgeInsets.all(10),
+                                  child: const Icon(
+                                    Icons.receipt_long_outlined,
+                                    color: kWhite,
+                                  ),
+                                ),
+                                const Gap(10),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          CustomText(
+                                            text: invoice?.reference ?? " -- ",
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          const Gap(10),
+                                          CustomText(
+                                            text: const OccupantPage()
+                                                .dateTimeFormatter(invoice?.date),
+                                            color: kGrey,
+                                            fontsize: 12,
+                                          ),
+                                        ],
+                                      ),
+                                      CustomText(
+                                        text: invoice?.description == ""
+                                            ? " -- "
+                                            : invoice?.description ?? " -- ",
+                                        fontsize: 14,
+                                      ),
+                                      Row(
+                                        children: [
+                                          const CustomText(
+                                            text: "Mollak reference . ",
+                                            fontsize: 13,
+                                          ),
+                                          CustomText(
+                                            text: invoice?.mollakReference ??
+                                                " -- ",
+                                            fontsize: 13,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              const CustomText(
+                                                text: "Due at . ",
+                                                fontsize: 12,
+                                              ),
+                                              CustomText(
+                                                text: const OccupantPage()
+                                                    .dateTimeFormatter(
+                                                        invoice?.dueDate),
+                                                fontsize: 12,
+                                                fontWeight: FontWeight.bold,
+                                              )
+                                            ],
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              if (invoice?.documents?.isEmpty ??
+                                                  true) {
+                                                Fluttertoast.showToast(
+                                                    msg:
+                                                        "No documents found to download");
+                                                return;
+                                              }
+                                              launchUrl(Uri.parse(
+                                                  invoice?.documents ?? ""));
+                                            },
+                                            child: Icon(
+                                              Icons.download_outlined,
+                                              color: context
+                                                  .read<AppThemeCubit>()
+                                                  .state
+                                                  .primaryColor,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        if ((index + 1) == state.invoicesModel?.invoices?.length)
+                          const SizedBox(
+                            height: 150,
+                          ),
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
             if (state.loadMoreState == LoadingState.loading)

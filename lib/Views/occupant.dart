@@ -11,7 +11,10 @@ class OccupantPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? unitNumber = ModalRoute.of(context)?.settings.arguments as String?;
+    Map<String, dynamic> arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    String? unitNumber = arguments['unit_no'];
+    int? unitId = arguments['unit_id'];
     return Scaffold(
       appBar: BaseAppBar(
         title: "$unitNumber - Occupant",
@@ -153,148 +156,154 @@ class OccupantPage extends StatelessWidget {
               "value": state.occupantModel?.occupant?.details?.fullAddress,
             },
           ];
-          return SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                        offset: const Offset(1, 1),
-                        spreadRadius: 2,
-                        blurRadius: 2,
-                        color: kGrey.shade200),
-                  ],
-                  color: kWhite),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomText(
-                    text:
-                        state.occupantModel?.occupant?.details?.name ?? " -- ",
-                    fontWeight: FontWeight.bold,
-                    color: context.read<AppThemeCubit>().state.primaryColor,
-                    fontsize: 20,
-                    textAlign: TextAlign.left,
-                  ),
-                  const Gap(5),
-                  Divider(
-                    color: context.read<AppThemeCubit>().state.primaryColor,
-                  ),
-                  const Gap(5),
-                  Column(
-                    children: occupantData
-                        .map((e) => ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              dense: true,
-                              leading: Container(
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: kGrey.shade200),
-                                child: e["icon"],
-                              ),
-                              title: CustomText(
-                                text: e["key"] ?? "",
-                                textAlign: TextAlign.left,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              subtitle: CustomText(
-                                text: e["value"] ?? " -- ",
-                                textAlign: TextAlign.left,
-                                color: kGrey,
-                                fontsize: 15,
-                              ),
-                            ))
-                        .toList(),
-                  ),
-                  const Gap(5),
-                  Divider(
-                    color: context.read<AppThemeCubit>().state.primaryColor,
-                  ),
-                  const Gap(5),
-                  if (state.occupantModel?.occupant?.emergencyContactDetails
-                              ?.alternativeEmergencyContactName !=
-                          null ||
-                      state.occupantModel?.occupant?.emergencyContactDetails
-                              ?.emergencyContactName !=
-                          null)
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<OccupantCubit>().getOccupant(context, unitId);
+            },
+            child: SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                          offset: const Offset(1, 1),
+                          spreadRadius: 2,
+                          blurRadius: 2,
+                          color: kGrey.shade200),
+                    ],
+                    color: kWhite),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     CustomText(
-                      text: "Emergency Contact Details",
+                      text: state.occupantModel?.occupant?.details?.name ??
+                          " -- ",
+                      fontWeight: FontWeight.bold,
+                      color: context.read<AppThemeCubit>().state.primaryColor,
+                      fontsize: 20,
+                      textAlign: TextAlign.left,
+                    ),
+                    const Gap(5),
+                    Divider(
+                      color: context.read<AppThemeCubit>().state.primaryColor,
+                    ),
+                    const Gap(5),
+                    Column(
+                      children: occupantData
+                          .map((e) => ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                dense: true,
+                                leading: Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: kGrey.shade200),
+                                  child: e["icon"],
+                                ),
+                                title: CustomText(
+                                  text: e["key"] ?? "",
+                                  textAlign: TextAlign.left,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                subtitle: CustomText(
+                                  text: e["value"] ?? " -- ",
+                                  textAlign: TextAlign.left,
+                                  color: kGrey,
+                                  fontsize: 15,
+                                ),
+                              ))
+                          .toList(),
+                    ),
+                    const Gap(5),
+                    Divider(
+                      color: context.read<AppThemeCubit>().state.primaryColor,
+                    ),
+                    const Gap(5),
+                    if (state.occupantModel?.occupant?.emergencyContactDetails
+                                ?.alternativeEmergencyContactName !=
+                            null ||
+                        state.occupantModel?.occupant?.emergencyContactDetails
+                                ?.emergencyContactName !=
+                            null)
+                      CustomText(
+                        text: "Emergency Contact Details",
+                        color: context.read<AppThemeCubit>().state.primaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontsize: 20,
+                      ),
+                    if (state.occupantModel?.occupant?.emergencyContactDetails
+                                ?.alternativeEmergencyContactName !=
+                            null ||
+                        state.occupantModel?.occupant?.emergencyContactDetails
+                                ?.emergencyContactName !=
+                            null)
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    if (state.occupantModel?.occupant?.emergencyContactDetails
+                            ?.emergencyContactName !=
+                        null)
+                      emergencyContactCard(
+                          context,
+                          state.occupantModel?.occupant?.emergencyContactDetails
+                                  ?.emergencyContactName ??
+                              " -- ",
+                          phoneNumber: state.occupantModel?.occupant
+                              ?.emergencyContactDetails?.emergencyContactPhone),
+                    if (state.occupantModel?.occupant?.emergencyContactDetails
+                            ?.emergencyContactName !=
+                        null)
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    if (state.occupantModel?.occupant?.emergencyContactDetails
+                            ?.alternativeEmergencyContactName !=
+                        null)
+                      emergencyContactCard(
+                          context,
+                          state.occupantModel?.occupant?.emergencyContactDetails
+                                  ?.alternativeEmergencyContactName ??
+                              " -- ",
+                          phoneNumber: state
+                              .occupantModel
+                              ?.occupant
+                              ?.emergencyContactDetails
+                              ?.alternativeEmergencyContactPhone),
+                    if (state.occupantModel?.occupant?.emergencyContactDetails
+                            ?.alternativeEmergencyContactName !=
+                        null)
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    if (state.occupantModel?.occupant?.vehicles != null &&
+                        (state.occupantModel?.occupant?.vehicles?.isNotEmpty ??
+                            false))
+                      vehicleSection(
+                          context, state.occupantModel?.occupant?.vehicles),
+                    CustomText(
+                      text: "Documents",
                       color: context.read<AppThemeCubit>().state.primaryColor,
                       fontWeight: FontWeight.bold,
                       fontsize: 20,
                     ),
-                  if (state.occupantModel?.occupant?.emergencyContactDetails
-                              ?.alternativeEmergencyContactName !=
-                          null ||
-                      state.occupantModel?.occupant?.emergencyContactDetails
-                              ?.emergencyContactName !=
-                          null)
                     const SizedBox(
                       height: 10,
                     ),
-                  if (state.occupantModel?.occupant?.emergencyContactDetails
-                          ?.emergencyContactName !=
-                      null)
-                    emergencyContactCard(
-                        context,
-                        state.occupantModel?.occupant?.emergencyContactDetails
-                                ?.emergencyContactName ??
-                            " -- ",
-                        phoneNumber: state.occupantModel?.occupant
-                            ?.emergencyContactDetails?.emergencyContactPhone),
-                  if (state.occupantModel?.occupant?.emergencyContactDetails
-                          ?.emergencyContactName !=
-                      null)
-                    const SizedBox(
-                      height: 10,
-                    ),
-                  if (state.occupantModel?.occupant?.emergencyContactDetails
-                          ?.alternativeEmergencyContactName !=
-                      null)
-                    emergencyContactCard(
-                        context,
-                        state.occupantModel?.occupant?.emergencyContactDetails
-                                ?.alternativeEmergencyContactName ??
-                            " -- ",
-                        phoneNumber: state
-                            .occupantModel
-                            ?.occupant
-                            ?.emergencyContactDetails
-                            ?.alternativeEmergencyContactPhone),
-                  if (state.occupantModel?.occupant?.emergencyContactDetails
-                          ?.alternativeEmergencyContactName !=
-                      null)
-                    const SizedBox(
-                      height: 10,
-                    ),
-                  if (state.occupantModel?.occupant?.vehicles != null &&
-                      (state.occupantModel?.occupant?.vehicles?.isNotEmpty ??
-                          false))
-                    vehicleSection(
-                        context, state.occupantModel?.occupant?.vehicles),
-                  CustomText(
-                    text: "Documents",
-                    color: context.read<AppThemeCubit>().state.primaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontsize: 20,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const OwnersPage().documentInfo(context, "Passport",
-                      url: state
-                          .occupantModel?.occupant?.documents?.passportFile),
-                  const OwnersPage().documentInfo(context, "Tenancy Contract",
-                      url: state
-                          .occupantModel?.occupant?.documents?.tenancyContract),
-                  const OwnersPage().documentInfo(context, "Title Deed",
-                      url: state.occupantModel?.occupant?.documents?.titleDeed),
-                  const OwnersPage().documentInfo(context, "ID",
-                      url: state.occupantModel?.occupant?.documents?.idFile),
-                ],
+                    const OwnersPage().documentInfo(context, "Passport",
+                        url: state
+                            .occupantModel?.occupant?.documents?.passportFile),
+                    const OwnersPage().documentInfo(context, "Tenancy Contract",
+                        url: state.occupantModel?.occupant?.documents
+                            ?.tenancyContract),
+                    const OwnersPage().documentInfo(context, "Title Deed",
+                        url: state
+                            .occupantModel?.occupant?.documents?.titleDeed),
+                    const OwnersPage().documentInfo(context, "ID",
+                        url: state.occupantModel?.occupant?.documents?.idFile),
+                  ],
+                ),
               ),
             ),
           );

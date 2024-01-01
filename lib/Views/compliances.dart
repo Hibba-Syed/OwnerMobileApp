@@ -6,10 +6,10 @@ class CompliancesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? unitNumber =
-        (ModalRoute.of(context)?.settings.arguments as List)[0] as String?;
-    int? unitId =
-        (ModalRoute.of(context)?.settings.arguments as List)[1] as int?;
+    Map<String, dynamic> arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    String? unitNumber = arguments['unit_no'];
+    int? unitId = arguments['unit_id'];
     return Scaffold(
       appBar: BaseAppBar(
         title: "$unitNumber - Compliances",
@@ -34,9 +34,10 @@ class CompliancesPage extends StatelessWidget {
               height: 10,
             ),
             Expanded(
-                child: CompliancesListPage(
-              unitId: unitId,
-            )),
+              child: CompliancesListPage(
+                unitId: unitId,
+              ),
+            ),
           ],
         ),
       ),

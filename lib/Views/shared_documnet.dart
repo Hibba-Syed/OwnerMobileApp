@@ -13,16 +13,17 @@ class SharedDocumentPage extends StatelessWidget {
   Widget build(BuildContext context) {
     int? unitId = ModalRoute.of(context)?.settings.arguments as int?;
     return Scaffold(
-        appBar: BaseAppBar(
-          title: "Shared Documents",
-          appBar: AppBar(),
-          widgets: const [],
-          appBarHeight: 50,
-          automaticallyImplyLeading: true,
-        ),
-        body: SharedDocumentsListPage(
-          unitId: unitId,
-        ));
+      appBar: BaseAppBar(
+        title: "Shared Documents",
+        appBar: AppBar(),
+        widgets: const [],
+        appBarHeight: 50,
+        automaticallyImplyLeading: true,
+      ),
+      body: SharedDocumentsListPage(
+        unitId: unitId,
+      ),
+    );
   }
 
   DataColumn sharedDocumentDataColumn(String text) {
