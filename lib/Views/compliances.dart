@@ -12,7 +12,7 @@ class CompliancesPage extends StatelessWidget {
     int? unitId = arguments['unit_id'];
     return Scaffold(
       appBar: BaseAppBar(
-        title: "$unitNumber - Compliances",
+        title: (unitNumber?.isEmpty ?? true) ? "" : "$unitNumber - Compliances",
         appBar: AppBar(),
         widgets: const [],
         appBarHeight: 50,

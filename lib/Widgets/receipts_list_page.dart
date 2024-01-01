@@ -44,14 +44,20 @@ class _ReceiptsListPageState extends State<ReceiptsListPage> {
           return const CustomLoader();
         }
         if (state.receiptsModel?.receipts?.isEmpty ?? true) {
-          return const CreditNotesPage().emptyList();
+          return const CreditNotesPage().emptyList(
+            ontap: () => context
+                .read<ReceiptsCubit>()
+                .getReceipts(context, widget.unitId),
+          );
         }
         return Column(
           children: [
             Expanded(
               child: RefreshIndicator(
-                onRefresh: ()async{
-                  context.read<ReceiptsCubit>().getReceipts(context, widget.unitId);
+                onRefresh: () async {
+                  context
+                      .read<ReceiptsCubit>()
+                      .getReceipts(context, widget.unitId);
                 },
                 child: ListView.builder(
                   controller: _scrollController,
@@ -97,7 +103,8 @@ class _ReceiptsListPageState extends State<ReceiptsListPage> {
                                 const Gap(10),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         mainAxisAlignment:
@@ -169,7 +176,8 @@ class _ReceiptsListPageState extends State<ReceiptsListPage> {
                             ),
                           ),
                         ),
-                        if ((index + 1) == state.receiptsModel?.receipts?.length)
+                        if ((index + 1) ==
+                            state.receiptsModel?.receipts?.length)
                           const SizedBox(
                             height: 150,
                           ),

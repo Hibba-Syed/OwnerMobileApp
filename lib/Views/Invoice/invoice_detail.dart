@@ -22,6 +22,13 @@ class InvoiceDetailsPage extends StatelessWidget {
           if (state.loadingState == LoadingState.loading) {
             return const CustomLoader();
           }
+          if (state.invoiceDetailsModel == null) {
+            return const CreditNotesPage().emptyList(
+              ontap: () => context
+                  .read<InvoiceDetailsCubit>()
+                  .getInvoiceDetails(context, invoiceId),
+            );
+          }
           return RefreshIndicator(
             onRefresh: () async {
               context

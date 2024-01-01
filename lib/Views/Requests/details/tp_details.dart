@@ -9,8 +9,8 @@ class TpDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // int? requestId =
-    //     (ModalRoute.of(context)?.settings.arguments as List)[0] as int?;
+    int? requestId =
+        (ModalRoute.of(context)?.settings.arguments as List)[0] as int?;
     String? reference =
         (ModalRoute.of(context)?.settings.arguments as List)[1] as String?;
     String? type =
@@ -28,6 +28,12 @@ class TpDetailsPage extends StatelessWidget {
         builder: (context, state) {
           if (state.loadingState == LoadingState.loading) {
             return const CustomLoader();
+          }
+          if (state.tpDetailsModel?.record != null) {
+            return const CreditNotesPage().emptyList(ontap: () {
+              context.read<RequestDetailsCubit>().getRequestDetails(
+                  context, requestId, type);
+            });
           }
           return SingleChildScrollView(
             child: Padding(

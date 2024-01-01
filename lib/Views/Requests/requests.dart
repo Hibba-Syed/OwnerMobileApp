@@ -15,7 +15,7 @@ class RequestsPage extends StatelessWidget {
     int? unitId = arguments['unit_id'];
     return Scaffold(
       appBar: BaseAppBar(
-        title: "$unitNumber - Requests",
+        title: (unitNumber?.isEmpty ?? true) ? "" : "$unitNumber - Requests",
         appBar: AppBar(),
         automaticallyImplyLeading: true,
         widgets: [

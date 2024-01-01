@@ -19,6 +19,11 @@ class ProfilePage extends StatelessWidget {
           if (state.loadingState == LoadingState.loading) {
             return const CustomLoader();
           }
+          if (state.profileModel?.record == null) {
+            return const CreditNotesPage().emptyList(
+              ontap: () => context.read<ProfileCubit>().getProfile(context),
+            );
+          }
           List<Map> profileData = [
             {
               "icon": Icons.email_outlined,

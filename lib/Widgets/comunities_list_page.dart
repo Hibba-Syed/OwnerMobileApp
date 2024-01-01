@@ -39,11 +39,17 @@ class _CommunitiesListPageState extends State<CommunitiesListPage> {
         if (state.loadingState == LoadingState.loading) {
           return const CustomLoader();
         }
+        if (state.loadingState == LoadingState.error || (state.communitiesModel?.associations?.isEmpty??true)) {
+          return const CreditNotesPage().emptyList(
+            ontap: () =>
+                context.read<CommunitiesCubit>().getCommunities(context),
+          );
+        }
         return Column(
           children: [
             Expanded(
               child: RefreshIndicator(
-                onRefresh: ()async{
+                onRefresh: () async {
                   context.read<CommunitiesCubit>().getCommunities(context);
                 },
                 child: ListView.builder(
@@ -88,15 +94,16 @@ class _CommunitiesListPageState extends State<CommunitiesListPage> {
                                     height: 120,
                                     width: 120,
                                     fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) =>
-                                        const UnitsPage().roundedContainer(
-                                            context,
-                                            const Icon(
-                                              Icons.image_outlined,
-                                            ),
-                                            color: kGrey.shade300,
-                                            height: 120,
-                                            width: 120),
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            const UnitsPage().roundedContainer(
+                                                context,
+                                                const Icon(
+                                                  Icons.image_outlined,
+                                                ),
+                                                color: kGrey.shade300,
+                                                height: 120,
+                                                width: 120),
                                   ),
                                 ),
                                 const SizedBox(
@@ -115,8 +122,8 @@ class _CommunitiesListPageState extends State<CommunitiesListPage> {
                                                 BorderRadius.circular(10),
                                             color: kGrey.shade200),
                                         child: CustomText(
-                                            text:
-                                                communitiesDatum?.name ?? " -- "),
+                                            text: communitiesDatum?.name ??
+                                                " -- "),
                                       ),
                                       const SizedBox(
                                         height: 10,

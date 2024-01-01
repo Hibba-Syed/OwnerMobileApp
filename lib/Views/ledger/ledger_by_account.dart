@@ -43,18 +43,25 @@ class _LedgerByAccountState extends State<LedgerByAccount> {
           return const CustomLoader();
         }
         if (state.ledgerByAccountModel?.record?.ledgers?.isEmpty ?? true) {
-          return const CreditNotesPage().emptyList();
+          return const CreditNotesPage().emptyList(
+            ontap: () => context
+                .read<LedgerCubit>()
+                .getLedgerByAccount(context, widget.unitId),
+          );
         }
         return Column(
           children: [
             Expanded(
               child: RefreshIndicator(
-                onRefresh: ()async{
-                  context.read<LedgerCubit>().getLedgerByAccount(context, widget.unitId);
+                onRefresh: () async {
+                  context
+                      .read<LedgerCubit>()
+                      .getLedgerByAccount(context, widget.unitId);
                 },
                 child: ListView.builder(
                   controller: _scrollController,
-                  itemCount: state.ledgerByAccountModel?.record?.ledgers?.length,
+                  itemCount:
+                      state.ledgerByAccountModel?.record?.ledgers?.length,
                   physics: const AlwaysScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
                     AccountDatum? accountDatum =
@@ -63,7 +70,8 @@ class _LedgerByAccountState extends State<LedgerByAccount> {
                       children: [
                         InkWell(
                           onTap: () {
-                            if (accountDatum?.transactions?.isNotEmpty ?? false) {
+                            if (accountDatum?.transactions?.isNotEmpty ??
+                                false) {
                               Navigator.pushNamed(
                                   context, AppRoutes.ledgerByAccountDetail,
                                   arguments: accountDatum);

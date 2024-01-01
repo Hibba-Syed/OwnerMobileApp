@@ -22,6 +22,12 @@ class CreditNoteDetailsPage extends StatelessWidget {
           if (state.loadingState == LoadingState.loading) {
             return const CustomLoader();
           }
+          if (state.creditNoteDetailsModel == null) {
+            return const CreditNotesPage().emptyList(
+                ontap: () => context
+                    .read<CreditNoteDetailsCubit>()
+                    .getCreditNoteDetails(context, creditNoteId));
+          }
           return RefreshIndicator(
             onRefresh: () async {
               context

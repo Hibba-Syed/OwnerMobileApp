@@ -41,12 +41,22 @@ class _UnitsListPageState extends State<UnitsListPage> {
         if (state.loadingState == LoadingState.loading) {
           return const CustomLoader();
         }
+        if (state.loadingState == LoadingState.error ||
+            (state.unitsModel?.units?.isEmpty ?? true)) {
+          return const CreditNotesPage().emptyList(
+            ontap: () => context
+                .read<UnitsCubit>()
+                .getUnits(context, widget.communityId),
+          );
+        }
         return Column(
           children: [
             Expanded(
               child: RefreshIndicator(
-                onRefresh: ()async{
-                  context.read<UnitsCubit>().getUnits(context, widget.communityId);
+                onRefresh: () async {
+                  context
+                      .read<UnitsCubit>()
+                      .getUnits(context, widget.communityId);
                 },
                 child: ListView.builder(
                   controller: _scrollController,

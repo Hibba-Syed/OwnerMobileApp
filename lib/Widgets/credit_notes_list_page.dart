@@ -44,14 +44,19 @@ class _CreditNotesListPageState extends State<CreditNotesListPage> {
           return const CustomLoader();
         }
         if (state.creditNotesModel?.creditNotes?.isEmpty ?? true) {
-          return const CreditNotesPage().emptyList();
+          return const CreditNotesPage().emptyList(
+              ontap: () => context
+                  .read<CreditNotesCubit>()
+                  .getCreditNotes(context, widget.unitId));
         }
         return Column(
           children: [
             Expanded(
               child: RefreshIndicator(
-                onRefresh: ()async{
-                  context.read<CreditNotesCubit>().getCreditNotes(context, widget.unitId);
+                onRefresh: () async {
+                  context
+                      .read<CreditNotesCubit>()
+                      .getCreditNotes(context, widget.unitId);
                 },
                 child: ListView.builder(
                   itemCount: state.creditNotesModel?.creditNotes?.length ?? 0,
@@ -98,14 +103,16 @@ class _CreditNotesListPageState extends State<CreditNotesListPage> {
                                 const Gap(10),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           CustomText(
-                                            text: creditNote?.reference ?? " -- ",
+                                            text:
+                                                creditNote?.reference ?? " -- ",
                                             fontWeight: FontWeight.bold,
                                           ),
                                           const Gap(10),

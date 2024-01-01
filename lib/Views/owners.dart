@@ -15,7 +15,7 @@ class OwnersPage extends StatelessWidget {
     int? unitId = arguments['unit_id'];
     return Scaffold(
       appBar: BaseAppBar(
-        title: "$unitNumber - Owners",
+        title: (unitNumber?.isEmpty ?? true) ? "" : "$unitNumber - Owners",
         appBar: AppBar(),
         automaticallyImplyLeading: true,
         widgets: const [],
@@ -27,7 +27,9 @@ class OwnersPage extends StatelessWidget {
             return const CustomLoader();
           }
           if (state.ownersModel?.units?.owners?.isEmpty ?? true) {
-            return const CreditNotesPage().emptyList();
+            return const CreditNotesPage().emptyList(
+                ontap: () =>
+                    context.read<OwnersCubit>().getOwners(context, unitId));
           }
           return RefreshIndicator(
             onRefresh: () async {

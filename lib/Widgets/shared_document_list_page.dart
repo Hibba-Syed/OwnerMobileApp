@@ -43,7 +43,8 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
         if (state.loadingState == LoadingState.loading) {
           return const CustomLoader();
         }
-        if (state.sharedDocumentsModel?.sharedDocuments?.isEmpty ?? true) {
+        if ((state.sharedDocumentsModel?.sharedDocuments?.isEmpty ?? true) ||
+            (state.loadMoreState == LoadingState.error)) {
           return const CreditNotesPage()
               .emptyList(lottie: "assets/document.json");
         }
@@ -51,12 +52,15 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
           children: [
             Expanded(
               child: RefreshIndicator(
-                onRefresh: ()async{
-                  context.read<SharedDocumentsCubit>().getSharedDocuments(context);
+                onRefresh: () async {
+                  context
+                      .read<SharedDocumentsCubit>()
+                      .getSharedDocuments(context);
                 },
                 child: GridView.builder(
                   padding: const EdgeInsets.all(10),
-                  itemCount: state.sharedDocumentsModel?.sharedDocuments?.length,
+                  itemCount:
+                      state.sharedDocumentsModel?.sharedDocuments?.length,
                   itemBuilder: (BuildContext context, int index) {
                     SharedDocument? sharedDocumentsRecord =
                         state.sharedDocumentsModel?.sharedDocuments?[index];

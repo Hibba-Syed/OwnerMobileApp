@@ -29,7 +29,9 @@ class OccupantPage extends StatelessWidget {
             return const CustomLoader();
           }
           if (state.occupantModel?.occupant == null) {
-            return const CreditNotesPage().emptyList();
+            return const CreditNotesPage().emptyList(
+                ontap: () =>
+                    context.read<OccupantCubit>().getOccupant(context, unitId));
           }
           List<Map<String, dynamic>> occupantData = [
             {

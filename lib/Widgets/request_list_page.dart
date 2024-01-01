@@ -41,7 +41,11 @@ class _RequestListPageState extends State<RequestListPage> {
           return const CustomLoader();
         }
         if (state.requestsModel?.applications?.isEmpty ?? true) {
-          return const CreditNotesPage().emptyList();
+          return const CreditNotesPage().emptyList(
+              ontap: () => context.read<RequestsCubit>().getRequests(
+                    context,
+                    widget.unitId,
+                  ));
         }
         return Column(
           children: [

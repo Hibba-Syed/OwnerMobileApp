@@ -45,14 +45,20 @@ class _LedgerByStatementState extends State<LedgerByStatement> {
         }
         if (state.ledgerByStatementModel?.record?.data?.ledgers?.isEmpty ??
             true) {
-          return const CreditNotesPage().emptyList();
+          return const CreditNotesPage().emptyList(
+            ontap: () => context
+                .read<LedgerCubit>()
+                .getLedgerByStatement(context, widget.unitId),
+          );
         }
         return Column(
           children: [
             Expanded(
               child: RefreshIndicator(
-                onRefresh: ()async{
-                  context.read<LedgerCubit>().getLedgerByStatement(context, widget.unitId);
+                onRefresh: () async {
+                  context
+                      .read<LedgerCubit>()
+                      .getLedgerByStatement(context, widget.unitId);
                 },
                 child: ListView.builder(
                   controller: _scrollController,
@@ -126,7 +132,8 @@ class _LedgerByStatementState extends State<LedgerByStatement> {
                                                 : ledger?.document == "" ||
                                                         ledger?.document == " "
                                                     ? "JV"
-                                                    : ledger?.document ?? "JV")),
+                                                    : ledger?.document ??
+                                                        "JV")),
                                   ],
                                 ),
                                 const Gap(10),
@@ -192,7 +199,8 @@ class _LedgerByStatementState extends State<LedgerByStatement> {
                                       fontsize: 13,
                                     ),
                                     CustomText(
-                                      text: formatCurrency(ledger?.balance ?? 0),
+                                      text:
+                                          formatCurrency(ledger?.balance ?? 0),
                                       fontsize: 13,
                                     ),
                                   ],

@@ -45,14 +45,19 @@ class _InvoicesListPageState extends State<InvoicesListPage> {
           return const CustomLoader();
         }
         if (state.invoicesModel?.invoices?.isEmpty ?? true) {
-          return const CreditNotesPage().emptyList();
+          return const CreditNotesPage().emptyList(
+              ontap: () => context
+                  .read<InvoicesCubit>()
+                  .getInvoices(context, widget.unitId));
         }
         return Column(
           children: [
             Expanded(
               child: RefreshIndicator(
-                onRefresh: ()async{
-                  context.read<InvoicesCubit>().getInvoices(context, widget.unitId);
+                onRefresh: () async {
+                  context
+                      .read<InvoicesCubit>()
+                      .getInvoices(context, widget.unitId);
                 },
                 child: ListView.builder(
                   controller: _scrollController,
@@ -68,7 +73,8 @@ class _InvoicesListPageState extends State<InvoicesListPage> {
                                 .read<InvoiceDetailsCubit>()
                                 .getInvoiceDetails(context, invoice?.id);
                             Navigator.pushNamed(
-                                context, AppRoutes.invoiceDetails,arguments: invoice?.id);
+                                context, AppRoutes.invoiceDetails,
+                                arguments: invoice?.id);
                           },
                           child: Container(
                             padding: const EdgeInsets.all(10),
@@ -101,7 +107,8 @@ class _InvoicesListPageState extends State<InvoicesListPage> {
                                 const Gap(10),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         mainAxisAlignment:
@@ -114,7 +121,8 @@ class _InvoicesListPageState extends State<InvoicesListPage> {
                                           const Gap(10),
                                           CustomText(
                                             text: const OccupantPage()
-                                                .dateTimeFormatter(invoice?.date),
+                                                .dateTimeFormatter(
+                                                    invoice?.date),
                                             color: kGrey,
                                             fontsize: 12,
                                           ),
@@ -188,7 +196,8 @@ class _InvoicesListPageState extends State<InvoicesListPage> {
                             ),
                           ),
                         ),
-                        if ((index + 1) == state.invoicesModel?.invoices?.length)
+                        if ((index + 1) ==
+                            state.invoicesModel?.invoices?.length)
                           const SizedBox(
                             height: 150,
                           ),

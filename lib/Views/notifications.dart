@@ -53,7 +53,10 @@ class _NotificationsPageState extends State<NotificationsPage> {
             return const CustomLoader();
           }
           if (state.notificationsModel?.notifications?.isEmpty ?? true) {
-            return const CreditNotesPage().emptyList();
+            return const CreditNotesPage().emptyList(
+                ontap: () => context
+                    .read<NotificationsCubit>()
+                    .getNotifications(context));
           }
           return Column(
             children: [

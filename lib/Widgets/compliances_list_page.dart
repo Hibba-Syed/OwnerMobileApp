@@ -44,7 +44,10 @@ class _ReceiptListPageState extends State<CompliancesListPage> {
           return const CustomLoader();
         }
         if (state.compliancesModel?.compliances?.isEmpty ?? true) {
-          return const CreditNotesPage().emptyList();
+          return const CreditNotesPage().emptyList(
+              ontap: () => context
+                  .read<CompliancesCubit>()
+                  .getCompliances(context, widget.unitId));
         }
         return Column(
           children: [

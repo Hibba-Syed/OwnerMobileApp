@@ -44,7 +44,11 @@ class _LedgerByDateState extends State<LedgerByDate> {
           return const CustomLoader();
         }
         if (state.ledgerByDateModel?.record?.data?.isEmpty ?? true) {
-          return const CreditNotesPage().emptyList();
+          return const CreditNotesPage().emptyList(
+            ontap: () => context
+                .read<LedgerCubit>()
+                .getLedgerByDate(context, widget.unitId),
+          );
         }
         return Column(
           children: [

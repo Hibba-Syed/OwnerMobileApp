@@ -16,7 +16,7 @@ class UnitDetailsPage extends StatelessWidget {
     final tabList = ["Unit Info", "Accounts"];
     return Scaffold(
       appBar: BaseAppBar(
-        title: "Unit - $unitNo",
+        title: (unitNo?.isEmpty ?? true) ? "" : "Unit - $unitNo",
         appBar: AppBar(),
         automaticallyImplyLeading: true,
         widgets: const [],
@@ -24,9 +24,13 @@ class UnitDetailsPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          await launchUrl(Uri.parse(
-            "http://onlinistfze.synergic360.com/$unitSlug",
-          ));
+          if (unitSlug?.isEmpty ?? true) {
+            Fluttertoast.showToast(msg: 'No service available');
+          } else {
+            await launchUrl(Uri.parse(
+              "http://onlinistfze.synergic360.com/$unitSlug",
+            ));
+          }
         },
         label: const Row(
           children: [Icon(Icons.link), CustomText(text: " E-Services")],
@@ -83,54 +87,57 @@ class UnitDetailsPage extends StatelessWidget {
 
   Widget unitDetailHeader(
       BuildContext context, String? communityName, int? unitId) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: Row(
+    return (communityName?.isEmpty ?? true)
+        ? const SizedBox.shrink()
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(
-                Icons.location_city,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
-              const Gap(10),
               Expanded(
-                child: CustomText(
-                  text: " $communityName",
-                  fontWeight: FontWeight.bold,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.location_city,
+                      color: context.read<AppThemeCubit>().state.primaryColor,
+                    ),
+                    const Gap(10),
+                    Expanded(
+                      child: CustomText(
+                        text: " ${communityName ?? ""}",
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-        const Gap(20),
-        const UnitsPage().roundedContainer(
-            context,
-            InkWell(
-              onTap: () {
-                context
-                    .read<SharedDocumentsCubit>()
-                    .getSharedDocuments(context, unitId: unitId);
-                Navigator.pushNamed(context, AppRoutes.sharedDocument);
-              },
-              child: const Row(
-                children: [
-                  Icon(
-                    Icons.document_scanner_outlined,
-                    color: kWhite,
-                    size: 18,
+              const Gap(20),
+              const UnitsPage().roundedContainer(
+                  context,
+                  InkWell(
+                    onTap: () {
+                      context
+                          .read<SharedDocumentsCubit>()
+                          .getSharedDocuments(context, unitId: unitId);
+                      Navigator.pushNamed(context, AppRoutes.sharedDocument);
+                    },
+                    child: const Row(
+                      children: [
+                        Icon(
+                          Icons.document_scanner_outlined,
+                          color: kWhite,
+                          size: 18,
+                        ),
+                        CustomText(
+                          text: " Shared Documents",
+                          color: kWhite,
+                          fontsize: 15,
+                        )
+                      ],
+                    ),
                   ),
-                  CustomText(
-                    text: " Shared Documents",
-                    color: kWhite,
-                    fontsize: 15,
-                  )
-                ],
-              ),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5)),
-      ],
-    );
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5)),
+            ],
+          );
   }
 
   Widget unitDetailsUnitInfo(

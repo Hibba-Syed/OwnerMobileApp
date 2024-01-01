@@ -22,6 +22,12 @@ class ReceiptDetailsPage extends StatelessWidget {
           if (state.loadingState == LoadingState.loading) {
             return const CustomLoader();
           }
+          if (state.receiptDetailsModel == null) {
+            return const CreditNotesPage().emptyList(
+                ontap: () => context
+                    .read<ReceiptDetailsCubit>()
+                    .getReceiptDetails(context, receiptId));
+          }
           return RefreshIndicator(
             onRefresh: () async {
               context
