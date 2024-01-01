@@ -23,10 +23,13 @@ class CreditNoteDetailsPage extends StatelessWidget {
             return const CustomLoader();
           }
           return RefreshIndicator(
-            onRefresh: ()async{
-              context.read<CreditNoteDetailsCubit>().getCreditNoteDetails(context, creditNoteId);
+            onRefresh: () async {
+              context
+                  .read<CreditNoteDetailsCubit>()
+                  .getCreditNoteDetails(context, creditNoteId);
             },
             child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Column(
@@ -39,9 +42,9 @@ class CreditNoteDetailsPage extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: kGrey.shade100),
-                          child: const Icon(
-                            Icons.person_outline,
-                            size: 30,
+                          child: Image.asset(
+                            "assets/logo.png",
+                            width: 40,
                           ),
                         ),
                         const Gap(10),
@@ -108,7 +111,8 @@ class CreditNoteDetailsPage extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: CustomText(
-                                  text: state.creditNoteDetailsModel?.title ?? "",
+                                  text:
+                                      state.creditNoteDetailsModel?.title ?? "",
                                   fontWeight: FontWeight.bold,
                                   fontsize: 18,
                                 ),
@@ -141,12 +145,13 @@ class CreditNoteDetailsPage extends StatelessWidget {
                           const Gap(10),
                           RowText(
                             text: "CreditNote No.",
-                            text2: state.creditNoteDetailsModel?.reference ?? "",
+                            text2:
+                                state.creditNoteDetailsModel?.reference ?? "",
                           ),
                           const Gap(10),
                           RowText(
                             text: "Date:",
-                            text2:  OccupantPage().dateTimeFormatter(
+                            text2: const OccupantPage().dateTimeFormatter(
                                 state.creditNoteDetailsModel?.datetime),
                           ),
                           const Gap(10),
@@ -174,7 +179,8 @@ class CreditNoteDetailsPage extends StatelessWidget {
                       children: state.creditNoteDetailsModel?.transactions
                               ?.map(
                                 (e) => Container(
-                                  margin: const EdgeInsets.symmetric(vertical: 5),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 5),
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
                                     color: kWhite,
@@ -187,7 +193,8 @@ class CreditNoteDetailsPage extends StatelessWidget {
                                     ],
                                   ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         crossAxisAlignment:
@@ -204,8 +211,10 @@ class CreditNoteDetailsPage extends StatelessWidget {
                                           ),
                                           const Gap(10),
                                           Container(
-                                              padding: const EdgeInsets.symmetric(
-                                                  horizontal: 10, vertical: 5),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 5),
                                               decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(10),

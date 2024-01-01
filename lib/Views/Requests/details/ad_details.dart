@@ -312,7 +312,7 @@ class AdDetailsPage extends StatelessWidget {
           child: Column(
             children: data
                 .map(
-                  (e) =>  OwnersPage()
+                  (e) => const OwnersPage()
                       .documentInfo(context, e["name"], url: e["url"]),
                 )
                 .toList(),

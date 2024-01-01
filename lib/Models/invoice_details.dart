@@ -146,10 +146,10 @@ class InvoiceDetailsModel {
         isBalanced: json["is_balanced"],
         description: json["description"],
         pdfUrl: json["pdf_url"],
-        transactions: json["transactions"] == null
+        transactions: json["vat_transactions"] == null
             ? []
             : List<Transaction>.from(
-                json["transactions"]!.map((x) => Transaction.fromJson(x))),
+                json["vat_transactions"]!.map((x) => Transaction.fromJson(x))),
         documents: json["documents"] == null
             ? []
             : List<dynamic>.from(json["documents"]!.map((x) => x)),

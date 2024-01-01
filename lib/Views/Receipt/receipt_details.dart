@@ -23,10 +23,13 @@ class ReceiptDetailsPage extends StatelessWidget {
             return const CustomLoader();
           }
           return RefreshIndicator(
-            onRefresh: ()async{
-              context.read<ReceiptDetailsCubit>().getReceiptDetails(context, receiptId);
+            onRefresh: () async {
+              context
+                  .read<ReceiptDetailsCubit>()
+                  .getReceiptDetails(context, receiptId);
             },
             child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Column(
@@ -39,9 +42,9 @@ class ReceiptDetailsPage extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: kGrey.shade100),
-                          child: const Icon(
-                            Icons.person_outline,
-                            size: 30,
+                          child: Image.asset(
+                            "assets/logo.png",
+                            width: 40,
                           ),
                         ),
                         const Gap(10),
@@ -115,8 +118,8 @@ class ReceiptDetailsPage extends StatelessWidget {
                               ),
                               const Gap(10),
                               CustomText(
-                                text: state
-                                        .receiptDetailsModel?.association?.name ??
+                                text: state.receiptDetailsModel?.association
+                                        ?.name ??
                                     "",
                                 fontsize: 12,
                                 color: kGrey,
@@ -134,8 +137,9 @@ class ReceiptDetailsPage extends StatelessWidget {
                           const Gap(10),
                           RowText(
                             text: "Unit:",
-                            text2: state.receiptDetailsModel?.unitwise?[0].name ??
-                                "",
+                            text2:
+                                state.receiptDetailsModel?.unitwise?[0].name ??
+                                    "",
                           ),
                           const Gap(10),
                           RowText(
@@ -145,7 +149,8 @@ class ReceiptDetailsPage extends StatelessWidget {
                           const Gap(10),
                           RowText(
                             text: "Payment Method:",
-                            text2: state.receiptDetailsModel?.paymentMethod ?? "",
+                            text2:
+                                state.receiptDetailsModel?.paymentMethod ?? "",
                           ),
                           const Gap(10),
                           RowText(
@@ -199,7 +204,8 @@ class ReceiptDetailsPage extends StatelessWidget {
                       children: state.receiptDetailsModel?.transactions
                               ?.map(
                                 (e) => Container(
-                                  margin: const EdgeInsets.symmetric(vertical: 5),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 5),
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
                                     color: kWhite,
@@ -212,7 +218,8 @@ class ReceiptDetailsPage extends StatelessWidget {
                                     ],
                                   ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         crossAxisAlignment:
@@ -229,8 +236,10 @@ class ReceiptDetailsPage extends StatelessWidget {
                                           ),
                                           const Gap(10),
                                           Container(
-                                              padding: const EdgeInsets.symmetric(
-                                                  horizontal: 10, vertical: 5),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 5),
                                               decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(10),

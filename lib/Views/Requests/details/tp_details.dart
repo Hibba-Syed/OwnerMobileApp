@@ -301,7 +301,7 @@ class TpDetailsPage extends StatelessWidget {
                                     trailing: e["url"] == false ||
                                             e["url"] == null
                                         ? null
-                                        :  OwnersPage()
+                                        : const OwnersPage()
                                             .viewButton(context, e["value"]),
                                   ),
                                 )
@@ -493,7 +493,7 @@ class TpDetailsPage extends StatelessWidget {
                                     trailing: e["url"] == false ||
                                             e["url"] == null
                                         ? null
-                                        :  OwnersPage()
+                                        : const OwnersPage()
                                             .viewButton(context, e["value"]),
                                   ),
                                 )
