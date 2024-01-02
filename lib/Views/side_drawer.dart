@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cool_alert/cool_alert.dart';
 import 'package:iskaanowner/Blocs/Logout/logout_cubit.dart';
+import 'package:iskaanowner/Widgets/image_builder.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Models/profile.dart';
@@ -26,15 +27,18 @@ class SideDrawerPage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                const UnitsPage().roundedContainer(
-                  context,
-                  Image.network(
-                    profileModel?.record?.company?.logoUrl ?? "",
-                    width: 95,
-                    height: 95,
-                  ),
+                Container(
                   padding: const EdgeInsets.all(5),
-                  color: kWhite,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: kWhite,
+                  ),
+                  child: ImageBuilder(
+                    url: profileModel?.record?.company?.logoUrl ?? "",
+                    height: 95,
+                    width: 95,
+                    isFit: true,
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
@@ -116,20 +120,23 @@ class SideDrawerPage extends StatelessWidget {
                                                           shape:
                                                               BoxShape.circle,
                                                           color: kWhite),
-                                                  child: Image.network(
-                                                    loginModel.owner?.company
-                                                            ?.logoUrl ??
-                                                        "",
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.1,
+                                                  child: ImageBuilder(
                                                     height:
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .width *
                                                             0.1,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.1,
+                                                    url: loginModel
+                                                            .owner
+                                                            ?.company
+                                                            ?.logoUrl ??
+                                                        "",
+                                                    isFit: true,
                                                   ),
                                                 ),
                                                 if (index == 0)

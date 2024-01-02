@@ -1,4 +1,5 @@
 import 'package:iskaanowner/Blocs/Invoice%20details/invoice_details_cubit.dart';
+import 'package:iskaanowner/Widgets/image_builder.dart';
 
 import '../../Blocs/App Theme/app_theme_cubit.dart';
 import '../../Utils/utils.dart';
@@ -49,8 +50,8 @@ class InvoiceDetailsPage extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: kGrey.shade100),
-                          child: Image.network(
-                            context
+                          child: ImageBuilder(
+                            url: context
                                     .read<ProfileCubit>()
                                     .state
                                     .profileModel
@@ -58,11 +59,9 @@ class InvoiceDetailsPage extends StatelessWidget {
                                     ?.company
                                     ?.logoUrl ??
                                 "",
-                            errorBuilder: (context, error, stackTrace) =>
-                                const SizedBox(
-                                    width: 40,
-                                    child: Icon(Icons.person_outline)),
+                            // height: 40,
                             width: 40,
+                            isFit: true,
                           ),
                         ),
                         const Gap(10),

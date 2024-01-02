@@ -1,4 +1,5 @@
 import 'package:iskaanowner/Blocs/Credit%20Note%20Details/credit_note_details_cubit.dart';
+import 'package:iskaanowner/Widgets/image_builder.dart';
 
 import '../../Blocs/App Theme/app_theme_cubit.dart';
 import '../../Utils/utils.dart';
@@ -48,8 +49,8 @@ class CreditNoteDetailsPage extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: kGrey.shade100),
-                          child: Image.network(
-                            context
+                          child: ImageBuilder(
+                            url: context
                                     .read<ProfileCubit>()
                                     .state
                                     .profileModel
@@ -57,11 +58,9 @@ class CreditNoteDetailsPage extends StatelessWidget {
                                     ?.company
                                     ?.logoUrl ??
                                 "",
-                            errorBuilder: (context, error, stackTrace) =>
-                                const SizedBox(
-                                    width: 40,
-                                    child: Icon(Icons.person_outline)),
+                            // height: 40,
                             width: 40,
+                            isFit: true,
                           ),
                         ),
                         const Gap(10),

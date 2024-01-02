@@ -1,3 +1,5 @@
+import 'package:iskaanowner/Widgets/image_builder.dart';
+
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
@@ -87,20 +89,10 @@ class _CommunitiesListPageState extends State<CommunitiesListPage> {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10),
-                            child: Image.network(
-                              communitiesDatum?.backgroundImageUrl ?? "",
+                            child: ImageBuilder(
+                              url: communitiesDatum?.backgroundImageUrl ?? "",
                               height: 120,
-                              width: 120,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  const UnitsPage().roundedContainer(
-                                      context,
-                                      const Icon(
-                                        Icons.image_outlined,
-                                      ),
-                                      color: kGrey.shade300,
-                                      height: 120,
-                                      width: 120),
+                              width:120,
                             ),
                           ),
                           const SizedBox(

@@ -1,5 +1,6 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
+import 'package:iskaanowner/Widgets/image_builder.dart';
 
 import '../Utils/utils.dart';
 
@@ -127,11 +128,11 @@ class CompaniesPage extends StatelessWidget {
                                     MediaQuery.of(context).size.width * 0.05),
                                 decoration: const BoxDecoration(
                                     shape: BoxShape.circle, color: kWhite),
-                                child: Image.network(
-                                  loginModel.owner?.company?.logoUrl ?? "",
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.1,
+                                child: ImageBuilder(
+                                  url: loginModel.owner?.company?.logoUrl ?? "",
                                   height:
+                                      MediaQuery.of(context).size.width * 0.1,
+                                  width:
                                       MediaQuery.of(context).size.width * 0.1,
                                 ),
                               ),
