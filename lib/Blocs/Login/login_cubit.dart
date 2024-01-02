@@ -45,7 +45,7 @@ class LoginCubit extends Cubit<LoginState> {
               ));
               Global.storageService
                   .setLoginCreds([state.email, state.password]);
-              context.read<AppThemeCubit>().onChangeAppTheme(const SplashPage()
+              context.read<AppThemeCubit>().onChangeAppTheme(const ProfilePage()
                   .parseHexColor(state.loginModel?.owner?.company?.themeColor ??
                       "#751b50"));
               const LoginPage().initialCalls(context);

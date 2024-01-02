@@ -40,7 +40,13 @@ class RequestsPage extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
-            const CustomSearch(),
+            CustomSearch(
+              initialValue: context.read<RequestsCubit>().state.keyword,
+              onSubmitted: (value) {
+                context.read<RequestsCubit>().onChangeKeyword(value);
+                context.read<RequestsCubit>().getRequests(context, unitId);
+              },
+            ),
             const SizedBox(
               height: 10,
             ),

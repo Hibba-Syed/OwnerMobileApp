@@ -5,11 +5,17 @@ import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
 
 import '../Utils/utils.dart';
 
-class SplashPage extends StatelessWidget {
+class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<SplashPage> createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> {
+  @override
+  void initState() {
+    super.initState();
     context.read<AuthenticationCubit>().isDeviceSupported(context);
     context.read<AuthenticationCubit>().getAvailableBiometric(context);
 
@@ -24,14 +30,15 @@ class SplashPage extends StatelessWidget {
             .read<AuthenticationCubit>()
             .isDeviceSupported(context)
             .then((value) {
-          context.read<AppThemeCubit>().onChangeAppTheme(parseHexColor(context
-                  .read<ProfileCubit>()
-                  .state
-                  .profileModel
-                  ?.record
-                  ?.company
-                  ?.themeColor ??
-              " #751b50"));
+          context.read<AppThemeCubit>().onChangeAppTheme(const ProfilePage()
+              .parseHexColor(context
+                      .read<ProfileCubit>()
+                      .state
+                      .profileModel
+                      ?.record
+                      ?.company
+                      ?.themeColor ??
+                  "#751b50"));
           Future.delayed(3.seconds, () {
             if (value == true) {
               return Navigator.pushReplacementNamed(
@@ -42,11 +49,14 @@ class SplashPage extends StatelessWidget {
         });
       });
     } else {
-      Future.delayed(3.seconds, () {
+      Future.delayed(4.seconds, () {
         Navigator.pushReplacementNamed(context, AppRoutes.login);
       });
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
@@ -69,13 +79,5 @@ class SplashPage extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Color parseHexColor(String hexColor) {
-    hexColor = hexColor.replaceAll("#", "");
-    int hexValue = int.parse(hexColor, radix: 16);
-
-    return Color(hexValue)
-        .withAlpha(0xFF); // Ensure full opacity (alpha value of 0xFF)
   }
 }

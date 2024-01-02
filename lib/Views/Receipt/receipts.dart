@@ -42,10 +42,10 @@ class ReceiptsPage extends StatelessWidget {
           children: [
             CustomSearch(
               initialValue: context.read<ReceiptsCubit>().state.keyword,
-              onChanged: (value) =>
-                  context.read<ReceiptsCubit>().onChangeKeyword(value),
-              onSubmitted: (value) =>
-                  context.read<ReceiptsCubit>().getReceipts(context, unitId),
+              onSubmitted: (value) {
+                context.read<ReceiptsCubit>().onChangeKeyword(value);
+                context.read<ReceiptsCubit>().getReceipts(context, unitId);
+              },
             ),
             const SizedBox(
               height: 10,

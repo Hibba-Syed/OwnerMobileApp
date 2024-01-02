@@ -26,13 +26,7 @@ class SharedDocumentPage extends StatelessWidget {
     );
   }
 
-  DataColumn sharedDocumentDataColumn(String text) {
-    return DataColumn(
-        label: CustomText(
-      text: text,
-      fontWeight: FontWeight.bold,
-    ));
-  }
+
 
   Widget sharedDocumentWidget(BuildContext context,
       SharedDocument? sharedDocumentsRecord, int? unitId) {

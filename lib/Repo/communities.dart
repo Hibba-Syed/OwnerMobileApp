@@ -27,11 +27,14 @@ class CommunitiesService {
   static Future<Object?> getSharedDocuments(
       BuildContext context, int? unitId, int page) async {
     return await ExceptionService.applyTryCatch(() async {
+      String url =
+          "$baseUrl/mobile/owner/property/unit-shared-documents/$unitId?page=$page";
+      if (unitId == null) {
+        url = "$baseUrl/mobile/owner/profile/shared-documents?page=$page";
+      }
       return await http.get(
           Uri.parse(
-            unitId == null
-                ? "$baseUrl/mobile/owner/profile/shared-documents?page=$page"
-                : "$baseUrl/mobile/owner/property/unit-shared-documents/$unitId?page=$page",
+            url,
           ),
           headers: {
             "Authorization":

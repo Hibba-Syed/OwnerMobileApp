@@ -44,10 +44,14 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
           return const CustomLoader();
         }
         if (state.sharedDocumentsModel?.sharedDocuments?.isEmpty ?? true) {
-          return const CreditNotesPage()
-              .emptyList(lottie: "assets/document.json",ontap:(){context
-                      .read<SharedDocumentsCubit>()
-                      .getSharedDocuments(context);});
+          return const CreditNotesPage().emptyList(
+            lottie: "assets/document.json",
+            ontap: () {
+              context
+                  .read<SharedDocumentsCubit>()
+                  .getSharedDocuments(context, unitId: widget.unitId);
+            },
+          );
         }
         return Column(
           children: [
@@ -56,7 +60,7 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
                 onRefresh: () async {
                   context
                       .read<SharedDocumentsCubit>()
-                      .getSharedDocuments(context);
+                      .getSharedDocuments(context, unitId: widget.unitId);
                 },
                 child: GridView.builder(
                   padding: const EdgeInsets.all(10),

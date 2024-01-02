@@ -11,22 +11,26 @@ class SendOtpCubit extends Cubit<SendOtpState> {
     emit(state.copyWith(email: email));
   }
 
-  Future<void> sendOTP(BuildContext context) async {
+  Future<bool> sendOTP(BuildContext context, {bool pushPage = true}) async {
     emit(state.copyWith(loadingState: LoadingState.loading));
-    await UserService.sendOTP(context, state.email).then((value) {
+    return await UserService.sendOTP(context, state.email).then((value) {
       if (value is Success) {
         Fluttertoast.showToast(msg: "Otp sent successfully");
-        Navigator.pushNamed(context, AppRoutes.otpVerification,
-            arguments: state.email);
-        return emit(state.copyWith(
+        if (pushPage) {
+          Navigator.pushNamed(context, AppRoutes.otpVerification,
+              arguments: state.email);
+        }
+        emit(state.copyWith(
           loadingState: LoadingState.success,
         ));
+        return true;
       }
       value as Failure;
       Fluttertoast.showToast(
         msg: "Unable to send OTP",
       );
       emit(state.copyWith(loadingState: LoadingState.error));
+      return false;
     });
   }
 }

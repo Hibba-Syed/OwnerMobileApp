@@ -28,7 +28,7 @@ class UnitDetailsPage extends StatelessWidget {
             Fluttertoast.showToast(msg: 'No service available');
           } else {
             await launchUrl(Uri.parse(
-              "http://onlinistfze.synergic360.com/$unitSlug",
+              "http://${context.read<ProfileCubit>().state.profileModel?.record?.company?.slug}.synergic360.com/$unitSlug",
             ));
           }
         },
@@ -114,7 +114,8 @@ class UnitDetailsPage extends StatelessWidget {
               context
                   .read<SharedDocumentsCubit>()
                   .getSharedDocuments(context, unitId: unitId);
-              Navigator.pushNamed(context, AppRoutes.sharedDocument);
+              Navigator.pushNamed(context, AppRoutes.sharedDocument,
+                  arguments: unitId);
             },
             buttonColor: context
                 .read<AppThemeCubit>()
@@ -169,6 +170,7 @@ class UnitDetailsPage extends StatelessWidget {
         "name": "Requests",
         "icon": Icons.notifications_outlined,
         "onTap": () {
+          context.read<RequestsCubit>().onChangeKeyword("");
           context.read<RequestsCubit>().resetFilters();
           context.read<RequestsCubit>().getRequests(context, unitId);
           return Navigator.pushNamed(
@@ -185,6 +187,7 @@ class UnitDetailsPage extends StatelessWidget {
         "name": "Compliances",
         "icon": Icons.done,
         "onTap": () {
+          context.read<CompliancesCubit>().onChangeKeyword("");
           context.read<CompliancesCubit>().getCompliances(context, unitId);
           return Navigator.pushNamed(
             context,
@@ -235,6 +238,7 @@ class UnitDetailsPage extends StatelessWidget {
         "name": "Invoices",
         "icon": Icons.receipt_long,
         "onTap": () {
+          context.read<InvoicesCubit>().onChangeKeyword("");
           context.read<InvoicesCubit>().reset();
           context.read<InvoicesCubit>().getInvoices(context, unitId);
           return Navigator.pushNamed(
@@ -251,6 +255,7 @@ class UnitDetailsPage extends StatelessWidget {
         "name": "Receipts",
         "icon": Icons.receipt,
         "onTap": () {
+          context.read<ReceiptsCubit>().onChangeKeyword("");
           context.read<ReceiptsCubit>().reset();
           context.read<ReceiptsCubit>().getReceipts(context, unitId);
           return Navigator.pushNamed(
@@ -267,6 +272,7 @@ class UnitDetailsPage extends StatelessWidget {
         "name": "Credit Notes",
         "icon": Icons.note,
         "onTap": () {
+          context.read<CreditNotesCubit>().onChangeKeyword("");
           context.read<CreditNotesCubit>().reset();
           context.read<CreditNotesCubit>().getCreditNotes(context, unitId);
           return Navigator.pushNamed(

@@ -48,11 +48,12 @@ class CreditNotesPage extends StatelessWidget {
           children: [
             CustomSearch(
               initialValue: context.read<CreditNotesCubit>().state.keyword,
-              onChanged: (value) =>
-                  context.read<CreditNotesCubit>().onChangeKeyword(value),
-              onSubmitted: (value) => context
-                  .read<CreditNotesCubit>()
-                  .getCreditNotes(context, unitId),
+              onSubmitted: (value) {
+                context.read<CreditNotesCubit>().onChangeKeyword(value);
+                context
+                    .read<CreditNotesCubit>()
+                    .getCreditNotes(context, unitId);
+              },
             ),
             const SizedBox(
               height: 10,

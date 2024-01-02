@@ -9,6 +9,8 @@ class HappinessCenterPage extends StatelessWidget {
   const HappinessCenterPage({super.key});
   @override
   Widget build(BuildContext context) {
+    List<String> unitList = ["Select"];
+    List<String> commonAreaList = ["Select"];
     final GlobalKey<FormState> formKey = GlobalKey();
     return Scaffold(
       appBar: BaseAppBar(
@@ -103,18 +105,34 @@ class HappinessCenterPage extends StatelessWidget {
                     return inputDropDown(
                       context,
                       "Unit*",
-                      (state.unitsModel?.units
+                      (state.unitsModel?.record
                               ?.map((e) => e.unitNumber ?? "")
                               .toList() ??
                           [])
                         ..insert(0, "Select"),
                       loadingState: state.loadingState,
                       onSelected: (value) {
-                        int? index = state.unitsModel?.units?.indexWhere(
+                        int? index = state.unitsModel?.record?.indexWhere(
                             (element) => element.unitNumber == value);
                         if (index != null && index != -1) {
                           context.read<HappinessCenterCubit>().onChangeUnitId(
-                              state.unitsModel?.units?[index].unitId);
+                              state.unitsModel?.record?[index].id);
+                          unitList = ["Select"];
+                          unitList.addAll(
+                            state.unitsModel?.record?[index]
+                                    .happinessCenterConfig?.unit
+                                    ?.map((e) => e.serviceName ?? "")
+                                    .toList() ??
+                                [],
+                          );
+                          commonAreaList = ["Select"];
+                          commonAreaList.addAll(
+                            state.unitsModel?.record?[index]
+                                    .happinessCenterConfig?.commonArea
+                                    ?.map((e) => e.serviceName ?? "")
+                                    .toList() ??
+                                [],
+                          );
                         }
                       },
                     );
@@ -264,8 +282,8 @@ class HappinessCenterPage extends StatelessWidget {
                               context,
                               "Service",
                               state.radioValue.toLowerCase() == "unit"
-                                  ? ["Select", "Repair"]
-                                  : ["Select", "Cleaning"],
+                                  ? unitList
+                                  : commonAreaList,
                               onSelected: (value) {
                                 if (value?.toLowerCase() != "select") {
                                   context

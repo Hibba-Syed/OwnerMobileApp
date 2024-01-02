@@ -195,6 +195,7 @@ class SideDrawerPage extends StatelessWidget {
                                             context.read<LoginCubit>();
                                         showModalBottomSheet(
                                             context: context,
+                                            isScrollControlled: true,
                                             builder: (context) => addNewAccount(
                                                 context, key, loginCubit));
                                       }),
@@ -299,103 +300,201 @@ class SideDrawerPage extends StatelessWidget {
 
   Widget addNewAccount(
       BuildContext context, GlobalKey<FormState> key, LoginCubit loginCubit) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: Padding(
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: Padding(
           padding: const EdgeInsets.all(10),
           child: BlocBuilder<LoginCubit, LoginState>(
             builder: (context, state) {
-              return SingleChildScrollView(
-                child: Form(
-                  key: key,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Gap(10),
-                      CustomText(
-                        text: "Add Account",
-                        fontWeight: FontWeight.bold,
-                        color: context.read<AppThemeCubit>().state.primaryColor,
-                        fontsize: 20,
-                      ),
-                      const Gap(10),
-                      const LoginPage().textFieldWithText(
-                        context,
-                        "Email",
-                        hintText: "Enter the email",
-                        prefex: Icon(
-                          Icons.email_outlined,
-                          color:
-                              context.read<AppThemeCubit>().state.primaryColor,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Field is mandatory";
-                          }
-                          if (!value.contains("@")) {
-                            return "Enter a Valid email";
-                          }
-                          return null;
-                        },
-                        onChanged: (email) => loginCubit.onChangeEmail(email),
-                      ),
-                      const LoginPage().textFieldWithText(
-                        context,
-                        "Password",
-                        hintText: "Enter password",
-                        obscure: state.obsure,
-                        prefex: Icon(
-                          Icons.lock_outline,
-                          color:
-                              context.read<AppThemeCubit>().state.primaryColor,
-                        ),
-                        suffix: IconButton(
-                          onPressed: () {
-                            loginCubit.onChangeObsure(!state.obsure);
-                          },
-                          icon: Icon(
-                            Icons.visibility_outlined,
-                            color: context
-                                .read<AppThemeCubit>()
-                                .state
-                                .primaryColor,
+              return Column(
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: SingleChildScrollView(
+                        child: Form(
+                          key: key,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Gap(20),
+                              CustomText(
+                                text: "Add Account",
+                                fontWeight: FontWeight.bold,
+                                color: context
+                                    .read<AppThemeCubit>()
+                                    .state
+                                    .primaryColor,
+                                fontsize: 20,
+                              ),
+                              const Gap(10),
+                              const LoginPage().textFieldWithText(
+                                context,
+                                "Email",
+                                hintText: "Enter the email",
+                                prefex: Icon(
+                                  Icons.email_outlined,
+                                  color: context
+                                      .read<AppThemeCubit>()
+                                      .state
+                                      .primaryColor,
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Field is mandatory";
+                                  }
+                                  if (!value.contains("@")) {
+                                    return "Enter a Valid email";
+                                  }
+                                  return null;
+                                },
+                                onChanged: (email) =>
+                                    loginCubit.onChangeEmail(email),
+                              ),
+                              const LoginPage().textFieldWithText(
+                                context,
+                                "Password",
+                                hintText: "Enter password",
+                                obscure: state.obsure,
+                                prefex: Icon(
+                                  Icons.lock_outline,
+                                  color: context
+                                      .read<AppThemeCubit>()
+                                      .state
+                                      .primaryColor,
+                                ),
+                                suffix: IconButton(
+                                  onPressed: () {
+                                    loginCubit.onChangeObsure(!state.obsure);
+                                  },
+                                  icon: Icon(
+                                    Icons.visibility_outlined,
+                                    color: context
+                                        .read<AppThemeCubit>()
+                                        .state
+                                        .primaryColor,
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Field is mandatory";
+                                  }
+                                  if (context.read<LoginCubit>().state.email ==
+                                          context
+                                              .read<LoginCubit>()
+                                              .state
+                                              .loginModel
+                                              ?.owner
+                                              ?.email &&
+                                      value ==
+                                          Global.storageService
+                                              .getLoginCreds()?[1]) {
+                                    return "Already logged in with this email";
+                                  }
+                                  return null;
+                                },
+                                onChanged: (password) =>
+                                    loginCubit.onChangePassword(password),
+                              ),
+                              const Gap(10),
+                              Builder(
+                                builder: (context) {
+                                  if (state.loadingState ==
+                                      LoadingState.loading) {
+                                    return const SizedBox(
+                                        height: 50,
+                                        child: Center(
+                                            child:
+                                                CircularProgressIndicator()));
+                                  }
+                                  return CustomButton(
+                                      text: "Login",
+                                      function: () {
+                                        if (key.currentState?.validate() ??
+                                            false) {
+                                          loginCubit.loginUser(context);
+                                        }
+                                      });
+                                },
+                              ),
+                              const Gap(20),
+                              Container(
+                                margin: const EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: kGrey.shade200,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const CustomText(
+                                      text: "Note : ",
+                                      color: kBlack,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          CustomText(
+                                            text:
+                                                "If you see (Already Logged in with this email)",
+                                            color: kGrey.shade900,
+                                            fontsize: 12,
+                                          ),
+                                          CustomText(
+                                            text:
+                                                "This means the email is already used and synced",
+                                            fontsize: 12,
+                                            color: kGrey.shade700,
+                                          ),
+                                          const Gap(10),
+                                          CustomText(
+                                            text:
+                                                "Syncing new profiles guide :",
+                                            fontsize: 12,
+                                            color: kGrey.shade900,
+                                          ),
+                                          const Gap(10),
+                                          CustomText(
+                                            text:
+                                                "If you want to add new profiles using same credentials. Please logout and login again.",
+                                            fontsize: 12,
+                                            color: kGrey.shade700,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const Gap(20),
+                            ],
                           ),
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Field is mandatory";
-                          }
-                          return null;
-                        },
-                        onChanged: (password) =>
-                            loginCubit.onChangePassword(password),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Builder(
-                        builder: (context) {
-                          if (state.loadingState == LoadingState.loading) {
-                            return const SizedBox(
-                                height: 50,
-                                child:
-                                    Center(child: CircularProgressIndicator()));
-                          }
-                          return CustomButton(
-                              text: "Login",
-                              function: () {
-                                if (key.currentState?.validate() ?? false) {
-                                  loginCubit.loginUser(context);
-                                }
-                              });
-                        },
-                      )
-                    ],
+                    ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: CustomButton(
+                        text: "Go back",
+                        icon: Icon(
+                          Icons.arrow_circle_left_outlined,
+                          color:
+                              context.read<AppThemeCubit>().state.primaryColor,
+                        ),
+                        textColor:
+                            context.read<AppThemeCubit>().state.primaryColor,
+                        invert: true,
+                        function: () {
+                          Navigator.pop(context);
+                        }),
+                  )
+                ],
               );
             },
           ),
@@ -431,12 +530,9 @@ class SideDrawerPage extends StatelessWidget {
             .read<AuthenticationCubit>()
             .isDeviceSupported(context)
             .then((value) {
-          context.read<AppThemeCubit>().onChangeAppTheme(const SplashPage()
-              .parseHexColor(context
-                      .read<ProfileCubit>()
-                      .state
-                      .profileModel
-                      ?.record
+          context.read<AppThemeCubit>().onChangeAppTheme(const ProfilePage()
+              .parseHexColor(LoginModel.fromJson(users[index])
+                      .owner
                       ?.company
                       ?.themeColor ??
                   "#751b50"));

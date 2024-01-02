@@ -15,7 +15,7 @@ class LedgerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> arguments =
-    ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     String? unitNumber = arguments['unit_no'];
     int? unitId = arguments['unit_id'];
     return DefaultTabController(
@@ -129,13 +129,13 @@ class LedgerPage extends StatelessWidget {
                   dividerColor: kTransparent,
                   tabs: const [
                     Tab(
-                      text: "By Statement",
+                      text: "Statement",
                     ),
                     Tab(
-                      text: "By Date",
+                      text: "Date",
                     ),
                     Tab(
-                      text: "By Account",
+                      text: "Account",
                     ),
                   ],
                 ),
@@ -382,7 +382,7 @@ class LedgerPage extends StatelessWidget {
       page = AppRoutes.invoiceDetails;
     }
     if (page != null) {
-      Navigator.pushNamed(context, page,arguments: id);
+      Navigator.pushNamed(context, page, arguments: id);
     }
   }
 }

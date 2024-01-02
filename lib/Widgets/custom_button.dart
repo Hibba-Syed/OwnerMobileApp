@@ -45,7 +45,8 @@ class CustomButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             border: invert == true
                 ? Border.all(
-                    color: context.read<AppThemeCubit>().state.primaryColor,
+                    color: buttonColor ??
+                        context.read<AppThemeCubit>().state.primaryColor,
                     width: 1)
                 : null,
             color: invert == true

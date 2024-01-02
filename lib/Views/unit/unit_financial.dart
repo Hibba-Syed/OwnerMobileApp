@@ -51,7 +51,7 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
           if (state.loadingState == LoadingState.loading) {
             return const CustomLoader();
           }
-          if (state.loadingState == LoadingState.error || state.selectedUnits.isEmpty) {
+          if (state.unitFinancialsModel?.unitSummaries?.isEmpty ?? true) {
             return const CreditNotesPage().emptyList(
               ontap: () => context
                   .read<UnitFinancialsCubit>()

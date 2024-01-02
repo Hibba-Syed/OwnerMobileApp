@@ -25,6 +25,27 @@ class UnitsService {
     });
   }
 
+  static Future<Object?> getDropdownUnits(
+    BuildContext context,
+    int? id,
+  ) async {
+    return await ExceptionService.applyTryCatch(() async {
+      return await http.get(
+          Uri.parse(
+            "$baseUrl/mobile/services/units?association_id=$id",
+          ),
+          headers: {
+            "Authorization":
+                "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+          }).then((value) {
+        if (value.statusCode == 200) {
+          return Success(200, value.body);
+        }
+        return Failure(400, jsonDecode(value.body)["message"]);
+      });
+    });
+  }
+
   static Future<Object?> getUnitOwners(BuildContext context, int? id) async {
     return await ExceptionService.applyTryCatch(() async {
       return await http.get(

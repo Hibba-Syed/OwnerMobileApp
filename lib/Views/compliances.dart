@@ -24,11 +24,12 @@ class CompliancesPage extends StatelessWidget {
           children: [
             CustomSearch(
               initialValue: context.read<CompliancesCubit>().state.keyword,
-              onChanged: (value) =>
-                  context.read<CompliancesCubit>().onChangeKeyword(value),
-              onSubmitted: (value) => context
-                  .read<CompliancesCubit>()
-                  .getCompliances(context, unitId),
+              onSubmitted: (value) {
+                context.read<CompliancesCubit>().onChangeKeyword(value);
+                context
+                    .read<CompliancesCubit>()
+                    .getCompliances(context, unitId);
+              },
             ),
             const SizedBox(
               height: 10,

@@ -36,7 +36,7 @@ class CompaniesPage extends StatelessWidget {
                 if (isLoaded) {
                   Navigator.pop(context);
                   context.read<AppThemeCubit>().onChangeAppTheme(
-                      const SplashPage().parseHexColor(
+                      const ProfilePage().parseHexColor(
                           loginModelList?[0].owner?.company?.themeColor ??
                               "#751b50"));
                   const LoginPage().initialCalls(context);
@@ -78,53 +78,95 @@ class CompaniesPage extends StatelessWidget {
                   itemCount: loginModelList?.length,
                   itemBuilder: (BuildContext context, int index) {
                     LoginModel loginModel = loginModelList![index];
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Stack(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(
-                                  MediaQuery.of(context).size.width * 0.05),
-                              decoration: const BoxDecoration(
-                                  shape: BoxShape.circle, color: kWhite),
-                              child: Image.network(
-                                loginModel.owner?.company?.logoUrl ?? "",
-                                width: MediaQuery.of(context).size.width * 0.1,
-                                height: MediaQuery.of(context).size.width * 0.1,
-                              ),
-                            ),
-                            Positioned(
-                              right: 0,
-                              top: 0,
-                              child: Container(
-                                padding: const EdgeInsets.all(5),
+                    return InkWell(
+                      onTap: () {
+                        CoolAlert.show(
+                            context: context,
+                            type: CoolAlertType.loading,
+                            barrierDismissible: false,
+                            lottieAsset: "assets/loader.json");
+                        for (LoginModel loginModel in loginModelList) {
+                          Global.storageService
+                              .setAuthenticationModelString(loginModel);
+                        }
+                        Global.storageService.setAuthenticationModelString(
+                            loginModel,
+                            addItInFront: true,
+                            index: index);
+                        context
+                            .read<LoginCubit>()
+                            .onChangeLoginModel(loginModel);
+                        context
+                            .read<ProfileCubit>()
+                            .getProfile(context)
+                            .then((isLoaded) {
+                          if (isLoaded) {
+                            Navigator.pop(context);
+                            context.read<AppThemeCubit>().onChangeAppTheme(
+                                const ProfilePage().parseHexColor(
+                                    loginModel.owner?.company?.themeColor ??
+                                        "#751b50"));
+                            const LoginPage().initialCalls(context);
+                            return Navigator.pushReplacementNamed(
+                                context, AppRoutes.dashboard);
+                          } else {
+                            Navigator.pop(context);
+                            Fluttertoast.showToast(
+                                msg:
+                                    "Unable to load profile, please try again !");
+                          }
+                        });
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Stack(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(
+                                    MediaQuery.of(context).size.width * 0.05),
                                 decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.green),
-                                child: const Icon(
-                                  Icons.done,
-                                  color: kWhite,
-                                  size: 15,
+                                    shape: BoxShape.circle, color: kWhite),
+                                child: Image.network(
+                                  loginModel.owner?.company?.logoUrl ?? "",
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.1,
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.1,
                                 ),
                               ),
-                            )
-                          ],
-                        ),
-                        CustomText(
-                          text:
-                              "${loginModel.owner?.firstName?.capitalize() ?? " -- "} ${loginModel.owner?.lastName?.capitalize() ?? " -- "}",
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                        ),
-                        CustomText(
-                          text: loginModel.owner?.company?.name ?? "",
-                          fontsize: 12,
-                          maxLines: 2,
-                          color: kGrey,
-                          textAlign: TextAlign.center,
-                        )
-                      ],
+                              Positioned(
+                                right: 0,
+                                top: 0,
+                                child: Container(
+                                  padding: const EdgeInsets.all(5),
+                                  decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.green),
+                                  child: const Icon(
+                                    Icons.done,
+                                    color: kWhite,
+                                    size: 15,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          CustomText(
+                            text:
+                                "${loginModel.owner?.firstName?.capitalize() ?? " -- "} ${loginModel.owner?.lastName?.capitalize() ?? " -- "}",
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                          ),
+                          CustomText(
+                            text: loginModel.owner?.company?.name ?? "",
+                            fontsize: 12,
+                            maxLines: 2,
+                            color: kGrey,
+                            textAlign: TextAlign.center,
+                          )
+                        ],
+                      ),
                     );
                   },
                 ),
