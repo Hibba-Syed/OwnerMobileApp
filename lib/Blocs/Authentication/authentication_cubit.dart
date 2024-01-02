@@ -45,7 +45,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       )
           .then((value) {
         emit(state.copyWith(isAuthenticating: false));
-        if (loginAuth) {
+        if (loginAuth && value == true) {
           return context.read<LoginCubit>().loginUser(context);
         }
         if (value == true) {

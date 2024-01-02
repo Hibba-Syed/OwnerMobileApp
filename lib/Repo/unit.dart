@@ -91,7 +91,7 @@ class UnitsService {
     int page,
   ) async {
     return await ExceptionService.applyTryCatch(() async {
-      String filter = "?keyword=";
+      String filter = "?keyword=$keyword";
       if (requestType != null && requestType.toLowerCase() != "select") {
         filter = "$filter&application_type=$requestType";
       }
