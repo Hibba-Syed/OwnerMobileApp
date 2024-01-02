@@ -294,7 +294,7 @@ class InvoiceDetailsPage extends StatelessWidget {
                                               : e.description ?? " -- "),
                                       RowText(
                                         text: "Vat",
-                                        text2: (e.vat ?? 0).toString(),
+                                        text2: formatCurrency(e.vat ?? 0),
                                       ),
                                       RowText(
                                         text: "Amount",

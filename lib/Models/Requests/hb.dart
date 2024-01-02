@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'ad.dart';
+
 HbDetailsModel hbDetailsModelFromJson(String str) =>
     HbDetailsModel.fromJson(json.decode(str));
 
@@ -455,90 +457,6 @@ class Application {
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
         "deleted_at": deletedAt,
-      };
-}
-
-class Association {
-  int? id;
-  String? name;
-  int? remainingUnit;
-  String? aboutPageImageUrl;
-  String? backgroundImageUrl;
-  String? logoImageUrl;
-  String? fullAddress;
-  double? unitsArea;
-  double? applicableArea;
-  double? suiteArea;
-  double? balconyArea;
-  String? filledParkings;
-  dynamic subdomain;
-  String? contractUrl;
-  dynamic gmap;
-  int? paymentGatewayEnabled;
-  dynamic city;
-  dynamic associationType;
-
-  Association({
-    this.id,
-    this.name,
-    this.remainingUnit,
-    this.aboutPageImageUrl,
-    this.backgroundImageUrl,
-    this.logoImageUrl,
-    this.fullAddress,
-    this.unitsArea,
-    this.applicableArea,
-    this.suiteArea,
-    this.balconyArea,
-    this.filledParkings,
-    this.subdomain,
-    this.contractUrl,
-    this.gmap,
-    this.paymentGatewayEnabled,
-    this.city,
-    this.associationType,
-  });
-
-  factory Association.fromJson(Map<String, dynamic> json) => Association(
-        id: json["id"],
-        name: json["name"],
-        remainingUnit: json["remaining_unit"],
-        aboutPageImageUrl: json["about_page_image_url"],
-        backgroundImageUrl: json["background_image_url"],
-        logoImageUrl: json["logo_image_url"],
-        fullAddress: json["full_address"],
-        unitsArea: json["units_area"]?.toDouble(),
-        applicableArea: json["applicable_area"]?.toDouble(),
-        suiteArea: json["suite_area"]?.toDouble(),
-        balconyArea: json["balcony_area"]?.toDouble(),
-        filledParkings: json["filled_parkings"]?.toString(),
-        subdomain: json["subdomain"],
-        contractUrl: json["contract_url"],
-        gmap: json["gmap"],
-        paymentGatewayEnabled: json["payment_gateway_enabled"],
-        city: json["city"],
-        associationType: json["association_type"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "remaining_unit": remainingUnit,
-        "about_page_image_url": aboutPageImageUrl,
-        "background_image_url": backgroundImageUrl,
-        "logo_image_url": logoImageUrl,
-        "full_address": fullAddress,
-        "units_area": unitsArea,
-        "applicable_area": applicableArea,
-        "suite_area": suiteArea,
-        "balcony_area": balconyArea,
-        "filled_parkings": filledParkings,
-        "subdomain": subdomain,
-        "contract_url": contractUrl,
-        "gmap": gmap,
-        "payment_gateway_enabled": paymentGatewayEnabled,
-        "city": city,
-        "association_type": associationType,
       };
 }
 
