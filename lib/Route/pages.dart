@@ -1,4 +1,5 @@
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
+import 'package:iskaanowner/Blocs/Compaines/companies_cubit.dart';
 import 'package:iskaanowner/Blocs/Credit%20Note%20Details/credit_note_details_cubit.dart';
 import 'package:iskaanowner/Blocs/Invoice%20details/invoice_details_cubit.dart';
 import 'package:iskaanowner/Blocs/Logout/logout_cubit.dart';
@@ -74,6 +75,9 @@ class AppPages {
           page: const DashboardPage(),
           bloc: MultiBlocProvider(
             providers: [
+              BlocProvider(
+                create: (context) => CompaniesCubit(),
+              ),
               BlocProvider(
                 create: (context) => DownloadSummaryCubit(),
               ),

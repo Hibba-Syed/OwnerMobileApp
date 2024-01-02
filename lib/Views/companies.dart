@@ -130,6 +130,7 @@ class CompaniesPage extends StatelessWidget {
                                     shape: BoxShape.circle, color: kWhite),
                                 child: ImageBuilder(
                                   url: loginModel.owner?.company?.logoUrl ?? "",
+                                  isFit: true,
                                   height:
                                       MediaQuery.of(context).size.width * 0.1,
                                   width:

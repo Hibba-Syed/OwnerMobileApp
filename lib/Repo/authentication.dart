@@ -23,11 +23,12 @@ class AuthenticationService {
     });
   }
 
-  static Future<Object?> getCompanies(BuildContext context) async {
+  static Future<Object?> getCompanies(
+      BuildContext context, String? email) async {
     return await ExceptionService.applyTryCatch(() async {
       return await http.get(
           Uri.parse(
-            "$baseUrl/mobile/owner/auth/companies?owner_number=${context.read<LoginCubit>().state.loginModel?.owner?.ownerNumber}",
+            "$baseUrl/mobile/owner/auth/companies?email=$email",
           ),
           headers: {
             "Authorization":

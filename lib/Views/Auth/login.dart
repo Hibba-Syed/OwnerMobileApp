@@ -38,7 +38,11 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget loginHeaderImage() {
-    return Image.asset("assets/login_header.png",width: double.infinity,fit: BoxFit.cover,);
+    return Image.asset(
+      "assets/login_header.png",
+      width: double.infinity,
+      fit: BoxFit.cover,
+    );
   }
 
   Widget loginUi(BuildContext context, GlobalKey<FormState> key) {
@@ -166,6 +170,10 @@ class LoginPage extends StatelessWidget {
                             );
                           }),
                           function: () {
+                            if (context.read<LoginCubit>().state.loadingState ==
+                                LoadingState.loading) {
+                              return;
+                            }
                             context.read<LoginCubit>().onChangeEmail(
                                 Global.storageService.getLoginCreds()?[0]);
                             context.read<LoginCubit>().onChangePassword(
@@ -239,9 +247,7 @@ class LoginPage extends StatelessWidget {
           color: context.read<AppThemeCubit>().state.primaryColor,
           fontWeight: FontWeight.bold,
         ),
-        const SizedBox(
-          height: 10,
-        ),
+        const Gap(10),
         CustomTextField(
             initialValue: initialValue,
             fillColor: kGrey.shade200,

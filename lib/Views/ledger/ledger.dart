@@ -284,7 +284,7 @@ class LedgerPage extends StatelessWidget {
                       ?.map((e) => e.name ?? "")
                       .toList() ??
                   []),
-              value: state.ledgerType?.name,
+              initialSelection: state.ledgerType?.name,
               onSelected: (value) {
                 int? index = context
                     .read<LedgerTypesCubit>()
@@ -356,9 +356,10 @@ class LedgerPage extends StatelessWidget {
   }
 
   Widget filterDropdown(List<String> list,
-      {void Function(String?)? onSelected, String? value}) {
+      {void Function(String?)? onSelected, String? initialSelection}) {
     return DropdownMenu<String>(
-      initialSelection: value ?? list.first,
+      initialSelection: initialSelection,
+      hintText: "Select",
       expandedInsets: const EdgeInsets.all(0),
       onSelected: onSelected,
       dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {

@@ -1,3 +1,5 @@
+import 'package:iskaanowner/Models/companies.dart';
+
 import '../../Repo/user.dart';
 import '../../Utils/utils.dart';
 
@@ -18,9 +20,14 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
     emit(state.copyWith(confirmPasswordObscure: confirmPasswordObscure));
   }
 
+  void onChangeComapinesRecord(CompaniesRecord? companiesRecord) {
+    emit(state.copyWith(companiesRecord: companiesRecord));
+  }
+
   Future<void> resetPassword(BuildContext context, String email) async {
     emit(state.copyWith(loadingState: LoadingState.loading));
-    await UserService.resetPassword(context, email, state.newPassword)
+    await UserService.resetPassword(
+            context, email, state.newPassword, state.companiesRecord?.id)
         .then((value) {
       if (value is Success) {
         Fluttertoast.showToast(

@@ -18,9 +18,9 @@ class ImageBuilder extends StatelessWidget {
     return FadeInImage(
       width: width,
       height: height,
-      placeholder: const AssetImage('assets/logo.png'),
+      placeholder: const AssetImage('assets/placeHolder.png'),
       image: (url?.isEmpty ?? true)
-          ? const AssetImage('assets/logo.png')
+          ? const AssetImage('assets/placeHolder.png')
           : NetworkImage(url ?? "") as ImageProvider,
       placeholderFit: BoxFit.contain,
       fit: (isFit ?? false)

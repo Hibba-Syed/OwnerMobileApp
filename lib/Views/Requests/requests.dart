@@ -197,8 +197,8 @@ class RequestsPage extends StatelessWidget {
             ),
             const Gap(10),
             const LedgerPage().filterDropdown(
-              (state.requestsFiltersModel?.applicationType ?? [])
-                ..insert(0, "Select"),
+              state.requestsFiltersModel?.applicationType ?? [],
+              initialSelection: context.read<RequestsCubit>().state.requestType,
               onSelected: (requestType) => context
                   .read<RequestsCubit>()
                   .onChangeRequestType(requestType),
@@ -210,7 +210,8 @@ class RequestsPage extends StatelessWidget {
             ),
             const Gap(10),
             const LedgerPage().filterDropdown(
-              (state.requestsFiltersModel?.status ?? [])..insert(0, "Select"),
+              state.requestsFiltersModel?.status ?? [],
+              initialSelection: context.read<RequestsCubit>().state.status,
               onSelected: (status) =>
                   context.read<RequestsCubit>().onChangeStatus(status),
             ),

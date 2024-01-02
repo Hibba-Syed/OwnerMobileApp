@@ -85,8 +85,8 @@ class UserService {
     });
   }
 
-  static Future<Object?> resetPassword(
-      BuildContext context, String email, String password) async {
+  static Future<Object?> resetPassword(BuildContext context, String email,
+      String password, int? companyId) async {
     return await ExceptionService.applyTryCatch(() async {
       return await http.post(
           Uri.parse(
@@ -99,6 +99,7 @@ class UserService {
           body: {
             "email": email,
             "password": password,
+            if (companyId != null) "company_id": companyId.toString(),
           }).then((value) {
         if (value.statusCode == 201 || value.statusCode == 200) {
           return Success(201, value.body);
