@@ -1,3 +1,4 @@
+import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
 import 'package:iskaanowner/Views/side_drawer.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
@@ -38,17 +39,7 @@ class DashboardPage extends StatelessWidget {
         }),
         automaticallyImplyLeading: true,
         appBar: AppBar(),
-        widgets: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, AppRoutes.notifications);
-            },
-            icon: Icon(
-              Icons.notifications_outlined,
-              color: context.read<AppThemeCubit>().state.primaryColor,
-            ),
-          )
-        ],
+        widgets: [notificationIcon(context)],
         appBarHeight: 50,
       ),
       drawer: const Drawer(
@@ -216,5 +207,18 @@ class DashboardPage extends StatelessWidget {
     } else {
       return input[0].toUpperCase() + input.substring(1).toLowerCase();
     }
+  }
+
+  Widget notificationIcon(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        context.read<NotificationsCubit>().getNotifications(context);
+        Navigator.pushNamed(context, AppRoutes.notifications);
+      },
+      icon: Icon(
+        Icons.notifications_outlined,
+        color: context.read<AppThemeCubit>().state.primaryColor,
+      ),
+    );
   }
 }

@@ -20,7 +20,7 @@ class SsDetailsPage extends StatelessWidget {
         title: "${const AdDetailsPage().getRequestName(type)}\n$reference",
         fontSize: 14,
         appBar: AppBar(),
-        widgets: const [],
+        widgets:[const DashboardPage().notificationIcon(context)],
         appBarHeight: 50,
         automaticallyImplyLeading: true,
       ),
@@ -31,8 +31,9 @@ class SsDetailsPage extends StatelessWidget {
           }
           if (state.ssDetailsModel?.record == null) {
             return const CreditNotesPage().emptyList(ontap: () {
-              context.read<RequestDetailsCubit>().getRequestDetails(
-                  context, requestId, type);
+              context
+                  .read<RequestDetailsCubit>()
+                  .getRequestDetails(context, requestId, type);
             });
           }
           return SingleChildScrollView(
@@ -231,18 +232,15 @@ class SsDetailsPage extends StatelessWidget {
                   const AdDetailsPage().supportingDocuments(context, [
                     {
                       "name": "Title Deed",
-                      "url":
-                          "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.titleDeed}",
+                      "url": "${state.ssDetailsModel?.record?.titleDeedUrl}",
                     },
                     {
                       "name": "ID File",
-                      "url":
-                          "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.clientIdFile}",
+                      "url": "${state.ssDetailsModel?.record?.clientIdFileUrl}",
                     },
                     {
                       "name": "Passport File",
-                      "url":
-                          "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.passportFile}",
+                      "url": "${state.ssDetailsModel?.record?.passportFileUrl}",
                     },
                   ])
                 ],

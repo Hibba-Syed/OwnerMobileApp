@@ -42,7 +42,7 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
       appBar: BaseAppBar(
         title: "Financial summary",
         appBar: AppBar(),
-        widgets: const [],
+        widgets: [const DashboardPage().notificationIcon(context)],
         appBarHeight: 50,
         automaticallyImplyLeading: true,
       ),
@@ -119,6 +119,7 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
                           .getUnitFinancials(context);
                     },
                     child: ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(),
                       controller: _scrollController,
                       itemCount:
                           state.unitFinancialsModel?.unitSummaries?.length,

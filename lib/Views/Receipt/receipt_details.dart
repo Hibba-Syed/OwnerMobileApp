@@ -14,7 +14,7 @@ class ReceiptDetailsPage extends StatelessWidget {
       appBar: BaseAppBar(
         title: "Receipt Details",
         appBar: AppBar(),
-        widgets: const [],
+        widgets:[const DashboardPage().notificationIcon(context)],
         automaticallyImplyLeading: true,
         appBarHeight: 50,
       ),

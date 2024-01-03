@@ -14,7 +14,7 @@ class CreditNoteDetailsPage extends StatelessWidget {
       appBar: BaseAppBar(
         title: "Credit Note Details",
         appBar: AppBar(),
-        widgets: const [],
+        widgets:[const DashboardPage().notificationIcon(context)],
         automaticallyImplyLeading: true,
         appBarHeight: 50,
       ),

@@ -14,7 +14,7 @@ class InvoiceDetailsPage extends StatelessWidget {
       appBar: BaseAppBar(
         title: "Invoice Details",
         appBar: AppBar(),
-        widgets: const [],
+        widgets:[const DashboardPage().notificationIcon(context)],
         automaticallyImplyLeading: true,
         appBarHeight: 50,
       ),

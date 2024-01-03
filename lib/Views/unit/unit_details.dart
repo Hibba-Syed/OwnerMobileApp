@@ -19,7 +19,7 @@ class UnitDetailsPage extends StatelessWidget {
         title: (unitNo?.isEmpty ?? true) ? "" : "Unit - $unitNo",
         appBar: AppBar(),
         automaticallyImplyLeading: true,
-        widgets: const [],
+        widgets: [const DashboardPage().notificationIcon(context)],
         appBarHeight: 50,
       ),
       floatingActionButton: FloatingActionButton.extended(

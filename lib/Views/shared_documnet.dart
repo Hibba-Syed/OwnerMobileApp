@@ -16,7 +16,7 @@ class SharedDocumentPage extends StatelessWidget {
       appBar: BaseAppBar(
         title: "Shared Documents",
         appBar: AppBar(),
-        widgets: const [],
+        widgets: [const DashboardPage().notificationIcon(context)],
         appBarHeight: 50,
         automaticallyImplyLeading: true,
       ),

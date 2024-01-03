@@ -18,7 +18,7 @@ class HbDetailsPage extends StatelessWidget {
         title: "${const AdDetailsPage().getRequestName(type)}\n$reference",
         fontSize: 14,
         appBar: AppBar(),
-        widgets: const [],
+        widgets:[const DashboardPage().notificationIcon(context)],
         appBarHeight: 50,
         automaticallyImplyLeading: true,
       ),
@@ -29,8 +29,9 @@ class HbDetailsPage extends StatelessWidget {
           }
           if (state.hbDetailsModel?.record == null) {
             return const CreditNotesPage().emptyList(ontap: () {
-              context.read<RequestDetailsCubit>().getRequestDetails(
-                  context, requestId, type);
+              context
+                  .read<RequestDetailsCubit>()
+                  .getRequestDetails(context, requestId, type);
             });
           }
           return SingleChildScrollView(
@@ -119,18 +120,15 @@ class HbDetailsPage extends StatelessWidget {
                   const AdDetailsPage().supportingDocuments(context, [
                     {
                       "name": "Title Deed",
-                      "url":
-                          "$baseUrl/${state.hbDetailsModel?.record?.titleDeed}",
+                      "url": "${state.hbDetailsModel?.record?.titleDeedUrl}",
                     },
                     {
                       "name": "ID File",
-                      "url":
-                          "$baseUrl/${state.hbDetailsModel?.record?.clientIdFile}",
+                      "url": "${state.hbDetailsModel?.record?.clientIdFileUrl}",
                     },
                     {
                       "name": "Passport File",
-                      "url":
-                          "$baseUrl/${state.hbDetailsModel?.record?.passportFile}",
+                      "url": "${state.hbDetailsModel?.record?.passportFileUrl}",
                     },
                   ])
                 ],

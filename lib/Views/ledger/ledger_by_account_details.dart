@@ -14,7 +14,7 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
         title: accountDatum?.name ?? "",
         appBar: AppBar(),
         automaticallyImplyLeading: true,
-        widgets: const [],
+        widgets:[const DashboardPage().notificationIcon(context)],
         appBarHeight: 50,
       ),
       body: Column(

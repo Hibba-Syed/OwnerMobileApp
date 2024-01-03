@@ -88,6 +88,9 @@ class Record {
   dynamic contractNumber;
   dynamic tradeLicenseExpiry;
   String? titleDeed;
+  String? titleDeedUrl;
+  String? passportFileUrl;
+  String? clientIdFileUrl;
   dynamic titleDeedNumber;
   dynamic tenancyContract;
   dynamic tenancyContractExpiry;
@@ -182,6 +185,9 @@ class Record {
       this.updatedAt,
       this.application,
       this.unit,
+      this.titleDeedUrl,
+      this.clientIdFileUrl,
+      this.passportFileUrl,
       this.association,
       this.company});
 
@@ -228,6 +234,9 @@ class Record {
         contractNumber: json["contract_number"],
         tradeLicenseExpiry: json["trade_license_expiry"],
         titleDeed: json["title_deed"],
+        titleDeedUrl: json["title_deed_url"],
+        clientIdFileUrl: json["client_id_file_url"],
+        passportFileUrl: json["passport_file_url"],
         titleDeedNumber: json["title_deed_number"],
         tenancyContract: json["tenancy_contract"],
         tenancyContractExpiry: json["tenancy_contract_expiry"],

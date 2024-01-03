@@ -133,7 +133,7 @@ class UserService {
           return Success(200, body);
         }
         return Failure(
-            400, response.reasonPhrase ?? "unable to change password");
+            400, jsonDecode(body)["message"] ?? "unable to change password");
       });
     });
   }

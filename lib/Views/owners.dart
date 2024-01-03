@@ -18,7 +18,7 @@ class OwnersPage extends StatelessWidget {
         title: (unitNumber?.isEmpty ?? true) ? "" : "$unitNumber - Owners",
         appBar: AppBar(),
         automaticallyImplyLeading: true,
-        widgets: const [],
+        widgets: [const DashboardPage().notificationIcon(context)],
         appBarHeight: 50,
       ),
       body: BlocBuilder<OwnersCubit, OwnersState>(

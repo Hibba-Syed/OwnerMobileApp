@@ -10,7 +10,7 @@ class ProfilePage extends StatelessWidget {
       appBar: BaseAppBar(
         title: "Profile Information",
         appBar: AppBar(),
-        widgets: const [],
+        widgets: [const DashboardPage().notificationIcon(context)],
         automaticallyImplyLeading: true,
         appBarHeight: 50,
       ),
@@ -166,6 +166,7 @@ class ProfilePage extends StatelessWidget {
       ),
     );
   }
+
   Color parseHexColor(String hexColor) {
     hexColor = hexColor.replaceAll("#", "");
     int hexValue = int.parse(hexColor, radix: 16);
@@ -173,6 +174,7 @@ class ProfilePage extends StatelessWidget {
     return Color(hexValue)
         .withAlpha(0xFF); // Ensure full opacity (alpha value of 0xFF)
   }
+
   Widget profileInfoTile(
       BuildContext context, String title, String? subTitle, IconData icon) {
     return ListTile(

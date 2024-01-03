@@ -14,7 +14,7 @@ class CompliancesPage extends StatelessWidget {
       appBar: BaseAppBar(
         title: (unitNumber?.isEmpty ?? true) ? "" : "$unitNumber - Compliances",
         appBar: AppBar(),
-        widgets: const [],
+        widgets: [const DashboardPage().notificationIcon(context)],
         appBarHeight: 50,
         automaticallyImplyLeading: true,
       ),

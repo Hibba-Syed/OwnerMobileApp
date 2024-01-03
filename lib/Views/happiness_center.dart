@@ -16,7 +16,7 @@ class HappinessCenterPage extends StatelessWidget {
       appBar: BaseAppBar(
         title: "Happiness Center",
         appBar: AppBar(),
-        widgets: const [],
+        widgets: [const DashboardPage().notificationIcon(context)],
         appBarHeight: 50,
         automaticallyImplyLeading: true,
       ),
