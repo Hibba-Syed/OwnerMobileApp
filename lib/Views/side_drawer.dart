@@ -164,8 +164,9 @@ class SideDrawerPage extends StatelessWidget {
                                             ),
                                             CustomText(
                                               text:
-                                                  "${loginModel.owner?.firstName ?? " -- "} ${loginModel.owner?.lastName ?? " -- "}",
+                                                  "${loginModel.owner?.firstName ?? " -- "} ${loginModel.owner?.lastName ?? " -- "} ",
                                               textAlign: TextAlign.center,
+                                              maxLines: 2,
                                             ),
                                             CustomText(
                                               text: loginModel
@@ -173,6 +174,7 @@ class SideDrawerPage extends StatelessWidget {
                                                   "",
                                               fontsize: 12,
                                               color: kGrey,
+                                              maxLines: 2,
                                               textAlign: TextAlign.center,
                                             )
                                           ],

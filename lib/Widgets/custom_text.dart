@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:iskaanowner/Utils/utils.dart';
 
 class CustomText extends StatelessWidget {
@@ -21,7 +22,7 @@ class CustomText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return AutoSizeText(
       text,
       textAlign: textAlign ?? TextAlign.left,
       maxLines: maxLines,

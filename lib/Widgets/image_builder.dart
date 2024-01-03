@@ -15,13 +15,15 @@ class ImageBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (url == null) {
+      return errorImage();
+    }
     return FadeInImage(
       width: width,
       height: height,
-      placeholder: const AssetImage('assets/placeHolder.png'),
-      image: (url?.isEmpty ?? true)
-          ? const AssetImage('assets/placeHolder.png')
-          : NetworkImage(url ?? "") as ImageProvider,
+      placeholder: const AssetImage('assets/loader.gif'),
+      image: NetworkImage(url ?? ""),
+      imageErrorBuilder: (context, error, stackTrace) => errorImage(),
       placeholderFit: BoxFit.contain,
       fit: (isFit ?? false)
           ? BoxFit.contain
@@ -29,5 +31,15 @@ class ImageBuilder extends StatelessWidget {
               ? BoxFit.cover
               : BoxFit.contain,
     );
+  }
+
+  Widget errorImage() {
+    return FadeInImage(
+        width: width,
+        height: height,
+        placeholder: const AssetImage('assets/loader.gif'),
+        image: const AssetImage('assets/placeHolder.png'),
+        placeholderFit: BoxFit.contain,
+        fit: BoxFit.contain);
   }
 }
