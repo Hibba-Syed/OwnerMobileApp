@@ -170,8 +170,12 @@ class _CreditNotesListPageState extends State<CreditNotesListPage> {
                         ),
                         if ((index + 1) ==
                             state.creditNotesModel?.creditNotes?.length)
-                          const SizedBox(
+                          SizedBox(
                             height: 150,
+                            child: state.loadMoreState == LoadingState.loading
+                                ? const Center(
+                                    child: CircularProgressIndicator())
+                                : null,
                           ),
                       ],
                     );
@@ -179,11 +183,6 @@ class _CreditNotesListPageState extends State<CreditNotesListPage> {
                 ),
               ),
             ),
-            if (state.loadMoreState == LoadingState.loading)
-              const SizedBox(
-                height: 150,
-                child: Center(child: CircularProgressIndicator()),
-              )
           ],
         );
       },

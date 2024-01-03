@@ -422,7 +422,8 @@ class SideDrawerPage extends StatelessWidget {
                                       function: () {
                                         if (key.currentState?.validate() ??
                                             false) {
-                                          loginCubit.loginUser(context);
+                                          loginCubit.loginUser(context,
+                                              newUser: true);
                                         }
                                       });
                                 },

@@ -10,7 +10,10 @@ class CompaniesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<LoginModel>? loginModelList =
-        ModalRoute.of(context)?.settings.arguments as List<LoginModel>?;
+        (ModalRoute.of(context)?.settings.arguments as List)[0]
+            as List<LoginModel>?;
+    bool? newUser =
+        (ModalRoute.of(context)?.settings.arguments as List)[1] as bool?;
     return Scaffold(
       appBar: BaseAppBar(
         title: "Select Company",
@@ -30,7 +33,8 @@ class CompaniesPage extends StatelessWidget {
                   barrierDismissible: false,
                   lottieAsset: "assets/loader.json");
               for (LoginModel loginModel in loginModelList ?? []) {
-                Global.storageService.setAuthenticationModelString(loginModel);
+                Global.storageService.setAuthenticationModelString(loginModel,
+                    newUser: newUser ?? false);
               }
               context.read<LoginCubit>().onChangeLoginModel(loginModelList?[0]);
               context.read<ProfileCubit>().getProfile(context).then((isLoaded) {
@@ -86,9 +90,22 @@ class CompaniesPage extends StatelessWidget {
                             type: CoolAlertType.loading,
                             barrierDismissible: false,
                             lottieAsset: "assets/loader.json");
-                        for (LoginModel loginModel in loginModelList) {
-                          Global.storageService
-                              .setAuthenticationModelString(loginModel);
+                        if (newUser ?? false) {
+                          for (var i = (loginModelList.length - 1);
+                              i >= 0;
+                              i--) {
+                            Global.storageService.setAuthenticationModelString(
+                              loginModelList[i],
+                              newUser: newUser ?? false,
+                            );
+                          }
+                        } else {
+                          for (LoginModel loginModel in loginModelList) {
+                            Global.storageService.setAuthenticationModelString(
+                              loginModel,
+                              newUser: newUser ?? false,
+                            );
+                          }
                         }
                         Global.storageService.setAuthenticationModelString(
                             loginModel,

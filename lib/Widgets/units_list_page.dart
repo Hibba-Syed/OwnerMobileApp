@@ -168,8 +168,12 @@ class _UnitsListPageState extends State<UnitsListPage> {
                           ),
                         ),
                         if ((index + 1) == state.unitsModel?.units?.length)
-                          const SizedBox(
+                          SizedBox(
                             height: 150,
+                            child: state.loadMoreState == LoadingState.loading
+                                ? const Center(
+                                    child: CircularProgressIndicator())
+                                : null,
                           ),
                       ],
                     );
@@ -177,11 +181,6 @@ class _UnitsListPageState extends State<UnitsListPage> {
                 ),
               ),
             ),
-            if (state.loadMoreState == LoadingState.loading)
-              const SizedBox(
-                height: 150,
-                child: Center(child: CircularProgressIndicator()),
-              )
           ],
         );
       },

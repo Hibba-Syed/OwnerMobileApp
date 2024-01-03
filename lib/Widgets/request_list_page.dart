@@ -120,8 +120,12 @@ class _RequestListPageState extends State<RequestListPage> {
                         ),
                         if ((index + 1) ==
                             state.requestsModel?.applications?.length)
-                          const SizedBox(
+                          SizedBox(
                             height: 150,
+                            child: state.loadMoreState == LoadingState.loading
+                                ? const Center(
+                                    child: CircularProgressIndicator())
+                                : null,
                           ),
                       ],
                     );
@@ -129,11 +133,6 @@ class _RequestListPageState extends State<RequestListPage> {
                 ),
               ),
             ),
-            if (state.loadMoreState == LoadingState.loading)
-              const SizedBox(
-                height: 150,
-                child: Center(child: CircularProgressIndicator()),
-              )
           ],
         );
       },

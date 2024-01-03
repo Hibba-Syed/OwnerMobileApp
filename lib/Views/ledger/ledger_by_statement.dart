@@ -53,6 +53,20 @@ class _LedgerByStatementState extends State<LedgerByStatement> {
         }
         return Column(
           children: [
+            const Gap(10),
+            RowText(
+              text: "Opening Balance : ",
+              text2: formatCurrency(
+                state.ledgerByStatementModel?.record?.meta?.openingBalance ?? 0,
+              ),
+            ),
+            RowText(
+              text: "Closing Balance : ",
+              text2: formatCurrency(
+                state.ledgerByStatementModel?.record?.meta?.closingBalance ?? 0,
+              ),
+            ),
+            const Gap(10),
             Expanded(
               child: RefreshIndicator(
                 onRefresh: () async {
@@ -212,8 +226,13 @@ class _LedgerByStatementState extends State<LedgerByStatement> {
                         if ((index + 1) ==
                             state.ledgerByStatementModel?.record?.data?.ledgers
                                 ?.length)
-                          const SizedBox(
+                          SizedBox(
                             height: 150,
+                            child: state.loadMoreLedgerByStatementState ==
+                                    LoadingState.loading
+                                ? const Center(
+                                    child: CircularProgressIndicator())
+                                : null,
                           ),
                       ],
                     );
@@ -221,11 +240,6 @@ class _LedgerByStatementState extends State<LedgerByStatement> {
                 ),
               ),
             ),
-            if (state.loadMoreLedgerByStatementState == LoadingState.loading)
-              const SizedBox(
-                height: 150,
-                child: Center(child: CircularProgressIndicator()),
-              )
           ],
         );
       },

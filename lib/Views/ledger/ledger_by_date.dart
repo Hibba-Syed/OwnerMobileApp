@@ -52,6 +52,20 @@ class _LedgerByDateState extends State<LedgerByDate> {
         }
         return Column(
           children: [
+            const Gap(10),
+            RowText(
+              text: "Opening Balance : ",
+              text2: formatCurrency(
+                state.ledgerByDateModel?.record?.meta?.openingBalance ?? 0,
+              ),
+            ),
+            RowText(
+              text: "Closing Balance : ",
+              text2: formatCurrency(
+                state.ledgerByDateModel?.record?.meta?.closingBalance ?? 0,
+              ),
+            ),
+            const Gap(10),
             Expanded(
               child: RefreshIndicator(
                 onRefresh: () async {
@@ -233,8 +247,13 @@ class _LedgerByDateState extends State<LedgerByDate> {
                         ),
                         if ((index + 1) ==
                             state.ledgerByDateModel?.record?.data?.length)
-                          const SizedBox(
+                          SizedBox(
                             height: 150,
+                            child: state.loadMoreLedgerByDateState ==
+                                    LoadingState.loading
+                                ? const Center(
+                                    child: CircularProgressIndicator())
+                                : null,
                           ),
                       ],
                     );
@@ -242,11 +261,6 @@ class _LedgerByDateState extends State<LedgerByDate> {
                 ),
               ),
             ),
-            if (state.loadMoreLedgerByDateState == LoadingState.loading)
-              const SizedBox(
-                height: 150,
-                child: Center(child: CircularProgressIndicator()),
-              )
           ],
         );
       },

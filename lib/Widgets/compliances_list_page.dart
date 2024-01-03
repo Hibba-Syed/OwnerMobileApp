@@ -199,8 +199,12 @@ class _ReceiptListPageState extends State<CompliancesListPage> {
                         ),
                         if ((index + 1) ==
                             state.compliancesModel?.compliances?.length)
-                          const SizedBox(
+                          SizedBox(
                             height: 150,
+                            child: state.loadMoreState == LoadingState.loading
+                                ? const Center(
+                                    child: CircularProgressIndicator())
+                                : null,
                           ),
                       ],
                     );
@@ -208,11 +212,6 @@ class _ReceiptListPageState extends State<CompliancesListPage> {
                 ),
               ),
             ),
-            if (state.loadMoreState == LoadingState.loading)
-              const SizedBox(
-                height: 150,
-                child: Center(child: CircularProgressIndicator()),
-              )
           ],
         );
       },

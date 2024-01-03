@@ -234,57 +234,81 @@ class UnitDetailsPage extends StatelessWidget {
           );
         }
       },
-      {
-        "name": "Invoices",
-        "icon": Icons.receipt_long,
-        "onTap": () {
-          context.read<InvoicesCubit>().onChangeKeyword("");
-          context.read<InvoicesCubit>().reset();
-          context.read<InvoicesCubit>().getInvoices(context, unitId);
-          return Navigator.pushNamed(
-            context,
-            AppRoutes.invoices,
-            arguments: {
-              'unit_id': unitId,
-              'unit_no': unitNo,
-            },
-          );
-        }
-      },
-      {
-        "name": "Receipts",
-        "icon": Icons.receipt,
-        "onTap": () {
-          context.read<ReceiptsCubit>().onChangeKeyword("");
-          context.read<ReceiptsCubit>().reset();
-          context.read<ReceiptsCubit>().getReceipts(context, unitId);
-          return Navigator.pushNamed(
-            context,
-            AppRoutes.receipts,
-            arguments: {
-              'unit_id': unitId,
-              'unit_no': unitNo,
-            },
-          );
-        }
-      },
-      {
-        "name": "Credit Notes",
-        "icon": Icons.note,
-        "onTap": () {
-          context.read<CreditNotesCubit>().onChangeKeyword("");
-          context.read<CreditNotesCubit>().reset();
-          context.read<CreditNotesCubit>().getCreditNotes(context, unitId);
-          return Navigator.pushNamed(
-            context,
-            AppRoutes.creditNotes,
-            arguments: {
-              'unit_id': unitId,
-              'unit_no': unitNo,
-            },
-          );
-        }
-      },
+      if (context
+              .read<ProfileCubit>()
+              .state
+              .profileModel
+              ?.record
+              ?.company
+              ?.showOwnerInvoices ==
+          1)
+        {
+          "name": "Invoices",
+          "icon": Icons.receipt_long,
+          "onTap": () {
+            context.read<InvoicesCubit>().onChangeKeyword("");
+            context.read<InvoicesCubit>().reset();
+            context.read<InvoicesCubit>().getInvoices(context, unitId);
+            return Navigator.pushNamed(
+              context,
+              AppRoutes.invoices,
+              arguments: {
+                'unit_id': unitId,
+                'unit_no': unitNo,
+              },
+            );
+          }
+        },
+      if (context
+              .read<ProfileCubit>()
+              .state
+              .profileModel
+              ?.record
+              ?.company
+              ?.showOwnerReceipts ==
+          1)
+        {
+          "name": "Receipts",
+          "icon": Icons.receipt,
+          "onTap": () {
+            context.read<ReceiptsCubit>().onChangeKeyword("");
+            context.read<ReceiptsCubit>().reset();
+            context.read<ReceiptsCubit>().getReceipts(context, unitId);
+            return Navigator.pushNamed(
+              context,
+              AppRoutes.receipts,
+              arguments: {
+                'unit_id': unitId,
+                'unit_no': unitNo,
+              },
+            );
+          }
+        },
+      if (context
+              .read<ProfileCubit>()
+              .state
+              .profileModel
+              ?.record
+              ?.company
+              ?.showOwnerInvoices ==
+          1)
+        {
+          "name": "Credit Notes",
+          "icon": Icons.note,
+          "onTap": () {
+            context.read<CreditNotesCubit>().onChangeKeyword("");
+            context.read<CreditNotesCubit>().reset();
+            context.read<CreditNotesCubit>().getCreditNotes(context, unitId);
+            return Navigator.pushNamed(
+              context,
+              AppRoutes.creditNotes,
+              arguments: {
+                'unit_id': unitId,
+                'unit_no': unitNo,
+              },
+            );
+          }
+        },
     ];
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

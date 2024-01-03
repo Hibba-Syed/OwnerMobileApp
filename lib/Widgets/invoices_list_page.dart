@@ -198,8 +198,12 @@ class _InvoicesListPageState extends State<InvoicesListPage> {
                         ),
                         if ((index + 1) ==
                             state.invoicesModel?.invoices?.length)
-                          const SizedBox(
+                          SizedBox(
                             height: 150,
+                            child: state.loadMoreState == LoadingState.loading
+                                ? const Center(
+                                    child: CircularProgressIndicator())
+                                : null,
                           ),
                       ],
                     );
@@ -207,11 +211,6 @@ class _InvoicesListPageState extends State<InvoicesListPage> {
                 ),
               ),
             ),
-            if (state.loadMoreState == LoadingState.loading)
-              const SizedBox(
-                height: 150,
-                child: Center(child: CircularProgressIndicator()),
-              )
           ],
         );
       },

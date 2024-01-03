@@ -259,7 +259,24 @@ class CreditNoteDetailsPage extends StatelessWidget {
                               )
                               .toList() ??
                           [],
-                    )
+                    ),
+                    if (state
+                            .creditNoteDetailsModel?.transactions?.isNotEmpty ??
+                        false)
+                      const Gap(10),
+                    if (state
+                            .creditNoteDetailsModel?.transactions?.isNotEmpty ??
+                        false)
+                      RowText(
+                        text: "Total : ",
+                        text2: formatCurrency((state
+                                    .creditNoteDetailsModel?.transactions
+                                    ?.map((e) => e.amount ?? 0)
+                                    .toList() ??
+                                [])
+                            .reduce((value, element) => value + element)),
+                      ),
+                    const Gap(10),
                   ],
                 ),
               ),

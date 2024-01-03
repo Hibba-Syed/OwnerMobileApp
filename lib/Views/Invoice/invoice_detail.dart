@@ -305,7 +305,22 @@ class InvoiceDetailsPage extends StatelessWidget {
                               )
                               .toList() ??
                           [],
-                    )
+                    ),
+                    if (state.invoiceDetailsModel?.transactions?.isNotEmpty ??
+                        false)
+                      const Gap(10),
+                    if (state.invoiceDetailsModel?.transactions?.isNotEmpty ??
+                        false)
+                      RowText(
+                        text: "Total : ",
+                        text2: formatCurrency((state
+                                    .invoiceDetailsModel?.transactions
+                                    ?.map((e) => e.amount ?? 0)
+                                    .toList() ??
+                                [])
+                            .reduce((value, element) => value + element)),
+                      ),
+                    const Gap(10),
                   ],
                 ),
               ),

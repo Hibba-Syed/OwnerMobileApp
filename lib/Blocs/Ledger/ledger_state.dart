@@ -10,6 +10,7 @@ class LedgerState {
   final LoadingState loadMoreLedgerByAccountState;
   final IndividualLedger? ledgerType;
   final DateTimeRange? customDateRange;
+  final String ledgerName;
   final int pageLedgerByStatement;
   final int pageLedgerByDate;
   final int pageLedgerByAccount;
@@ -22,6 +23,7 @@ class LedgerState {
     this.loadMoreLedgerByStatementState = LoadingState.none,
     this.loadMoreLedgerByAccountState = LoadingState.none,
     this.ledgerType,
+    this.ledgerName = "statement",
     this.customDateRange,
     this.pageLedgerByStatement = 1,
     this.pageLedgerByDate = 1,
@@ -38,6 +40,7 @@ class LedgerState {
     final int? year,
     final IndividualLedger? ledgerType,
     final DateTimeRange? customDateRange,
+    final String? ledgerName,
     final int? pageLedgerByStatement,
     final int? pageLedgerByDate,
     final int? pageLedgerByAccount,
@@ -56,6 +59,7 @@ class LedgerState {
           loadMoreLedgerByAccountState ?? this.loadMoreLedgerByAccountState,
       ledgerType: ledgerType ?? this.ledgerType,
       customDateRange: customDateRange ?? this.customDateRange,
+      ledgerName: ledgerName ?? this.ledgerName,
       pageLedgerByStatement:
           pageLedgerByStatement ?? this.pageLedgerByStatement,
       pageLedgerByDate: pageLedgerByDate ?? this.pageLedgerByDate,

@@ -284,7 +284,22 @@ class ReceiptDetailsPage extends StatelessWidget {
                               )
                               .toList() ??
                           [],
-                    )
+                    ),
+                    if (state.receiptDetailsModel?.transactions?.isNotEmpty ??
+                        false)
+                      const Gap(10),
+                    if (state.receiptDetailsModel?.transactions?.isNotEmpty ??
+                        false)
+                      RowText(
+                        text: "Total : ",
+                        text2: formatCurrency((state
+                                    .receiptDetailsModel?.transactions
+                                    ?.map((e) => e.amount ?? 0)
+                                    .toList() ??
+                                [])
+                            .reduce((value, element) => value + element)),
+                      ),
+                    const Gap(10),
                   ],
                 ),
               ),

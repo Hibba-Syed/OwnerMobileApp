@@ -9,17 +9,17 @@ part 'ledger_state.dart';
 
 class LedgerCubit extends Cubit<LedgerState> {
   LedgerCubit()
-      : super(
-          LedgerState(
+      : super(LedgerState(
             customDateRange: DateTimeRange(
-              start: DateTime(DateTime.now().year, 1, 1),
-              end: DateTime(DateTime.now().year, 12, 31),
-            ),
-          ),
-        );
+                start: DateTime(DateTime.now().year, 1, 1),
+                end: DateTime(DateTime.now().year, 12, 31))));
 
   void onChangeLedgerType(IndividualLedger? ledgerType) {
     emit(state.copyWith(ledgerType: ledgerType));
+  }
+
+  void onChangeLedgerName(String? ledgerName) {
+    emit(state.copyWith(ledgerName: ledgerName));
   }
 
   void onChangeCustomDateRange(DateTimeRange? customDateRange) {

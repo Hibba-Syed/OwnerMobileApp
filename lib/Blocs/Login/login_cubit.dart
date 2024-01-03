@@ -23,17 +23,20 @@ class LoginCubit extends Cubit<LoginState> {
     emit(state.copyWith(password: password));
   }
 
-  Future<void> loginUser(BuildContext context) async {
+  Future<void> loginUser(BuildContext context, {bool newUser = false}) async {
     emit(state.copyWith(loadingState: LoadingState.loading));
-    await AuthenticationService.loginUser(state.email, state.password)
-        .then((value) {
+    await AuthenticationService.loginUser(
+      state.email,
+      state.password,
+    ).then((value) {
       if (value is Success) {
         emit(state.copyWith(
           loginModel: loginModelFromJson(value.response as String)[0],
         ));
         if (loginModelFromJson(value.response as String).length == 1) {
           Global.storageService.setAuthenticationModelString(
-              loginModelFromJson(value.response as String)[0]);
+              loginModelFromJson(value.response as String)[0],
+              newUser: newUser);
           return context
               .read<ProfileCubit>()
               .getProfile(context)
@@ -43,8 +46,10 @@ class LoginCubit extends Cubit<LoginState> {
                 loginModel: loginModelFromJson(value.response as String)[0],
                 loadingState: LoadingState.success,
               ));
-              Global.storageService
-                  .setLoginCreds([state.email, state.password]);
+              if (!newUser) {
+                Global.storageService
+                    .setLoginCreds([state.email, state.password]);
+              }
               context.read<AppThemeCubit>().onChangeAppTheme(const ProfilePage()
                   .parseHexColor(state.loginModel?.owner?.company?.themeColor ??
                       "#751b50"));
@@ -57,13 +62,17 @@ class LoginCubit extends Cubit<LoginState> {
             }
           });
         } else {
-          Global.storageService.setLoginCreds([state.email, state.password]);
+          if (!newUser) {
+            Global.storageService.setLoginCreds([state.email, state.password]);
+          }
           emit(state.copyWith(
             loginModel: loginModelFromJson(value.response as String)[0],
             loadingState: LoadingState.success,
           ));
-          return Navigator.pushNamed(context, AppRoutes.companies,
-              arguments: loginModelFromJson(value.response as String));
+          return Navigator.pushNamed(context, AppRoutes.companies, arguments: [
+            loginModelFromJson(value.response as String),
+            newUser
+          ]);
         }
       }
       value as Failure;

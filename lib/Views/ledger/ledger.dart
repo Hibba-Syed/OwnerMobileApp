@@ -90,7 +90,7 @@ class LedgerPage extends StatelessWidget {
                       function: () {
                         context.read<DownloadLedgerCubit>().downloadDocument(
                             context,
-                            "$baseUrl/mobile/owner/property/accounting/ledgers/units-ledger-export?ledgerIds[]=${context.read<LedgerCubit>().state.ledgerType?.id}&export=excel&propertyIds[]=$unitId");
+                            "$baseUrl/mobile/owner/property/accounting/ledgers/units-ledger-export?ledgerIds[]=${context.read<LedgerCubit>().state.ledgerType?.id}&unit_id=$unitId&type=${context.read<LedgerCubit>().state.ledgerName}");
                       },
                       width: MediaQuery.of(context).size.width * 0.3,
                       icon: state.loadingState == LoadingState.loading
@@ -127,6 +127,21 @@ class LedgerPage extends StatelessWidget {
                   indicatorSize: TabBarIndicatorSize.tab,
                   labelColor: kWhite,
                   dividerColor: kTransparent,
+                  onTap: (value) {
+                    if (value == 0) {
+                      return context
+                          .read<LedgerCubit>()
+                          .onChangeLedgerName("statement");
+                    }
+                    if (value == 1) {
+                      return context
+                          .read<LedgerCubit>()
+                          .onChangeLedgerName("date");
+                    }
+                    return context
+                        .read<LedgerCubit>()
+                        .onChangeLedgerName("account");
+                  },
                   tabs: const [
                     Tab(
                       text: "Statement",
