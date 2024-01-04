@@ -41,130 +41,82 @@ class OwnersPage extends StatelessWidget {
                 Owner? owner = state.ownersModel?.units?.owners?[index];
                 List<Map<String, dynamic>> ownerData = [
                   {
-                    "icon": Icon(
-                      Icons.person_outline,
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                    ),
+                    "icon": Icons.person_outline,
                     "key": "Arabic Name",
                     "value": owner?.detail?.arabicName,
                   },
                   {
-                    "icon": Icon(
-                      Icons.person_outline,
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                    ),
+                    "icon": Icons.person_outline,
                     "key": "Mollak Owner Name",
                     "value": owner?.detail?.name,
                   },
                   {
-                    "icon": Icon(
-                      Icons.email_outlined,
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                    ),
+                    "icon": Icons.email_outlined,
                     "key": "Email",
                     "value": owner?.detail?.primaryEmail,
                   },
                   {
-                    "icon": Icon(
-                      Icons.phone_outlined,
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                    ),
+                    "icon": Icons.phone_outlined,
                     "key": "Primary Phone",
                     "value": owner?.detail?.primaryPhone,
                   },
                   {
-                    "icon": Icon(
-                      Icons.phone_outlined,
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                    ),
+                    "icon": Icons.phone_outlined,
                     "key": "Secondary Phone",
                     "value": owner?.detail?.secondaryPhone,
                   },
                   {
-                    "icon": Icon(
-                      Icons.card_membership_outlined,
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                    ),
+                    "icon": Icons.card_membership_outlined,
                     "key": "Passport No.",
                     "value": owner?.detail?.passportNumber,
                   },
                   {
-                    "icon": Icon(
-                      Icons.calendar_month_outlined,
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                    ),
+                    "icon": Icons.calendar_month_outlined,
                     "key": "Passport Expiry",
                     "value": owner?.detail?.passportExpiry,
                   },
                   {
-                    "icon": Icon(
-                      Icons.numbers_outlined,
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                    ),
+                    "icon": Icons.numbers_outlined,
                     "key": "Emirates ID No.",
                     "value": owner?.detail?.emiratesIdNumber,
                   },
                   {
-                    "icon": Icon(
-                      Icons.calendar_month_outlined,
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                    ),
+                    "icon": Icons.calendar_month_outlined,
                     "key": "Emirates ID Expiry",
                     "value": owner?.detail?.emiratesIdExpiry,
                   },
                   {
-                    "icon": Icon(
-                      Icons.numbers_outlined,
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                    ),
+                    "icon": Icons.numbers_outlined,
                     "key": "TRN",
                     "value": owner?.detail?.trnNumber,
                   },
                   {
-                    "icon": Icon(
-                      Icons.title_outlined,
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                    ),
+                    "icon": Icons.title_outlined,
                     "key": "Title Deed No.",
                     "value": owner?.detail?.titleDeedNumber,
                   },
                   {
-                    "icon": Icon(
-                      Icons.calendar_month_outlined,
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                    ),
+                    "icon": Icons.calendar_month_outlined,
                     "key": "Date of Birth",
                     "value": owner?.detail?.dob,
                   },
                   {
-                    "icon": Icon(
-                      Icons.location_city_outlined,
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                    ),
+                    "icon": Icons.location_city_outlined,
                     "key": "Country",
                     "value": owner?.detail?.country,
                   },
                   {
-                    "icon": Icon(
-                      Icons.web_stories_outlined,
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                    ),
+                    "icon": Icons.web_stories_outlined,
                     "key": "State",
                     "value": owner?.detail?.state,
                   },
                   {
-                    "icon": Icon(
-                      Icons.location_city_outlined,
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                    ),
+                    "icon": Icons.location_city_outlined,
                     "key": "City",
                     "value": owner?.detail?.city,
                   },
                   {
-                    "icon": Icon(
-                      Icons.streetview_outlined,
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                    ),
+                    "icon": Icons.streetview_outlined,
                     "key": "Address",
                     "value": owner?.detail?.fullAddress,
                   },
@@ -225,27 +177,11 @@ class OwnersPage extends StatelessWidget {
                       const Gap(5),
                       Column(
                         children: ownerData
-                            .map((e) => ListTile(
-                                  contentPadding: EdgeInsets.zero,
-                                  dense: true,
-                                  leading: Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: kGrey.shade200),
-                                    child: e["icon"],
-                                  ),
-                                  title: CustomText(
-                                    text: e["key"] ?? "",
-                                    textAlign: TextAlign.left,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  subtitle: CustomText(
-                                    text: e["value"] ?? " -- ",
-                                    textAlign: TextAlign.left,
-                                    color: kGrey,
-                                    fontsize: 15,
-                                  ),
+                            .map((e) => const ProfilePage().profileInfoTile(
+                                  context,
+                                  e["key"] as String,
+                                  e["value"] as String?,
+                                  e["icon"] as IconData,
                                 ))
                             .toList(),
                       ),

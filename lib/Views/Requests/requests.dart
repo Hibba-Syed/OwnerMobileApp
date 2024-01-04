@@ -2,6 +2,7 @@ import 'package:iskaanowner/Models/requests.dart';
 import 'package:iskaanowner/Widgets/request_list_page.dart';
 
 import '../../Blocs/App Theme/app_theme_cubit.dart';
+import '../../Models/request_filters.dart';
 import '../../Utils/utils.dart';
 
 class RequestsPage extends StatelessWidget {
@@ -196,12 +197,23 @@ class RequestsPage extends StatelessWidget {
               color: context.read<AppThemeCubit>().state.primaryColor,
             ),
             const Gap(10),
-            const LedgerPage().filterDropdown(
-              state.requestsFiltersModel?.applicationType ?? [],
+            DropdownMenu<ApplicationType>(
               initialSelection: context.read<RequestsCubit>().state.requestType,
+              hintText: "Select",
+              expandedInsets: const EdgeInsets.all(0),
               onSelected: (requestType) => context
                   .read<RequestsCubit>()
                   .onChangeRequestType(requestType),
+              dropdownMenuEntries: state.requestsFiltersModel?.applicationType
+                      ?.map<DropdownMenuEntry<ApplicationType>>(
+                    (ApplicationType value) {
+                      return DropdownMenuEntry<ApplicationType>(
+                        value: value,
+                        label: value.name ?? "",
+                      );
+                    },
+                  ).toList() ??
+                  [],
             ),
             const Gap(10),
             CustomText(

@@ -32,7 +32,7 @@ class ProfilePage extends StatelessWidget {
             },
             {
               "icon": Icons.phone_outlined,
-              "title": "Phoe",
+              "title": "Phone",
               "subTitle": state.profileModel?.record?.primaryPhone,
             },
             {
@@ -94,7 +94,7 @@ class ProfilePage extends StatelessWidget {
                               ),
                               CustomText(
                                 text:
-                                    state.profileModel?.record?.firstName ?? "",
+                                    "${state.profileModel?.record?.firstName ?? ""} ${state.profileModel?.record?.lastName ?? ""}",
                                 fontWeight: FontWeight.bold,
                                 fontsize: 20,
                               ),

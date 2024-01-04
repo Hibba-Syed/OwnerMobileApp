@@ -114,6 +114,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                                 .state
                                                 .primaryColor,
                                           ),
+                                          const Gap(10),
                                           CustomText(
                                             text: const OccupantPage()
                                                 .dateTimeFormatter(

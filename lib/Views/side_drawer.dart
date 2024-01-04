@@ -58,7 +58,7 @@ class SideDrawerPage extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
                   child: CustomButton(
-                      text: "Switch Accoount",
+                      text: "Switch Account",
                       icon: const Icon(
                         Icons.contacts_outlined,
                         color: kWhite,
@@ -166,6 +166,7 @@ class SideDrawerPage extends StatelessWidget {
                                               text:
                                                   "${loginModel.owner?.firstName ?? " -- "} ${loginModel.owner?.lastName ?? " -- "} ",
                                               textAlign: TextAlign.center,
+                                              fontsize: 14,
                                               maxLines: 2,
                                             ),
                                             CustomText(

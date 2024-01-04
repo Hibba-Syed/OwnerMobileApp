@@ -79,7 +79,7 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
                                 .read<UnitFinancialsCubit>()
                                 .state
                                 .selectedUnits) {
-                              filter = "$filter&propertyIds[]=$element";
+                              filter = "$filter&unit_id[]=$element";
                             }
                             context.read<DownloadLedgerCubit>().downloadDocument(
                                 context,

@@ -20,7 +20,7 @@ class TpDetailsPage extends StatelessWidget {
         title: "${const AdDetailsPage().getRequestName(type)}\n$reference",
         fontSize: 14,
         appBar: AppBar(),
-        widgets:[const DashboardPage().notificationIcon(context)],
+        widgets: [const DashboardPage().notificationIcon(context)],
         appBarHeight: 50,
         automaticallyImplyLeading: true,
       ),
@@ -31,8 +31,9 @@ class TpDetailsPage extends StatelessWidget {
           }
           if (state.tpDetailsModel?.record != null) {
             return const CreditNotesPage().emptyList(ontap: () {
-              context.read<RequestDetailsCubit>().getRequestDetails(
-                  context, requestId, type);
+              context
+                  .read<RequestDetailsCubit>()
+                  .getRequestDetails(context, requestId, type);
             });
           }
           return SingleChildScrollView(
@@ -138,8 +139,8 @@ class TpDetailsPage extends StatelessWidget {
                           .tpDetailsModel?.record?.application?.sellers?[index];
                       return Column(
                         children: [
-                          const AdDetailsPage()
-                              .headingText("Seller ${index + 1} Details"),
+                          const AdDetailsPage().headingText(
+                              context, "Seller ${index + 1} Details"),
                           Column(
                             children: [
                               {
@@ -330,8 +331,8 @@ class TpDetailsPage extends StatelessWidget {
                           .tpDetailsModel?.record?.application?.buyers?[index];
                       return Column(
                         children: [
-                          const AdDetailsPage()
-                              .headingText("Buyer ${index + 1} Details"),
+                          const AdDetailsPage().headingText(
+                              context, "Buyer ${index + 1} Details"),
                           Column(
                             children: [
                               {
@@ -476,13 +477,7 @@ class TpDetailsPage extends StatelessWidget {
                                   (Map<String, dynamic> e) => ListTile(
                                     contentPadding: EdgeInsets.zero,
                                     dense: true,
-                                    leading: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: kGrey.shade200),
-                                      child: e["icon"],
-                                    ),
+                                    leading: e["icon"],
                                     title: CustomText(
                                       text: e["key"] ?? "",
                                       textAlign: TextAlign.left,

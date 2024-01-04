@@ -178,7 +178,7 @@ class AdDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget headingText(String text) {
+  Widget headingText(BuildContext context, String text) {
     return Column(
       children: [
         const Gap(10),
@@ -187,6 +187,7 @@ class AdDetailsPage extends StatelessWidget {
           child: CustomText(
             text: text,
             fontWeight: FontWeight.bold,
+            color: context.read<AppThemeCubit>().state.primaryColor,
             fontsize: 20,
           ),
         ),
@@ -200,7 +201,7 @@ class AdDetailsPage extends StatelessWidget {
       {Widget? customWidget}) {
     return Column(
       children: [
-        headingText("Application Details"),
+        headingText(context,"Application Details"),
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -298,7 +299,7 @@ class AdDetailsPage extends StatelessWidget {
   Widget supportingDocuments(BuildContext context, List<Map> data) {
     return Column(
       children: [
-        headingText("Supporting Documents"),
+        headingText(context,"Supporting Documents"),
         const SizedBox(
           height: 10,
         ),
@@ -336,7 +337,7 @@ class AdDetailsPage extends StatelessWidget {
     }
     return Column(
       children: [
-        if (title != null) headingText(title),
+        if (title != null) headingText(context,title),
         if (title == null) const Gap(10),
         Container(
           padding: const EdgeInsets.all(10),

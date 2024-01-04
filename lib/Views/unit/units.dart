@@ -87,6 +87,7 @@ class UnitsPage extends StatelessWidget {
             child: CustomText(
               text: text ?? " -- ",
               fontsize: 12,
+              maxLines: 1,
               fontWeight: FontWeight.bold,
             ),
           )
@@ -146,14 +147,14 @@ class UnitsPage extends StatelessWidget {
   }
 
   Widget contactsRow(BuildContext context, List contacts) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: contacts
-              .map(
-                (e) => InkWell(
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: contacts
+            .map(
+              (e) => Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: InkWell(
                   onTap: e["onTap"],
                   child: roundedContainer(
                     context,
@@ -161,7 +162,7 @@ class UnitsPage extends StatelessWidget {
                       children: [
                         Icon(
                           e["icon"] as IconData,
-                          color:
+                          color: (e["color"] as Color?) ??
                               context.read<AppThemeCubit>().state.primaryColor,
                           size: 15,
                         ),
@@ -170,7 +171,7 @@ class UnitsPage extends StatelessWidget {
                         ),
                         CustomText(
                           text: e["name"] as String,
-                          color:
+                          color: (e["color"] as Color?) ??
                               context.read<AppThemeCubit>().state.primaryColor,
                           fontsize: 12,
                         )
@@ -178,13 +179,15 @@ class UnitsPage extends StatelessWidget {
                     ),
                     invert: true,
                     margin: const EdgeInsets.only(right: 5),
+                    color: (e["color"] as Color?) ??
+                        context.read<AppThemeCubit>().state.primaryColor,
                     padding:
                         const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                   ),
                 ),
-              )
-              .toList(),
-        ),
+              ),
+            )
+            .toList(),
       ),
     );
   }

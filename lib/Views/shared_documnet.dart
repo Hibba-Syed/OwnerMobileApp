@@ -26,8 +26,6 @@ class SharedDocumentPage extends StatelessWidget {
     );
   }
 
-
-
   Widget sharedDocumentWidget(BuildContext context,
       SharedDocument? sharedDocumentsRecord, int? unitId) {
     return Column(
@@ -55,7 +53,7 @@ class SharedDocumentPage extends StatelessWidget {
                 }
                 return Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(50),
+                  padding: const EdgeInsets.all(40),
                   decoration: BoxDecoration(
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10),
@@ -68,6 +66,7 @@ class SharedDocumentPage extends StatelessWidget {
                           .withOpacity(0.05)),
                   child: Image.asset(
                     asset,
+                    color: kGrey,
                   ),
                 );
               }),

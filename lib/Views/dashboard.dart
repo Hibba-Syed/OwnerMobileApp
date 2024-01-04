@@ -39,7 +39,9 @@ class DashboardPage extends StatelessWidget {
         }),
         automaticallyImplyLeading: true,
         appBar: AppBar(),
-        widgets: [notificationIcon(context)],
+        widgets: [
+          notificationIcon(context),
+        ],
         appBarHeight: 50,
       ),
       drawer: const Drawer(
@@ -173,6 +175,7 @@ class DashboardPage extends StatelessWidget {
                 color: kBlack,
                 fontWeight: FontWeight.bold,
                 fontsize: 12,
+                maxLines: 2,
               ),
             )
           ],

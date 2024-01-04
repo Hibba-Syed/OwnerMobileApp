@@ -90,7 +90,7 @@ class LedgerPage extends StatelessWidget {
                       function: () {
                         context.read<DownloadLedgerCubit>().downloadDocument(
                             context,
-                            "$baseUrl/mobile/owner/property/accounting/ledgers/units-ledger-export?ledgerIds[]=${context.read<LedgerCubit>().state.ledgerType?.id}&unit_id=$unitId&type=${context.read<LedgerCubit>().state.ledgerName}");
+                            "$baseUrl/mobile/owner/property/accounting/ledgers/units-ledger-export?ledgerIds[]=${context.read<LedgerCubit>().state.ledgerType?.id}&unit_id[]=$unitId&type=${context.read<LedgerCubit>().state.ledgerName}");
                       },
                       width: MediaQuery.of(context).size.width * 0.3,
                       icon: state.loadingState == LoadingState.loading

@@ -68,7 +68,7 @@ class CompaniesPage extends StatelessWidget {
             const Gap(10),
             const CustomText(
                 text:
-                    "We found multiple companies against this email and password. Please select one of them to login"),
+                    "We found profile(s) against this email managed by other CMC(s).If you wish to add the profile(s) associated the this email please select from the list below."),
             const Gap(10),
             Expanded(
               child: Center(

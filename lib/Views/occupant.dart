@@ -35,125 +35,80 @@ class OccupantPage extends StatelessWidget {
           }
           List<Map<String, dynamic>> occupantData = [
             {
-              "icon": Icon(
-                Icons.merge_type_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
+              "icon": Icons.merge_type_outlined,
               "key": "Type",
               "value": state.occupantModel?.occupant?.details?.type,
             },
             {
-              "icon": Icon(
-                Icons.email_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
+              "icon": Icons.email_outlined,
               "key": "Email",
               "value": state.occupantModel?.occupant?.details?.primaryEmail,
             },
             {
-              "icon": Icon(
-                Icons.phone_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
+              "icon": Icons.phone_outlined,
               "key": "Primary Phone",
               "value": state.occupantModel?.occupant?.details?.primaryPhone,
             },
             {
-              "icon": Icon(
-                Icons.card_membership_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
+              "icon": Icons.card_membership_outlined,
               "key": "Passport No.",
               "value": state.occupantModel?.occupant?.details?.passportNumber,
             },
             {
-              "icon": Icon(
-                Icons.calendar_month_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
+              "icon": Icons.calendar_month_outlined,
               "key": "Passport Expiry",
               "value": dateTimeFormatter(
                   state.occupantModel?.occupant?.details?.passportExpiry),
             },
             {
-              "icon": Icon(
-                Icons.numbers_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
+              "icon": Icons.numbers_outlined,
               "key": "Emirates ID No.",
               "value": state.occupantModel?.occupant?.details?.emiratesIdNumber,
             },
             {
-              "icon": Icon(
-                Icons.calendar_month_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
+              "icon": Icons.calendar_month_outlined,
               "key": "Emirates ID Expiry",
               "value": dateTimeFormatter(
                   state.occupantModel?.occupant?.details?.emiratesIdExpiry),
             },
             {
-              "icon": Icon(
-                Icons.numbers_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
+              "icon": Icons.numbers_outlined,
               "key": "TRN",
               "value": state.occupantModel?.occupant?.details?.trnNumber,
             },
             {
-              "icon": Icon(
-                Icons.calendar_month_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
+              "icon": Icons.calendar_month_outlined,
               "key": "Date of Birth",
               "value": state.occupantModel?.occupant?.details?.dob,
             },
             {
-              "icon": Icon(
-                Icons.calendar_month_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
+              "icon": Icons.calendar_month_outlined,
               "key": "Tenancy Contract Expiry",
               "value": dateTimeFormatter(state
                   .occupantModel?.occupant?.details?.tenancyContractExpiry),
             },
             {
-              "icon": Icon(
-                Icons.title_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
+              "icon": Icons.title_outlined,
               "key": "Title Deed No.",
               "value": state.occupantModel?.occupant?.details?.titleDeedNumber,
             },
             {
-              "icon": Icon(
-                Icons.location_city_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
+              "icon": Icons.location_city_outlined,
               "key": "Country",
               "value": state.occupantModel?.occupant?.details?.country,
             },
             {
-              "icon": Icon(
-                Icons.web_stories_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
+              "icon": Icons.web_stories_outlined,
               "key": "State",
               "value": state.occupantModel?.occupant?.details?.state,
             },
             {
-              "icon": Icon(
-                Icons.location_city_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
+              "icon": Icons.location_city_outlined,
               "key": "City",
               "value": state.occupantModel?.occupant?.details?.city,
             },
             {
-              "icon": Icon(
-                Icons.streetview_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
+              "icon": Icons.streetview_outlined,
               "key": "Address",
               "value": state.occupantModel?.occupant?.details?.fullAddress,
             },
@@ -194,27 +149,11 @@ class OccupantPage extends StatelessWidget {
                     const Gap(5),
                     Column(
                       children: occupantData
-                          .map((e) => ListTile(
-                                contentPadding: EdgeInsets.zero,
-                                dense: true,
-                                leading: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: kGrey.shade200),
-                                  child: e["icon"],
-                                ),
-                                title: CustomText(
-                                  text: e["key"] ?? "",
-                                  textAlign: TextAlign.left,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                subtitle: CustomText(
-                                  text: e["value"] ?? " -- ",
-                                  textAlign: TextAlign.left,
-                                  color: kGrey,
-                                  fontsize: 15,
-                                ),
+                          .map((e) => const ProfilePage().profileInfoTile(
+                                context,
+                                e["key"] as String,
+                                e["value"] as String?,
+                                e["icon"] as IconData,
                               ))
                           .toList(),
                     ),
@@ -404,6 +343,7 @@ class OccupantPage extends StatelessWidget {
         ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Row(
             children: [
@@ -435,6 +375,7 @@ class OccupantPage extends StatelessWidget {
             {
               "icon": Icons.phone_outlined,
               "name": "Call",
+              "color": Colors.blueGrey,
               "onTap": () {
                 if (phoneNumber != null) {
                   launchUrl(Uri.parse("tel:$phoneNumber"));
@@ -444,6 +385,7 @@ class OccupantPage extends StatelessWidget {
             {
               "icon": Icons.sms_outlined,
               "name": "SMS",
+              "color": Colors.blue,
               "onTap": () {
                 if (phoneNumber != null) {
                   launchUrl(Uri.parse("sms:$phoneNumber"));
@@ -453,6 +395,7 @@ class OccupantPage extends StatelessWidget {
             {
               "icon": Icons.phone_outlined,
               "name": "WhatsApp",
+              "color": Colors.green,
               "onTap": () {
                 if (phoneNumber != null) {
                   if (Platform.isAndroid) {

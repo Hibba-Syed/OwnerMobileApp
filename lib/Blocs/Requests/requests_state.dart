@@ -4,7 +4,7 @@ class RequestsState {
   final RequestsModel? requestsModel;
   final LoadingState loadingState;
   final LoadingState loadMoreState;
-  final String? requestType;
+  final ApplicationType? requestType;
   final String? status;
   final String keyword;
   final int page;
@@ -21,7 +21,7 @@ class RequestsState {
     final RequestsModel? requestsModel,
     final LoadingState? loadingState,
     final LoadingState? loadMoreState,
-    final String? requestType,
+    final ApplicationType? requestType,
     final String? status,
     final String? keyword,
     final int? page,

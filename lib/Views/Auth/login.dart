@@ -17,7 +17,7 @@ class LoginPage extends StatelessWidget {
     final bool showAppBar =
         ModalRoute.of(context)?.settings.arguments as bool? ?? false;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       appBar: showAppBar
           ? BaseAppBar(
               title: "",

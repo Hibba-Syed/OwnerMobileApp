@@ -81,7 +81,7 @@ class HappinessCenterPage extends StatelessWidget {
                   builder: (context, state) {
                     return inputDropDown(
                         context,
-                        "Comumnity*",
+                        "Community*",
                         (state.communitiesModel?.associations
                                 ?.map((e) => e.name ?? " -- ")
                                 .toList() ??
@@ -297,7 +297,13 @@ class HappinessCenterPage extends StatelessWidget {
                             height: 10,
                           ),
                           CustomText(
-                            text: "Complaints*",
+                            text: state.complaintType?.toLowerCase() ==
+                                    "complaint"
+                                ? "Complaint*"
+                                : state.complaintType?.toLowerCase() ==
+                                        "inquiry"
+                                    ? "Inquiry*"
+                                    : "Suggestion*",
                             fontWeight: FontWeight.bold,
                             color: context
                                 .read<AppThemeCubit>()

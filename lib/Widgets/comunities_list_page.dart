@@ -92,7 +92,7 @@ class _CommunitiesListPageState extends State<CommunitiesListPage> {
                             child: ImageBuilder(
                               url: communitiesDatum?.backgroundImageUrl ?? "",
                               height: 120,
-                              width:120,
+                              width: 120,
                             ),
                           ),
                           const SizedBox(
@@ -142,6 +142,7 @@ class _CommunitiesListPageState extends State<CommunitiesListPage> {
                                           ),
                                           const CustomText(
                                             text: "Units",
+                                            maxLines: 1,
                                           ),
                                         ],
                                       ),
@@ -180,10 +181,15 @@ class _CommunitiesListPageState extends State<CommunitiesListPage> {
                                                     const SizedBox(
                                                       height: 5,
                                                     ),
-                                                    CustomText(
-                                                      text: e.toString(),
-                                                      color: kWhite,
-                                                      maxLines: 1,
+                                                    SizedBox(
+                                                      height: 40,
+                                                      child: Center(
+                                                        child: CustomText(
+                                                          text: e.toString(),
+                                                          color: kWhite,
+                                                          maxLines: 1,
+                                                        ),
+                                                      ),
                                                     ),
                                                   ],
                                                 ),

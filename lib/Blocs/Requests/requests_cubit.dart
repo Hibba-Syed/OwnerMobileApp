@@ -1,3 +1,5 @@
+import 'package:iskaanowner/Models/request_filters.dart';
+
 import '../../Models/requests.dart';
 import '../../Utils/utils.dart';
 
@@ -6,7 +8,7 @@ part 'requests_state.dart';
 class RequestsCubit extends Cubit<RequestsState> {
   RequestsCubit() : super(const RequestsState());
 
-  void onChangeRequestType(String? requestType) {
+  void onChangeRequestType(ApplicationType? requestType) {
     emit(state.copyWith(requestType: requestType));
   }
 
@@ -28,7 +30,7 @@ class RequestsCubit extends Cubit<RequestsState> {
       context,
       id,
       state.keyword,
-      state.requestType,
+      state.requestType?.key,
       state.status,
       state.page,
     ).then((value) {
@@ -49,7 +51,7 @@ class RequestsCubit extends Cubit<RequestsState> {
     emit(state.copyWith(
         loadMoreState: LoadingState.loading, page: state.page + 1));
     await UnitsService.getUnitRequests(context, id, state.keyword,
-            state.requestType, state.status, state.page)
+            state.requestType?.key, state.status, state.page)
         .then((value) {
       if (value is Success) {
         if (requestsModelFromJson(value.response as String)

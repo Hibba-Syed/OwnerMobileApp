@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
                 seedColor: context.watch<AppThemeCubit>().state.primaryColor),
-            textTheme: GoogleFonts.poppinsTextTheme(),
+            textTheme: GoogleFonts.interTextTheme(),
             useMaterial3: true,
           ),
           onGenerateRoute: AppPages.generateRouteSettings,
