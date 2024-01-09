@@ -128,7 +128,6 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
                                               ""),
                                     );
                                   }
-
                                   return ImageBuilder(
                                     url: sharedDocumentsRecord?.documents ?? "",
                                     height: MediaQuery.of(context).size.height *
