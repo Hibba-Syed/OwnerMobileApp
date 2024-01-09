@@ -124,7 +124,7 @@ class _InvoicesListPageState extends State<InvoicesListPage> {
                                                 .dateTimeFormatter(
                                                     invoice?.date),
                                             color: kGrey,
-                                            fontsize: 12,
+                                            fontSize: 12,
                                           ),
                                         ],
                                       ),
@@ -132,18 +132,18 @@ class _InvoicesListPageState extends State<InvoicesListPage> {
                                         text: invoice?.description == ""
                                             ? " -- "
                                             : invoice?.description ?? " -- ",
-                                        fontsize: 14,
+                                        fontSize: 14,
                                       ),
                                       Row(
                                         children: [
                                           const CustomText(
                                             text: "Mollak reference . ",
-                                            fontsize: 13,
+                                            fontSize: 13,
                                           ),
                                           CustomText(
                                             text: invoice?.mollakReference ??
                                                 " -- ",
-                                            fontsize: 13,
+                                            fontSize: 13,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ],
@@ -156,13 +156,13 @@ class _InvoicesListPageState extends State<InvoicesListPage> {
                                             children: [
                                               const CustomText(
                                                 text: "Due at . ",
-                                                fontsize: 12,
+                                                fontSize: 12,
                                               ),
                                               CustomText(
                                                 text: const OccupantPage()
                                                     .dateTimeFormatter(
                                                         invoice?.dueDate),
-                                                fontsize: 12,
+                                                fontSize: 12,
                                                 fontWeight: FontWeight.bold,
                                               )
                                             ],

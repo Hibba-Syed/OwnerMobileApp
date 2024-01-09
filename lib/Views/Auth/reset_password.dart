@@ -1,4 +1,4 @@
-import 'package:iskaanowner/Blocs/Compaines/companies_cubit.dart';
+import 'package:iskaanowner/Blocs/Companies/companies_cubit.dart';
 import 'package:iskaanowner/Blocs/Reset%20Password/reset_password_cubit.dart';
 
 import '../../Blocs/App Theme/app_theme_cubit.dart';
@@ -47,7 +47,7 @@ class ResetPasswordPage extends StatelessWidget {
                         onSelected: (CompaniesRecord? value) {
                           context
                               .read<ResetPasswordCubit>()
-                              .onChangeComapinesRecord(value);
+                              .onChangeCompaniesRecord(value);
                         },
                         expandedInsets: EdgeInsets.zero,
                         dropdownMenuEntries: companiesState
@@ -62,7 +62,7 @@ class ResetPasswordPage extends StatelessWidget {
                       const Gap(10),
                       const LoginPage().textFieldWithText(
                           context, "New Password",
-                          prefex: Icon(
+                          prefix: Icon(
                             Icons.lock_outline,
                             color: context
                                 .read<AppThemeCubit>()
@@ -102,7 +102,7 @@ class ResetPasswordPage extends StatelessWidget {
                           )),
                       const LoginPage().textFieldWithText(
                           context, "Confirm New Password",
-                          prefex: Icon(
+                          prefix: Icon(
                             Icons.lock_outline,
                             color: context
                                 .read<AppThemeCubit>()

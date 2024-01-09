@@ -14,7 +14,7 @@ class CustomButton extends StatelessWidget {
   final double? height;
   final EdgeInsets padding;
   final FontWeight fontWeight;
-  final double fontsize;
+  final double fontSize;
   const CustomButton(
       {Key? key,
       this.buttonColor,
@@ -23,7 +23,7 @@ class CustomButton extends StatelessWidget {
       this.width,
       this.icon,
       this.height = 50,
-      this.fontsize = 13,
+      this.fontSize = 13,
       this.maxLines = 5,
       this.padding = const EdgeInsets.all(10),
       this.textColor = kWhite,
@@ -66,7 +66,7 @@ class CustomButton extends StatelessWidget {
               style: TextStyle(
                 color: textColor,
                 fontWeight: fontWeight,
-                fontSize: fontsize,
+                fontSize: fontSize,
               ),
               textAlign: textAlign,
               maxLines: maxLines,

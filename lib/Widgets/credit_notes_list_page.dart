@@ -121,13 +121,13 @@ class _CreditNotesListPageState extends State<CreditNotesListPage> {
                                                 .dateTimeFormatter(
                                                     creditNote?.date),
                                             color: kGrey,
-                                            fontsize: 12,
+                                            fontSize: 12,
                                           ),
                                         ],
                                       ),
                                       CustomText(
                                         text: creditNote?.description ?? " -- ",
-                                        fontsize: 14,
+                                        fontSize: 14,
                                       ),
                                       Row(
                                         mainAxisAlignment:
@@ -136,7 +136,7 @@ class _CreditNotesListPageState extends State<CreditNotesListPage> {
                                           CustomText(
                                             text: formatCurrency(
                                                 creditNote?.amount ?? 0),
-                                            fontsize: 13,
+                                            fontSize: 13,
                                           ),
                                           InkWell(
                                             onTap: () {

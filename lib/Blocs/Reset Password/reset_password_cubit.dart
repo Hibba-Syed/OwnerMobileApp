@@ -20,7 +20,7 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
     emit(state.copyWith(confirmPasswordObscure: confirmPasswordObscure));
   }
 
-  void onChangeComapinesRecord(CompaniesRecord? companiesRecord) {
+  void onChangeCompaniesRecord(CompaniesRecord? companiesRecord) {
     emit(state.copyWith(companiesRecord: companiesRecord));
   }
 

@@ -14,7 +14,7 @@ class ReceiptDetailsPage extends StatelessWidget {
       appBar: BaseAppBar(
         title: "Receipt Details",
         appBar: AppBar(),
-        widgets:[const DashboardPage().notificationIcon(context)],
+        widgets: [const DashboardPage().notificationIcon(context)],
         automaticallyImplyLeading: true,
         appBarHeight: 50,
       ),
@@ -78,7 +78,7 @@ class ReceiptDetailsPage extends StatelessWidget {
                                         ?.name ??
                                     "",
                                 fontWeight: FontWeight.bold,
-                                fontsize: 18,
+                                fontSize: 18,
                                 textAlign: TextAlign.left,
                               ),
                               const Gap(10),
@@ -92,7 +92,7 @@ class ReceiptDetailsPage extends StatelessWidget {
                                         ?.address1 ??
                                     "",
                                 textAlign: TextAlign.left,
-                                fontsize: 12,
+                                fontSize: 12,
                                 color: kGrey,
                               ),
                             ],
@@ -129,7 +129,7 @@ class ReceiptDetailsPage extends StatelessWidget {
                                 child: CustomText(
                                   text: state.receiptDetailsModel?.title ?? "",
                                   fontWeight: FontWeight.bold,
-                                  fontsize: 18,
+                                  fontSize: 18,
                                 ),
                               ),
                               const Gap(10),
@@ -137,7 +137,7 @@ class ReceiptDetailsPage extends StatelessWidget {
                                 text: state.receiptDetailsModel?.association
                                         ?.name ??
                                     "",
-                                fontsize: 12,
+                                fontSize: 12,
                                 color: kGrey,
                               ),
                             ],
@@ -247,7 +247,7 @@ class ReceiptDetailsPage extends StatelessWidget {
                                             child: CustomText(
                                               text: e.account?.title ?? "",
                                               fontWeight: FontWeight.bold,
-                                              fontsize: 18,
+                                              fontSize: 18,
                                             ),
                                           ),
                                           const Gap(10),

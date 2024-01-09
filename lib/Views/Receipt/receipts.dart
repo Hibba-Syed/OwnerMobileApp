@@ -1,4 +1,3 @@
-import '../../Blocs/App Theme/app_theme_cubit.dart';
 import '../../Utils/utils.dart';
 import '../../Widgets/receipts_list_page.dart';
 
@@ -12,50 +11,51 @@ class ReceiptsPage extends StatelessWidget {
     String? unitNumber = arguments['unit_no'];
     int? unitId = arguments['unit_id'];
     return Scaffold(
-      appBar: BaseAppBar(
-        title: "$unitNumber - Receipts",
-        appBar: AppBar(),
-        widgets: [
-          IconButton(
-              onPressed: () {
-                const LedgerPage().showFilter(context,
-                    child: filterView(context), resetFunction: () {
-                  context.read<ReceiptsCubit>().reset();
-                  context.read<ReceiptsCubit>().getReceipts(context, unitId);
-                  Navigator.pop(context);
-                }, applyFunction: () {
-                  context.read<ReceiptsCubit>().getReceipts(context, unitId);
-                  Navigator.pop(context);
-                });
-              },
-              icon: Icon(
-                Icons.filter_alt_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ))
-        ],
-        automaticallyImplyLeading: true,
-        appBarHeight: 50,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            CustomSearch(
-              initialValue: context.read<ReceiptsCubit>().state.keyword,
-              onSubmitted: (value) {
-                context.read<ReceiptsCubit>().onChangeKeyword(value);
-                context.read<ReceiptsCubit>().getReceipts(context, unitId);
-              },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: ReceiptsListPage(
-                unitId: unitId,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              const DashboardPage().appBar(
+                context,
+                widget: CustomText(
+                  text: "Unit $unitNumber - Receipts",
+                  fontSize: MediaQuery.of(context).size.width * 0.05,
+                  fontWeight: FontWeight.bold,
+                ),
+                trailingIcon: IconButton(
+                  onPressed: () => const LedgerPage().showFilter(context,
+                      child: filterView(context), resetFunction: () {
+                    context.read<ReceiptsCubit>().reset();
+                    context.read<ReceiptsCubit>().getReceipts(context, unitId);
+                    Navigator.pop(context);
+                  }, applyFunction: () {
+                    context.read<ReceiptsCubit>().getReceipts(context, unitId);
+                    Navigator.pop(context);
+                  }),
+                  icon: Image.asset(
+                    "assets/filter.png",
+                    scale: 4,
+                  ),
+                ),
               ),
-            ),
-          ],
+              CustomSearch(
+                initialValue: context.read<ReceiptsCubit>().state.keyword,
+                onSubmitted: (value) {
+                  context.read<ReceiptsCubit>().onChangeKeyword(value);
+                  context.read<ReceiptsCubit>().getReceipts(context, unitId);
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: ReceiptsListPage(
+                  unitId: unitId,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -81,7 +81,7 @@ class ReceiptsPage extends StatelessWidget {
                 currentDate: DateTime.now(),
               ).then(
                 (value) =>
-                    context.read<ReceiptsCubit>().onChangedateRange(value),
+                    context.read<ReceiptsCubit>().onChangeDateRange(value),
               ),
             ),
           ],

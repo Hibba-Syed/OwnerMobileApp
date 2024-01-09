@@ -7,74 +7,75 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(
-        title: "Profile Information",
-        appBar: AppBar(),
-        widgets: [const DashboardPage().notificationIcon(context)],
-        automaticallyImplyLeading: true,
-        appBarHeight: 50,
-      ),
-      body: BlocBuilder<ProfileCubit, ProfileState>(
-        builder: (context, state) {
-          if (state.loadingState == LoadingState.loading) {
-            return const CustomLoader();
-          }
-          if (state.profileModel?.record == null) {
-            return const CreditNotesPage().emptyList(
-              ontap: () => context.read<ProfileCubit>().getProfile(context),
-            );
-          }
-          List<Map> profileData = [
-            {
-              "icon": Icons.email_outlined,
-              "title": "Email",
-              "subTitle": state.profileModel?.record?.email,
-            },
-            {
-              "icon": Icons.phone_outlined,
-              "title": "Phone",
-              "subTitle": state.profileModel?.record?.primaryPhone,
-            },
-            {
-              "icon": Icons.cake_outlined,
-              "title": "D.O.B",
-              "subTitle": state.profileModel?.record?.dob,
-            },
-            {
-              "icon": Icons.padding_outlined,
-              "title": "Passport Number",
-              "subTitle": state.profileModel?.record?.passportNumber,
-            },
-            {
-              "icon": Icons.calendar_month_outlined,
-              "title": "Passport Expiry",
-              "subTitle": state.profileModel?.record?.passportExpiry,
-            },
-            {
-              "icon": Icons.perm_identity_outlined,
-              "title": "Emirates ID",
-              "subTitle": state.profileModel?.record?.emiratesIdNumber,
-            },
-            {
-              "icon": Icons.email_outlined,
-              "title": "Emirates ID Expiry",
-              "subTitle": state.profileModel?.record?.emiratesIdExpiry,
-            },
-          ];
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Center(
-              child: SingleChildScrollView(
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    Column(
+      backgroundColor: kBackgroundColor,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: const DashboardPage().appBar(
+                context,
+                widget: CustomText(
+                  text: "Profile Information",
+                  fontSize: MediaQuery.of(context).size.width * 0.05,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            BlocBuilder<ProfileCubit, ProfileState>(
+              builder: (context, state) {
+                if (state.loadingState == LoadingState.loading) {
+                  return const CustomLoader();
+                }
+                if (state.profileModel?.record == null) {
+                  return const CreditNotesPage().emptyList(
+                    ontap: () =>
+                        context.read<ProfileCubit>().getProfile(context),
+                  );
+                }
+                List<Map> profileData = [
+                  {
+                    "icon": Icons.email_outlined,
+                    "title": "Email",
+                    "subTitle": state.profileModel?.record?.email,
+                  },
+                  {
+                    "icon": Icons.phone_outlined,
+                    "title": "Phone",
+                    "subTitle": state.profileModel?.record?.primaryPhone,
+                  },
+                  {
+                    "icon": Icons.cake_outlined,
+                    "title": "D.O.B",
+                    "subTitle": state.profileModel?.record?.dob,
+                  },
+                  {
+                    "icon": Icons.padding_outlined,
+                    "title": "Passport Number",
+                    "subTitle": state.profileModel?.record?.passportNumber,
+                  },
+                  {
+                    "icon": Icons.calendar_month_outlined,
+                    "title": "Passport Expiry",
+                    "subTitle": state.profileModel?.record?.passportExpiry,
+                  },
+                  {
+                    "icon": Icons.perm_identity_outlined,
+                    "title": "Emirates ID",
+                    "subTitle": state.profileModel?.record?.emiratesIdNumber,
+                  },
+                  {
+                    "icon": Icons.email_outlined,
+                    "title": "Emirates ID Expiry",
+                    "subTitle": state.profileModel?.record?.emiratesIdExpiry,
+                  },
+                ];
+                return Center(
+                  child: SingleChildScrollView(
+                    child: Column(
                       children: [
-                        const SizedBox(
-                          height: 50,
-                        ),
                         Container(
-                          margin: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: kWhite,
@@ -90,13 +91,13 @@ class ProfilePage extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               const SizedBox(
-                                height: 50,
+                                height: 20,
                               ),
                               CustomText(
                                 text:
                                     "${state.profileModel?.record?.firstName ?? ""} ${state.profileModel?.record?.lastName ?? ""}",
                                 fontWeight: FontWeight.bold,
-                                fontsize: 20,
+                                fontSize: 20,
                               ),
                               CustomText(
                                 text:
@@ -105,7 +106,7 @@ class ProfilePage extends StatelessWidget {
                                     .read<AppThemeCubit>()
                                     .state
                                     .primaryColor,
-                                fontsize: 15,
+                                fontSize: 15,
                               ),
                               Divider(
                                 color: context
@@ -113,56 +114,31 @@ class ProfilePage extends StatelessWidget {
                                     .state
                                     .primaryColor,
                               ),
-                              ListView.separated(
+                              ListView.builder(
+                                padding: const EdgeInsets.all(10),
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: profileData.length,
-                                separatorBuilder:
-                                    (BuildContext context, int index) {
-                                  return Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 50),
-                                    color: kGrey.shade300,
-                                    height: 1,
-                                  );
-                                },
                                 itemBuilder: (BuildContext context, int index) {
                                   return profileInfoTile(
                                     context,
                                     profileData[index]["title"] as String,
                                     profileData[index]["subTitle"] as String?,
-                                    profileData[index]["icon"] as IconData,
                                   );
                                 },
                               ),
+                              const Gap(10),
                             ],
                           ),
                         ),
                       ],
                     ),
-                    ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          state.profileModel?.record?.profileImageUrl ?? "",
-                          height: 100,
-                          width: 100,
-                          errorBuilder: (context, error, stackTrace) =>
-                              const UnitsPage().roundedContainer(
-                                  context,
-                                  const Icon(
-                                    Icons.person_3_outlined,
-                                    color: kWhite,
-                                    size: 45,
-                                  ),
-                                  height: 100,
-                                  width: 100),
-                        )),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }
@@ -175,25 +151,25 @@ class ProfilePage extends StatelessWidget {
         .withAlpha(0xFF); // Ensure full opacity (alpha value of 0xFF)
   }
 
-  Widget profileInfoTile(
-      BuildContext context, String title, String? subTitle, IconData icon) {
-    return ListTile(
-      dense: true,
-      leading: Icon(
-        icon,
-        color: context.read<AppThemeCubit>().state.primaryColor,
-      ),
-      title: CustomText(
-        text: title,
-        textAlign: TextAlign.left,
-        fontsize: 15,
-      ),
-      subtitle: CustomText(
-        text: subTitle ?? " -- ",
-        textAlign: TextAlign.left,
-        color: kGrey,
-        fontsize: 13,
-      ),
+  Widget profileInfoTile(BuildContext context, String title, String? subTitle) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CustomText(
+          text: title,
+          color: const Color(0xffB2B1B1),
+          fontSize: MediaQuery.of(context).size.width * 0.032,
+        ),
+        const Gap(10),
+        CustomText(
+          text: subTitle ?? " -- ",
+          fontSize: MediaQuery.of(context).size.width * 0.04,
+          fontWeight: FontWeight.w600,
+        ),
+        const Divider(
+          thickness: 0.5,
+        ),
+      ],
     );
   }
 }

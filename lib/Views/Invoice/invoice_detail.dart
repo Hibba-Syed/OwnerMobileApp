@@ -14,7 +14,7 @@ class InvoiceDetailsPage extends StatelessWidget {
       appBar: BaseAppBar(
         title: "Invoice Details",
         appBar: AppBar(),
-        widgets:[const DashboardPage().notificationIcon(context)],
+        widgets: [const DashboardPage().notificationIcon(context)],
         automaticallyImplyLeading: true,
         appBarHeight: 50,
       ),
@@ -79,7 +79,7 @@ class InvoiceDetailsPage extends StatelessWidget {
                                         ?.name ??
                                     "",
                                 fontWeight: FontWeight.bold,
-                                fontsize: 18,
+                                fontSize: 18,
                                 textAlign: TextAlign.left,
                               ),
                               const Gap(10),
@@ -93,7 +93,7 @@ class InvoiceDetailsPage extends StatelessWidget {
                                         ?.address1 ??
                                     "",
                                 textAlign: TextAlign.left,
-                                fontsize: 12,
+                                fontSize: 12,
                                 color: kGrey,
                               ),
                             ],
@@ -130,7 +130,7 @@ class InvoiceDetailsPage extends StatelessWidget {
                                 child: CustomText(
                                   text: state.invoiceDetailsModel?.title ?? "",
                                   fontWeight: FontWeight.bold,
-                                  fontsize: 18,
+                                  fontSize: 18,
                                 ),
                               ),
                               const Gap(10),
@@ -138,7 +138,7 @@ class InvoiceDetailsPage extends StatelessWidget {
                                 text: state.invoiceDetailsModel?.association
                                         ?.name ??
                                     "",
-                                fontsize: 12,
+                                fontSize: 12,
                                 color: kGrey,
                               ),
                             ],
@@ -264,7 +264,7 @@ class InvoiceDetailsPage extends StatelessWidget {
                                             child: CustomText(
                                               text: e.account?.title ?? "",
                                               fontWeight: FontWeight.bold,
-                                              fontsize: 18,
+                                              fontSize: 18,
                                             ),
                                           ),
                                           const Gap(10),

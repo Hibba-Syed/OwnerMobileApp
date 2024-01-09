@@ -67,13 +67,13 @@ class LoginPage extends StatelessWidget {
                     const CustomText(
                       text: "Owner's Login",
                       color: kGrey,
-                      fontsize: 20,
+                      fontSize: 20,
                     ),
                     textFieldWithText(
                       context,
                       "Email",
                       hintText: "Enter the email",
-                      prefex: Icon(
+                      prefix: Icon(
                         Icons.email_outlined,
                         color: context.read<AppThemeCubit>().state.primaryColor,
                       ),
@@ -92,14 +92,14 @@ class LoginPage extends StatelessWidget {
                       context,
                       "Password",
                       hintText: "Enter password",
-                      obscure: state.obsure,
-                      prefex: Icon(
+                      obscure: state.obscure,
+                      prefix: Icon(
                         Icons.lock_outline,
                         color: context.read<AppThemeCubit>().state.primaryColor,
                       ),
                       suffix: IconButton(
                         onPressed: () {
-                          loginCubit.onChangeObsure(!state.obsure);
+                          loginCubit.onChangeObscure(!state.obscure);
                         },
                         icon: Icon(
                           Icons.visibility_outlined,
@@ -119,7 +119,7 @@ class LoginPage extends StatelessWidget {
                     if (Global.storageService.getLoginCreds() != null &&
                         context
                             .read<AuthenticationCubit>()
-                            .isSupportedBiometrcs)
+                            .isSupportedBiometrics)
                       Row(
                         children: [
                           const Expanded(child: Divider()),
@@ -138,12 +138,12 @@ class LoginPage extends StatelessWidget {
                     if (Global.storageService.getLoginCreds() != null &&
                         context
                             .read<AuthenticationCubit>()
-                            .isSupportedBiometrcs)
+                            .isSupportedBiometrics)
                       const Gap(10),
                     if (Global.storageService.getLoginCreds() != null &&
                         context
                             .read<AuthenticationCubit>()
-                            .isSupportedBiometrcs)
+                            .isSupportedBiometrics)
                       CustomButton(
                           text: "Biometric Login",
                           textColor:
@@ -187,7 +187,7 @@ class LoginPage extends StatelessWidget {
                     if (Global.storageService.getLoginCreds() != null &&
                         context
                             .read<AuthenticationCubit>()
-                            .isSupportedBiometrcs)
+                            .isSupportedBiometrics)
                       const Gap(10),
                     Align(
                       alignment: Alignment.centerRight,
@@ -234,7 +234,7 @@ class LoginPage extends StatelessWidget {
     BuildContext context,
     String text, {
     String hintText = "",
-    Widget? prefex,
+    Widget? prefix,
     Widget? suffix,
     String? initialValue,
     bool obscure = false,
@@ -246,14 +246,13 @@ class LoginPage extends StatelessWidget {
       children: [
         CustomText(
           text: text,
-          color: context.read<AppThemeCubit>().state.primaryColor,
-          fontWeight: FontWeight.bold,
+          color: const Color(0xffB2B1B1),
+          fontSize: MediaQuery.of(context).size.width * 0.032,
         ),
         const Gap(10),
         CustomTextField(
             initialValue: initialValue,
-            fillColor: kGrey.shade200,
-            prefix: prefex,
+            prefix: prefix,
             hintText: hintText,
             validator: validator,
             suffix: suffix,
@@ -292,7 +291,7 @@ class LoginPage extends StatelessWidget {
                                 .read<AppThemeCubit>()
                                 .state
                                 .primaryColor,
-                            fontsize: 20,
+                            fontSize: 20,
                           ),
                           const Gap(20),
                           LottieBuilder.asset(

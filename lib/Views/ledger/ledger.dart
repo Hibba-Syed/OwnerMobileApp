@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Views/ledger/ledger_by_account.dart';
 import 'package:iskaanowner/Views/ledger/ledger_by_date.dart';
 import 'package:iskaanowner/Views/ledger/ledger_by_statement.dart';
@@ -21,12 +22,21 @@ class LedgerPage extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: BaseAppBar(
-          title: "$unitNumber - Ledger",
-          appBar: AppBar(),
-          widgets: [
-            IconButton(
-                onPressed: () => showFilter(
+        backgroundColor: kBackgroundColor,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                const DashboardPage().appBar(
+                  context,
+                  widget: CustomText(
+                    text: "Unit $unitNumber - Ledger",
+                    fontSize: MediaQuery.of(context).size.width * 0.05,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  trailingIcon: IconButton(
+                    onPressed: () => showFilter(
                       context,
                       child: filterView(context),
                       resetFunction: () {
@@ -69,112 +79,242 @@ class LedgerPage extends StatelessWidget {
                         Navigator.pop(context);
                       },
                     ),
-                icon: Icon(
-                  Icons.filter_alt_outlined,
-                  color: context.read<AppThemeCubit>().state.primaryColor,
-                ))
-          ],
-          automaticallyImplyLeading: true,
-          appBarHeight: 50,
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              BlocBuilder<DownloadLedgerCubit, DownloadLedgerState>(
-                builder: (context, state) {
-                  return Align(
-                    alignment: Alignment.centerRight,
-                    child: CustomButton(
-                      text: "Export",
-                      function: () {
-                        context.read<DownloadLedgerCubit>().downloadDocument(
-                            context,
-                            "$baseUrl/mobile/owner/property/accounting/ledgers/units-ledger-export?ledgerIds[]=${context.read<LedgerCubit>().state.ledgerType?.id}&unit_id[]=$unitId&type=${context.read<LedgerCubit>().state.ledgerName}");
-                      },
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      icon: state.loadingState == LoadingState.loading
-                          ? const SizedBox(
-                              height: 15,
-                              width: 15,
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  color: kWhite,
+                    visualDensity: VisualDensity.compact,
+                    icon: Image.asset(
+                      "assets/filter.png",
+                      scale: 4,
+                      color: const Color(0xff575757),
+                    ),
+                  ),
+                ),
+                BlocBuilder<DownloadLedgerCubit, DownloadLedgerState>(
+                  builder: (context, state) {
+                    return Align(
+                      alignment: Alignment.centerRight,
+                      child: CustomButton(
+                        text: "Export Ledger",
+                        function: () {
+                          context.read<DownloadLedgerCubit>().downloadDocument(
+                              context,
+                              "$baseUrl/mobile/owner/property/accounting/ledgers/units-ledger-export?ledgerIds[]=${context.read<LedgerCubit>().state.ledgerType?.id}&unit_id[]=$unitId&type=${context.read<LedgerCubit>().state.ledgerName}");
+                        },
+                        height: MediaQuery.of(context).size.height * 0.06,
+                        fontSize: MediaQuery.of(context).size.width * 0.035,
+                        buttonColor: context
+                            .read<AppThemeCubit>()
+                            .state
+                            .primaryColor
+                            .withOpacity(0.8),
+                        icon: state.loadingState == LoadingState.loading
+                            ? const SizedBox(
+                                height: 15,
+                                width: 15,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: kWhite,
+                                  ),
                                 ),
+                              )
+                            : Image.asset(
+                                "assets/export.png",
+                                width: MediaQuery.of(context).size.width * 0.06,
                               ),
-                            )
-                          : const Icon(
-                              Icons.description_outlined,
-                              color: kWhite,
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                // Container(
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(10),
+                //     color: kGrey.shade200,
+                //   ),
+                //   child: TabBar(
+                //     indicator: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(10),
+                //       color: context.read<AppThemeCubit>().state.primaryColor,
+                //     ),
+                //     indicatorSize: TabBarIndicatorSize.tab,
+                //     labelColor: kWhite,
+                //     dividerColor: kTransparent,
+                //     onTap: (value) {
+                //       if (value == 0) {
+                //         return context
+                //             .read<LedgerCubit>()
+                //             .onChangeLedgerName("statement");
+                //       }
+                //       if (value == 1) {
+                //         return context
+                //             .read<LedgerCubit>()
+                //             .onChangeLedgerName("date");
+                //       }
+                //       return context
+                //           .read<LedgerCubit>()
+                //           .onChangeLedgerName("account");
+                //     },
+                //     tabs: const [
+                //       Tab(
+                //         text: "Statement",
+                //       ),
+                //       Tab(
+                //         text: "Date",
+                //       ),
+                //       Tab(
+                //         text: "Account",
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                StatefulBuilder(builder: (context, changeState) {
+                  return Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10), color: kWhite),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              changeState(() {
+                                DefaultTabController.of(context).animateTo(0);
+                              });
+                            },
+                            child: AnimatedContainer(
+                              duration: 400.ms,
+                              padding: const EdgeInsets.all(10),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: context
+                                    .read<AppThemeCubit>()
+                                    .state
+                                    .primaryColor
+                                    .withOpacity(
+                                        DefaultTabController.of(context)
+                                                    .index ==
+                                                0
+                                            ? 0.8
+                                            : 0.1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: CustomText(
+                                text: "Statement",
+                                color:
+                                    DefaultTabController.of(context).index == 0
+                                        ? kWhite
+                                        : context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor,
+                                maxLines: 1,
+                              ),
                             ),
+                          ),
+                        ),
+                        const Gap(10),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              changeState(() {
+                                DefaultTabController.of(context).animateTo(1);
+                              });
+                            },
+                            child: AnimatedContainer(
+                              duration: 400.ms,
+                              padding: const EdgeInsets.all(10),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: context
+                                    .read<AppThemeCubit>()
+                                    .state
+                                    .primaryColor
+                                    .withOpacity(
+                                        DefaultTabController.of(context)
+                                                    .index ==
+                                                1
+                                            ? 0.8
+                                            : 0.1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: CustomText(
+                                text: "Date",
+                                color:
+                                    DefaultTabController.of(context).index == 1
+                                        ? kWhite
+                                        : context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor,
+                                maxLines: 1,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Gap(10),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              changeState(() {
+                                DefaultTabController.of(context).animateTo(2);
+                              });
+                            },
+                            child: AnimatedContainer(
+                              duration: 400.ms,
+                              padding: const EdgeInsets.all(10),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: context
+                                    .read<AppThemeCubit>()
+                                    .state
+                                    .primaryColor
+                                    .withOpacity(
+                                        DefaultTabController.of(context)
+                                                    .index ==
+                                                2
+                                            ? 0.8
+                                            : 0.1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: CustomText(
+                                text: "Account",
+                                color:
+                                    DefaultTabController.of(context).index == 2
+                                        ? kWhite
+                                        : context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor,
+                                maxLines: 1,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   );
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: kGrey.shade200,
-                ),
-                child: TabBar(
-                  indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: context.read<AppThemeCubit>().state.primaryColor,
+                }),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: TabBarView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        LedgerByStatement(
+                          unitId: unitId,
+                        ),
+                        LedgerByDate(
+                          unitId: unitId,
+                        ),
+                        LedgerByAccount(
+                          unitId: unitId,
+                        ),
+                      ],
+                    ),
                   ),
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  labelColor: kWhite,
-                  dividerColor: kTransparent,
-                  onTap: (value) {
-                    if (value == 0) {
-                      return context
-                          .read<LedgerCubit>()
-                          .onChangeLedgerName("statement");
-                    }
-                    if (value == 1) {
-                      return context
-                          .read<LedgerCubit>()
-                          .onChangeLedgerName("date");
-                    }
-                    return context
-                        .read<LedgerCubit>()
-                        .onChangeLedgerName("account");
-                  },
-                  tabs: const [
-                    Tab(
-                      text: "Statement",
-                    ),
-                    Tab(
-                      text: "Date",
-                    ),
-                    Tab(
-                      text: "Account",
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: TabBarView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      LedgerByStatement(
-                        unitId: unitId,
-                      ),
-                      LedgerByDate(
-                        unitId: unitId,
-                      ),
-                      LedgerByAccount(
-                        unitId: unitId,
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -195,19 +335,19 @@ class LedgerPage extends StatelessWidget {
         cells: List.generate(dataList.length, (index) {
       if (enableCheckbox) {
         if (index == 0) {
-          var modifedList = List.from(selectedUnits ?? []);
-          int? index = modifedList.indexWhere((element) => element == id);
+          var modifiedList = List.from(selectedUnits ?? []);
+          int? index = modifiedList.indexWhere((element) => element == id);
           return DataCell(Checkbox(
             value: index != -1 ? true : false,
             onChanged: (value) {
               if (index != -1) {
-                modifedList.removeAt(index);
+                modifiedList.removeAt(index);
               } else {
-                modifedList.add(id);
+                modifiedList.add(id);
               }
               context
                   .read<UnitFinancialsCubit>()
-                  .onChangeSelectedUnits(modifedList);
+                  .onChangeSelectedUnits(modifiedList);
             },
           ));
         }
@@ -251,7 +391,7 @@ class LedgerPage extends StatelessWidget {
                       text: "Filter",
                       color: context.read<AppThemeCubit>().state.primaryColor,
                       fontWeight: FontWeight.bold,
-                      fontsize: 20,
+                      fontSize: 20,
                     ),
                   ),
                   const Gap(10),

@@ -10,12 +10,12 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   AuthenticationCubit() : super(const AuthenticationState());
   final LocalAuthentication auth = LocalAuthentication();
   List availableBiometrics = [];
-  bool isSupportedBiometrcs = false;
+  bool isSupportedBiometrics = false;
   Future<bool> isDeviceSupported(BuildContext context) async {
-    isSupportedBiometrcs = await auth.isDeviceSupported().then(
+    isSupportedBiometrics = await auth.isDeviceSupported().then(
           (bool isSupported) => isSupported,
         );
-    return isSupportedBiometrcs;
+    return isSupportedBiometrics;
   }
 
   Future<void> getAvailableBiometric(BuildContext context) async {

@@ -162,7 +162,7 @@ class _LedgerByDateState extends State<LedgerByDate> {
                                       child: CustomText(
                                         text: ledgerByDateDatum?.account ??
                                             " -- ",
-                                        fontsize: 18,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                         textAlign: TextAlign.left,
                                       ),
@@ -173,24 +173,24 @@ class _LedgerByDateState extends State<LedgerByDate> {
                                           .dateTimeFormatter(
                                               ledgerByDateDatum?.date),
                                       color: kGrey,
-                                      fontsize: 12,
+                                      fontSize: 12,
                                     ),
                                   ],
                                 ),
                                 CustomText(
                                   text: ledgerByDateDatum?.transactionNo ??
                                       " -- ",
-                                  fontsize: 13,
+                                  fontSize: 13,
                                 ),
                                 CustomText(
                                   text: ledgerByDateDatum?.reference ?? " -- ",
                                   fontWeight: FontWeight.w500,
-                                  fontsize: 17,
+                                  fontSize: 17,
                                 ),
                                 CustomText(
                                   text:
                                       ledgerByDateDatum?.description ?? " -- ",
-                                  fontsize: 15,
+                                  fontSize: 15,
                                 ),
                                 const Gap(10),
                                 Row(
@@ -199,12 +199,12 @@ class _LedgerByDateState extends State<LedgerByDate> {
                                   children: [
                                     const CustomText(
                                       text: "Debit : ",
-                                      fontsize: 13,
+                                      fontSize: 13,
                                     ),
                                     CustomText(
                                       text: formatCurrency(
                                           ledgerByDateDatum?.debit ?? 0),
-                                      fontsize: 13,
+                                      fontSize: 13,
                                     ),
                                   ],
                                 ),
@@ -214,12 +214,12 @@ class _LedgerByDateState extends State<LedgerByDate> {
                                   children: [
                                     const CustomText(
                                       text: "Credit : ",
-                                      fontsize: 13,
+                                      fontSize: 13,
                                     ),
                                     CustomText(
                                       text: formatCurrency(
                                           ledgerByDateDatum?.credit ?? 0),
-                                      fontsize: 13,
+                                      fontSize: 13,
                                     ),
                                   ],
                                 ),
@@ -232,12 +232,12 @@ class _LedgerByDateState extends State<LedgerByDate> {
                                   children: [
                                     const CustomText(
                                       text: "Balance : ",
-                                      fontsize: 13,
+                                      fontSize: 13,
                                     ),
                                     CustomText(
                                       text: formatCurrency(
                                           ledgerByDateDatum?.balance ?? 0),
-                                      fontsize: 13,
+                                      fontSize: 13,
                                     ),
                                   ],
                                 ),

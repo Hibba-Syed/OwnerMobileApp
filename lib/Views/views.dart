@@ -1,4 +1,4 @@
-export 'compliances.dart';
+export 'Compliances/compliances.dart';
 export 'dashboard.dart';
 export 'happiness_center.dart';
 export 'Auth/login.dart';

@@ -18,7 +18,7 @@ class CsDetailsPage extends StatelessWidget {
         title: "${const AdDetailsPage().getRequestName(type)}\n$reference",
         fontSize: 14,
         appBar: AppBar(),
-     widgets:[const DashboardPage().notificationIcon(context)],
+        widgets: [const DashboardPage().notificationIcon(context)],
         appBarHeight: 50,
         automaticallyImplyLeading: true,
       ),
@@ -29,8 +29,9 @@ class CsDetailsPage extends StatelessWidget {
           }
           if (state.csDetailsModel?.record == null) {
             return const CreditNotesPage().emptyList(ontap: () {
-              context.read<RequestDetailsCubit>().getRequestDetails(
-                  context, requestId, type);
+              context
+                  .read<RequestDetailsCubit>()
+                  .getRequestDetails(context, requestId, type);
             });
           }
           return SingleChildScrollView(

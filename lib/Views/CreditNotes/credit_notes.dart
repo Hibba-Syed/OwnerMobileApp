@@ -1,7 +1,6 @@
 import 'package:iskaanowner/Widgets/credit_notes_list_page.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../Blocs/App Theme/app_theme_cubit.dart';
 import '../../Utils/utils.dart';
 
 class CreditNotesPage extends StatelessWidget {
@@ -14,56 +13,59 @@ class CreditNotesPage extends StatelessWidget {
     String? unitNumber = arguments['unit_no'];
     int? unitId = arguments['unit_id'];
     return Scaffold(
-      appBar: BaseAppBar(
-        title: "$unitNumber - Credit Notes",
-        appBar: AppBar(),
-        widgets: [
-          IconButton(
-              onPressed: () {
-                const LedgerPage().showFilter(context,
-                    child: filterView(context), resetFunction: () {
-                  context.read<CreditNotesCubit>().reset();
-                  context
-                      .read<CreditNotesCubit>()
-                      .getCreditNotes(context, unitId);
-                  Navigator.pop(context);
-                }, applyFunction: () {
-                  context
-                      .read<CreditNotesCubit>()
-                      .getCreditNotes(context, unitId);
-                  Navigator.pop(context);
-                });
-              },
-              icon: Icon(
-                Icons.filter_alt_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ))
-        ],
-        automaticallyImplyLeading: true,
-        appBarHeight: 50,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            CustomSearch(
-              initialValue: context.read<CreditNotesCubit>().state.keyword,
-              onSubmitted: (value) {
-                context.read<CreditNotesCubit>().onChangeKeyword(value);
-                context
-                    .read<CreditNotesCubit>()
-                    .getCreditNotes(context, unitId);
-              },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: CreditNotesListPage(
-                unitId: unitId,
+      backgroundColor: kBackgroundColor,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              const DashboardPage().appBar(
+                context,
+                widget: CustomText(
+                  text: "Unit $unitNumber - Credit Notes",
+                  fontSize: MediaQuery.of(context).size.width * 0.05,
+                  fontWeight: FontWeight.bold,
+                ),
+                trailingIcon: IconButton(
+                  onPressed: () => const LedgerPage().showFilter(context,
+                      child: filterView(context), resetFunction: () {
+                    context.read<CreditNotesCubit>().reset();
+                    context
+                        .read<CreditNotesCubit>()
+                        .getCreditNotes(context, unitId);
+                    Navigator.pop(context);
+                  }, applyFunction: () {
+                    context
+                        .read<CreditNotesCubit>()
+                        .getCreditNotes(context, unitId);
+                    Navigator.pop(context);
+                  }),
+                  icon: Image.asset(
+                    "assets/filter.png",
+                    scale: 4,
+                  ),
+                ),
               ),
-            ),
-          ],
+              CustomSearch(
+                initialValue: context.read<CreditNotesCubit>().state.keyword,
+                fillColor: kWhite,
+                onSubmitted: (value) {
+                  context.read<CreditNotesCubit>().onChangeKeyword(value);
+                  context
+                      .read<CreditNotesCubit>()
+                      .getCreditNotes(context, unitId);
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: CreditNotesListPage(
+                  unitId: unitId,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -89,7 +91,7 @@ class CreditNotesPage extends StatelessWidget {
                 currentDate: DateTime.now(),
               ).then(
                 (value) =>
-                    context.read<CreditNotesCubit>().onChangedateRange(value),
+                    context.read<CreditNotesCubit>().onChangeDateRange(value),
               ),
             ),
           ],

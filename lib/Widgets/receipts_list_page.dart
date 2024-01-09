@@ -120,7 +120,7 @@ class _ReceiptsListPageState extends State<ReceiptsListPage> {
                                                 .dateTimeFormatter(
                                                     receipt?.datetime),
                                             color: kGrey,
-                                            fontsize: 12,
+                                            fontSize: 12,
                                           ),
                                         ],
                                       ),
@@ -128,12 +128,12 @@ class _ReceiptsListPageState extends State<ReceiptsListPage> {
                                         children: [
                                           CustomText(
                                             text: receipt?.paidBy ?? " -- ",
-                                            fontsize: 14,
+                                            fontSize: 14,
                                           ),
                                           CustomText(
                                             text:
                                                 " (${receipt?.payeeType ?? " -- "})",
-                                            fontsize: 12,
+                                            fontSize: 12,
                                             color: kGrey,
                                           ),
                                         ],
@@ -145,7 +145,7 @@ class _ReceiptsListPageState extends State<ReceiptsListPage> {
                                           CustomText(
                                             text: formatCurrency(
                                                 receipt?.amount ?? 0),
-                                            fontsize: 13,
+                                            fontSize: 13,
                                           ),
                                           InkWell(
                                             onTap: () {

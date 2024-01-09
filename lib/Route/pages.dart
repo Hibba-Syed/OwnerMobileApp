@@ -1,5 +1,5 @@
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
-import 'package:iskaanowner/Blocs/Compaines/companies_cubit.dart';
+import 'package:iskaanowner/Blocs/Companies/companies_cubit.dart';
 import 'package:iskaanowner/Blocs/Credit%20Note%20Details/credit_note_details_cubit.dart';
 import 'package:iskaanowner/Blocs/Invoice%20details/invoice_details_cubit.dart';
 import 'package:iskaanowner/Blocs/Logout/logout_cubit.dart';
@@ -26,6 +26,7 @@ import 'package:iskaanowner/Views/ledger/ledger_by_account_details.dart';
 import 'package:iskaanowner/Views/web_view.dart';
 
 import '../Utils/utils.dart';
+import '../Views/Compliances/compliance_details.dart';
 import '../Views/Requests/details/mo_details.dart';
 
 class AppPages {
@@ -179,11 +180,19 @@ class AppPages {
         page: const MiDetailsPage(),
       ),
       PageEntity(
-          route: AppRoutes.compliances,
-          page: const CompliancesPage(),
-          bloc: BlocProvider(
-            create: (context) => CompliancesCubit(),
-          )),
+        route: AppRoutes.compliances,
+        page: const CompliancesPage(),
+        bloc: BlocProvider(
+          create: (context) => CompliancesCubit(),
+        ),
+      ),
+      PageEntity(
+        route: AppRoutes.complianceDetails,
+        page: const ComplianceDetailsPage(),
+        // bloc: BlocProvider(
+        //   create: (context) => CompliancesCubit(),
+        // ),
+      ),
       PageEntity(
           route: AppRoutes.happinessCenter,
           page: const HappinessCenterPage(),

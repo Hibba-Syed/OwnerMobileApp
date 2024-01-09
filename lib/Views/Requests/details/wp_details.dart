@@ -18,7 +18,7 @@ class WpDetailsPage extends StatelessWidget {
         title: "${const AdDetailsPage().getRequestName(type)}\n$reference",
         fontSize: 14,
         appBar: AppBar(),
-        widgets:[const DashboardPage().notificationIcon(context)],
+        widgets: [const DashboardPage().notificationIcon(context)],
         appBarHeight: 50,
         automaticallyImplyLeading: true,
       ),
@@ -29,8 +29,9 @@ class WpDetailsPage extends StatelessWidget {
           }
           if (state.wpDetailsModel?.record != null) {
             return const CreditNotesPage().emptyList(ontap: () {
-              context.read<RequestDetailsCubit>().getRequestDetails(
-                  context, requestId, type);
+              context
+                  .read<RequestDetailsCubit>()
+                  .getRequestDetails(context, requestId, type);
             });
           }
           return SingleChildScrollView(
@@ -83,8 +84,11 @@ class WpDetailsPage extends StatelessWidget {
                         "title": "Security Deposit",
                         "subTitle":
                             "${state.wpDetailsModel?.record?.securityDeposit ?? " -- "}",
-                        "widget": const ProfilePage().profileInfoTile(context,
-                            "Status", "pending", Icons.done_all_outlined),
+                        "widget": const ProfilePage().profileInfoTile(
+                          context,
+                          "Status",
+                          "pending",
+                        ),
                       },
                       {
                         "icon": Icons.check_box_outline_blank_outlined,
@@ -92,8 +96,11 @@ class WpDetailsPage extends StatelessWidget {
                         "subTitle":
                             state.wpDetailsModel?.record?.payableAmount ??
                                 " -- ",
-                        "widget": const ProfilePage().profileInfoTile(context,
-                            "Status", "pending", Icons.done_all_outlined),
+                        "widget": const ProfilePage().profileInfoTile(
+                          context,
+                          "Status",
+                          "pending",
+                        ),
                       },
                       {
                         "icon": Icons.money_outlined,
@@ -118,18 +125,15 @@ class WpDetailsPage extends StatelessWidget {
                   const AdDetailsPage().supportingDocuments(context, [
                     {
                       "name": "Title Deed",
-                      "url":
-                          state.wpDetailsModel?.record?.titleDeedUrl,
+                      "url": state.wpDetailsModel?.record?.titleDeedUrl,
                     },
                     {
                       "name": "ID File",
-                      "url":
-                          state.wpDetailsModel?.record?.clientIdFileUrl,
+                      "url": state.wpDetailsModel?.record?.clientIdFileUrl,
                     },
                     {
                       "name": "Passport File",
-                      "url":
-                          state.wpDetailsModel?.record?.passportFileUrl,
+                      "url": state.wpDetailsModel?.record?.passportFileUrl,
                     },
                   ])
                 ],

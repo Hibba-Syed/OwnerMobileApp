@@ -18,7 +18,7 @@ class DpDetailsPage extends StatelessWidget {
         title: "${const AdDetailsPage().getRequestName(type)}\n$reference",
         fontSize: 14,
         appBar: AppBar(),
-        widgets:[const DashboardPage().notificationIcon(context)],
+        widgets: [const DashboardPage().notificationIcon(context)],
         appBarHeight: 50,
         automaticallyImplyLeading: true,
       ),
@@ -29,8 +29,9 @@ class DpDetailsPage extends StatelessWidget {
           }
           if (state.dpDetailsModel?.record == null) {
             return const CreditNotesPage().emptyList(ontap: () {
-              context.read<RequestDetailsCubit>().getRequestDetails(
-                  context, requestId, type);
+              context
+                  .read<RequestDetailsCubit>()
+                  .getRequestDetails(context, requestId, type);
             });
           }
           return SingleChildScrollView(
@@ -80,18 +81,15 @@ class DpDetailsPage extends StatelessWidget {
                   const AdDetailsPage().supportingDocuments(context, [
                     {
                       "name": "Title Deed",
-                      "url":
-                          state.dpDetailsModel?.record?.titleDeedUrl,
+                      "url": state.dpDetailsModel?.record?.titleDeedUrl,
                     },
                     {
                       "name": "ID File",
-                      "url":
-                          state.dpDetailsModel?.record?.clientIdFileUrl,
+                      "url": state.dpDetailsModel?.record?.clientIdFileUrl,
                     },
                     {
                       "name": "Passport File",
-                      "url":
-                          state.dpDetailsModel?.record?.passportFileUrl,
+                      "url": state.dpDetailsModel?.record?.passportFileUrl,
                     },
                   ])
                 ],

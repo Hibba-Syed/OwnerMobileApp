@@ -5,12 +5,12 @@ class LoginState {
   final LoadingState loadingState;
   final String email;
   final String password;
-  final bool obsure;
+  final bool obscure;
   const LoginState({
     this.loginModel,
     this.email = "",
     this.password = "",
-    this.obsure = true,
+    this.obscure = true,
     this.loadingState = LoadingState.none,
   });
   LoginState copyWith({
@@ -18,14 +18,14 @@ class LoginState {
     final String? email,
     final String? password,
     final LoadingState? loadingState,
-    final bool? obsure,
+    final bool? obscure,
   }) {
     return LoginState(
       loginModel: loginModel ?? this.loginModel,
       loadingState: loadingState ?? this.loadingState,
       email: email ?? this.email,
       password: password ?? this.password,
-      obsure: obsure ?? this.obsure,
+      obscure: obscure ?? this.obscure,
     );
   }
 }

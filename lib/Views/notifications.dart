@@ -120,7 +120,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                                 .dateTimeFormatter(
                                                     notificationRecord
                                                         ?.createdAt),
-                                            fontsize: 12,
+                                            fontSize: 12,
                                           )
                                         ],
                                       )

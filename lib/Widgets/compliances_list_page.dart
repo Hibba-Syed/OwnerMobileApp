@@ -67,134 +67,157 @@ class _ReceiptListPageState extends State<CompliancesListPage> {
                         state.compliancesModel?.compliances?[index];
                     return Column(
                       children: [
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          margin: const EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                            color: kWhite,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                offset: const Offset(
-                                  1,
-                                  1,
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, AppRoutes.complianceDetails);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            decoration: BoxDecoration(
+                              color: kWhite,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: const Offset(
+                                    1,
+                                    1,
+                                  ),
+                                  spreadRadius: 2,
+                                  blurRadius: 2,
+                                  color: kGrey.shade200,
                                 ),
-                                spreadRadius: 2,
-                                blurRadius: 2,
-                                color: kGrey.shade200,
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.task_outlined,
-                                    color: context
-                                        .read<AppThemeCubit>()
-                                        .state
-                                        .primaryColor,
-                                    size: 18,
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(5),
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.3,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xffF2F2F2),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                  CustomText(
-                                    text:
-                                        "Compliance: ${compliance?.name ?? " -- "}",
-                                    fontWeight: FontWeight.bold,
-                                    fontsize: 15,
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
-                                      Icon(
-                                        Icons.calendar_month_outlined,
-                                        size: 15,
+                                      Image.asset(
+                                        "assets/compliances.png",
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.14,
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.1,
                                         color: context
                                             .read<AppThemeCubit>()
                                             .state
                                             .primaryColor,
                                       ),
+                                      const Gap(5),
                                       CustomText(
-                                        text:
-                                            "Date: ${const OccupantPage().dateTimeFormatter(compliance?.duedate)}",
-                                        fontsize: 12,
-                                      )
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.calendar_month_outlined,
-                                        size: 15,
+                                        text: "Compliance",
+                                        fontWeight: FontWeight.bold,
+                                        textAlign: TextAlign.center,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.038,
                                         color: context
                                             .read<AppThemeCubit>()
                                             .state
-                                            .primaryColor,
-                                      ),
-                                      CustomText(
-                                        text:
-                                            "Expiry Date: ${const OccupantPage().dateTimeFormatter(compliance?.expiry)}",
-                                        fontsize: 12,
+                                            .primaryColor
+                                            .withOpacity(0.8),
                                       )
                                     ],
                                   ),
-                                ],
-                              ),
-                              Divider(
-                                color: context
-                                    .read<AppThemeCubit>()
-                                    .state
-                                    .primaryColor,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      if (compliance?.certificate != null &&
-                                          compliance?.certificate != "") {
-                                        launchUrl(Uri.parse(
-                                            compliance?.certificate ?? ""));
-                                        return;
-                                      }
-                                      Fluttertoast.showToast(
-                                          msg:
-                                              "No certificate found to download");
-                                    },
-                                    child: const UnitsPage().roundedContainer(
-                                      context,
+                                ),
+                                const Gap(10),
+                                Expanded(
+                                  child: Column(
+                                    children: [
                                       Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Icon(
-                                            Icons.visibility_outlined,
-                                            color: context
-                                                .read<AppThemeCubit>()
-                                                .state
-                                                .primaryColor,
-                                            size: 18,
+                                          const RequestsPage().iconAndText(
+                                              context,
+                                              "assets/calender.png",
+                                              const OccupantPage()
+                                                  .dateTimeFormatter(
+                                                      compliance?.duedate)),
+                                          const Gap(10),
+                                          const RequestsPage().iconAndText(
+                                            context,
+                                            "assets/calender.png",
+                                            "Expiry: ${const OccupantPage().dateTimeFormatter(compliance?.expiry)}",
                                           ),
-                                          const CustomText(
-                                            text: " Certificate",
-                                            fontsize: 14,
-                                          )
                                         ],
                                       ),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 5),
-                                      invert: true,
-                                    ),
+                                      const Gap(10),
+                                      Container(
+                                        width: double.infinity,
+                                        padding: const EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xffFAFAFA),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: CustomText(
+                                          text: compliance?.name ?? " -- ",
+                                          maxLines: 1,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.04,
+                                        ),
+                                      ),
+                                      const Gap(10),
+                                      CustomButton(
+                                          text: "Download Certificate",
+                                          padding: EdgeInsets.zero,
+                                          buttonColor: const Color(0xff73E12F)
+                                              .withOpacity(0.1),
+                                          textColor: const Color(0xff73E12F),
+                                          icon: Image.asset(
+                                            "assets/certificate.png",
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.05,
+                                          ),
+                                          fontWeight: FontWeight.w500,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.08,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.03,
+                                          function: () {
+                                            if (compliance?.certificate !=
+                                                    null &&
+                                                compliance?.certificate != "") {
+                                              launchUrl(Uri.parse(
+                                                  compliance?.certificate ??
+                                                      ""));
+                                              return;
+                                            }
+                                            Fluttertoast.showToast(
+                                                msg:
+                                                    "No certificate found to download");
+                                          })
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         if ((index + 1) ==

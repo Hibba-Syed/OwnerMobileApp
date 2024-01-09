@@ -61,7 +61,7 @@ class CompaniesPage extends StatelessWidget {
           children: [
             CustomText(
               text: "Multiple Profiles found",
-              fontsize: 20,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
               color: context.read<AppThemeCubit>().state.primaryColor,
             ),
@@ -179,7 +179,7 @@ class CompaniesPage extends StatelessWidget {
                           ),
                           CustomText(
                             text: loginModel.owner?.company?.name ?? "",
-                            fontsize: 12,
+                            fontSize: 12,
                             maxLines: 2,
                             color: kGrey,
                             textAlign: TextAlign.center,

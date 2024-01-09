@@ -100,7 +100,7 @@ class _LedgerByAccountState extends State<LedgerByAccount> {
                                       textAlign: TextAlign.left,
                                       fontWeight: FontWeight.bold,
                                       maxLines: 1,
-                                      fontsize: 17,
+                                      fontSize: 17,
                                     ),
                                     const Gap(20),
                                     Text(

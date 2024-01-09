@@ -22,6 +22,7 @@ class AppRoutes {
   static const miDetails = "/miDetails";
   static const tpDetails = "/tpDetails";
   static const compliances = "/compliances";
+  static const complianceDetails = "/complianceDetails";
   static const happinessCenter = "/happinessCenter";
   static const profile = "/profile";
   static const changePassword = "/changePassword";

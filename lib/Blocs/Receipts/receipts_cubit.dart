@@ -5,7 +5,7 @@ part 'receipts_state.dart';
 
 class ReceiptsCubit extends Cubit<ReceiptsState> {
   ReceiptsCubit() : super(const ReceiptsState());
-  void onChangedateRange(DateTimeRange? dateRange) {
+  void onChangeDateRange(DateTimeRange? dateRange) {
     emit(state.copyWith(dateRange: dateRange));
   }
 

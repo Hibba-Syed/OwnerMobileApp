@@ -15,13 +15,21 @@ class RequestsPage extends StatelessWidget {
     String? unitNumber = arguments['unit_no'];
     int? unitId = arguments['unit_id'];
     return Scaffold(
-      appBar: BaseAppBar(
-        title: (unitNumber?.isEmpty ?? true) ? "" : "$unitNumber - Requests",
-        appBar: AppBar(),
-        automaticallyImplyLeading: true,
-        widgets: [
-          IconButton(
-              onPressed: () => const LedgerPage().showFilter(context,
+      backgroundColor: kBackgroundColor,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              const DashboardPage().appBar(
+                context,
+                widget: CustomText(
+                  text: "Unit $unitNumber - Requests",
+                  fontSize: MediaQuery.of(context).size.width * 0.05,
+                  fontWeight: FontWeight.bold,
+                ),
+                trailingIcon: IconButton(
+                  onPressed: () => const LedgerPage().showFilter(context,
                       child: filterView(), resetFunction: () {
                     context.read<RequestsCubit>().resetFilters();
                     context.read<RequestsCubit>().getRequests(context, unitId);
@@ -30,33 +38,30 @@ class RequestsPage extends StatelessWidget {
                     context.read<RequestsCubit>().getRequests(context, unitId);
                     Navigator.pop(context);
                   }),
-              icon: Icon(
-                Icons.filter_alt_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ))
-        ],
-        appBarHeight: 50,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            CustomSearch(
-              initialValue: context.read<RequestsCubit>().state.keyword,
-              onSubmitted: (value) {
-                context.read<RequestsCubit>().onChangeKeyword(value);
-                context.read<RequestsCubit>().getRequests(context, unitId);
-              },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: RequestListPage(
-                unitId: unitId,
+                  icon: Image.asset(
+                    "assets/filter.png",
+                    scale: 4,
+                  ),
+                ),
               ),
-            ),
-          ],
+              CustomSearch(
+                initialValue: context.read<RequestsCubit>().state.keyword,
+                fillColor: kWhite,
+                onSubmitted: (value) {
+                  context.read<RequestsCubit>().onChangeKeyword(value);
+                  context.read<RequestsCubit>().getRequests(context, unitId);
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: RequestListPage(
+                  unitId: unitId,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -70,14 +75,14 @@ class RequestsPage extends StatelessWidget {
           context,
           CustomText(
             text: "Reference#: ${application?.reference ?? " -- "}",
-            fontsize: 12,
+            fontSize: 12,
           ),
           color: const Color(0xfff3f8fb),
           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         ),
         CustomText(
           text: const OccupantPage().dateTimeFormatter(application?.createdAt),
-          fontsize: 12,
+          fontSize: 12,
         )
       ],
     );
@@ -125,7 +130,7 @@ class RequestsPage extends StatelessWidget {
               CustomText(
                 text: " ${application?.applicationType ?? " -- "}",
                 color: kWhite,
-                fontsize: 12,
+                fontSize: 12,
               )
             ],
           ),
@@ -145,7 +150,7 @@ class RequestsPage extends StatelessWidget {
                 CustomText(
                   text: " ${application?.clientPhone}",
                   color: context.read<AppThemeCubit>().state.primaryColor,
-                  fontsize: 12,
+                  fontSize: 12,
                 )
               ],
             ),
@@ -157,7 +162,7 @@ class RequestsPage extends StatelessWidget {
           children: [
             CustomText(
               text: "●",
-              fontsize: 12,
+              fontSize: 12,
               color: getStatusColor(application?.status),
             ),
             const SizedBox(
@@ -167,7 +172,7 @@ class RequestsPage extends StatelessWidget {
               context,
               CustomText(
                 text: application?.status ?? "No status",
-                fontsize: 12,
+                fontSize: 12,
                 color: getStatusColor(application?.status),
               ),
               invert: true,
@@ -282,7 +287,7 @@ class RequestsPage extends StatelessWidget {
     if (status == "onhold") {
       color = const Color(0xffffc353);
     }
-    if (status == "wait for documnets") {
+    if (status == "wait for documents") {
       color = const Color(0xff00c851);
     }
     if (status == "processed") {
@@ -310,7 +315,7 @@ class RequestsPage extends StatelessWidget {
       color = const Color(0xffffd550);
     }
     if (status == "completed") {
-      color = const Color(0xff19843d);
+      color = const Color(0xff73E12F);
     }
     if (status == "cancelled") {
       color = const Color(0xffff4444);
@@ -319,5 +324,26 @@ class RequestsPage extends StatelessWidget {
       color = const Color(0xffff4444);
     }
     return color;
+  }
+
+  Widget iconAndText(BuildContext context, String image, String? text,
+      {FontWeight? fontWeight,
+      MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start}) {
+    return Row(
+      mainAxisAlignment: mainAxisAlignment,
+      children: [
+        Image.asset(
+          image,
+          width: MediaQuery.of(context).size.width * 0.04,
+        ),
+        const Gap(5),
+        CustomText(
+          text: text ?? "",
+          fontWeight: fontWeight,
+          fontSize: MediaQuery.of(context).size.width * 0.03,
+          color: const Color(0xffB2B1B1),
+        )
+      ],
+    );
   }
 }

@@ -14,7 +14,7 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
         title: accountDatum?.name ?? "",
         appBar: AppBar(),
         automaticallyImplyLeading: true,
-        widgets:[const DashboardPage().notificationIcon(context)],
+        widgets: [const DashboardPage().notificationIcon(context)],
         appBarHeight: 50,
       ),
       body: Column(
@@ -117,7 +117,7 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
                             Expanded(
                               child: CustomText(
                                 text: ledgerAccountDatum?.reference ?? " -- ",
-                                fontsize: 18,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 textAlign: TextAlign.left,
                               ),
@@ -127,17 +127,17 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
                               text: const OccupantPage()
                                   .dateTimeFormatter(ledgerAccountDatum?.date),
                               color: kGrey,
-                              fontsize: 12,
+                              fontSize: 12,
                             ),
                           ],
                         ),
                         CustomText(
                           text: ledgerAccountDatum?.transactionNo ?? " -- ",
-                          fontsize: 13,
+                          fontSize: 13,
                         ),
                         CustomText(
                           text: ledgerAccountDatum?.description ?? " -- ",
-                          fontsize: 15,
+                          fontSize: 15,
                         ),
                         const Gap(10),
                         Row(
@@ -145,12 +145,12 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
                           children: [
                             const CustomText(
                               text: "Debit : ",
-                              fontsize: 13,
+                              fontSize: 13,
                             ),
                             CustomText(
                               text: formatCurrency(
                                   ledgerAccountDatum?.debit ?? 0),
-                              fontsize: 13,
+                              fontSize: 13,
                             ),
                           ],
                         ),
@@ -159,12 +159,12 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
                           children: [
                             const CustomText(
                               text: "Credit : ",
-                              fontsize: 13,
+                              fontSize: 13,
                             ),
                             CustomText(
                               text: formatCurrency(
                                   ledgerAccountDatum?.credit ?? 0),
-                              fontsize: 13,
+                              fontSize: 13,
                             ),
                           ],
                         ),
@@ -176,12 +176,12 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
                           children: [
                             const CustomText(
                               text: "Balance : ",
-                              fontsize: 13,
+                              fontSize: 13,
                             ),
                             CustomText(
                               text: formatCurrency(
                                   ledgerAccountDatum?.balance ?? 0),
-                              fontsize: 13,
+                              fontSize: 13,
                             ),
                           ],
                         ),
@@ -220,5 +220,18 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
       icon ?? Icons.balance,
       color: kWhite,
     );
+  }
+
+  String ledgerImageIcon(String? type, {IconData? icon}) {
+    if (type?.toLowerCase() == "receipt") {
+      return "assets/receipt.png";
+    }
+    if (type?.toLowerCase() == "invoice") {
+      return "assets/invoice.png";
+    }
+    if (type?.toLowerCase() == "credit_memo") {
+      return "assets/creditNote.png";
+    }
+    return "assets/ledger.png";
   }
 }

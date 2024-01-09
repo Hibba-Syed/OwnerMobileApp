@@ -6,7 +6,7 @@ part 'credit_notes_state.dart';
 class CreditNotesCubit extends Cubit<CreditNotesState> {
   CreditNotesCubit() : super(const CreditNotesState());
 
-  void onChangedateRange(DateTimeRange? dateRange) {
+  void onChangeDateRange(DateTimeRange? dateRange) {
     emit(state.copyWith(dateRange: dateRange));
   }
 

@@ -211,7 +211,7 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
                                       text: unitFinancialsRecord?.unitNumber ??
                                           " -- ",
                                       textAlign: TextAlign.left,
-                                      fontsize: 14,
+                                      fontSize: 14,
                                       color: kGrey,
                                     ),
                                     Container(
@@ -228,7 +228,7 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
                                       child: CustomText(
                                         text: formatCurrency(
                                             unitFinancialsRecord?.balance ?? 0),
-                                        fontsize: 12,
+                                        fontSize: 12,
                                       ),
                                     ),
                                   ],

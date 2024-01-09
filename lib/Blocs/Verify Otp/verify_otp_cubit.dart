@@ -1,4 +1,4 @@
-import 'package:iskaanowner/Blocs/Compaines/companies_cubit.dart';
+import 'package:iskaanowner/Blocs/Companies/companies_cubit.dart';
 import 'package:iskaanowner/Repo/user.dart';
 
 import '../../Utils/utils.dart';

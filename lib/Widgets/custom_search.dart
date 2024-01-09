@@ -12,6 +12,7 @@ class CustomSearch extends StatelessWidget {
   final bool autofocus;
   final dynamic function;
   final String? initialValue;
+  final Color? fillColor;
   const CustomSearch({
     Key? key,
     this.enabled = true,
@@ -20,6 +21,7 @@ class CustomSearch extends StatelessWidget {
     this.autofocus = false,
     this.onSubmitted,
     this.onChanged,
+    this.fillColor,
     this.hintText,
     this.initialValue,
   }) : super(key: key);
@@ -27,6 +29,7 @@ class CustomSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: kTransparent,
       child: TextFormField(
         initialValue: initialValue,
         autofocus: autofocus,
@@ -42,18 +45,18 @@ class CustomSearch extends StatelessWidget {
           hintText: hintText ?? "Search by keyword",
           isDense: true,
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
               borderSide: const BorderSide(color: kTransparent)),
           disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
               borderSide: const BorderSide(color: kTransparent)),
           enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
               borderSide: const BorderSide(color: kTransparent)),
           focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
               borderSide: const BorderSide(color: kTransparent)),
-          fillColor: kGrey.shade100,
+          fillColor: fillColor ?? kWhite,
           filled: true,
         ),
         onFieldSubmitted: onSubmitted,

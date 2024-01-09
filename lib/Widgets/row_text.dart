@@ -16,7 +16,7 @@ class RowText extends StatelessWidget {
         CustomText(
           text: text,
           fontWeight: FontWeight.bold,
-          fontsize: 14,
+          fontSize: 14,
           textAlign: TextAlign.left,
         ),
         const Gap(20),

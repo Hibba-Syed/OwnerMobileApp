@@ -2,7 +2,7 @@ part of 'happiness_center_cubit.dart';
 
 class HappinessCenterState {
   final int? communityId;
-  final String? complaintType;
+  final String complaintType;
   final int? unitId;
   final String? email;
   final String? message;
@@ -13,7 +13,7 @@ class HappinessCenterState {
   const HappinessCenterState({
     this.communityId,
     this.unitId,
-    this.complaintType,
+    this.complaintType = "Inquiry",
     this.message,
     this.service,
     this.email,

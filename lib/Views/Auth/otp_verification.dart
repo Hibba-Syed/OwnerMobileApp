@@ -92,7 +92,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                 const CustomText(
                   text: "OTP sent to Mail",
                   fontWeight: FontWeight.bold,
-                  fontsize: 20,
+                  fontSize: 20,
                 ),
                 LottieBuilder.asset(
                   "assets/otp.json",

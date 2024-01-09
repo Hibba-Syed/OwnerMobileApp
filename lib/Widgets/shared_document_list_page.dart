@@ -1,3 +1,8 @@
+import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:iskaanowner/Widgets/image_builder.dart';
+import 'package:path/path.dart' as path;
+
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Models/shared_document.dart';
 import '../Utils/utils.dart';
 
@@ -53,6 +58,7 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
             },
           );
         }
+
         return Column(
           children: [
             Expanded(
@@ -62,32 +68,143 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
                       .read<SharedDocumentsCubit>()
                       .getSharedDocuments(context, unitId: widget.unitId);
                 },
-                child: GridView.builder(
+                child: ListView.builder(
                   padding: const EdgeInsets.all(10),
                   itemCount:
                       state.sharedDocumentsModel?.sharedDocuments?.length,
                   itemBuilder: (BuildContext context, int index) {
                     SharedDocument? sharedDocumentsRecord =
                         state.sharedDocumentsModel?.sharedDocuments?[index];
+                    String? url = sharedDocumentsRecord?.documents;
+                    String type = "File";
+                    String fileExtension = path.extension(url ?? "");
+                    fileExtension = fileExtension.toLowerCase();
+                    if (fileExtension == ".png" ||
+                        fileExtension == ".jpeg" ||
+                        fileExtension == ".jpg") {
+                      type = "Image";
+                    }
+                    if (fileExtension == ".doc" ||
+                        fileExtension == ".xlsx" ||
+                        fileExtension == ".docx") {
+                      type = "Document";
+                    }
+                    if (fileExtension == ".pdf") {
+                      type = "Pdf";
+                    }
                     return Container(
+                      margin: const EdgeInsets.symmetric(vertical: 5),
                       decoration: BoxDecoration(
-                          color: kWhite,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                                color: kGrey.shade300,
-                                blurRadius: 2,
-                                spreadRadius: 2)
-                          ]),
-                      child: const SharedDocumentPage().sharedDocumentWidget(
-                          context, sharedDocumentsRecord, widget.unitId),
+                        color: kWhite,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                              offset: const Offset(1, 1),
+                              spreadRadius: 2,
+                              blurRadius: 2,
+                              color: kGrey.shade200),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10),
+                            ),
+                            child: Stack(
+                              children: [
+                                Builder(builder: (context) {
+                                  if (type.toLowerCase() == "pdf") {
+                                    return SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.2,
+                                      width: double.infinity,
+                                      child: const PDF(
+                                        swipeHorizontal: true,
+                                      ).cachedFromUrl(
+                                          sharedDocumentsRecord?.documents ??
+                                              ""),
+                                    );
+                                  }
+
+                                  return ImageBuilder(
+                                    url: sharedDocumentsRecord?.documents ?? "",
+                                    height: MediaQuery.of(context).size.height *
+                                        0.2,
+                                    width: double.infinity,
+                                  );
+                                }),
+                                Container(
+                                  margin: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(7),
+                                    color: kWhite,
+                                  ),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 5),
+                                    decoration: BoxDecoration(
+                                      color: context
+                                          .read<AppThemeCubit>()
+                                          .state
+                                          .primaryColor
+                                          .withOpacity(0.8),
+                                      borderRadius: BorderRadius.circular(7),
+                                    ),
+                                    child: CustomText(
+                                      text: type,
+                                      color: kWhite,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.035,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomText(
+                                  text: sharedDocumentsRecord?.documentName ??
+                                      " -- ",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.045,
+                                ),
+                                const Gap(10),
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/calender.png",
+                                      scale: 4,
+                                    ),
+                                    const Gap(10),
+                                    CustomText(
+                                      text: const OccupantPage()
+                                          .dateTimeFormatter(
+                                              sharedDocumentsRecord
+                                                  ?.expiryDate),
+                                      color: const Color(0xffB2B1B1),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.035,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     );
                   },
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                      childAspectRatio: 16 / 20),
                 ),
               ),
             ),

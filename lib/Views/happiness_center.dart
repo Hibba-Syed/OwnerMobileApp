@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
@@ -13,13 +14,7 @@ class HappinessCenterPage extends StatelessWidget {
     List<String> commonAreaList = ["Select"];
     final GlobalKey<FormState> formKey = GlobalKey();
     return Scaffold(
-      appBar: BaseAppBar(
-        title: "Happiness Center",
-        appBar: AppBar(),
-        widgets: [const DashboardPage().notificationIcon(context)],
-        appBarHeight: 50,
-        automaticallyImplyLeading: true,
-      ),
+      backgroundColor: kBackgroundColor,
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(10),
         child: BlocBuilder<HappinessCenterCubit, HappinessCenterState>(
@@ -33,411 +28,567 @@ class HappinessCenterPage extends StatelessWidget {
               );
             }
             return CustomButton(
-              text: "Submit",
-              function: () {
-                if (state.complaintType?.toLowerCase() == null ||
-                    state.complaintType?.toLowerCase() == "select") {
-                  Fluttertoast.showToast(msg: "Select an enquiry type");
-                  return;
-                }
-                if (state.communityId == null || state.communityId == 0) {
-                  Fluttertoast.showToast(msg: "Select a community");
-                  return;
-                }
-                if (state.unitId == null || state.unitId == 0) {
-                  Fluttertoast.showToast(msg: "Select a unit");
-                  return;
-                }
-                if (!(formKey.currentState?.validate() ?? false)) {
-                  return;
-                }
-                context.read<HappinessCenterCubit>().submitQuery(context);
-              },
-              icon: const Icon(
-                Icons.telegram,
-                color: kWhite,
-              ),
-            );
+                text: "Submit",
+                fontSize: MediaQuery.of(context).size.width * 0.035,
+                height: MediaQuery.of(context).size.width * 0.12,
+                buttonColor: context
+                    .read<AppThemeCubit>()
+                    .state
+                    .primaryColor
+                    .withOpacity(0.8),
+                function: () {
+                  if (state.communityId == null || state.communityId == 0) {
+                    Fluttertoast.showToast(msg: "Select a community");
+                    return;
+                  }
+                  if (state.unitId == null || state.unitId == 0) {
+                    Fluttertoast.showToast(msg: "Select a unit");
+                    return;
+                  }
+                  if (!(formKey.currentState?.validate() ?? false)) {
+                    return;
+                  }
+                  context.read<HappinessCenterCubit>().submitQuery(context);
+                },
+                icon: Image.asset(
+                  "assets/send.png",
+                  width: MediaQuery.of(context).size.width * 0.06,
+                  color: kWhite,
+                ));
           },
         ),
       ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: formKey,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                inputDropDown(
-                  context,
-                  "Enquiry Type*",
-                  enquiryTypeList,
-                  onSelected: (value) => context
-                      .read<HappinessCenterCubit>()
-                      .onChangeComplaintType(value),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: const DashboardPage().appBar(
+                context,
+                widget: CustomText(
+                  text: "Happiness Center",
+                  fontSize: MediaQuery.of(context).size.width * 0.05,
+                  fontWeight: FontWeight.bold,
                 ),
-                BlocBuilder<DropdownCommunitiesCubit, DropdownCommunitiesState>(
-                  builder: (context, state) {
-                    return inputDropDown(
-                        context,
-                        "Community*",
-                        (state.communitiesModel?.associations
-                                ?.map((e) => e.name ?? " -- ")
-                                .toList() ??
-                            [])
-                          ..insert(0, "Select"), onSelected: (value) {
-                      int? index = state.communitiesModel?.associations
-                          ?.indexWhere((element) => element.name == value);
-                      if (index != null && index != -1) {
-                        context
-                            .read<HappinessCenterCubit>()
-                            .onChangeCommunityId(state
-                                .communitiesModel?.associations?[index].id);
-                        context.read<DropdownUnitsCubit>().getUnits(context,
-                            state.communitiesModel?.associations?[index].id);
-                      }
-                    }, loadingState: state.loadingState);
-                  },
-                ),
-                BlocBuilder<DropdownUnitsCubit, DropdownUnitsState>(
-                  builder: (context, state) {
-                    return inputDropDown(
-                      context,
-                      "Unit*",
-                      (state.unitsModel?.record
-                              ?.map((e) => e.unitNumber ?? "")
-                              .toList() ??
-                          [])
-                        ..insert(0, "Select"),
-                      loadingState: state.loadingState,
-                      onSelected: (value) {
-                        int? index = state.unitsModel?.record?.indexWhere(
-                            (element) => element.unitNumber == value);
-                        if (index != null && index != -1) {
-                          context.read<HappinessCenterCubit>().onChangeUnitId(
-                              state.unitsModel?.record?[index].id);
-                          unitList = ["Select"];
-                          unitList.addAll(
-                            state.unitsModel?.record?[index]
-                                    .happinessCenterConfig?.unit
-                                    ?.map((e) => e.serviceName ?? "")
-                                    .toList() ??
-                                [],
-                          );
-                          commonAreaList = ["Select"];
-                          commonAreaList.addAll(
-                            state.unitsModel?.record?[index]
-                                    .happinessCenterConfig?.commonArea
-                                    ?.map((e) => e.serviceName ?? "")
-                                    .toList() ??
-                                [],
-                          );
-                        }
-                      },
-                    );
-                  },
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                BlocBuilder<HappinessCenterCubit, HappinessCenterState>(
-                  builder: (context, state) {
-                    return Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: kWhite,
-                        boxShadow: [
-                          BoxShadow(
-                              offset: const Offset(1, 1),
-                              spreadRadius: 2,
-                              blurRadius: 2,
-                              color: kGrey.shade200),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (state.complaintType?.toLowerCase() == "complaint")
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: InkWell(
-                                    onTap: () {
-                                      context
-                                          .read<HappinessCenterCubit>()
-                                          .onChangeRadioValue("Unit");
-                                    },
-                                    child: Container(
-                                      height: 50,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(
-                                              10,
-                                            ),
-                                            bottomLeft: Radius.circular(
-                                              10,
-                                            ),
-                                          ),
-                                          color:
-                                              state.radioValue.toLowerCase() ==
-                                                      "unit"
-                                                  ? context
-                                                      .read<AppThemeCubit>()
-                                                      .state
-                                                      .primaryColor
-                                                  : kGrey.shade200),
-                                      child: CustomText(
-                                        text: "Unit",
-                                        color: state.radioValue.toLowerCase() ==
-                                                "unit"
-                                            ? kWhite
-                                            : kBlack,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: InkWell(
-                                    onTap: () {
-                                      context
-                                          .read<HappinessCenterCubit>()
-                                          .onChangeRadioValue("Common Area");
-                                    },
-                                    child: Container(
-                                      height: 50,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.only(
-                                            topRight: Radius.circular(
-                                              10,
-                                            ),
-                                            bottomRight: Radius.circular(
-                                              10,
-                                            ),
-                                          ),
-                                          color:
-                                              state.radioValue.toLowerCase() ==
-                                                      "common area"
-                                                  ? context
-                                                      .read<AppThemeCubit>()
-                                                      .state
-                                                      .primaryColor
-                                                  : kGrey.shade200),
-                                      child: CustomText(
-                                        text: "Common Area",
-                                        color: state.radioValue.toLowerCase() ==
-                                                "common area"
-                                            ? kWhite
-                                            : kBlack,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          Builder(builder: (context) {
-                            if (state.complaintType?.toLowerCase() !=
-                                "complaint") {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  CustomText(
-                                    text: "Subject*",
-                                    fontWeight: FontWeight.bold,
-                                    color: context
+              ),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Form(
+                  key: formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        BlocBuilder<HappinessCenterCubit, HappinessCenterState>(
+                          builder: (context, state) {
+                            return const DashboardPage()
+                                .categoriesRow(context, [
+                              const DashboardPage().iconButton(
+                                context,
+                                "assets/inquiry.png",
+                                "Inquiry",
+                                color: state.complaintType.toLowerCase() ==
+                                        "inquiry"
+                                    ? context
                                         .read<AppThemeCubit>()
                                         .state
-                                        .primaryColor,
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  CustomTextField(
-                                    initialValue: state.service,
-                                    hintText: "Enter subject",
-                                    fillColor: kGrey.shade200,
-                                    validator: (value) {
-                                      if (state.complaintType?.toLowerCase() !=
-                                          "complaint") {
-                                        if (value == null || value.isEmpty) {
-                                          return "Please enter a subject";
-                                        }
+                                        .primaryColor
+                                        .withOpacity(0.05)
+                                    : kWhite,
+                                onTap: () {
+                                  context
+                                      .read<HappinessCenterCubit>()
+                                      .onChangeComplaintType("Inquiry");
+                                },
+                              ),
+                              const DashboardPage().iconButton(
+                                context,
+                                "assets/complaint.png",
+                                "Complaint",
+                                color: state.complaintType.toLowerCase() ==
+                                        "complaint"
+                                    ? context
+                                        .read<AppThemeCubit>()
+                                        .state
+                                        .primaryColor
+                                        .withOpacity(0.05)
+                                    : kWhite,
+                                onTap: () {
+                                  context
+                                      .read<HappinessCenterCubit>()
+                                      .onChangeComplaintType("Complaint");
+                                },
+                              ),
+                              const DashboardPage().iconButton(
+                                context,
+                                "assets/suggestion.png",
+                                "Suggestion",
+                                color: state.complaintType.toLowerCase() ==
+                                        "suggestion"
+                                    ? context
+                                        .read<AppThemeCubit>()
+                                        .state
+                                        .primaryColor
+                                        .withOpacity(0.05)
+                                    : kWhite,
+                                onTap: () {
+                                  context
+                                      .read<HappinessCenterCubit>()
+                                      .onChangeComplaintType("Suggestion");
+                                },
+                              ),
+                            ]);
+                          },
+                        ),
+                        const Gap(10),
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: kWhite,
+                            boxShadow: [
+                              BoxShadow(
+                                  offset: const Offset(1, 1),
+                                  spreadRadius: 2,
+                                  blurRadius: 2,
+                                  color: kGrey.shade200),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              BlocBuilder<DropdownCommunitiesCubit,
+                                  DropdownCommunitiesState>(
+                                builder: (context, state) {
+                                  return inputDropDown(
+                                      context,
+                                      "Community*",
+                                      (state.communitiesModel?.associations
+                                              ?.map((e) => e.name ?? " -- ")
+                                              .toList() ??
+                                          [])
+                                        ..insert(0, "Select"),
+                                      onSelected: (value) {
+                                    int? index = state
+                                        .communitiesModel?.associations
+                                        ?.indexWhere(
+                                            (element) => element.name == value);
+                                    if (index != null && index != -1) {
+                                      context
+                                          .read<HappinessCenterCubit>()
+                                          .onChangeCommunityId(state
+                                              .communitiesModel
+                                              ?.associations?[index]
+                                              .id);
+                                      context
+                                          .read<DropdownUnitsCubit>()
+                                          .getUnits(
+                                              context,
+                                              state.communitiesModel
+                                                  ?.associations?[index].id);
+                                    }
+                                  }, loadingState: state.loadingState);
+                                },
+                              ),
+                              BlocBuilder<DropdownUnitsCubit,
+                                  DropdownUnitsState>(
+                                builder: (context, state) {
+                                  return inputDropDown(
+                                    context,
+                                    "Unit*",
+                                    (state.unitsModel?.record
+                                            ?.map((e) => e.unitNumber ?? "")
+                                            .toList() ??
+                                        [])
+                                      ..insert(0, "Select"),
+                                    loadingState: state.loadingState,
+                                    onSelected: (value) {
+                                      int? index = state.unitsModel?.record
+                                          ?.indexWhere((element) =>
+                                              element.unitNumber == value);
+                                      if (index != null && index != -1) {
+                                        context
+                                            .read<HappinessCenterCubit>()
+                                            .onChangeUnitId(state
+                                                .unitsModel?.record?[index].id);
+                                        unitList = ["Select"];
+                                        unitList.addAll(
+                                          state.unitsModel?.record?[index]
+                                                  .happinessCenterConfig?.unit
+                                                  ?.map((e) =>
+                                                      e.serviceName ?? "")
+                                                  .toList() ??
+                                              [],
+                                        );
+                                        commonAreaList = ["Select"];
+                                        commonAreaList.addAll(
+                                          state
+                                                  .unitsModel
+                                                  ?.record?[index]
+                                                  .happinessCenterConfig
+                                                  ?.commonArea
+                                                  ?.map((e) =>
+                                                      e.serviceName ?? "")
+                                                  .toList() ??
+                                              [],
+                                        );
                                       }
-                                      return null;
                                     },
-                                    onChanged: (value) => context
-                                        .read<HappinessCenterCubit>()
-                                        .onChangeService(value),
-                                  ),
-                                ],
-                              );
-                            }
-                            return inputDropDown(
-                              context,
-                              "Service",
-                              state.radioValue.toLowerCase() == "unit"
-                                  ? unitList
-                                  : commonAreaList,
-                              onSelected: (value) {
-                                if (value?.toLowerCase() != "select") {
-                                  context
-                                      .read<HappinessCenterCubit>()
-                                      .onChangeService(value);
-                                }
-                              },
-                            );
-                          }),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          CustomText(
-                            text: state.complaintType?.toLowerCase() ==
-                                    "complaint"
-                                ? "Complaint*"
-                                : state.complaintType?.toLowerCase() ==
-                                        "inquiry"
-                                    ? "Inquiry*"
-                                    : "Suggestion*",
-                            fontWeight: FontWeight.bold,
-                            color: context
-                                .read<AppThemeCubit>()
-                                .state
-                                .primaryColor,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          CustomTextField(
-                            fillColor: kGrey.shade200,
-                            hintText: "Enter your complaint here",
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please enter your complaint here";
-                              }
-                              return null;
-                            },
-                            keyboardType: TextInputType.multiline,
-                            maxLines: 5,
-                            onChanged: (value) => context
-                                .read<HappinessCenterCubit>()
-                                .onChangeMessage(value),
-                            contentPadding: const EdgeInsets.all(10),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          CustomText(
-                            text: "Attachment",
-                            fontWeight: FontWeight.bold,
-                            color: context
-                                .read<AppThemeCubit>()
-                                .state
-                                .primaryColor,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          CustomButton(
-                            width: MediaQuery.of(context).size.width / 2,
-                            text: "Upload",
-                            function: () async {
-                              await FilePicker.platform.pickFiles(
-                                  allowedExtensions: [
-                                    ".png",
-                                    ".jpg",
-                                    "jpeg",
-                                    ".pdf",
-                                    ".gif"
-                                  ],
-                                  allowMultiple: true,
-                                  type: FileType.custom).then((value) {
-                                if (value != null) {
-                                  if (value.count > 3 ||
-                                      (context
-                                                  .read<HappinessCenterCubit>()
-                                                  .state
-                                                  .fileList
-                                                  ?.length ??
-                                              0) ==
-                                          3) {
-                                    return Fluttertoast.showToast(
-                                        msg: "You can attach only three files");
-                                  }
-                                  context
-                                      .read<HappinessCenterCubit>()
-                                      .onChangeFiles(value.files
-                                          .map((e) => File(e.path ?? ""))
-                                          .toList());
-                                }
-                              });
-                            },
-                            textColor: context
-                                .read<AppThemeCubit>()
-                                .state
-                                .primaryColor,
-                            invert: true,
-                            icon: Icon(
-                              Icons.upload_outlined,
-                              color: context
-                                  .read<AppThemeCubit>()
-                                  .state
-                                  .primaryColor,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Column(
-                            children: state.fileList
-                                    ?.map((e) => Container(
-                                          margin: const EdgeInsets.symmetric(
-                                              vertical: 5),
-                                          padding: const EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: kGrey.shade200,
-                                          ),
+                                  );
+                                },
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              BlocBuilder<HappinessCenterCubit,
+                                  HappinessCenterState>(
+                                builder: (context, state) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      if (state.complaintType.toLowerCase() ==
+                                          "complaint")
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10),
                                           child: Row(
                                             children: [
                                               Expanded(
-                                                child: CustomText(
-                                                  text: e.path.split("/").last,
-                                                  textAlign: TextAlign.left,
-                                                ),
-                                              ),
-                                              const Gap(10),
-                                              IconButton(
-                                                  onPressed: () {
+                                                child: InkWell(
+                                                  onTap: () {
                                                     context
                                                         .read<
                                                             HappinessCenterCubit>()
-                                                        .removeFile(e);
+                                                        .onChangeRadioValue(
+                                                            "unit");
                                                   },
-                                                  icon: const Icon(Icons.close))
+                                                  child: AnimatedContainer(
+                                                    duration: 400.ms,
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10),
+                                                    alignment: Alignment.center,
+                                                    decoration: BoxDecoration(
+                                                      color: context
+                                                          .read<AppThemeCubit>()
+                                                          .state
+                                                          .primaryColor
+                                                          .withOpacity(state
+                                                                      .radioValue
+                                                                      .toLowerCase() ==
+                                                                  "unit"
+                                                              ? 0.8
+                                                              : 0.1),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
+                                                    child: CustomText(
+                                                      text: "Unit Info",
+                                                      color: state.radioValue
+                                                                  .toLowerCase() ==
+                                                              "unit"
+                                                          ? kWhite
+                                                          : context
+                                                              .read<
+                                                                  AppThemeCubit>()
+                                                              .state
+                                                              .primaryColor,
+                                                      maxLines: 1,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              const Gap(10),
+                                              Expanded(
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    context
+                                                        .read<
+                                                            HappinessCenterCubit>()
+                                                        .onChangeRadioValue(
+                                                            "common area");
+                                                  },
+                                                  child: AnimatedContainer(
+                                                    duration: 400.ms,
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10),
+                                                    alignment: Alignment.center,
+                                                    decoration: BoxDecoration(
+                                                      color: context
+                                                          .read<AppThemeCubit>()
+                                                          .state
+                                                          .primaryColor
+                                                          .withOpacity(state
+                                                                      .radioValue
+                                                                      .toLowerCase() ==
+                                                                  "common area"
+                                                              ? 0.8
+                                                              : 0.1),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
+                                                    child: CustomText(
+                                                      text: "Common Area",
+                                                      color: state.radioValue
+                                                                  .toLowerCase() ==
+                                                              "common area"
+                                                          ? kWhite
+                                                          : context
+                                                              .read<
+                                                                  AppThemeCubit>()
+                                                              .state
+                                                              .primaryColor,
+                                                      maxLines: 1,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
                                             ],
                                           ),
-                                        ))
-                                    .toList() ??
-                                [],
+                                        ),
+                                      Builder(builder: (context) {
+                                        if (state.complaintType.toLowerCase() !=
+                                            "complaint") {
+                                          return Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              CustomText(
+                                                text: "Subject*",
+                                                fontWeight: FontWeight.bold,
+                                                color: const Color(0xffB2B1B1),
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.032,
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              CustomTextField(
+                                                initialValue: state.service,
+                                                hintText: "Enter subject",
+                                                validator: (value) {
+                                                  if (state.complaintType
+                                                          .toLowerCase() !=
+                                                      "complaint") {
+                                                    if (value == null ||
+                                                        value.isEmpty) {
+                                                      return "Please enter a subject";
+                                                    }
+                                                  }
+                                                  return null;
+                                                },
+                                                onChanged: (value) => context
+                                                    .read<
+                                                        HappinessCenterCubit>()
+                                                    .onChangeService(value),
+                                              ),
+                                            ],
+                                          );
+                                        }
+                                        return inputDropDown(
+                                          context,
+                                          "Service",
+                                          state.radioValue.toLowerCase() ==
+                                                  "unit"
+                                              ? unitList
+                                              : commonAreaList,
+                                          onSelected: (value) {
+                                            if (value?.toLowerCase() !=
+                                                "select") {
+                                              context
+                                                  .read<HappinessCenterCubit>()
+                                                  .onChangeService(value);
+                                            }
+                                          },
+                                        );
+                                      }),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      CustomText(
+                                        text:
+                                            state.complaintType.toLowerCase() ==
+                                                    "complaint"
+                                                ? "Complaint*"
+                                                : state.complaintType
+                                                            .toLowerCase() ==
+                                                        "inquiry"
+                                                    ? "Inquiry*"
+                                                    : "Suggestion*",
+                                        fontWeight: FontWeight.bold,
+                                        color: const Color(0xffB2B1B1),
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.032,
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      CustomTextField(
+                                        hintText:
+                                            "Enter your ${state.complaintType.toLowerCase() == "complaint" ? "complaint" : state.complaintType.toLowerCase() == "inquiry" ? "inquiry" : "suggestion"} here",
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return "Please enter your ${state.complaintType.toLowerCase() == "complaint" ? "complaint" : state.complaintType.toLowerCase() == "inquiry" ? "inquiry" : "suggestion"} here";
+                                          }
+                                          return null;
+                                        },
+                                        keyboardType: TextInputType.multiline,
+                                        maxLines: 5,
+                                        onChanged: (value) => context
+                                            .read<HappinessCenterCubit>()
+                                            .onChangeMessage(value),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      CustomText(
+                                        text: "Attachments",
+                                        fontWeight: FontWeight.bold,
+                                        color: const Color(0xffB2B1B1),
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.032,
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      CustomButton(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2,
+                                          text: "Upload",
+                                          function: () async {
+                                            await FilePicker.platform.pickFiles(
+                                                allowedExtensions: [
+                                                  ".png",
+                                                  ".jpg",
+                                                  "jpeg",
+                                                  ".pdf",
+                                                  ".gif"
+                                                ],
+                                                allowMultiple: true,
+                                                type: FileType
+                                                    .custom).then((value) {
+                                              if (value != null) {
+                                                if (value.count > 3 ||
+                                                    (context
+                                                                .read<
+                                                                    HappinessCenterCubit>()
+                                                                .state
+                                                                .fileList
+                                                                ?.length ??
+                                                            0) ==
+                                                        3) {
+                                                  return Fluttertoast.showToast(
+                                                      msg:
+                                                          "You can attach only three files");
+                                                }
+                                                context
+                                                    .read<
+                                                        HappinessCenterCubit>()
+                                                    .onChangeFiles(value.files
+                                                        .map((e) =>
+                                                            File(e.path ?? ""))
+                                                        .toList());
+                                              }
+                                            });
+                                          },
+                                          textColor: context
+                                              .read<AppThemeCubit>()
+                                              .state
+                                              .primaryColor,
+                                          invert: true,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.035,
+                                          icon: Image.asset(
+                                            "assets/upload.png",
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.05,
+                                            color: context
+                                                .read<AppThemeCubit>()
+                                                .state
+                                                .primaryColor,
+                                          )),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Column(
+                                        children: state.fileList
+                                                ?.map((e) => Container(
+                                                      margin: const EdgeInsets
+                                                          .symmetric(
+                                                          vertical: 5),
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color: kGrey.shade200,
+                                                      ),
+                                                      child: Row(
+                                                        children: [
+                                                          Expanded(
+                                                            child: CustomText(
+                                                              text: e.path
+                                                                  .split("/")
+                                                                  .last,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                            ),
+                                                          ),
+                                                          const Gap(10),
+                                                          IconButton(
+                                                              onPressed: () {
+                                                                context
+                                                                    .read<
+                                                                        HappinessCenterCubit>()
+                                                                    .removeFile(
+                                                                        e);
+                                                              },
+                                                              icon: const Icon(
+                                                                  Icons.close))
+                                                        ],
+                                                      ),
+                                                    ))
+                                                .toList() ??
+                                            [],
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
-                  },
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -460,7 +611,8 @@ class HappinessCenterPage extends StatelessWidget {
         CustomText(
           text: text,
           fontWeight: FontWeight.bold,
-          color: context.read<AppThemeCubit>().state.primaryColor,
+          color: const Color(0xffB2B1B1),
+          fontSize: MediaQuery.of(context).size.width * 0.032,
         ),
         const SizedBox(
           height: 10,
@@ -470,14 +622,8 @@ class HappinessCenterPage extends StatelessWidget {
           expandedInsets: const EdgeInsets.all(0),
           onSelected: onSelected,
           enabled: loadingState == LoadingState.loading ? false : enabled,
-          inputDecorationTheme: InputDecorationTheme(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
-            ),
-          ),
+          inputDecorationTheme:
+              const InputDecorationTheme(border: UnderlineInputBorder()),
           trailingIcon: Builder(builder: (context) {
             if (loadingState == LoadingState.loading) {
               return const SizedBox(

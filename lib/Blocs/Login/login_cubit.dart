@@ -15,8 +15,8 @@ class LoginCubit extends Cubit<LoginState> {
     emit(state.copyWith(email: email));
   }
 
-  void onChangeObsure(bool? obsure) {
-    emit(state.copyWith(obsure: obsure));
+  void onChangeObscure(bool? obscure) {
+    emit(state.copyWith(obscure: obscure));
   }
 
   void onChangePassword(String? password) {

@@ -13,88 +13,44 @@ class UnitsPage extends StatelessWidget {
     int? communityId =
         (ModalRoute.of(context)?.settings.arguments as List).last as int?;
     return Scaffold(
-      appBar: BaseAppBar(
-        title: communityName ?? "",
-        appBar: AppBar(),
-        automaticallyImplyLeading: true,
-        widgets: [const DashboardPage().notificationIcon(context)],
-        appBarHeight: 50,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomText(
-              text: "My Properties",
-              color: context.read<AppThemeCubit>().state.primaryColor,
-              fontsize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: UnitsListPage(
-                communityName: communityName,
-                communityId: communityId,
+      backgroundColor: kBackgroundColor,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const DashboardPage().appBar(
+                context,
+                widget: CustomText(
+                  text: communityName ?? "",
+                  fontSize: MediaQuery.of(context).size.width * 0.05,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-          ],
+              const Gap(10),
+              CustomText(
+                text: "My Units",
+                fontWeight: FontWeight.bold,
+                fontSize: MediaQuery.of(context).size.width * 0.05,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: UnitsListPage(
+                  communityName: communityName,
+                  communityId: communityId,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget infoCards(BuildContext context, int? number, String? text) {
-    return Container(
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(color: kGrey.shade200, blurRadius: 1, spreadRadius: 1)
-        ],
-        borderRadius: BorderRadius.circular(10),
-        color: kWhite,
-      ),
-      child: Column(
-        children: [
-          Expanded(
-            child: Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: context
-                    .read<AppThemeCubit>()
-                    .state
-                    .primaryColor
-                    .withOpacity(0.2),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                ),
-              ),
-              child: Container(
-                decoration:
-                    const BoxDecoration(shape: BoxShape.circle, color: kWhite),
-                padding: const EdgeInsets.all(15),
-                child: CustomText(
-                  text: (number ?? 0).toString(),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(5),
-            child: CustomText(
-              text: text ?? " -- ",
-              fontsize: 12,
-              maxLines: 1,
-              fontWeight: FontWeight.bold,
-            ),
-          )
-        ],
-      ),
-    );
-  }
+
 
   Widget roundedContainer(
     BuildContext context,
@@ -141,7 +97,7 @@ class UnitsPage extends StatelessWidget {
         text: unit?.unitNumber ?? "",
         color: kWhite,
         fontWeight: FontWeight.bold,
-        fontsize: 18,
+        fontSize: 18,
       ),
     );
   }
@@ -173,7 +129,7 @@ class UnitsPage extends StatelessWidget {
                           text: e["name"] as String,
                           color: (e["color"] as Color?) ??
                               context.read<AppThemeCubit>().state.primaryColor,
-                          fontsize: 12,
+                          fontSize: 12,
                         )
                       ],
                     ),

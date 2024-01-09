@@ -18,7 +18,7 @@ class FoDetailsPage extends StatelessWidget {
         title: "${const AdDetailsPage().getRequestName(type)}\n$reference",
         fontSize: 14,
         appBar: AppBar(),
-        widgets:[const DashboardPage().notificationIcon(context)],
+        widgets: [const DashboardPage().notificationIcon(context)],
         appBarHeight: 50,
         automaticallyImplyLeading: true,
       ),
@@ -29,8 +29,9 @@ class FoDetailsPage extends StatelessWidget {
           }
           if (state.foDetailsModel?.record == null) {
             return const CreditNotesPage().emptyList(ontap: () {
-              context.read<RequestDetailsCubit>().getRequestDetails(
-                  context, requestId, type);
+              context
+                  .read<RequestDetailsCubit>()
+                  .getRequestDetails(context, requestId, type);
             });
           }
           return SingleChildScrollView(
@@ -72,8 +73,7 @@ class FoDetailsPage extends StatelessWidget {
                       "widget": const ProfilePage().profileInfoTile(
                           context,
                           "End Date",
-                          "23 May 20223",
-                          Icons.calendar_month_outlined)
+                          "23 May 20223",)
                     },
                     {
                       "icon": Icons.fast_forward_outlined,
@@ -91,7 +91,7 @@ class FoDetailsPage extends StatelessWidget {
                       "subTitle":
                           "${state.foDetailsModel?.record?.securityDeposit ?? " -- "}",
                       "widget": const ProfilePage().profileInfoTile(context,
-                          "Status", "pending", Icons.done_all_outlined),
+                          "Status", "pending", ),
                     },
                     {
                       "icon": Icons.check_box_outline_blank_outlined,
@@ -99,7 +99,7 @@ class FoDetailsPage extends StatelessWidget {
                       "subTitle":
                           state.foDetailsModel?.record?.payableAmount ?? " -- ",
                       "widget": const ProfilePage().profileInfoTile(context,
-                          "Status", "pending", Icons.done_all_outlined),
+                          "Status", "pending",),
                     },
                     {
                       "icon": Icons.notes_outlined,

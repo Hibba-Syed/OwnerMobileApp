@@ -1,6 +1,5 @@
 import 'package:iskaanowner/Widgets/invoices_list_page.dart';
 
-import '../../Blocs/App Theme/app_theme_cubit.dart';
 import '../../Utils/utils.dart';
 
 class InvoicesPage extends StatelessWidget {
@@ -13,12 +12,20 @@ class InvoicesPage extends StatelessWidget {
     String? unitNumber = arguments['unit_no'];
     int? unitId = arguments['unit_id'];
     return Scaffold(
-      appBar: BaseAppBar(
-        title: "$unitNumber - Invioces",
-        appBar: AppBar(),
-        widgets: [
-          IconButton(
-              onPressed: () => const LedgerPage().showFilter(context,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              const DashboardPage().appBar(
+                context,
+                widget: CustomText(
+                  text: "Unit $unitNumber - Invoices",
+                  fontSize: MediaQuery.of(context).size.width * 0.05,
+                  fontWeight: FontWeight.bold,
+                ),
+                trailingIcon: IconButton(
+                  onPressed: () => const LedgerPage().showFilter(context,
                       child: filterView(context), resetFunction: () {
                     context.read<InvoicesCubit>().reset();
                     context.read<InvoicesCubit>().getInvoices(context, unitId);
@@ -27,34 +34,29 @@ class InvoicesPage extends StatelessWidget {
                     context.read<InvoicesCubit>().getInvoices(context, unitId);
                     Navigator.pop(context);
                   }),
-              icon: Icon(
-                Icons.filter_alt_outlined,
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ))
-        ],
-        automaticallyImplyLeading: true,
-        appBarHeight: 50,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            CustomSearch(
-              initialValue: context.read<InvoicesCubit>().state.keyword,
-              onSubmitted: (value) {
-                context.read<InvoicesCubit>().onChangeKeyword(value);
-                context.read<InvoicesCubit>().getInvoices(context, unitId);
-              },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: InvoicesListPage(
-                unitId: unitId,
+                  icon: Image.asset(
+                    "assets/filter.png",
+                    scale: 4,
+                  ),
+                ),
               ),
-            ),
-          ],
+              CustomSearch(
+                initialValue: context.read<InvoicesCubit>().state.keyword,
+                onSubmitted: (value) {
+                  context.read<InvoicesCubit>().onChangeKeyword(value);
+                  context.read<InvoicesCubit>().getInvoices(context, unitId);
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: InvoicesListPage(
+                  unitId: unitId,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

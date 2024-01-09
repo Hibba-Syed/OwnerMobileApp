@@ -63,13 +63,13 @@ class HappinessCenterCubit extends Cubit<HappinessCenterState> {
     await HappinessCenterService.submitQuery(
       context,
       state.fileList ?? [],
-      state.complaintType ?? "",
+      state.complaintType ,
       state.communityId.toString(),
       state.radioValue,
       state.unitId.toString(),
       state.service == ""
-          ? state.complaintType ?? ""
-          : state.service ?? (state.complaintType ?? ""),
+          ? state.complaintType 
+          : state.service ?? (state.complaintType ),
       state.message ?? "",
     ).then((value) {
       if (value is Success) {
@@ -81,7 +81,7 @@ class HappinessCenterCubit extends Cubit<HappinessCenterState> {
       }
       value as Failure;
       Fluttertoast.showToast(
-          msg: value.errorResponse as String? ?? "Unable to submitt query");
+          msg: value.errorResponse as String? ?? "Unable to submit query");
       emit(state.copyWith(loadingState: LoadingState.error));
     });
   }

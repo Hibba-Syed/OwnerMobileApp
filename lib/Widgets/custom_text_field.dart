@@ -44,29 +44,13 @@ class CustomTextField extends StatelessWidget {
       validator: validator,
       decoration: InputDecoration(
         contentPadding:
-            contentPadding ?? const EdgeInsets.symmetric(horizontal: 20),
+            contentPadding ?? const EdgeInsets.symmetric(vertical: 15),
         filled: true,
         prefixIcon: prefix,
         fillColor: fillColor,
         label: label,
         suffixIcon: suffix,
         hintText: hintText,
-        border: OutlineInputBorder(
-            borderSide: const BorderSide(color: kTransparent),
-            borderRadius: BorderRadius.circular(10)),
-        enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: kTransparent),
-            borderRadius: BorderRadius.circular(10)),
-        disabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: kTransparent),
-            borderRadius: BorderRadius.circular(10)),
-        focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: kTransparent),
-            borderRadius: BorderRadius.circular(10)),
-        errorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.red),
-          borderRadius: BorderRadius.circular(10),
-        ),
       ),
     );
   }

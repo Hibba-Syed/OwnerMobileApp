@@ -17,7 +17,7 @@ class AdDetailsPage extends StatelessWidget {
         title: "${getRequestName(type)}\n${reference ?? ""}",
         fontSize: 14,
         appBar: AppBar(),
-        widgets:[const DashboardPage().notificationIcon(context)],
+        widgets: [const DashboardPage().notificationIcon(context)],
         appBarHeight: 50,
         automaticallyImplyLeading: true,
       ),
@@ -28,8 +28,9 @@ class AdDetailsPage extends StatelessWidget {
           }
           if (state.adDetailsModel?.record == null) {
             return const CreditNotesPage().emptyList(ontap: () {
-              context.read<RequestDetailsCubit>().getRequestDetails(
-                  context, requestId, type);
+              context
+                  .read<RequestDetailsCubit>()
+                  .getRequestDetails(context, requestId, type);
             });
           }
           return SingleChildScrollView(
@@ -167,7 +168,6 @@ class AdDetailsPage extends StatelessWidget {
                           context,
                           e["title"] as String,
                           e["subTitle"].toString(),
-                          e["icon"] as IconData,
                         ))
                     .toList(),
               )
@@ -188,7 +188,7 @@ class AdDetailsPage extends StatelessWidget {
             text: text,
             fontWeight: FontWeight.bold,
             color: context.read<AppThemeCubit>().state.primaryColor,
-            fontsize: 20,
+            fontSize: 20,
           ),
         ),
         const Gap(10),
@@ -201,7 +201,7 @@ class AdDetailsPage extends StatelessWidget {
       {Widget? customWidget}) {
     return Column(
       children: [
-        headingText(context,"Application Details"),
+        headingText(context, "Application Details"),
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -299,7 +299,7 @@ class AdDetailsPage extends StatelessWidget {
   Widget supportingDocuments(BuildContext context, List<Map> data) {
     return Column(
       children: [
-        headingText(context,"Supporting Documents"),
+        headingText(context, "Supporting Documents"),
         const SizedBox(
           height: 10,
         ),
@@ -337,7 +337,7 @@ class AdDetailsPage extends StatelessWidget {
     }
     return Column(
       children: [
-        if (title != null) headingText(context,title),
+        if (title != null) headingText(context, title),
         if (title == null) const Gap(10),
         Container(
           padding: const EdgeInsets.all(10),

@@ -303,7 +303,7 @@ class TpDetailsPage extends StatelessWidget {
                                           : e["value"] ?? " -- ",
                                       textAlign: TextAlign.left,
                                       color: kGrey,
-                                      fontsize: 15,
+                                      fontSize: 15,
                                     ),
                                     trailing: e["url"] == false ||
                                             e["url"] == null
@@ -489,7 +489,7 @@ class TpDetailsPage extends StatelessWidget {
                                           : e["value"] ?? " -- ",
                                       textAlign: TextAlign.left,
                                       color: kGrey,
-                                      fontsize: 15,
+                                      fontSize: 15,
                                     ),
                                     trailing: e["url"] == false ||
                                             e["url"] == null

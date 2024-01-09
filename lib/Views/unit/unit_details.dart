@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Blocs/App Theme/app_theme_cubit.dart';
@@ -13,16 +14,11 @@ class UnitDetailsPage extends StatelessWidget {
     String? unitNo = (ModalRoute.of(context)?.settings.arguments as List)[1];
     int? unitId = (ModalRoute.of(context)?.settings.arguments as List)[2];
     String? unitSlug = (ModalRoute.of(context)?.settings.arguments as List)[3];
-    final tabList = ["Unit Info", "Accounts"];
     return Scaffold(
-      appBar: BaseAppBar(
-        title: (unitNo?.isEmpty ?? true) ? "" : "Unit - $unitNo",
-        appBar: AppBar(),
-        automaticallyImplyLeading: true,
-        widgets: [const DashboardPage().notificationIcon(context)],
-        appBarHeight: 50,
-      ),
+      backgroundColor: kBackgroundColor,
       floatingActionButton: FloatingActionButton.extended(
+        backgroundColor:
+            context.read<AppThemeCubit>().state.primaryColor.withOpacity(0.8),
         onPressed: () async {
           if (unitSlug?.isEmpty ?? true) {
             Fluttertoast.showToast(msg: 'No service available');
@@ -32,46 +28,146 @@ class UnitDetailsPage extends StatelessWidget {
             ));
           }
         },
-        label: const Row(
-          children: [Icon(Icons.link), CustomText(text: " E-Services")],
+        label: Row(
+          children: [
+            Image.asset(
+              "assets/eServices.png",
+              width: 25,
+            ),
+            const Gap(10),
+            const CustomText(
+              text: " E-Services",
+              color: kWhite,
+            )
+          ],
         ),
       ),
-      body: DefaultTabController(
-        length: 2,
-        child: Padding(
-          padding: const EdgeInsets.all(10),
+      body: SafeArea(
+        child: DefaultTabController(
+          length: 2,
           child: Column(
             children: [
-              const Gap(10),
-              unitDetailHeader(context, communityName, unitId),
-              const Gap(20),
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: kGrey.shade200),
-                child: TabBar(
-                  isScrollable: false,
-                  indicator: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: context.read<AppThemeCubit>().state.primaryColor),
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  labelColor: kWhite,
-                  dividerColor: kTransparent,
-                  indicatorColor:
-                      context.read<AppThemeCubit>().state.primaryColor,
-                  tabs: List.generate(
-                    tabList.length,
-                    (index) => Tab(
-                      text: tabList[index],
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    const DashboardPage().appBar(
+                      context,
+                      widget: CustomText(
+                        text: "Unit ${unitNo ?? ""}",
+                        fontSize: MediaQuery.of(context).size.width * 0.05,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
+                    const Gap(10),
+                    CustomText(
+                      text: "$communityName",
+                      fontWeight: FontWeight.bold,
+                      fontSize: MediaQuery.of(context).size.width * 0.05,
+                    ),
+                    const Gap(20),
+                    StatefulBuilder(builder: (context, changeState) {
+                      return Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: kWhite),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  changeState(() {
+                                    DefaultTabController.of(context)
+                                        .animateTo(0);
+                                  });
+                                },
+                                child: AnimatedContainer(
+                                  duration: 400.ms,
+                                  padding: const EdgeInsets.all(10),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: context
+                                        .read<AppThemeCubit>()
+                                        .state
+                                        .primaryColor
+                                        .withOpacity(
+                                            DefaultTabController.of(context)
+                                                        .index ==
+                                                    0
+                                                ? 0.8
+                                                : 0.1),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: CustomText(
+                                    text: "Unit Info",
+                                    color: DefaultTabController.of(context)
+                                                .index ==
+                                            0
+                                        ? kWhite
+                                        : context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor,
+                                    maxLines: 1,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const Gap(10),
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  changeState(() {
+                                    DefaultTabController.of(context)
+                                        .animateTo(1);
+                                  });
+                                },
+                                child: AnimatedContainer(
+                                  duration: 400.ms,
+                                  padding: const EdgeInsets.all(10),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: context
+                                        .read<AppThemeCubit>()
+                                        .state
+                                        .primaryColor
+                                        .withOpacity(
+                                            DefaultTabController.of(context)
+                                                        .index ==
+                                                    1
+                                                ? 0.8
+                                                : 0.1),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: CustomText(
+                                    text: "Accounts",
+                                    color: DefaultTabController.of(context)
+                                                .index ==
+                                            1
+                                        ? kWhite
+                                        : context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor,
+                                    maxLines: 1,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              Expanded(
+              Flexible(
                 child: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
                   children: [
                     unitDetailsUnitInfo(context, unitNo, unitId),
                     unitDetailsAccounts(context, unitNo, unitId),
@@ -85,60 +181,12 @@ class UnitDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget unitDetailHeader(
-      BuildContext context, String? communityName, int? unitId) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.location_city,
-              color: context.read<AppThemeCubit>().state.primaryColor,
-            ),
-            const Gap(10),
-            Flexible(
-              child: CustomText(
-                text: " $communityName",
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-        const Gap(20),
-        Align(
-          alignment: Alignment.centerRight,
-          child: CustomButton(
-            text: "Shared Documents",
-            function: () {
-              context
-                  .read<SharedDocumentsCubit>()
-                  .getSharedDocuments(context, unitId: unitId);
-              Navigator.pushNamed(context, AppRoutes.sharedDocument,
-                  arguments: unitId);
-            },
-            buttonColor: context
-                .read<AppThemeCubit>()
-                .state
-                .primaryColor
-                .withOpacity(0.2),
-            textColor: context.read<AppThemeCubit>().state.primaryColor,
-            icon: Icon(
-              Icons.document_scanner_outlined,
-              color: context.read<AppThemeCubit>().state.primaryColor,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget unitDetailsUnitInfo(
       BuildContext context, String? unitNo, int? unitId) {
     List detailTabs = [
       {
         "name": "Owners",
-        "icon": Icons.group_outlined,
+        "icon": "assets/owners.png",
         "onTap": () {
           context.read<OwnersCubit>().getOwners(context, unitId);
           return Navigator.pushNamed(
@@ -153,7 +201,7 @@ class UnitDetailsPage extends StatelessWidget {
       },
       {
         "name": "Occupant",
-        "icon": Icons.person_outlined,
+        "icon": "assets/occupant.png",
         "onTap": () {
           context.read<OccupantCubit>().getOccupant(context, unitId);
           return Navigator.pushNamed(
@@ -168,7 +216,7 @@ class UnitDetailsPage extends StatelessWidget {
       },
       {
         "name": "Requests",
-        "icon": Icons.notifications_outlined,
+        "icon": "assets/request.png",
         "onTap": () {
           context.read<RequestsCubit>().onChangeKeyword("");
           context.read<RequestsCubit>().resetFilters();
@@ -185,7 +233,7 @@ class UnitDetailsPage extends StatelessWidget {
       },
       {
         "name": "Compliances",
-        "icon": Icons.done,
+        "icon": "assets/compliances.png",
         "onTap": () {
           context.read<CompliancesCubit>().onChangeKeyword("");
           context.read<CompliancesCubit>().getCompliances(context, unitId);
@@ -200,16 +248,47 @@ class UnitDetailsPage extends StatelessWidget {
         }
       },
     ];
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-      ),
-      itemCount: detailTabs.length,
-      itemBuilder: (BuildContext context, int index) {
-        return gridCard(context, detailTabs[index]);
-      },
+    return Column(
+      children: [
+        GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          itemCount: detailTabs.length,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (BuildContext context, int index) {
+            return gridCard(context, detailTabs[index]);
+          },
+        ),
+        const Gap(10),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: CustomButton(
+              text: "Shared Documents",
+              icon: Image.asset(
+                "assets/document.png",
+                width: MediaQuery.of(context).size.width * 0.06,
+              ),
+              height: MediaQuery.of(context).size.height * 0.06,
+              fontSize: MediaQuery.of(context).size.width * 0.035,
+              buttonColor: context
+                  .read<AppThemeCubit>()
+                  .state
+                  .primaryColor
+                  .withOpacity(0.8),
+              function: () {
+                context
+                    .read<SharedDocumentsCubit>()
+                    .getSharedDocuments(context, unitId: unitId);
+                Navigator.pushNamed(context, AppRoutes.sharedDocument,
+                    arguments: unitId);
+              }),
+        )
+      ],
     );
   }
 
@@ -218,7 +297,7 @@ class UnitDetailsPage extends StatelessWidget {
     List detailTabs = [
       {
         "name": "Ledger",
-        "icon": Icons.account_balance,
+        "icon": "assets/ledger.png",
         "onTap": () {
           context.read<LedgerCubit>().reset(context);
           context.read<LedgerCubit>().getLedgerByStatement(context, unitId);
@@ -244,7 +323,7 @@ class UnitDetailsPage extends StatelessWidget {
           1)
         {
           "name": "Invoices",
-          "icon": Icons.receipt_long,
+          "icon": "assets/invoice.png",
           "onTap": () {
             context.read<InvoicesCubit>().onChangeKeyword("");
             context.read<InvoicesCubit>().reset();
@@ -269,7 +348,7 @@ class UnitDetailsPage extends StatelessWidget {
           1)
         {
           "name": "Receipts",
-          "icon": Icons.receipt,
+          "icon": "assets/receipt.png",
           "onTap": () {
             context.read<ReceiptsCubit>().onChangeKeyword("");
             context.read<ReceiptsCubit>().reset();
@@ -294,7 +373,7 @@ class UnitDetailsPage extends StatelessWidget {
           1)
         {
           "name": "Credit Notes",
-          "icon": Icons.note,
+          "icon": "assets/creditNote.png",
           "onTap": () {
             context.read<CreditNotesCubit>().onChangeKeyword("");
             context.read<CreditNotesCubit>().reset();
@@ -310,16 +389,47 @@ class UnitDetailsPage extends StatelessWidget {
           }
         },
     ];
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-      ),
-      itemCount: detailTabs.length,
-      itemBuilder: (BuildContext context, int index) {
-        return gridCard(context, detailTabs[index]);
-      },
+    return Column(
+      children: [
+        GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: detailTabs.length,
+          itemBuilder: (BuildContext context, int index) {
+            return gridCard(context, detailTabs[index]);
+          },
+        ),
+        const Gap(10),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: CustomButton(
+              text: "Shared Documents",
+              icon: Image.asset(
+                "assets/document.png",
+                width: MediaQuery.of(context).size.width * 0.06,
+              ),
+              height: MediaQuery.of(context).size.height * 0.06,
+              fontSize: MediaQuery.of(context).size.width * 0.035,
+              buttonColor: context
+                  .read<AppThemeCubit>()
+                  .state
+                  .primaryColor
+                  .withOpacity(0.8),
+              function: () {
+                context
+                    .read<SharedDocumentsCubit>()
+                    .getSharedDocuments(context, unitId: unitId);
+                Navigator.pushNamed(context, AppRoutes.sharedDocument,
+                    arguments: unitId);
+              }),
+        )
+      ],
     );
   }
 
@@ -329,25 +439,21 @@ class UnitDetailsPage extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: kGrey.shade200,
+          color: kWhite,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const UnitsPage().roundedContainer(
-              context,
-              Icon(
-                tab["icon"],
-                color: context.read<AppThemeCubit>().state.primaryColor,
-                size: 40,
-              ),
-              color: kWhite,
-              invert: true,
-              padding: const EdgeInsets.all(20),
+            Image.asset(
+              tab["icon"],
+              color: context
+                  .read<AppThemeCubit>()
+                  .state
+                  .primaryColor
+                  .withOpacity(0.8),
+              width: MediaQuery.of(context).size.width * 0.12,
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const Gap(10),
             CustomText(
               text: tab["name"],
               fontWeight: FontWeight.bold,

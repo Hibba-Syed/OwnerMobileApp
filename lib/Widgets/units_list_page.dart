@@ -1,4 +1,5 @@
-import '../Blocs/App Theme/app_theme_cubit.dart';
+import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
+
 import '../Utils/utils.dart';
 
 class UnitsListPage extends StatefulWidget {
@@ -64,16 +65,6 @@ class _UnitsListPageState extends State<UnitsListPage> {
                   physics: const AlwaysScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
                     Unit? unit = state.unitsModel?.units?[index];
-                    List infoList = [
-                      const UnitsPage()
-                          .infoCards(context, unit?.unitSizeSqft, "Size"),
-                      const UnitsPage()
-                          .infoCards(context, unit?.bedroomCount, "Bedroom"),
-                      const UnitsPage()
-                          .infoCards(context, unit?.bathroomCount, "Bathroom"),
-                      const UnitsPage()
-                          .infoCards(context, unit?.parkings, "Parking"),
-                    ];
                     return Column(
                       children: [
                         InkWell(
@@ -90,82 +81,119 @@ class _UnitsListPageState extends State<UnitsListPage> {
                             );
                           },
                           child: Container(
-                            margin: const EdgeInsets.symmetric(vertical: 5),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: kWhite,
-                              boxShadow: [
-                                BoxShadow(
-                                    offset: const Offset(1, 1),
-                                    color: kGrey.shade300,
-                                    blurRadius: 2,
-                                    spreadRadius: 2),
-                              ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const UnitsPage().cardHeader(context, unit),
-                                const Gap(10),
-                                Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Divider(
-                                      color: context
-                                          .read<AppThemeCubit>()
-                                          .state
-                                          .primaryColor,
+                              margin: const EdgeInsets.symmetric(vertical: 5),
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: kWhite,
+                                boxShadow: [
+                                  BoxShadow(
+                                      offset: const Offset(1, 1),
+                                      color: kGrey.shade300,
+                                      blurRadius: 2,
+                                      spreadRadius: 2),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(15),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xffF2F2F2),
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
-                                    GridView.builder(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      shrinkWrap: true,
-                                      gridDelegate:
-                                          const SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 4,
-                                              mainAxisSpacing: 10,
-                                              crossAxisSpacing: 10,
-                                              childAspectRatio: 2 / 2.5),
-                                      itemCount: infoList.length,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return infoList[index];
-                                      },
+                                    child: Column(
+                                      children: [
+                                        Image.asset(
+                                          "assets/unit.png",
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.14,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.1,
+                                          color: context
+                                              .read<AppThemeCubit>()
+                                              .state
+                                              .primaryColor,
+                                        ),
+                                        const Gap(5),
+                                        CustomText(
+                                          text: unit?.unitNumber ?? "",
+                                          fontWeight: FontWeight.bold,
+                                          color: context
+                                              .read<AppThemeCubit>()
+                                              .state
+                                              .primaryColor
+                                              .withOpacity(0.8),
+                                        )
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                Divider(
-                                  color: context
-                                      .read<AppThemeCubit>()
-                                      .state
-                                      .primaryColor,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const CustomText(
-                                        text: "Balance",
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      const Gap(10),
-                                      const Expanded(child: Divider()),
-                                      const Gap(10),
-                                      CustomText(
-                                        text: formatCurrency(
-                                            unit?.unitBalance ?? 0),
-                                        fontsize: 12,
-                                      ),
-                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
+                                  const Gap(10),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        unitInfoRow(
+                                          "assets/bath.png",
+                                          unit?.bathroomCount ?? 0,
+                                          "Bathroom",
+                                          "assets/bed.png",
+                                          unit?.bedroomCount ?? 0,
+                                          "Bedroom",
+                                        ),
+                                        unitInfoRow(
+                                            "assets/sqft.png",
+                                            unit?.unitSizeSqft ?? 0,
+                                            "Sqft",
+                                            "assets/parking.png",
+                                            unit?.parkings ?? 0,
+                                            "Parking"),
+                                        const Divider(
+                                          color: Color(0xffB2B1B1),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const CustomText(
+                                              text: "Balance",
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            const Gap(10),
+                                            Flexible(
+                                              child:
+                                                  Builder(builder: (context) {
+                                                Color? color;
+                                                if (unit?.unitBalance != null) {
+                                                  if (unit!.unitBalance!
+                                                      .isNegative) {
+                                                    color =
+                                                        const Color(0xffFB5454);
+                                                  } else {
+                                                    color =
+                                                        const Color(0xff65D024);
+                                                  }
+                                                }
+                                                return CustomText(
+                                                  text: formatCurrency(
+                                                      unit?.unitBalance),
+                                                  fontWeight: FontWeight.bold,
+                                                  color: color,
+                                                );
+                                              }),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              )),
                         ),
                         if ((index + 1) == state.unitsModel?.units?.length)
                           SizedBox(
@@ -184,6 +212,41 @@ class _UnitsListPageState extends State<UnitsListPage> {
           ],
         );
       },
+    );
+  }
+
+  Widget unitInfoRow(String image1, int count1, String text1, String image2,
+      int count2, String text2) {
+    return Row(
+      children: [
+        Expanded(child: individualInfo(image1, count1, text1)),
+        const Gap(10),
+        Expanded(child: individualInfo(image2, count2, text2)),
+      ],
+    );
+  }
+
+  Widget individualInfo(String image, int count, String text) {
+    return Row(
+      children: [
+        Image.asset(
+          image,
+          width: MediaQuery.of(context).size.width * 0.04,
+        ),
+        const Gap(5),
+        CustomText(
+          text: count.toString(),
+          fontSize: MediaQuery.of(context).size.width * 0.035,
+          fontWeight: FontWeight.bold,
+          color: const Color(0xffB2B1B1),
+        ),
+        const Gap(5),
+        CustomText(
+          text: text,
+          fontSize: MediaQuery.of(context).size.width * 0.035,
+          color: const Color(0xffB2B1B1),
+        ),
+      ],
     );
   }
 }
