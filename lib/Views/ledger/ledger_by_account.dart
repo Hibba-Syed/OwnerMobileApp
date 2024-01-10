@@ -79,8 +79,10 @@ class _LedgerByAccountState extends State<LedgerByAccount> {
                           },
                           child: Container(
                             padding: const EdgeInsets.all(10),
-                            margin: const EdgeInsets.all(5),
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 2),
                             decoration: BoxDecoration(
+                                color: kWhite,
                                 borderRadius: BorderRadius.circular(10),
                                 boxShadow: [
                                   BoxShadow(
@@ -112,7 +114,9 @@ class _LedgerByAccountState extends State<LedgerByAccount> {
                                   ],
                                 )),
                                 const Icon(
-                                    Icons.keyboard_double_arrow_right_outlined)
+                                  Icons.arrow_forward_ios,
+                                  size: 15,
+                                )
                               ],
                             ),
                           ),

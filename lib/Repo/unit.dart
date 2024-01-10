@@ -133,6 +133,31 @@ class UnitsService {
     });
   }
 
+  static Future<Object?> getUnitComplianceDetails(
+    BuildContext context,
+    int? id,
+    int? unitId,
+  ) async {
+    return await ExceptionService.applyTryCatch(() async {
+      // if (kDebugMode) {
+      //   id = 32;
+      // }
+      return await http.get(
+          Uri.parse(
+            "$baseUrl/mobile/owner/property/compliance/$id?complianceable_type=unit&complianceable_id=$unitId",
+          ),
+          headers: {
+            "Authorization":
+                "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+          }).then((value) {
+        if (value.statusCode == 200) {
+          return Success(200, value.body);
+        }
+        return Failure(400, jsonDecode(value.body)["message"]);
+      });
+    });
+  }
+
   static Future<Object?> getUnitInvoices(
     BuildContext context,
     int? id,

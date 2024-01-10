@@ -22,11 +22,7 @@ class UnitsPage extends StatelessWidget {
             children: [
               const DashboardPage().appBar(
                 context,
-                widget: CustomText(
-                  text: communityName ?? "",
-                  fontSize: MediaQuery.of(context).size.width * 0.05,
-                  fontWeight: FontWeight.bold,
-                ),
+                text: communityName ?? "",
               ),
               const Gap(10),
               CustomText(
@@ -49,8 +45,6 @@ class UnitsPage extends StatelessWidget {
       ),
     );
   }
-
-
 
   Widget roundedContainer(
     BuildContext context,

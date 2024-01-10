@@ -21,11 +21,9 @@ class CreditNotesPage extends StatelessWidget {
             children: [
               const DashboardPage().appBar(
                 context,
-                widget: CustomText(
                   text: "Unit $unitNumber - Credit Notes",
-                  fontSize: MediaQuery.of(context).size.width * 0.05,
-                  fontWeight: FontWeight.bold,
-                ),
+                
+                
                 trailingIcon: IconButton(
                   onPressed: () => const LedgerPage().showFilter(context,
                       child: filterView(context), resetFunction: () {
@@ -77,7 +75,11 @@ class CreditNotesPage extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomText(text: "Date Range"),
+            CustomText(
+              text: "Date Range",
+              color: const Color(0xffB2B1B1),
+              fontSize: MediaQuery.of(context).size.width * 0.032,
+            ),
             const Gap(10),
             const LedgerPage().dateRangeCustomTextWidget(
               context,

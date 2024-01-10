@@ -1,6 +1,7 @@
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:iskaanowner/Widgets/image_builder.dart';
 import 'package:path/path.dart' as path;
+import 'package:url_launcher/url_launcher.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Models/shared_document.dart';
@@ -118,8 +119,8 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
                                   if (type.toLowerCase() == "pdf") {
                                     return SizedBox(
                                       height:
-                                          MediaQuery.of(context).size.height *
-                                              0.2,
+                                          MediaQuery.of(context).size.width *
+                                              0.45,
                                       width: double.infinity,
                                       child: const PDF(
                                         swipeHorizontal: true,
@@ -130,8 +131,8 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
                                   }
                                   return ImageBuilder(
                                     url: sharedDocumentsRecord?.documents ?? "",
-                                    height: MediaQuery.of(context).size.height *
-                                        0.2,
+                                    height: MediaQuery.of(context).size.width *
+                                        0.45,
                                     width: double.infinity,
                                   );
                                 }),
@@ -195,6 +196,34 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
                                           MediaQuery.of(context).size.width *
                                               0.035,
                                     ),
+                                    const Spacer(),
+                                    CustomButton(
+                                      text: "Download",
+                                      function: () {
+                                        if (sharedDocumentsRecord?.documents !=
+                                            null) {
+                                          launchUrl(Uri.parse(
+                                              sharedDocumentsRecord
+                                                      ?.documents ??
+                                                  ""));
+                                        }
+                                      },
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 40),
+                                      buttonColor: const Color(0xff65D024)
+                                          .withOpacity(0.1),
+                                      textColor: const Color(0xff65D024),
+                                      height:
+                                          MediaQuery.of(context).size.width *
+                                              0.1,
+                                      icon: Image.asset(
+                                        "assets/download_summary.png",
+                                        color: const Color(0xff65D024),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.06,
+                                      ),
+                                    )
                                   ],
                                 ),
                               ],

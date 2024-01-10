@@ -13,91 +13,105 @@ class AdDetailsPage extends StatelessWidget {
     String? type =
         (ModalRoute.of(context)?.settings.arguments as List)[2] as String?;
     return Scaffold(
-      appBar: BaseAppBar(
-        title: "${getRequestName(type)}\n${reference ?? ""}",
-        fontSize: 14,
-        appBar: AppBar(),
-        widgets: [const DashboardPage().notificationIcon(context)],
-        appBarHeight: 50,
-        automaticallyImplyLeading: true,
-      ),
-      body: BlocBuilder<RequestDetailsCubit, RequestDetailsState>(
-        builder: (context, state) {
-          if (state.loadingState == LoadingState.loading) {
-            return const CustomLoader();
-          }
-          if (state.adDetailsModel?.record == null) {
-            return const CreditNotesPage().emptyList(ontap: () {
-              context
-                  .read<RequestDetailsCubit>()
-                  .getRequestDetails(context, requestId, type);
-            });
-          }
-          return SingleChildScrollView(
-            child: Padding(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
               padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  header(
-                      context,
-                      state.adDetailsModel?.record?.unit?.unitNumber ?? " -- ",
-                      state.adDetailsModel?.record?.association?.name ?? " -- ",
-                      state.adDetailsModel?.record?.createdAt,
-                      state.adDetailsModel?.record?.status, [
-                    {
-                      "icon": Icons.email_outlined,
-                      "title": "Requester Type",
-                      "subTitle":
-                          state.adDetailsModel?.record?.clientType ?? " -- ",
-                    },
-                    {
-                      "icon": Icons.money_outlined,
-                      "title": "Payable Amount",
-                      "subTitle":
-                          state.adDetailsModel?.record?.payableAmount ?? " -- ",
-                    },
-                    {
-                      "icon": Icons.monetization_on_outlined,
-                      "title": "Payment status",
-                      "subTitle":
-                          state.adDetailsModel?.record?.paymentStatus ?? " -- ",
-                    },
-                  ]),
-                  applicationDetails(
-                      context,
-                      state.adDetailsModel?.record?.clientName,
-                      state.adDetailsModel?.record?.clientPhone,
-                      state.adDetailsModel?.record?.clientEmail),
-                  customTableView(
-                      context,
-                      ["Device", "No of devices", "Cost"],
-                      state.adDetailsModel?.record?.application?.deviceInfo
-                              ?.map((e) => [
-                                    e.deviceType ?? " -- ",
-                                    (e.deviceCount ?? 0).toString(),
-                                    formatCurrency(e.cost ?? 0)
-                                  ])
-                              .toList() ??
-                          []),
-                  supportingDocuments(context, [
-                    {
-                      "name": "Title Deed",
-                      "url": state.adDetailsModel?.record?.titleDeedUrl,
-                    },
-                    {
-                      "name": "ID File",
-                      "url": state.adDetailsModel?.record?.clientIdFileUrl,
-                    },
-                    {
-                      "name": "Passport File",
-                      "url": state.adDetailsModel?.record?.passportFileUrl,
-                    },
-                  ])
-                ],
+              child: const DashboardPage().appBar(context,
+                  text: "${getRequestName(type)}\n${reference ?? ""}"),
+            ),
+            Expanded(
+              child: BlocBuilder<RequestDetailsCubit, RequestDetailsState>(
+                builder: (context, state) {
+                  if (state.loadingState == LoadingState.loading) {
+                    return const CustomLoader();
+                  }
+                  if (state.adDetailsModel?.record == null) {
+                    return const CreditNotesPage().emptyList(ontap: () {
+                      context
+                          .read<RequestDetailsCubit>()
+                          .getRequestDetails(context, requestId, type);
+                    });
+                  }
+                  return SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          header(
+                              context,
+                              state.adDetailsModel?.record?.unit?.unitNumber ??
+                                  " -- ",
+                              state.adDetailsModel?.record?.association?.name ??
+                                  " -- ",
+                              state.adDetailsModel?.record?.createdAt,
+                              state.adDetailsModel?.record?.status,
+                              [
+                                {
+                                  "icon": Icons.email_outlined,
+                                  "title": "Requester Type",
+                                  "subTitle": state
+                                          .adDetailsModel?.record?.clientType ??
+                                      " -- ",
+                                },
+                                {
+                                  "icon": Icons.money_outlined,
+                                  "title": "Payable Amount",
+                                  "subTitle": state.adDetailsModel?.record
+                                          ?.payableAmount ??
+                                      " -- ",
+                                },
+                                {
+                                  "icon": Icons.monetization_on_outlined,
+                                  "title": "Payment status",
+                                  "subTitle": state.adDetailsModel?.record
+                                          ?.paymentStatus ??
+                                      " -- ",
+                                },
+                              ]),
+                          applicationDetails(
+                              context,
+                              state.adDetailsModel?.record?.clientName,
+                              state.adDetailsModel?.record?.clientPhone,
+                              state.adDetailsModel?.record?.clientEmail),
+                          customTableView(
+                              context,
+                              ["Device", "No of devices", "Cost"],
+                              state.adDetailsModel?.record?.application
+                                      ?.deviceInfo
+                                      ?.map((e) => [
+                                            e.deviceType ?? " -- ",
+                                            (e.deviceCount ?? 0).toString(),
+                                            formatCurrency(e.cost ?? 0)
+                                          ])
+                                      .toList() ??
+                                  []),
+                          supportingDocuments(context, [
+                            {
+                              "name": "Title Deed",
+                              "url": state.adDetailsModel?.record?.titleDeedUrl,
+                            },
+                            {
+                              "name": "ID File",
+                              "url":
+                                  state.adDetailsModel?.record?.clientIdFileUrl,
+                            },
+                            {
+                              "name": "Passport File",
+                              "url":
+                                  state.adDetailsModel?.record?.passportFileUrl,
+                            },
+                          ])
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }

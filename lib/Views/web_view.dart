@@ -43,22 +43,27 @@ class _MyWebViewState extends State<MyWebView> {
         (ModalRoute.of(context)?.settings.arguments as List)[0] as String? ??
             "";
     return Scaffold(
-      appBar: BaseAppBar(
-        title: communityName,
-        appBar: AppBar(),
-        widgets: const [],
-        appBarHeight: 50,
-        automaticallyImplyLeading: true,
-      ),
-      body: Stack(
-        children: [
-          WebViewWidget(controller: webViewController),
-          if (isLoading)
-            const Center(
-              child: CircularProgressIndicator(),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: const DashboardPage().appBar(context, text: communityName),
             ),
-          // if (isError) const CreditNotesPage().emptyList(),
-        ],
+            Expanded(
+              child: Stack(
+                children: [
+                  WebViewWidget(controller: webViewController),
+                  if (isLoading)
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  // if (isError) const CreditNotesPage().emptyList(),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

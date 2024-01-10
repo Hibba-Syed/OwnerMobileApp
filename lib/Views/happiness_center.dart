@@ -65,11 +65,8 @@ class HappinessCenterPage extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: const DashboardPage().appBar(
                 context,
-                widget: CustomText(
                   text: "Happiness Center",
-                  fontSize: MediaQuery.of(context).size.width * 0.05,
-                  fontWeight: FontWeight.bold,
-                ),
+               
               ),
             ),
             Expanded(

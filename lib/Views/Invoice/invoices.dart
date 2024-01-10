@@ -19,11 +19,9 @@ class InvoicesPage extends StatelessWidget {
             children: [
               const DashboardPage().appBar(
                 context,
-                widget: CustomText(
+              
                   text: "Unit $unitNumber - Invoices",
-                  fontSize: MediaQuery.of(context).size.width * 0.05,
-                  fontWeight: FontWeight.bold,
-                ),
+              
                 trailingIcon: IconButton(
                   onPressed: () => const LedgerPage().showFilter(context,
                       child: filterView(context), resetFunction: () {
@@ -68,7 +66,11 @@ class InvoicesPage extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomText(text: "Invoice Date Range"),
+            CustomText(
+              text: "Invoice Date Range",
+              color: const Color(0xffB2B1B1),
+              fontSize: MediaQuery.of(context).size.width * 0.032,
+            ),
             const Gap(10),
             const LedgerPage().dateRangeCustomTextWidget(
               context,
@@ -87,7 +89,11 @@ class InvoicesPage extends StatelessWidget {
               ),
             ),
             const Gap(10),
-            const CustomText(text: "Due Date Range"),
+            CustomText(
+              text: "Due Date Range",
+              color: const Color(0xffB2B1B1),
+              fontSize: MediaQuery.of(context).size.width * 0.032,
+            ),
             const Gap(10),
             const LedgerPage().dateRangeCustomTextWidget(
               context,

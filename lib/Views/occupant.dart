@@ -24,11 +24,9 @@ class OccupantPage extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: const DashboardPage().appBar(
                 context,
-                widget: CustomText(
+            
                   text: "Unit $unitNumber - Occupant",
-                  fontSize: MediaQuery.of(context).size.width * 0.05,
-                  fontWeight: FontWeight.bold,
-                ),
+              
               ),
             ),
             Expanded(

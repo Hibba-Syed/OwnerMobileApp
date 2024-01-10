@@ -21,11 +21,7 @@ class SideDrawerPage extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            color: context
-                .read<AppThemeCubit>()
-                .state
-                .primaryColor
-                .withOpacity(0.1),
+            color: kBackgroundColor,
             child: SafeArea(
               child: Column(
                 children: [
@@ -34,28 +30,25 @@ class SideDrawerPage extends StatelessWidget {
                   ),
                   Container(
                     padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    height: MediaQuery.of(context).size.width * 0.3,
+                    decoration: const BoxDecoration(
                       color: kWhite,
+                      shape: BoxShape.circle,
                     ),
-                    child: ImageBuilder(
-                      url: profileModel?.record?.company?.logoUrl ?? "",
-                      height: 95,
-                      width: 95,
-                      isFit: true,
+                    child: Image.network(
+                      profileModel?.record?.company?.faviconUrl ?? "",
+                      height: MediaQuery.of(context).size.width * 0.3,
+                      width: MediaQuery.of(context).size.width * 0.3,
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const Gap(10),
                   CustomText(
-                    text: profileModel?.record?.firstName ?? "Unknown",
+                    text: profileModel?.record?.fullName ?? "Unknown",
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const Gap(10),
                   CustomText(
                       text:
                           "Owner ID : ${profileModel?.record?.ownerNumber ?? " -- "}"),
@@ -64,10 +57,15 @@ class SideDrawerPage extends StatelessWidget {
                         vertical: 20, horizontal: 40),
                     child: CustomButton(
                         text: "Switch Account",
-                        icon: const Icon(
-                          Icons.contacts_outlined,
-                          color: kWhite,
+                        invert: true,
+                        icon: Image.asset(
+                          "assets/switch_account.png",
+                          width: MediaQuery.of(context).size.width * 0.06,
+                          color:
+                              context.read<AppThemeCubit>().state.primaryColor,
                         ),
+                        textColor:
+                            context.read<AppThemeCubit>().state.primaryColor,
                         function: () => showModalBottomSheet(
                             context: context,
                             isScrollControlled: true,
@@ -225,89 +223,105 @@ class SideDrawerPage extends StatelessWidget {
               ),
             ),
           ),
-          ListTile(
-            onTap: () {
-              Navigator.pushNamed(context, AppRoutes.profile);
-            },
-            leading: Icon(
-              Icons.person_2_outlined,
-              color: context.read<AppThemeCubit>().state.primaryColor,
-            ),
-            title: const CustomText(
-              text: "Profile",
-              textAlign: TextAlign.left,
-            ),
-            trailing: Icon(
-              Icons.arrow_forward_ios,
-              size: 18,
-              color: context.read<AppThemeCubit>().state.primaryColor,
-            ),
-          ),
-          ListTile(
-            onTap: () {
-              context.read<HappinessCenterCubit>().onChangeCommunityId(0);
-              context.read<HappinessCenterCubit>().onChangeUnitId(0);
-              context.read<HappinessCenterCubit>().onChangeService("");
-              context.read<HappinessCenterCubit>().onChangeMessage("");
-              context.read<HappinessCenterCubit>().onChangeFiles([]);
-              Navigator.pushNamed(context, AppRoutes.happinessCenter);
-            },
-            leading: Icon(
-              Icons.emoji_people_outlined,
-              color: context.read<AppThemeCubit>().state.primaryColor,
-            ),
-            title: const CustomText(
-              text: "Happiness Center",
-              textAlign: TextAlign.left,
-            ),
-            trailing: Icon(
-              Icons.arrow_forward_ios,
-              size: 18,
-              color: context.read<AppThemeCubit>().state.primaryColor,
-            ),
-          ),
-          ListTile(
-            onTap: () {
-              Navigator.pushNamed(context, AppRoutes.changePassword);
-            },
-            leading: Icon(
-              Icons.password_outlined,
-              color: context.read<AppThemeCubit>().state.primaryColor,
-            ),
-            title: const CustomText(
-              text: "Change Password",
-              textAlign: TextAlign.left,
-            ),
-            trailing: Icon(
-              Icons.arrow_forward_ios,
-              size: 18,
-              color: context.read<AppThemeCubit>().state.primaryColor,
-            ),
-          ),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: BlocBuilder<LogoutCubit, LogoutState>(
-              builder: (context, state) {
-                if (state.loadingState == LoadingState.loading) {
-                  return const SizedBox(
-                    height: 50,
-                    child: Center(child: CircularProgressIndicator()),
-                  );
-                }
-                return CustomButton(
-                  text: "Logout",
-                  function: () {
-                    context.read<LogoutCubit>().logout(context);
-                  },
-                  icon: const Icon(
-                    Icons.logout_outlined,
-                    color: kWhite,
+          Expanded(
+            child: Container(
+              color: kWhite,
+              child: Column(
+                children: [
+                  ListTile(
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoutes.profile);
+                    },
+                    leading: Image.asset(
+                      "assets/profile.png",
+                      color: context.read<AppThemeCubit>().state.primaryColor,
+                      width: MediaQuery.of(context).size.width * 0.06,
+                    ),
+                    title: const CustomText(
+                      text: "Profile",
+                      textAlign: TextAlign.left,
+                    ),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 15,
+                    ),
                   ),
-                );
-              },
+                  ListTile(
+                    onTap: () {
+                      context
+                          .read<HappinessCenterCubit>()
+                          .onChangeCommunityId(0);
+                      context.read<HappinessCenterCubit>().onChangeUnitId(0);
+                      context.read<HappinessCenterCubit>().onChangeService("");
+                      context.read<HappinessCenterCubit>().onChangeMessage("");
+                      context.read<HappinessCenterCubit>().onChangeFiles([]);
+                      Navigator.pushNamed(context, AppRoutes.happinessCenter);
+                    },
+                    leading: Image.asset(
+                      "assets/happiness_centre.png",
+                      color: context.read<AppThemeCubit>().state.primaryColor,
+                      width: MediaQuery.of(context).size.width * 0.06,
+                    ),
+                    title: const CustomText(
+                      text: "Happiness Center",
+                      textAlign: TextAlign.left,
+                    ),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 15,
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoutes.changePassword);
+                    },
+                    leading: Image.asset(
+                      "assets/change_password.png",
+                      color: context.read<AppThemeCubit>().state.primaryColor,
+                      width: MediaQuery.of(context).size.width * 0.06,
+                    ),
+                    title: const CustomText(
+                      text: "Change Password",
+                      textAlign: TextAlign.left,
+                    ),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 15,
+                    ),
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: BlocBuilder<LogoutCubit, LogoutState>(
+                      builder: (context, state) {
+                        if (state.loadingState == LoadingState.loading) {
+                          return const SizedBox(
+                            height: 50,
+                            child: Center(child: CircularProgressIndicator()),
+                          );
+                        }
+                        return CustomButton(
+                          text: "Logout",
+                          buttonColor: context
+                              .read<AppThemeCubit>()
+                              .state
+                              .primaryColor
+                              .withOpacity(0.8),
+                          function: () {
+                            context.read<LogoutCubit>().logout(context);
+                          },
+                          icon: const Icon(
+                            Icons.logout_outlined,
+                            color: kWhite,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
+          )
         ],
       ),
     );

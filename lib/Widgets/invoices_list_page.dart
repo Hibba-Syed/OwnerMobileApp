@@ -4,6 +4,7 @@ import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Blocs/Invoice details/invoice_details_cubit.dart';
 import '../Models/invoices.dart';
 import '../Utils/utils.dart';
+import '../Views/ledger/ledger_by_account_details.dart';
 
 class InvoicesListPage extends StatefulWidget {
   final int? unitId;
@@ -92,16 +93,49 @@ class _InvoicesListPageState extends State<InvoicesListPage> {
                             child: Row(
                               children: [
                                 Container(
+                                  padding: const EdgeInsets.all(5),
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.3,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
                                   decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: context
-                                          .read<AppThemeCubit>()
-                                          .state
-                                          .primaryColor),
-                                  padding: const EdgeInsets.all(10),
-                                  child: const Icon(
-                                    Icons.receipt_long_outlined,
-                                    color: kWhite,
+                                    color: const Color(0xffF2F2F2),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        const LedgerByAccountDetailsPage()
+                                            .ledgerImageIcon("invoice"),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.14,
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.1,
+                                        color: context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor,
+                                      ),
+                                      const Gap(5),
+                                      CustomText(
+                                        text: "Invoice",
+                                        fontWeight: FontWeight.bold,
+                                        textAlign: TextAlign.center,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.038,
+                                        color: context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor
+                                            .withOpacity(0.8),
+                                      )
+                                    ],
                                   ),
                                 ),
                                 const Gap(10),
@@ -115,83 +149,91 @@ class _InvoicesListPageState extends State<InvoicesListPage> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           CustomText(
-                                            text: invoice?.reference ?? " -- ",
-                                            fontWeight: FontWeight.bold,
+                                            text: invoice?.reference ?? "",
+                                            fontSize: 13,
                                           ),
-                                          const Gap(10),
-                                          CustomText(
-                                            text: const OccupantPage()
+                                          const RequestsPage().iconAndText(
+                                            context,
+                                            "assets/calender.png",
+                                            const OccupantPage()
                                                 .dateTimeFormatter(
                                                     invoice?.date),
-                                            color: kGrey,
-                                            fontSize: 12,
-                                          ),
+                                          )
                                         ],
                                       ),
-                                      CustomText(
-                                        text: invoice?.description == ""
-                                            ? " -- "
-                                            : invoice?.description ?? " -- ",
-                                        fontSize: 14,
-                                      ),
-                                      Row(
-                                        children: [
-                                          const CustomText(
-                                            text: "Mollak reference . ",
-                                            fontSize: 13,
-                                          ),
-                                          CustomText(
-                                            text: invoice?.mollakReference ??
-                                                " -- ",
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ],
-                                      ),
+                                      // const Gap(5),
+                                      // Row(
+                                      //   mainAxisAlignment:
+                                      //       MainAxisAlignment.spaceBetween,
+                                      //   children: [
+                                      //     const CustomText(
+                                      //       text: "Mollak reference",
+                                      //       fontSize: 13,
+                                      //     ),
+                                      //     CustomText(
+                                      //       text:
+                                      //           invoice?.mollakReference ?? "",
+                                      //       fontSize: MediaQuery.of(context)
+                                      //               .size
+                                      //               .width *
+                                      //           0.032,
+                                      //       color: const Color(0xffB2B1B1),
+                                      //     ),
+                                      //   ],
+                                      // ),
+                                      const Gap(5),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(
-                                            children: [
-                                              const CustomText(
-                                                text: "Due at . ",
-                                                fontSize: 12,
-                                              ),
-                                              CustomText(
-                                                text: const OccupantPage()
-                                                    .dateTimeFormatter(
-                                                        invoice?.dueDate),
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                              )
-                                            ],
+                                          const CustomText(
+                                            text: "Due at",
+                                            fontSize: 13,
                                           ),
-                                          InkWell(
-                                            onTap: () {
-                                              if (invoice?.documents?.isEmpty ??
-                                                  true) {
-                                                Fluttertoast.showToast(
-                                                    msg:
-                                                        "No documents found to download");
-                                                return;
-                                              }
-                                              launchUrl(Uri.parse(
-                                                  invoice?.documents ?? ""));
-                                            },
-                                            child: Icon(
-                                              Icons.download_outlined,
-                                              color: context
-                                                  .read<AppThemeCubit>()
-                                                  .state
-                                                  .primaryColor,
-                                            ),
+                                          const RequestsPage().iconAndText(
+                                            context,
+                                            "assets/calender.png",
+                                            const OccupantPage()
+                                                .dateTimeFormatter(
+                                                    invoice?.dueDate),
                                           )
                                         ],
                                       ),
+                                      const Gap(5),
+                                      const Divider(
+                                        color: kGrey,
+                                      ),
+                                      const Gap(5),
+                                      CustomButton(
+                                        text: "Download",
+                                        function: () {
+                                          if (invoice?.documents != null) {
+                                            launchUrl(Uri.parse(
+                                                invoice?.documents ?? ""));
+                                          }
+                                        },
+                                        padding: EdgeInsets.zero,
+                                        buttonColor: const Color(0xff65D024)
+                                            .withOpacity(0.1),
+                                        textColor: const Color(0xff65D024),
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.03,
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.08,
+                                        icon: Image.asset(
+                                          "assets/download_summary.png",
+                                          color: const Color(0xff65D024),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.05,
+                                        ),
+                                      )
                                     ],
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),

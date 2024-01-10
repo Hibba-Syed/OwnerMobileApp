@@ -23,11 +23,9 @@ class RequestsPage extends StatelessWidget {
             children: [
               const DashboardPage().appBar(
                 context,
-                widget: CustomText(
+               
                   text: "Unit $unitNumber - Requests",
-                  fontSize: MediaQuery.of(context).size.width * 0.05,
-                  fontWeight: FontWeight.bold,
-                ),
+               
                 trailingIcon: IconButton(
                   onPressed: () => const LedgerPage().showFilter(context,
                       child: filterView(), resetFunction: () {

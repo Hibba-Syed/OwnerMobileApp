@@ -40,111 +40,160 @@ class _NotificationsPageState extends State<NotificationsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(
-        title: "Notifications",
-        appBar: AppBar(),
-        widgets: const [],
-        appBarHeight: 50,
-        automaticallyImplyLeading: true,
-      ),
-      body: BlocBuilder<NotificationsCubit, NotificationsState>(
-        builder: (context, state) {
-          if (state.loadingState == LoadingState.loading) {
-            return const CustomLoader();
-          }
-          if (state.notificationsModel?.notifications?.isEmpty ?? true) {
-            return const CreditNotesPage().emptyList(
-                ontap: () => context
-                    .read<NotificationsCubit>()
-                    .getNotifications(context));
-          }
-          return Column(
-            children: [
-              Expanded(
-                child: RefreshIndicator(
-                  onRefresh: () async {
-                    context
-                        .read<NotificationsCubit>()
-                        .getNotifications(context);
-                  },
-                  child: ListView.builder(
-                    controller: _scrollController,
-                    padding: const EdgeInsets.all(10),
-                    itemCount: state.notificationsModel?.notifications?.length,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) {
-                      NotificationRecord? notificationRecord =
-                          state.notificationsModel?.notifications?[index];
-                      return InkWell(
-                        onTap: () => const LedgerPage().decidePage(
-                            context,
-                            notificationRecord?.objectId,
-                            notificationRecord?.objectType),
-                        child: const UnitsPage().roundedContainer(
-                            context,
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                    radius: 30,
-                                    backgroundColor: context
-                                        .read<AppThemeCubit>()
-                                        .state
-                                        .primaryColor,
-                                    child: const LedgerByAccountDetailsPage()
-                                        .ledgerIcon(
-                                            notificationRecord?.objectType,
-                                            icon: Icons.list_outlined)),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: Column(
-                                    children: [
-                                      CustomText(
-                                        text: notificationRecord?.message ?? "",
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Icon(
-                                            Icons.alarm_outlined,
-                                            size: 15,
-                                            color: context
-                                                .read<AppThemeCubit>()
-                                                .state
-                                                .primaryColor,
-                                          ),
-                                          const Gap(10),
-                                          CustomText(
-                                            text: const OccupantPage()
-                                                .dateTimeFormatter(
-                                                    notificationRecord
-                                                        ?.createdAt),
-                                            fontSize: 12,
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            padding: const EdgeInsets.all(10),
-                            margin: const EdgeInsets.symmetric(vertical: 5),
-                            color: kGrey.shade200),
-                      );
-                    },
-                  ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            const DashboardPage().appBar(
+              context,
+              text: "Notifications",
+              trailingIcon: IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.abc,
+                  color: kTransparent,
                 ),
               ),
-              if (state.loadMoreState == LoadingState.loading)
-                const SizedBox(
-                  height: 100,
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-            ],
-          );
-        },
+            ),
+            Expanded(
+              child: BlocBuilder<NotificationsCubit, NotificationsState>(
+                builder: (context, state) {
+                  if (state.loadingState == LoadingState.loading) {
+                    return const CustomLoader();
+                  }
+                  if (state.notificationsModel?.notifications?.isEmpty ??
+                      true) {
+                    return const CreditNotesPage().emptyList(
+                        ontap: () => context
+                            .read<NotificationsCubit>()
+                            .getNotifications(context));
+                  }
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: RefreshIndicator(
+                          onRefresh: () async {
+                            context
+                                .read<NotificationsCubit>()
+                                .getNotifications(context);
+                          },
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            padding: const EdgeInsets.all(10),
+                            itemCount:
+                                state.notificationsModel?.notifications?.length,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            itemBuilder: (BuildContext context, int index) {
+                              NotificationRecord? notificationRecord = state
+                                  .notificationsModel?.notifications?[index];
+                              return InkWell(
+                                onTap: () => const LedgerPage().decidePage(
+                                    context,
+                                    notificationRecord?.objectId,
+                                    notificationRecord?.objectType),
+                                child: const UnitsPage().roundedContainer(
+                                    context,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              const LedgerByAccountDetailsPage()
+                                                  .ledgerImageIcon(
+                                                notificationRecord?.objectType,
+                                                makeNotificationDefault: true,
+                                              ),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.1,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.1,
+                                              color: context
+                                                  .read<AppThemeCubit>()
+                                                  .state
+                                                  .primaryColor
+                                                  .withOpacity(0.8),
+                                            ),
+                                            const Gap(10),
+                                            Expanded(
+                                              child: CustomText(
+                                                text: notificationRecord
+                                                            ?.objectType ==
+                                                        "credit_memo"
+                                                    ? "Credit Note"
+                                                    : notificationRecord
+                                                            ?.objectType
+                                                            ?.capitalize() ??
+                                                        "",
+                                                maxLines: 1,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.05,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const Gap(10),
+                                        CustomText(
+                                          text:
+                                              notificationRecord?.message ?? "",
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.035,
+                                        ),
+                                        const Gap(5),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Icon(
+                                              Icons.alarm_outlined,
+                                              size: 15,
+                                              color: context
+                                                  .read<AppThemeCubit>()
+                                                  .state
+                                                  .primaryColor,
+                                            ),
+                                            const Gap(5),
+                                            CustomText(
+                                              text: const OccupantPage()
+                                                  .dateTimeFormatter(
+                                                      notificationRecord
+                                                          ?.createdAt),
+                                              fontSize: 12,
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    padding: const EdgeInsets.all(10),
+                                    margin:
+                                        const EdgeInsets.symmetric(vertical: 5),
+                                    color: kWhite),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      if (state.loadMoreState == LoadingState.loading)
+                        const SizedBox(
+                          height: 100,
+                          child: Center(child: CircularProgressIndicator()),
+                        ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

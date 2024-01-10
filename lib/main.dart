@@ -44,6 +44,8 @@ class MyApp extends StatelessWidget {
           title: 'Iskaan Owner',
           theme: ThemeData(
             scaffoldBackgroundColor: kBackgroundColor,
+            bottomSheetTheme:
+                const BottomSheetThemeData(backgroundColor: kBackgroundColor),
             colorScheme: ColorScheme.fromSeed(
                 seedColor: context.watch<AppThemeCubit>().state.primaryColor),
             textTheme: GoogleFonts.interTextTheme(),

@@ -1,3 +1,4 @@
+import 'package:iskaanowner/Blocs/Compliance%20Details/compliance_details_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
@@ -69,8 +70,18 @@ class _ReceiptListPageState extends State<CompliancesListPage> {
                       children: [
                         InkWell(
                           onTap: () {
+                            context
+                                .read<ComplianceDetailsCubit>()
+                                .getUnitComplianceDetails(
+                                    context, compliance?.id, widget.unitId);
                             Navigator.pushNamed(
-                                context, AppRoutes.complianceDetails);
+                              context,
+                              AppRoutes.complianceDetails,
+                              arguments: {
+                                "unit_id": widget.unitId,
+                                "id": compliance?.id
+                              },
+                            );
                           },
                           child: Container(
                             padding: const EdgeInsets.all(10),

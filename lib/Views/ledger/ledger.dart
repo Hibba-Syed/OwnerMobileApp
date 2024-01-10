@@ -30,11 +30,9 @@ class LedgerPage extends StatelessWidget {
               children: [
                 const DashboardPage().appBar(
                   context,
-                  widget: CustomText(
+                
                     text: "Unit $unitNumber - Ledger",
-                    fontSize: MediaQuery.of(context).size.width * 0.05,
-                    fontWeight: FontWeight.bold,
-                  ),
+               
                   trailingIcon: IconButton(
                     onPressed: () => showFilter(
                       context,
@@ -89,37 +87,34 @@ class LedgerPage extends StatelessWidget {
                 ),
                 BlocBuilder<DownloadLedgerCubit, DownloadLedgerState>(
                   builder: (context, state) {
-                    return Align(
-                      alignment: Alignment.centerRight,
-                      child: CustomButton(
-                        text: "Export Ledger",
-                        function: () {
-                          context.read<DownloadLedgerCubit>().downloadDocument(
-                              context,
-                              "$baseUrl/mobile/owner/property/accounting/ledgers/units-ledger-export?ledgerIds[]=${context.read<LedgerCubit>().state.ledgerType?.id}&unit_id[]=$unitId&type=${context.read<LedgerCubit>().state.ledgerName}");
-                        },
-                        height: MediaQuery.of(context).size.height * 0.06,
-                        fontSize: MediaQuery.of(context).size.width * 0.035,
-                        buttonColor: context
-                            .read<AppThemeCubit>()
-                            .state
-                            .primaryColor
-                            .withOpacity(0.8),
-                        icon: state.loadingState == LoadingState.loading
-                            ? const SizedBox(
-                                height: 15,
-                                width: 15,
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    color: kWhite,
-                                  ),
+                    return CustomButton(
+                      text: "Export Ledger",
+                      function: () {
+                        context.read<DownloadLedgerCubit>().downloadDocument(
+                            context,
+                            "$baseUrl/mobile/owner/property/accounting/ledgers/units-ledger-export?ledgerIds[]=${context.read<LedgerCubit>().state.ledgerType?.id}&unit_id[]=$unitId&type=${context.read<LedgerCubit>().state.ledgerName}");
+                      },
+                      height: MediaQuery.of(context).size.width * 0.12,
+                      fontSize: MediaQuery.of(context).size.width * 0.035,
+                      buttonColor: context
+                          .read<AppThemeCubit>()
+                          .state
+                          .primaryColor
+                          .withOpacity(0.8),
+                      icon: state.loadingState == LoadingState.loading
+                          ? const SizedBox(
+                              height: 15,
+                              width: 15,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: kWhite,
                                 ),
-                              )
-                            : Image.asset(
-                                "assets/export.png",
-                                width: MediaQuery.of(context).size.width * 0.06,
                               ),
-                      ),
+                            )
+                          : Image.asset(
+                              "assets/export.png",
+                              width: MediaQuery.of(context).size.width * 0.06,
+                            ),
                     );
                   },
                 ),
@@ -372,6 +367,7 @@ class LedgerPage extends StatelessWidget {
     required void Function() applyFunction,
   }) async {
     return await showModalBottomSheet(
+      backgroundColor: kBackgroundColor,
       context: context,
       isScrollControlled: true,
       builder: (context) =>
@@ -385,14 +381,10 @@ class LedgerPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Gap(10),
-                  Align(
-                    alignment: Alignment.center,
-                    child: CustomText(
-                      text: "Filter",
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
+                  const CustomText(
+                    text: "Filter",
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
                   const Gap(10),
                   child,
@@ -400,12 +392,28 @@ class LedgerPage extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                          child: CustomButton(
-                              text: "Reset", function: resetFunction)),
+                        child: CustomButton(
+                          text: "Reset",
+                          function: resetFunction,
+                          invert: true,
+                          textColor: context
+                              .read<AppThemeCubit>()
+                              .state
+                              .primaryColor
+                              .withOpacity(0.8),
+                        ),
+                      ),
                       const Gap(10),
                       Expanded(
                           child: CustomButton(
-                              text: "Apply", function: applyFunction)),
+                        text: "Apply",
+                        function: applyFunction,
+                        buttonColor: context
+                            .read<AppThemeCubit>()
+                            .state
+                            .primaryColor
+                            .withOpacity(0.8),
+                      )),
                     ],
                   ),
                   const Gap(10),
@@ -426,9 +434,9 @@ class LedgerPage extends StatelessWidget {
           children: [
             CustomText(
               text: "Select Ledger",
-              color: context.read<AppThemeCubit>().state.primaryColor,
+              color: const Color(0xffB2B1B1),
+              fontSize: MediaQuery.of(context).size.width * 0.032,
             ),
-            const Gap(10),
             filterDropdown(
               (context
                       .read<LedgerTypesCubit>()
@@ -459,7 +467,8 @@ class LedgerPage extends StatelessWidget {
             const Gap(10),
             CustomText(
               text: "Select Date Range",
-              color: context.read<AppThemeCubit>().state.primaryColor,
+              color: const Color(0xffB2B1B1),
+              fontSize: MediaQuery.of(context).size.width * 0.032,
             ),
             const Gap(10),
             dateRangeCustomTextWidget(
@@ -485,27 +494,25 @@ class LedgerPage extends StatelessWidget {
       {void Function()? onTap}) {
     return InkWell(
       onTap: onTap,
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: kGrey.shade300,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CustomText(
-              text: text,
-              textAlign: TextAlign.left,
-              color: kBlack.withOpacity(0.7),
-            ),
-            Icon(
-              Icons.date_range_outlined,
-              color: context.read<AppThemeCubit>().state.primaryColor,
-            ),
-          ],
-        ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CustomText(
+                text: text,
+                textAlign: TextAlign.left,
+                color: kBlack.withOpacity(0.7),
+              ),
+              Icon(
+                Icons.date_range_outlined,
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
+            ],
+          ),
+          const Gap(10),
+          const Divider(),
+        ],
       ),
     );
   }
@@ -517,6 +524,8 @@ class LedgerPage extends StatelessWidget {
       hintText: "Select",
       expandedInsets: const EdgeInsets.all(0),
       onSelected: onSelected,
+      inputDecorationTheme:
+          const InputDecorationTheme(border: UnderlineInputBorder()),
       dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
         return DropdownMenuEntry<String>(value: value, label: value);
       }).toList(),
@@ -540,5 +549,64 @@ class LedgerPage extends StatelessWidget {
     if (page != null) {
       Navigator.pushNamed(context, page, arguments: id);
     }
+  }
+
+  Widget openingAndClosingBalance(
+      BuildContext context, double? openingBalance, double? closingBalance) {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: kWhite,
+            ),
+            child: Column(
+              children: [
+                CustomText(
+                  text: "Opening Balance",
+                  fontSize: MediaQuery.of(context).size.width * 0.04,
+                ),
+                const Gap(10),
+                CustomText(
+                  text: formatCurrency(
+                    openingBalance ?? 0,
+                  ),
+                  color: const Color(0xff65D024),
+                  fontWeight: FontWeight.bold,
+                ),
+              ],
+            ),
+          ),
+        ),
+        const Gap(10),
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: kWhite,
+            ),
+            child: Column(
+              children: [
+                CustomText(
+                  text: "Closing Balance",
+                  fontSize: MediaQuery.of(context).size.width * 0.04,
+                ),
+                const Gap(10),
+                CustomText(
+                  text: formatCurrency(
+                    closingBalance ?? 0,
+                  ),
+                  color: const Color(0xffFB5454),
+                  fontWeight: FontWeight.bold,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

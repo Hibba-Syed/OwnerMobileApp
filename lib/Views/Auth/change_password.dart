@@ -16,11 +16,8 @@ class ChangePasswordPage extends StatelessWidget {
             children: [
               const DashboardPage().appBar(
                 context,
-                widget: CustomText(
                   text: "Change Password",
-                  fontSize: MediaQuery.of(context).size.width * 0.05,
-                  fontWeight: FontWeight.bold,
-                ),
+             
               ),
               Expanded(
                 child: Form(

@@ -25,17 +25,23 @@ class DashboardPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Builder(builder: (context) {
-                return appBar(
-                  context,
-                  image: "assets/menu.png",
-                  onTap: () {
-                    Scaffold.of(context).openDrawer();
-                  },
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: appBar(
+                    context,
+                    image: "assets/menu.png",
+                    onTap: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                  ),
                 );
               }),
               Row(
                 children: [
                   Container(
+                    padding: const EdgeInsets.all(5),
+                    width: MediaQuery.of(context).size.width * 0.12,
+                    height: MediaQuery.of(context).size.width * 0.12,
                     decoration: const BoxDecoration(
                       color: kWhite,
                       shape: BoxShape.circle,
@@ -43,6 +49,7 @@ class DashboardPage extends StatelessWidget {
                     child: Image.network(
                       profileModel?.record?.company?.faviconUrl ?? "",
                       width: MediaQuery.of(context).size.width * 0.12,
+                      height: MediaQuery.of(context).size.width * 0.12,
                     ),
                   ),
                   const Gap(20),
@@ -200,7 +207,8 @@ class DashboardPage extends StatelessWidget {
   Widget appBar(BuildContext context,
       {String image = "assets/back.png",
       void Function()? onTap,
-      Widget? widget,
+      bool enableLeading = true,
+      String? text,
       Widget? trailingIcon}) {
     return Column(
       children: [
@@ -215,11 +223,22 @@ class DashboardPage extends StatelessWidget {
                   },
               icon: Image.asset(
                 image,
-                color: const Color(0xff575757),
+                color: enableLeading ? const Color(0xff575757) : kTransparent,
                 scale: 4,
               ),
             ),
-            if (widget != null) widget,
+            if (text != null)
+              Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: CustomText(
+                  text: text,
+                  fontSize: MediaQuery.of(context).size.width * 0.05,
+                  fontWeight: FontWeight.bold,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                ),
+              )),
             trailingIcon ?? notificationIcon(context)
           ],
         ),

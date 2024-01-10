@@ -25,6 +25,7 @@ import 'package:iskaanowner/Views/companies.dart';
 import 'package:iskaanowner/Views/ledger/ledger_by_account_details.dart';
 import 'package:iskaanowner/Views/web_view.dart';
 
+import '../Blocs/Compliance Details/compliance_details_cubit.dart';
 import '../Utils/utils.dart';
 import '../Views/Compliances/compliance_details.dart';
 import '../Views/Requests/details/mo_details.dart';
@@ -189,9 +190,9 @@ class AppPages {
       PageEntity(
         route: AppRoutes.complianceDetails,
         page: const ComplianceDetailsPage(),
-        // bloc: BlocProvider(
-        //   create: (context) => CompliancesCubit(),
-        // ),
+        bloc: BlocProvider(
+          create: (context) => ComplianceDetailsCubit(),
+        ),
       ),
       PageEntity(
           route: AppRoutes.happinessCenter,

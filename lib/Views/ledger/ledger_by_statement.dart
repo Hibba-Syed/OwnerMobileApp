@@ -68,7 +68,13 @@ class _LedgerByStatementState extends State<LedgerByStatement> {
                   state.ledgerByStatementModel?.record?.data?.ledgers?[index];
               return Column(
                 children: [
-                  if (index == 0) openingAndClosingBalance(state),
+                  if (index == 0)
+                    const LedgerPage().openingAndClosingBalance(
+                        context,
+                        state.ledgerByStatementModel?.record?.meta
+                            ?.openingBalance,
+                        state.ledgerByStatementModel?.record?.meta
+                            ?.closingBalance),
                   if (index == 0) const Gap(5),
                   InkWell(
                     onTap: () {
@@ -281,68 +287,6 @@ class _LedgerByStatementState extends State<LedgerByStatement> {
           ),
         );
       },
-    );
-  }
-
-  Widget openingAndClosingBalance(LedgerState state) {
-    return Row(
-      children: [
-        Expanded(
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: kWhite,
-            ),
-            child: Column(
-              children: [
-                CustomText(
-                  text: "Opening Balance",
-                  fontSize: MediaQuery.of(context).size.width * 0.04,
-                ),
-                const Gap(10),
-                CustomText(
-                  text: formatCurrency(
-                    state.ledgerByStatementModel?.record?.meta
-                            ?.openingBalance ??
-                        0,
-                  ),
-                  color: const Color(0xff65D024),
-                  fontWeight: FontWeight.bold,
-                ),
-              ],
-            ),
-          ),
-        ),
-        const Gap(10),
-        Expanded(
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: kWhite,
-            ),
-            child: Column(
-              children: [
-                CustomText(
-                  text: "Closing Balance",
-                  fontSize: MediaQuery.of(context).size.width * 0.04,
-                ),
-                const Gap(10),
-                CustomText(
-                  text: formatCurrency(
-                    state.ledgerByStatementModel?.record?.meta
-                            ?.closingBalance ??
-                        0,
-                  ),
-                  color: const Color(0xffFB5454),
-                  fontWeight: FontWeight.bold,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

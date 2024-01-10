@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
+import '../Views/ledger/ledger_by_account_details.dart';
 
 class CreditNotesListPage extends StatefulWidget {
   final int? unitId;
@@ -88,16 +89,49 @@ class _CreditNotesListPageState extends State<CreditNotesListPage> {
                             child: Row(
                               children: [
                                 Container(
+                                  padding: const EdgeInsets.all(5),
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.3,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
                                   decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: context
-                                          .read<AppThemeCubit>()
-                                          .state
-                                          .primaryColor),
-                                  padding: const EdgeInsets.all(10),
-                                  child: const Icon(
-                                    Icons.note,
-                                    color: kWhite,
+                                    color: const Color(0xffF2F2F2),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        const LedgerByAccountDetailsPage()
+                                            .ledgerImageIcon("credit_memo"),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.14,
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.1,
+                                        color: context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor,
+                                      ),
+                                      const Gap(5),
+                                      CustomText(
+                                        text: "Credit Note",
+                                        fontWeight: FontWeight.bold,
+                                        textAlign: TextAlign.center,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.038,
+                                        color: context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor
+                                            .withOpacity(0.8),
+                                      )
+                                    ],
                                   ),
                                 ),
                                 const Gap(10),
@@ -111,59 +145,70 @@ class _CreditNotesListPageState extends State<CreditNotesListPage> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           CustomText(
-                                            text:
-                                                creditNote?.reference ?? " -- ",
-                                            fontWeight: FontWeight.bold,
+                                            text: creditNote?.reference ?? "",
+                                            fontSize: 13,
                                           ),
-                                          const Gap(10),
-                                          CustomText(
-                                            text: const OccupantPage()
+                                          const RequestsPage().iconAndText(
+                                            context,
+                                            "assets/calender.png",
+                                            const OccupantPage()
                                                 .dateTimeFormatter(
                                                     creditNote?.date),
-                                            color: kGrey,
-                                            fontSize: 12,
-                                          ),
+                                          )
                                         ],
                                       ),
-                                      CustomText(
-                                        text: creditNote?.description ?? " -- ",
-                                        fontSize: 14,
-                                      ),
+                                      const Gap(5),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          CustomText(
-                                            text: formatCurrency(
-                                                creditNote?.amount ?? 0),
+                                          const CustomText(
+                                            text: "Amount",
                                             fontSize: 13,
                                           ),
-                                          InkWell(
-                                            onTap: () {
-                                              if (creditNote
-                                                      ?.documents?.isEmpty ??
-                                                  true) {
-                                                Fluttertoast.showToast(
-                                                    msg:
-                                                        "No documents found to download");
-                                                return;
-                                              }
-                                              launchUrl(Uri.parse(
-                                                  creditNote?.documents ?? ""));
-                                            },
-                                            child: Icon(
-                                              Icons.download_outlined,
-                                              color: context
-                                                  .read<AppThemeCubit>()
-                                                  .state
-                                                  .primaryColor,
-                                            ),
-                                          )
+                                          CustomText(
+                                            text: formatCurrency(
+                                                creditNote?.amount),
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ],
                                       ),
+                                      const Gap(5),
+                                      const Divider(
+                                        color: kGrey,
+                                      ),
+                                      const Gap(5),
+                                      CustomButton(
+                                        text: "Download",
+                                        function: () {
+                                          if (creditNote?.documents != null) {
+                                            launchUrl(Uri.parse(
+                                                creditNote?.documents ?? ""));
+                                          }
+                                        },
+                                        padding: EdgeInsets.zero,
+                                        buttonColor: const Color(0xff65D024)
+                                            .withOpacity(0.1),
+                                        textColor: const Color(0xff65D024),
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.03,
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.08,
+                                        icon: Image.asset(
+                                          "assets/download_summary.png",
+                                          color: const Color(0xff65D024),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.05,
+                                        ),
+                                      )
                                     ],
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),

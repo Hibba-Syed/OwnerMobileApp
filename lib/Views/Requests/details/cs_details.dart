@@ -14,96 +14,107 @@ class CsDetailsPage extends StatelessWidget {
     String? type =
         (ModalRoute.of(context)?.settings.arguments as List)[2] as String?;
     return Scaffold(
-      appBar: BaseAppBar(
-        title: "${const AdDetailsPage().getRequestName(type)}\n$reference",
-        fontSize: 14,
-        appBar: AppBar(),
-        widgets: [const DashboardPage().notificationIcon(context)],
-        appBarHeight: 50,
-        automaticallyImplyLeading: true,
-      ),
-      body: BlocBuilder<RequestDetailsCubit, RequestDetailsState>(
-        builder: (context, state) {
-          if (state.loadingState == LoadingState.loading) {
-            return const CustomLoader();
-          }
-          if (state.csDetailsModel?.record == null) {
-            return const CreditNotesPage().emptyList(ontap: () {
-              context
-                  .read<RequestDetailsCubit>()
-                  .getRequestDetails(context, requestId, type);
-            });
-          }
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  const AdDetailsPage().header(
-                    context,
-                    state.csDetailsModel?.record?.unit?.unitNumber ?? " -- ",
-                    state.csDetailsModel?.record?.association?.name ?? " -- ",
-                    state.csDetailsModel?.record?.createdAt,
-                    state.csDetailsModel?.record?.status,
-                    [
-                      {
-                        "icon": Icons.email_outlined,
-                        "title": "Requester Type",
-                        "subTitle":
-                            state.csDetailsModel?.record?.clientType ?? " -- ",
-                      },
-                      {
-                        "icon": Icons.room_service_outlined,
-                        "title": "Service",
-                        "subTitle": state
-                                .csDetailsModel?.record?.application?.service ??
-                            " -- ",
-                      },
-                      {
-                        "icon": Icons.calendar_month_outlined,
-                        "title": "Start date",
-                        "subTitle": const OccupantPage().dateTimeFormatter(
-                            state.csDetailsModel?.record?.application?.date),
-                      },
-                      {
-                        "icon": Icons.calendar_month_outlined,
-                        "title": "time",
-                        "subTitle":
-                            state.csDetailsModel?.record?.application?.time ??
-                                " -- ",
-                      },
-                      {
-                        "icon": Icons.security,
-                        "title": "Description",
-                        "subTitle":
-                            state.csDetailsModel?.record?.description ?? " -- ",
-                      },
-                    ],
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: const DashboardPage().appBar(context,
+                text:
+                    "${const AdDetailsPage().getRequestName(type)}\n${reference ?? ""}"),
+          ),
+          Expanded(
+            child: BlocBuilder<RequestDetailsCubit, RequestDetailsState>(
+              builder: (context, state) {
+                if (state.loadingState == LoadingState.loading) {
+                  return const CustomLoader();
+                }
+                if (state.csDetailsModel?.record == null) {
+                  return const CreditNotesPage().emptyList(ontap: () {
+                    context
+                        .read<RequestDetailsCubit>()
+                        .getRequestDetails(context, requestId, type);
+                  });
+                }
+                return SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        const AdDetailsPage().header(
+                          context,
+                          state.csDetailsModel?.record?.unit?.unitNumber ??
+                              " -- ",
+                          state.csDetailsModel?.record?.association?.name ??
+                              " -- ",
+                          state.csDetailsModel?.record?.createdAt,
+                          state.csDetailsModel?.record?.status,
+                          [
+                            {
+                              "icon": Icons.email_outlined,
+                              "title": "Requester Type",
+                              "subTitle":
+                                  state.csDetailsModel?.record?.clientType ??
+                                      " -- ",
+                            },
+                            {
+                              "icon": Icons.room_service_outlined,
+                              "title": "Service",
+                              "subTitle": state.csDetailsModel?.record
+                                      ?.application?.service ??
+                                  " -- ",
+                            },
+                            {
+                              "icon": Icons.calendar_month_outlined,
+                              "title": "Start date",
+                              "subTitle": const OccupantPage()
+                                  .dateTimeFormatter(state.csDetailsModel
+                                      ?.record?.application?.date),
+                            },
+                            {
+                              "icon": Icons.calendar_month_outlined,
+                              "title": "time",
+                              "subTitle": state.csDetailsModel?.record
+                                      ?.application?.time ??
+                                  " -- ",
+                            },
+                            {
+                              "icon": Icons.security,
+                              "title": "Description",
+                              "subTitle":
+                                  state.csDetailsModel?.record?.description ??
+                                      " -- ",
+                            },
+                          ],
+                        ),
+                        const AdDetailsPage().applicationDetails(
+                            context,
+                            state.csDetailsModel?.record?.clientName,
+                            state.csDetailsModel?.record?.clientPhone,
+                            state.csDetailsModel?.record?.clientEmail),
+                        const AdDetailsPage().supportingDocuments(context, [
+                          {
+                            "name": "Title Deed",
+                            "url": state.csDetailsModel?.record?.titleDeedUrl,
+                          },
+                          {
+                            "name": "ID File",
+                            "url":
+                                state.csDetailsModel?.record?.clientIdFileUrl,
+                          },
+                          {
+                            "name": "Passport File",
+                            "url":
+                                state.csDetailsModel?.record?.passportFileUrl,
+                          },
+                        ])
+                      ],
+                    ),
                   ),
-                  const AdDetailsPage().applicationDetails(
-                      context,
-                      state.csDetailsModel?.record?.clientName,
-                      state.csDetailsModel?.record?.clientPhone,
-                      state.csDetailsModel?.record?.clientEmail),
-                  const AdDetailsPage().supportingDocuments(context, [
-                    {
-                      "name": "Title Deed",
-                      "url": state.csDetailsModel?.record?.titleDeedUrl,
-                    },
-                    {
-                      "name": "ID File",
-                      "url": state.csDetailsModel?.record?.clientIdFileUrl,
-                    },
-                    {
-                      "name": "Passport File",
-                      "url": state.csDetailsModel?.record?.passportFileUrl,
-                    },
-                  ])
-                ],
-              ),
+                );
+              },
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }

@@ -19,11 +19,7 @@ class CompliancesPage extends StatelessWidget {
             children: [
               const DashboardPage().appBar(
                 context,
-                widget: CustomText(
-                  text: "Unit $unitNumber - Compliances",
-                  fontSize: MediaQuery.of(context).size.width * 0.05,
-                  fontWeight: FontWeight.bold,
-                ),
+                text: "Unit $unitNumber - Compliances",
               ),
               CustomSearch(
                 fillColor: kWhite,

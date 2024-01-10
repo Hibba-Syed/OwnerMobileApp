@@ -14,27 +14,14 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> key = GlobalKey();
-    final bool showAppBar =
-        ModalRoute.of(context)?.settings.arguments as bool? ?? false;
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
-      appBar: showAppBar
-          ? BaseAppBar(
-              title: "",
-              backgroundColor: kTransparent,
-              elevation: null,
-              appBar: AppBar(),
-              widgets: const [],
-              appBarHeight: 50,
-              automaticallyImplyLeading: true,
-            )
-          : null,
-      extendBodyBehindAppBar: true,
-      body: Stack(
-        children: [
-          loginHeaderImage(),
-          loginUi(context, key),
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            loginHeaderImage(),
+            loginUi(context, key),
+          ],
+        ),
       ),
     );
   }
@@ -64,11 +51,14 @@ class LoginPage extends StatelessWidget {
                       "assets/logo.png",
                       width: MediaQuery.of(context).size.height * 0.15,
                     ),
-                    const CustomText(
+                    const Gap(20),
+                    CustomText(
                       text: "Owner's Login",
-                      color: kGrey,
+                      color: context.read<AppThemeCubit>().state.primaryColor,
+                      fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
+                    const Gap(20),
                     textFieldWithText(
                       context,
                       "Email",

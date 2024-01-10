@@ -15,11 +15,9 @@ class ProfilePage extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: const DashboardPage().appBar(
                 context,
-                widget: CustomText(
+             
                   text: "Profile Information",
-                  fontSize: MediaQuery.of(context).size.width * 0.05,
-                  fontWeight: FontWeight.bold,
-                ),
+             
               ),
             ),
             BlocBuilder<ProfileCubit, ProfileState>(

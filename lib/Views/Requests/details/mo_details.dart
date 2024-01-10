@@ -14,94 +14,106 @@ class MoDetailsPage extends StatelessWidget {
     String? type =
         (ModalRoute.of(context)?.settings.arguments as List)[2] as String?;
     return Scaffold(
-      appBar: BaseAppBar(
-        title: "${const AdDetailsPage().getRequestName(type)}\n$reference",
-        fontSize: 14,
-        appBar: AppBar(),
-        widgets: [const DashboardPage().notificationIcon(context)],
-        appBarHeight: 50,
-        automaticallyImplyLeading: true,
-      ),
-      body: BlocBuilder<RequestDetailsCubit, RequestDetailsState>(
-        builder: (context, state) {
-          if (state.loadingState == LoadingState.loading) {
-            return const CustomLoader();
-          }
-          if (state.moDetailsModel?.record == null) {
-            return const CreditNotesPage().emptyList(ontap: () {
-              context
-                  .read<RequestDetailsCubit>()
-                  .getRequestDetails(context, requestId, type);
-            });
-          }
-          return SingleChildScrollView(
-            child: Padding(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
               padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  const AdDetailsPage().header(
-                    context,
-                    state.moDetailsModel?.record?.unit?.unitNumber ?? " -- ",
-                    state.moDetailsModel?.record?.association?.name ?? " -- ",
-                    state.moDetailsModel?.record?.createdAt,
-                    state.moDetailsModel?.record?.status,
-                    [
-                      {
-                        "icon": Icons.email_outlined,
-                        "title": "Requester Type",
-                        "subTitle":
-                            state.moDetailsModel?.record?.clientType ?? " -- ",
-                      },
-                      {
-                        "icon": Icons.calendar_month_outlined,
-                        "title": "Requested Date",
-                        "subTitle": const OccupantPage().dateTimeFormatter(state
-                            .moDetailsModel?.record?.application?.moveDate),
-                      },
-                      {
-                        "icon": Icons.calendar_month_outlined,
-                        "title": "Requested Time",
-                        "subTitle":
-                            "${state.moDetailsModel?.record?.application?.moveTimeFrom ?? ""} - ${state.moDetailsModel?.record?.application?.moveTimeTo ?? ""}",
-                      },
-                      {
-                        "icon": Icons.attach_money_outlined,
-                        "title": "Security Deposit",
-                        "subTitle":
-                            "${state.moDetailsModel?.record?.application?.securityDeposit ?? " -- "}",
-                      },
-                      {
-                        "icon": Icons.attach_money_outlined,
-                        "title": "Refund Amount",
-                        "subTitle":
-                            "${state.moDetailsModel?.record?.application?.refundAmount ?? " -- "}",
-                      },
-                    ],
-                  ),
-                  const AdDetailsPage().applicationDetails(
-                      context,
-                      state.moDetailsModel?.record?.clientName,
-                      state.moDetailsModel?.record?.clientPhone,
-                      state.moDetailsModel?.record?.clientEmail),
-                  const AdDetailsPage().supportingDocuments(context, [
-                    {
-                      "name": "Title Deed",
-                      "url": state.moDetailsModel?.record?.titleDeedUrl,
-                    },
-                    {
-                      "name": "ID File",
-                      "url": state.moDetailsModel?.record?.clientIdFileUrl,
-                    },
-                    {
-                      "name": "Passport File",
-                      "url": state.moDetailsModel?.record?.passportFileUrl,
-                    },
-                  ])
-                ],
+              child: const DashboardPage().appBar(context,
+                  text:
+                      "${const AdDetailsPage().getRequestName(type)}\n${reference ?? ""}"),
+            ),
+            Expanded(
+              child: BlocBuilder<RequestDetailsCubit, RequestDetailsState>(
+                builder: (context, state) {
+                  if (state.loadingState == LoadingState.loading) {
+                    return const CustomLoader();
+                  }
+                  if (state.moDetailsModel?.record == null) {
+                    return const CreditNotesPage().emptyList(ontap: () {
+                      context
+                          .read<RequestDetailsCubit>()
+                          .getRequestDetails(context, requestId, type);
+                    });
+                  }
+                  return SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          const AdDetailsPage().header(
+                            context,
+                            state.moDetailsModel?.record?.unit?.unitNumber ??
+                                " -- ",
+                            state.moDetailsModel?.record?.association?.name ??
+                                " -- ",
+                            state.moDetailsModel?.record?.createdAt,
+                            state.moDetailsModel?.record?.status,
+                            [
+                              {
+                                "icon": Icons.email_outlined,
+                                "title": "Requester Type",
+                                "subTitle":
+                                    state.moDetailsModel?.record?.clientType ??
+                                        " -- ",
+                              },
+                              {
+                                "icon": Icons.calendar_month_outlined,
+                                "title": "Requested Date",
+                                "subTitle": const OccupantPage()
+                                    .dateTimeFormatter(state.moDetailsModel
+                                        ?.record?.application?.moveDate),
+                              },
+                              {
+                                "icon": Icons.calendar_month_outlined,
+                                "title": "Requested Time",
+                                "subTitle":
+                                    "${state.moDetailsModel?.record?.application?.moveTimeFrom ?? ""} - ${state.moDetailsModel?.record?.application?.moveTimeTo ?? ""}",
+                              },
+                              {
+                                "icon": Icons.attach_money_outlined,
+                                "title": "Security Deposit",
+                                "subTitle":
+                                    "${state.moDetailsModel?.record?.application?.securityDeposit ?? " -- "}",
+                              },
+                              {
+                                "icon": Icons.attach_money_outlined,
+                                "title": "Refund Amount",
+                                "subTitle":
+                                    "${state.moDetailsModel?.record?.application?.refundAmount ?? " -- "}",
+                              },
+                            ],
+                          ),
+                          const AdDetailsPage().applicationDetails(
+                              context,
+                              state.moDetailsModel?.record?.clientName,
+                              state.moDetailsModel?.record?.clientPhone,
+                              state.moDetailsModel?.record?.clientEmail),
+                          const AdDetailsPage().supportingDocuments(context, [
+                            {
+                              "name": "Title Deed",
+                              "url": state.moDetailsModel?.record?.titleDeedUrl,
+                            },
+                            {
+                              "name": "ID File",
+                              "url":
+                                  state.moDetailsModel?.record?.clientIdFileUrl,
+                            },
+                            {
+                              "name": "Passport File",
+                              "url":
+                                  state.moDetailsModel?.record?.passportFileUrl,
+                            },
+                          ])
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }
