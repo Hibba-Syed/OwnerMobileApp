@@ -1,5 +1,4 @@
 import 'package:iskaanowner/Blocs/Credit%20Note%20Details/credit_note_details_cubit.dart';
-import 'package:iskaanowner/Widgets/image_builder.dart';
 
 import '../../Blocs/App Theme/app_theme_cubit.dart';
 import '../../Utils/utils.dart';
@@ -20,7 +19,8 @@ class CreditNoteDetailsPage extends StatelessWidget {
                   .appBar(context, text: "Credit Note Details"),
             ),
             Expanded(
-              child: BlocBuilder<CreditNoteDetailsCubit, CreditNoteDetailsState>(
+              child:
+                  BlocBuilder<CreditNoteDetailsCubit, CreditNoteDetailsState>(
                 builder: (context, state) {
                   if (state.loadingState == LoadingState.loading) {
                     return const CustomLoader();
@@ -47,28 +47,35 @@ class CreditNoteDetailsPage extends StatelessWidget {
                             Row(
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.all(20),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: kGrey.shade100),
-                                  child: ImageBuilder(
-                                    url: context
+                                  padding: const EdgeInsets.all(5),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.12,
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.12,
+                                  decoration: const BoxDecoration(
+                                    color: kWhite,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Image.network(
+                                    context
                                             .read<ProfileCubit>()
                                             .state
                                             .profileModel
                                             ?.record
                                             ?.company
-                                            ?.logoUrl ??
+                                            ?.faviconUrl ??
                                         "",
-                                    // height: 40,
-                                    width: 40,
-                                    isFit: true,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.12,
+                                    height: MediaQuery.of(context).size.width *
+                                        0.12,
                                   ),
                                 ),
                                 const Gap(10),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       CustomText(
                                         text: context
@@ -109,7 +116,8 @@ class CreditNoteDetailsPage extends StatelessWidget {
                                   .read<AppThemeCubit>()
                                   .state
                                   .primaryColor,
-                              fontWeight: FontWeight.bold,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.04,
                             ),
                             const Gap(10),
                             Container(
@@ -125,71 +133,117 @@ class CreditNoteDetailsPage extends StatelessWidget {
                                   )
                                 ],
                               ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: CustomText(
-                                          text: state.creditNoteDetailsModel
-                                                  ?.title ??
-                                              "",
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18,
+                              child: Theme(
+                                data: Theme.of(context)
+                                    .copyWith(dividerColor: Colors.transparent),
+                                child: ListTileTheme(
+                                  contentPadding: EdgeInsets.zero,
+                                  dense: true,
+                                  horizontalTitleGap: 0.0,
+                                  minLeadingWidth: 0,
+                                  child: ExpansionTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: CustomText(
+                                            text: state.creditNoteDetailsModel
+                                                    ?.title ??
+                                                " -- ",
+                                            color: context
+                                                .read<AppThemeCubit>()
+                                                .state
+                                                .primaryColor,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.05,
+                                            textAlign: TextAlign.left,
+                                          ),
                                         ),
-                                      ),
+                                        if (state.creditNoteDetailsModel
+                                                ?.association?.name !=
+                                            null)
+                                          Row(
+                                            children: [
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              const UnitsPage()
+                                                  .roundedContainer(
+                                                      context,
+                                                      CustomText(
+                                                        text: state
+                                                                .creditNoteDetailsModel
+                                                                ?.association
+                                                                ?.name ??
+                                                            "",
+                                                        color: context
+                                                            .read<
+                                                                AppThemeCubit>()
+                                                            .state
+                                                            .primaryColor,
+                                                        fontSize: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.035,
+                                                      ),
+                                                      color: context
+                                                          .read<AppThemeCubit>()
+                                                          .state
+                                                          .primaryColor
+                                                          .withOpacity(0.1),
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 20,
+                                                          vertical: 5)),
+                                            ],
+                                          ),
+                                      ],
+                                    ),
+                                    children: [
                                       const Gap(10),
-                                      CustomText(
-                                        text: state.creditNoteDetailsModel
-                                                ?.association?.name ??
-                                            "",
-                                        fontSize: 12,
-                                        color: kGrey,
-                                      ),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "TRN:",
+                                          state.creditNoteDetailsModel
+                                              ?.association?.trnNumber),
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "Unit:",
+                                          state.creditNoteDetailsModel
+                                              ?.creditable?.unitNumber),
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "CreditNote No.",
+                                          state.creditNoteDetailsModel
+                                              ?.reference),
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "Date:",
+                                          const OccupantPage()
+                                              .dateTimeFormatter(state
+                                                  .creditNoteDetailsModel
+                                                  ?.datetime)),
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "Owner:",
+                                          context
+                                              .read<ProfileCubit>()
+                                              .state
+                                              .profileModel
+                                              ?.record
+                                              ?.fullName),
+                                      const Gap(10),
                                     ],
                                   ),
-                                  const Divider(),
-                                  const Gap(10),
-                                  RowText(
-                                    text: "TRN:",
-                                    text2: state.creditNoteDetailsModel
-                                            ?.association?.trnNumber ??
-                                        "",
-                                  ),
-                                  const Gap(10),
-                                  RowText(
-                                    text: "Unit:",
-                                    text2: state.creditNoteDetailsModel
-                                            ?.creditable?.unitNumber ??
-                                        "",
-                                  ),
-                                  const Gap(10),
-                                  RowText(
-                                    text: "CreditNote No.",
-                                    text2:
-                                        state.creditNoteDetailsModel?.reference ??
-                                            "",
-                                  ),
-                                  const Gap(10),
-                                  RowText(
-                                    text: "Date:",
-                                    text2: const OccupantPage().dateTimeFormatter(
-                                        state.creditNoteDetailsModel?.datetime),
-                                  ),
-                                  const Gap(10),
-                                  RowText(
-                                    text: "Owner:",
-                                    text2: context
-                                            .read<ProfileCubit>()
-                                            .state
-                                            .profileModel
-                                            ?.record
-                                            ?.fullName ??
-                                        " -- ",
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                             const Gap(10),
@@ -199,11 +253,13 @@ class CreditNoteDetailsPage extends StatelessWidget {
                                   .read<AppThemeCubit>()
                                   .state
                                   .primaryColor,
-                              fontWeight: FontWeight.bold,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.04,
                             ),
                             const Gap(10),
                             Column(
-                              children: state.creditNoteDetailsModel?.transactions
+                              children: state
+                                      .creditNoteDetailsModel?.transactions
                                       ?.map(
                                         (e) => Container(
                                           margin: const EdgeInsets.symmetric(
@@ -233,9 +289,10 @@ class CreditNoteDetailsPage extends StatelessWidget {
                                                 children: [
                                                   Expanded(
                                                     child: CustomText(
-                                                      text:
-                                                          e.account?.title ?? "",
-                                                      fontWeight: FontWeight.bold,
+                                                      text: e.account?.title ??
+                                                          "",
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                       fontSize: 18,
                                                     ),
                                                   ),
@@ -254,7 +311,8 @@ class CreditNoteDetailsPage extends StatelessWidget {
                                                                   AppThemeCubit>()
                                                               .state
                                                               .primaryColor
-                                                              .withOpacity(0.2)),
+                                                              .withOpacity(
+                                                                  0.2)),
                                                       child: CustomText(
                                                           text: e.type
                                                                   ?.capitalize() ??
@@ -265,11 +323,12 @@ class CreditNoteDetailsPage extends StatelessWidget {
                                                   text: e.description == "" ||
                                                           e.description == " "
                                                       ? " -- "
-                                                      : e.description ?? " -- "),
+                                                      : e.description ??
+                                                          " -- "),
                                               RowText(
                                                 text: "Amount",
-                                                text2:
-                                                    formatCurrency(e.amount ?? 0),
+                                                text2: formatCurrency(
+                                                    e.amount ?? 0),
                                               ),
                                             ],
                                           ),
@@ -288,11 +347,13 @@ class CreditNoteDetailsPage extends StatelessWidget {
                               RowText(
                                 text: "Total : ",
                                 text2: formatCurrency((state
-                                            .creditNoteDetailsModel?.transactions
+                                            .creditNoteDetailsModel
+                                            ?.transactions
                                             ?.map((e) => e.amount ?? 0)
                                             .toList() ??
                                         [])
-                                    .reduce((value, element) => value + element)),
+                                    .reduce(
+                                        (value, element) => value + element)),
                               ),
                             const Gap(10),
                           ],

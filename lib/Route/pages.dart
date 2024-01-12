@@ -1,6 +1,7 @@
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
 import 'package:iskaanowner/Blocs/Companies/companies_cubit.dart';
 import 'package:iskaanowner/Blocs/Credit%20Note%20Details/credit_note_details_cubit.dart';
+import 'package:iskaanowner/Blocs/Edit%20Compliance/edit_compliance_cubit.dart';
 import 'package:iskaanowner/Blocs/Invoice%20details/invoice_details_cubit.dart';
 import 'package:iskaanowner/Blocs/Logout/logout_cubit.dart';
 import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
@@ -9,8 +10,10 @@ import 'package:iskaanowner/Blocs/Reset%20Password/reset_password_cubit.dart';
 import 'package:iskaanowner/Blocs/Send%20OTP/send_otp_cubit.dart';
 import 'package:iskaanowner/Blocs/Unit%20Financials/unit_financials_cubit.dart';
 import 'package:iskaanowner/Blocs/Verify%20Otp/verify_otp_cubit.dart';
+import 'package:iskaanowner/Views/Auth/forgot_password.dart';
 import 'package:iskaanowner/Views/Auth/otp_verification.dart';
 import 'package:iskaanowner/Views/Auth/reset_password.dart';
+import 'package:iskaanowner/Views/Compliances/edit_compliance.dart';
 import 'package:iskaanowner/Views/Requests/details/ad_details.dart';
 import 'package:iskaanowner/Views/Requests/details/cs_details.dart';
 import 'package:iskaanowner/Views/Requests/details/dp_details.dart';
@@ -195,6 +198,13 @@ class AppPages {
         ),
       ),
       PageEntity(
+        route: AppRoutes.editCompliances,
+        page: const EditCompliancePage(),
+        bloc: BlocProvider(
+          create: (context) => EditComplianceCubit(),
+        ),
+      ),
+      PageEntity(
           route: AppRoutes.happinessCenter,
           page: const HappinessCenterPage(),
           bloc: MultiBlocProvider(
@@ -214,6 +224,10 @@ class AppPages {
             ],
             child: const HappinessCenterPage(),
           )),
+      PageEntity(
+        route: AppRoutes.forgotPassword,
+        page: const ForgotPasswordPage(),
+      ),
       PageEntity(
           route: AppRoutes.changePassword,
           page: const ChangePasswordPage(),

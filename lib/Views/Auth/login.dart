@@ -1,8 +1,6 @@
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
 import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
-import 'package:iskaanowner/Blocs/Send%20OTP/send_otp_cubit.dart';
 import 'package:iskaanowner/Blocs/Unit%20Financials/unit_financials_cubit.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../Notification/firebase_service.dart';
 import '../../Notification/local_notification_service.dart';
@@ -182,7 +180,8 @@ class LoginPage extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerRight,
                       child: InkWell(
-                        onTap: () => forgotPasswordUi(context),
+                        onTap: () => Navigator.pushNamed(
+                            context, AppRoutes.forgotPassword),
                         child: CustomText(
                           text: "Forgot password?",
                           color:
@@ -252,121 +251,6 @@ class LoginPage extends StatelessWidget {
           height: 10,
         ),
       ],
-    );
-  }
-
-  void forgotPasswordUi(BuildContext context) {
-    GlobalKey<FormState> key = GlobalKey();
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) => Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Form(
-                      key: key,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Gap(50),
-                          CustomText(
-                            text: "Forgot Password?",
-                            color: context
-                                .read<AppThemeCubit>()
-                                .state
-                                .primaryColor,
-                            fontSize: 20,
-                          ),
-                          const Gap(20),
-                          LottieBuilder.asset(
-                            "assets/forgot.json",
-                            repeat: false,
-                            width: 200,
-                          ),
-                          const Gap(20),
-                          const Align(
-                            alignment: Alignment.centerLeft,
-                            child: CustomText(
-                              text:
-                                  "Enter your email address to receive instructions on how to reset your password.",
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          const Gap(20),
-                          CustomTextField(
-                            fillColor: kGrey.shade200,
-                            prefix: Icon(
-                              Icons.email_outlined,
-                              color: context
-                                  .read<AppThemeCubit>()
-                                  .state
-                                  .primaryColor,
-                            ),
-                            onChanged: (value) => context
-                                .read<SendOtpCubit>()
-                                .onChangeEmail(value),
-                            hintText: "Enter Email",
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Field is empty";
-                              }
-                              if (!value.contains("@")) {
-                                return "Invalid email address";
-                              }
-                              return null;
-                            },
-                          ),
-                          const Gap(20),
-                          BlocBuilder<SendOtpCubit, SendOtpState>(
-                            builder: (context, state) {
-                              if (state.loadingState == LoadingState.loading) {
-                                return const SizedBox(
-                                    height: 50,
-                                    child: Center(
-                                        child: CircularProgressIndicator()));
-                              }
-                              return CustomButton(
-                                  text: "Send",
-                                  function: () {
-                                    if (key.currentState?.validate() ?? false) {
-                                      context
-                                          .read<SendOtpCubit>()
-                                          .sendOTP(context);
-                                    }
-                                  });
-                            },
-                          ),
-                          const Gap(20),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: CustomButton(
-                    text: "Go back",
-                    icon: Icon(
-                      Icons.arrow_circle_left_outlined,
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                    ),
-                    textColor: context.read<AppThemeCubit>().state.primaryColor,
-                    invert: true,
-                    function: () {
-                      Navigator.pop(context);
-                    }),
-              )
-            ],
-          ),
-        ),
-      ),
     );
   }
 

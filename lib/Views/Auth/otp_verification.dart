@@ -81,11 +81,8 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
           children: [
             Padding(
               padding: const EdgeInsets.all(10),
-              child: const DashboardPage().appBar(
-                context,
-                  text: "OTP Verification",
-               
-              ),
+              child: const DashboardPage()
+                  .appBar(context, text: "Verification", enableTrailing: false),
             ),
             Expanded(
               child: Center(

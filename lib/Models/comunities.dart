@@ -51,37 +51,47 @@ class CommunitiesModel {
 class Association {
   int? id;
   String? name;
-  String? backgroundImage;
-  int? unitCount;
-  List<String>? units;
+  String? type;
   String? backgroundImageUrl;
+  int? unitCount;
+  String? address;
+  String? city;
+  String? state;
+  String? country;
 
   Association({
     this.id,
     this.name,
-    this.backgroundImage,
-    this.unitCount,
-    this.units,
+    this.type,
     this.backgroundImageUrl,
+    this.unitCount,
+    this.address,
+    this.city,
+    this.state,
+    this.country,
   });
 
   factory Association.fromJson(Map<String, dynamic> json) => Association(
         id: json["id"],
         name: json["name"],
-        backgroundImage: json["background_image"],
-        unitCount: json["unit_count"],
-        units: json["units"] == null
-            ? []
-            : List<String>.from(json["units"]!.map((x) => x)),
+        type: json["type"],
         backgroundImageUrl: json["background_image_url"],
+        unitCount: json["unit_count"],
+        address: json["address"],
+        city: json["city"],
+        state: json["state"],
+        country: json["country"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "background_image": backgroundImage,
-        "unit_count": unitCount,
-        "units": units == null ? [] : List<dynamic>.from(units!.map((x) => x)),
+        "type": type,
         "background_image_url": backgroundImageUrl,
+        "unit_count": unitCount,
+        "address": address,
+        "city": city,
+        "state": state,
+        "country": country,
       };
 }

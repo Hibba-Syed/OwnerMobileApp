@@ -170,31 +170,85 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                CustomText(
-                                  text: sharedDocumentsRecord?.documentName ??
-                                      " -- ",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.045,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Flexible(
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Image.asset(
+                                            widget.unitId != null
+                                                ? "assets/unit.png"
+                                                : "assets/community.png",
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.04,
+                                            color: const Color(0xff575757),
+                                          ),
+                                          const Gap(5),
+                                          Flexible(
+                                            child: CustomText(
+                                              text: sharedDocumentsRecord
+                                                      ?.title ??
+                                                  "",
+                                              color: const Color(0xffB2B1B1),
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.035,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const Gap(10),
+                                    Flexible(
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Image.asset(
+                                            "assets/calender.png",
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.04,
+                                            color: const Color(0xff575757),
+                                          ),
+                                          const Gap(5),
+                                          Flexible(
+                                            child: CustomText(
+                                              text: const OccupantPage()
+                                                  .dateTimeFormatter(
+                                                      sharedDocumentsRecord
+                                                          ?.expiryDate),
+                                              color: const Color(0xffB2B1B1),
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.035,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 const Gap(10),
                                 Row(
                                   children: [
-                                    Image.asset(
-                                      "assets/calender.png",
-                                      scale: 4,
-                                    ),
-                                    const Gap(10),
                                     CustomText(
-                                      text: const OccupantPage()
-                                          .dateTimeFormatter(
-                                              sharedDocumentsRecord
-                                                  ?.expiryDate),
-                                      color: const Color(0xffB2B1B1),
-                                      fontWeight: FontWeight.w600,
+                                      text:
+                                          sharedDocumentsRecord?.documentName ??
+                                              " -- ",
+                                      fontWeight: FontWeight.bold,
                                       fontSize:
                                           MediaQuery.of(context).size.width *
-                                              0.035,
+                                              0.045,
                                     ),
                                     const Spacer(),
                                     CustomButton(

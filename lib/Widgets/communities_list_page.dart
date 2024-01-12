@@ -104,32 +104,35 @@ class _CommunitiesListPageState extends State<CommunitiesListPage> {
                                       MediaQuery.of(context).size.height * 0.2,
                                   width: double.infinity,
                                 ),
-                                Container(
-                                  margin: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(7),
-                                    color: kWhite,
-                                  ),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
+                                if (communitiesDatum?.type != null)
+                                  Container(
+                                    margin: const EdgeInsets.all(10),
                                     decoration: BoxDecoration(
-                                      color: context
-                                          .read<AppThemeCubit>()
-                                          .state
-                                          .primaryColor
-                                          .withOpacity(0.8),
                                       borderRadius: BorderRadius.circular(7),
-                                    ),
-                                    child: CustomText(
-                                      text: "Commercial",
                                       color: kWhite,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.035,
                                     ),
-                                  ),
-                                )
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      decoration: BoxDecoration(
+                                        color: context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor
+                                            .withOpacity(0.8),
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                      child: CustomText(
+                                        text: communitiesDatum?.type
+                                                ?.capitalize() ??
+                                            "",
+                                        color: kWhite,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.035,
+                                      ),
+                                    ),
+                                  )
                               ],
                             ),
                           ),
@@ -176,7 +179,7 @@ class _CommunitiesListPageState extends State<CommunitiesListPage> {
                                     ),
                                     const Gap(10),
                                     CustomText(
-                                      text: "Trade Centre - DIFC - Dubai",
+                                      text: communitiesDatum?.address ?? "",
                                       color: const Color(0xffB2B1B1),
                                       fontSize:
                                           MediaQuery.of(context).size.width *

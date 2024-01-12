@@ -8,8 +8,8 @@ class AdDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     int? requestId =
         (ModalRoute.of(context)?.settings.arguments as List)[0] as int?;
-    String? reference =
-        (ModalRoute.of(context)?.settings.arguments as List)[1] as String?;
+    // String? reference =
+    //     (ModalRoute.of(context)?.settings.arguments as List)[1] as String?;
     String? type =
         (ModalRoute.of(context)?.settings.arguments as List)[2] as String?;
     return Scaffold(
@@ -18,8 +18,8 @@ class AdDetailsPage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(10),
-              child: const DashboardPage().appBar(context,
-                  text: "${getRequestName(type)}\n${reference ?? ""}"),
+              child: const DashboardPage()
+                  .appBar(context, text: getRequestName(type)),
             ),
             Expanded(
               child: BlocBuilder<RequestDetailsCubit, RequestDetailsState>(
@@ -143,40 +143,47 @@ class AdDetailsPage extends StatelessWidget {
                   color: kGrey.shade200),
             ],
           ),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  CustomText(
-                    text: const OccupantPage().dateTimeFormatter(createdAt),
-                  ),
-                  const Spacer(),
-                  Row(
-                    children: [
-                      const CustomText(
-                        text: "●",
-                        color: Colors.green,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      const UnitsPage().roundedContainer(
-                          context,
-                          CustomText(
-                            text: status ?? " -- ",
-                            color: Colors.green,
-                          ),
-                          color: Colors.green.withOpacity(0.1),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 10))
-                    ],
-                  ),
-                ],
-              ),
-              Divider(
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
-              Column(
+          child: Theme(
+            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+            child: ListTileTheme(
+              contentPadding: EdgeInsets.zero,
+              dense: true,
+              horizontalTitleGap: 0.0,
+              minLeadingWidth: 0,
+              child: ExpansionTile(
+                title: Column(
+                  children: [
+                    Row(
+                      children: [
+                        CustomText(
+                          text:
+                              const OccupantPage().dateTimeFormatter(createdAt),
+                        ),
+                        const Spacer(),
+                        Row(
+                          children: [
+                            const CustomText(
+                              text: "●",
+                              color: Colors.green,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            const UnitsPage().roundedContainer(
+                                context,
+                                CustomText(
+                                  text: status ?? " -- ",
+                                  color: Colors.green,
+                                ),
+                                color: Colors.green.withOpacity(0.1),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 10))
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
                 children: data
                     .map((e) => const ProfilePage().profileInfoTile(
                           context,
@@ -184,8 +191,8 @@ class AdDetailsPage extends StatelessWidget {
                           e["subTitle"].toString(),
                         ))
                     .toList(),
-              )
-            ],
+              ),
+            ),
           ),
         ),
       ],
@@ -200,9 +207,8 @@ class AdDetailsPage extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: CustomText(
             text: text,
-            fontWeight: FontWeight.bold,
             color: context.read<AppThemeCubit>().state.primaryColor,
-            fontSize: 20,
+            fontSize: MediaQuery.of(context).size.width * 0.04,
           ),
         ),
         const Gap(10),
@@ -330,13 +336,24 @@ class AdDetailsPage extends StatelessWidget {
                   color: kGrey.shade200),
             ],
           ),
-          child: Column(
-            children: data
-                .map(
-                  (e) => const OwnersPage()
-                      .documentInfo(context, e["name"], url: e["url"]),
-                )
-                .toList(),
+          child: ListView.separated(
+            itemCount: data.length,
+            shrinkWrap: true,
+            separatorBuilder: (BuildContext context, int index) {
+              return const Column(
+                children: [
+                  Divider(
+                    thickness: 0.5,
+                  ),
+                  Gap(5),
+                ],
+              );
+            },
+            itemBuilder: (BuildContext context, int index) {
+              return const OwnersPage().documentInfo(
+                  context, data[index]["name"],
+                  url: data[index]["url"]);
+            },
           ),
         )
       ],

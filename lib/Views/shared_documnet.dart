@@ -16,9 +16,7 @@ class SharedDocumentPage extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: const DashboardPage().appBar(
                 context,
-            
-                  text: "Shared Documents",
-             
+                text: "Shared Documents",
               ),
             ),
             Expanded(

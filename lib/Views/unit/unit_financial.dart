@@ -90,8 +90,7 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
                                     return;
                                   }
                                   Fluttertoast.showToast(
-                                      msg:
-                                          "Long press and select units to export");
+                                      msg: "Select units to export");
                                 },
                                 height:
                                     MediaQuery.of(context).size.width * 0.12,
@@ -151,126 +150,181 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
                                 return Column(
                                   children: [
                                     Container(
+                                      padding: const EdgeInsets.all(10),
                                       margin: const EdgeInsets.symmetric(
                                           vertical: 5),
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: kWhite,
-                                          boxShadow: [
-                                            BoxShadow(
+                                        color: kWhite,
+                                        borderRadius: BorderRadius.circular(10),
+                                        boxShadow: [
+                                          BoxShadow(
                                               color: kGrey.shade200,
-                                              spreadRadius: 2,
                                               blurRadius: 2,
-                                            )
-                                          ]),
-                                      child: ListTile(
-                                        onLongPress: () {
-                                          context
-                                              .read<UnitFinancialsCubit>()
-                                              .onChangeSelectedUnits([
-                                            unitFinancialsRecord?.unitId
-                                          ]);
-                                        },
-                                        onTap: () {
-                                          if (state.selectedUnits.isNotEmpty) {
-                                            if (checkboxIndex != -1) {
-                                              modifiedList
-                                                  .removeAt(checkboxIndex);
-                                            } else {
-                                              modifiedList.add(
-                                                  unitFinancialsRecord?.unitId);
-                                            }
-                                            context
-                                                .read<UnitFinancialsCubit>()
-                                                .onChangeSelectedUnits(
-                                                    modifiedList);
-                                          }
-                                        },
-                                        leading: AnimatedCrossFade(
-                                            firstChild: Container(
-                                                padding:
-                                                    const EdgeInsets.all(10),
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: kGrey.shade200),
-                                                child: Icon(
-                                                  Icons.place,
+                                              spreadRadius: 2)
+                                        ],
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.all(5),
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.3,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.3,
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xffF2F2F2),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Image.asset(
+                                                  "assets/community.png",
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.14,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.1,
+                                                  color: context
+                                                      .read<AppThemeCubit>()
+                                                      .state
+                                                      .primaryColor,
+                                                ),
+                                                const Gap(5),
+                                                CustomText(
+                                                  text: "Community",
+                                                  fontWeight: FontWeight.bold,
+                                                  textAlign: TextAlign.center,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.038,
                                                   color: context
                                                       .read<AppThemeCubit>()
                                                       .state
                                                       .primaryColor
                                                       .withOpacity(0.8),
-                                                )),
-                                            secondChild: Checkbox(
-                                              visualDensity:
-                                                  VisualDensity.comfortable,
-                                              value: checkboxIndex != -1
-                                                  ? true
-                                                  : false,
-                                              onChanged: (value) {
-                                                if (checkboxIndex != -1) {
-                                                  modifiedList
-                                                      .removeAt(checkboxIndex);
-                                                } else {
-                                                  modifiedList.add(
-                                                      unitFinancialsRecord
-                                                          ?.unitId);
-                                                }
-                                                context
-                                                    .read<UnitFinancialsCubit>()
-                                                    .onChangeSelectedUnits(
-                                                        modifiedList);
-                                              },
+                                                )
+                                              ],
                                             ),
-                                            crossFadeState:
-                                                state.selectedUnits.isEmpty
-                                                    ? CrossFadeState.showFirst
-                                                    : CrossFadeState.showSecond,
-                                            duration:
-                                                const Duration(seconds: 1)),
-                                        title: CustomText(
-                                          text: unitFinancialsRecord
-                                                  ?.communityName ??
-                                              " -- ",
-                                          textAlign: TextAlign.left,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        subtitle: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            CustomText(
-                                              text: unitFinancialsRecord
-                                                      ?.unitNumber ??
-                                                  " -- ",
-                                              textAlign: TextAlign.left,
-                                              fontSize: 14,
-                                              color: kGrey,
+                                          ),
+                                          const Gap(10),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: CustomText(
+                                                        text: unitFinancialsRecord
+                                                                ?.communityName ??
+                                                            "",
+                                                        fontSize: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.04,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        maxLines: 2,
+                                                      ),
+                                                    ),
+                                                    const Gap(10),
+                                                    Checkbox(
+                                                      visualDensity:
+                                                          VisualDensity.compact,
+                                                      value: checkboxIndex != -1
+                                                          ? true
+                                                          : false,
+                                                      onChanged: (value) {
+                                                        if (checkboxIndex !=
+                                                            -1) {
+                                                          modifiedList.removeAt(
+                                                              checkboxIndex);
+                                                        } else {
+                                                          modifiedList.add(
+                                                              unitFinancialsRecord
+                                                                  ?.unitId);
+                                                        }
+                                                        context
+                                                            .read<
+                                                                UnitFinancialsCubit>()
+                                                            .onChangeSelectedUnits(
+                                                                modifiedList);
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                                const Gap(5),
+                                                CustomText(
+                                                  text:
+                                                      "Unit # : ${unitFinancialsRecord?.unitNumber ?? " -- "}",
+                                                  fontSize: 13,
+                                                ),
+                                                const Gap(5),
+                                                const Divider(
+                                                  color: kGrey,
+                                                ),
+                                                const Gap(5),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    CustomText(
+                                                      text: "Balance",
+                                                      fontSize:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.04,
+                                                    ),
+                                                    CustomText(
+                                                      text: formatCurrency(
+                                                          unitFinancialsRecord
+                                                                  ?.balance ??
+                                                              0),
+                                                      color: (unitFinancialsRecord
+                                                                      ?.balance ??
+                                                                  0) ==
+                                                              0
+                                                          ? null
+                                                          : (unitFinancialsRecord
+                                                                      ?.balance
+                                                                      ?.isNegative ??
+                                                                  false)
+                                                              ? const Color(
+                                                                  0xffFB5454)
+                                                              : const Color(
+                                                                  0xff65D024),
+                                                      fontSize:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.04,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10,
-                                                      vertical: 5),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: context
-                                                      .read<AppThemeCubit>()
-                                                      .state
-                                                      .primaryColor
-                                                      .withOpacity(0.2)),
-                                              child: CustomText(
-                                                text: formatCurrency(
-                                                    unitFinancialsRecord
-                                                            ?.balance ??
-                                                        0),
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     if ((index + 1) ==

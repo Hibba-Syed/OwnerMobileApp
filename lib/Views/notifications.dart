@@ -134,7 +134,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                                 fontSize: MediaQuery.of(context)
                                                         .size
                                                         .width *
-                                                    0.05,
+                                                    0.045,
                                               ),
                                             ),
                                           ],

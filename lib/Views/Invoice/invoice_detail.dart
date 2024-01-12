@@ -1,5 +1,4 @@
 import 'package:iskaanowner/Blocs/Invoice%20details/invoice_details_cubit.dart';
-import 'package:iskaanowner/Widgets/image_builder.dart';
 
 import '../../Blocs/App Theme/app_theme_cubit.dart';
 import '../../Utils/utils.dart';
@@ -48,28 +47,35 @@ class InvoiceDetailsPage extends StatelessWidget {
                             Row(
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.all(20),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: kGrey.shade100),
-                                  child: ImageBuilder(
-                                    url: context
+                                  padding: const EdgeInsets.all(5),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.12,
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.12,
+                                  decoration: const BoxDecoration(
+                                    color: kWhite,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Image.network(
+                                    context
                                             .read<ProfileCubit>()
                                             .state
                                             .profileModel
                                             ?.record
                                             ?.company
-                                            ?.logoUrl ??
+                                            ?.faviconUrl ??
                                         "",
-                                    // height: 40,
-                                    width: 40,
-                                    isFit: true,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.12,
+                                    height: MediaQuery.of(context).size.width *
+                                        0.12,
                                   ),
                                 ),
                                 const Gap(10),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       CustomText(
                                         text: context
@@ -110,7 +116,8 @@ class InvoiceDetailsPage extends StatelessWidget {
                                   .read<AppThemeCubit>()
                                   .state
                                   .primaryColor,
-                              fontWeight: FontWeight.bold,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.04,
                             ),
                             const Gap(10),
                             Container(
@@ -126,89 +133,134 @@ class InvoiceDetailsPage extends StatelessWidget {
                                   )
                                 ],
                               ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: CustomText(
-                                          text:
-                                              state.invoiceDetailsModel?.title ??
-                                                  "",
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18,
+                              child: Theme(
+                                data: Theme.of(context)
+                                    .copyWith(dividerColor: Colors.transparent),
+                                child: ListTileTheme(
+                                  contentPadding: EdgeInsets.zero,
+                                  dense: true,
+                                  horizontalTitleGap: 0.0,
+                                  minLeadingWidth: 0,
+                                  child: ExpansionTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: CustomText(
+                                            text: state.invoiceDetailsModel
+                                                    ?.title ??
+                                                " -- ",
+                                            color: context
+                                                .read<AppThemeCubit>()
+                                                .state
+                                                .primaryColor,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.05,
+                                            textAlign: TextAlign.left,
+                                          ),
                                         ),
+                                        if (state.invoiceDetailsModel
+                                                ?.association?.name !=
+                                            null)
+                                          Row(
+                                            children: [
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              const UnitsPage()
+                                                  .roundedContainer(
+                                                      context,
+                                                      CustomText(
+                                                        text: state
+                                                                .invoiceDetailsModel
+                                                                ?.association
+                                                                ?.name ??
+                                                            "",
+                                                        color: context
+                                                            .read<
+                                                                AppThemeCubit>()
+                                                            .state
+                                                            .primaryColor,
+                                                        fontSize: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.035,
+                                                      ),
+                                                      color: context
+                                                          .read<AppThemeCubit>()
+                                                          .state
+                                                          .primaryColor
+                                                          .withOpacity(0.1),
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 20,
+                                                          vertical: 5)),
+                                            ],
+                                          ),
+                                      ],
+                                    ),
+                                    children: [
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "TRN:",
+                                          state.invoiceDetailsModel?.association
+                                              ?.trnNumber),
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "Unit:",
+                                          state.invoiceDetailsModel?.invoiceable
+                                              ?.name),
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "Invoice No:",
+                                          state.invoiceDetailsModel?.reference),
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                        context,
+                                        "Owner Name:",
+                                        state.invoiceDetailsModel?.invoiceable
+                                            ?.owner?.owner?.fullName,
                                       ),
                                       const Gap(10),
-                                      CustomText(
-                                        text: state.invoiceDetailsModel
-                                                ?.association?.name ??
-                                            "",
-                                        fontSize: 12,
-                                        color: kGrey,
+                                      const ProfilePage().profileInfoTile(
+                                        context,
+                                        "Owner Email:",
+                                        state.invoiceDetailsModel?.invoiceable
+                                            ?.owner?.email,
                                       ),
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                        context,
+                                        "Invoice Date:",
+                                        const OccupantPage().dateTimeFormatter(
+                                            state
+                                                .invoiceDetailsModel?.datetime),
+                                      ),
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                        context,
+                                        "Owner TRN:",
+                                        state.invoiceDetailsModel?.invoiceable
+                                            ?.owner?.owner?.trnNumber,
+                                      ),
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                        context,
+                                        "Due Date:",
+                                        const OccupantPage().dateTimeFormatter(
+                                            state.invoiceDetailsModel?.dueDate),
+                                      ),
+                                      const Gap(10),
                                     ],
                                   ),
-                                  const Divider(),
-                                  const Gap(10),
-                                  RowText(
-                                    text: "TRN:",
-                                    text2: state.invoiceDetailsModel?.association
-                                            ?.trnNumber ??
-                                        "",
-                                  ),
-                                  const Gap(10),
-                                  RowText(
-                                    text: "Unit:",
-                                    text2: state.invoiceDetailsModel?.invoiceable
-                                            ?.name ??
-                                        "",
-                                  ),
-                                  const Gap(10),
-                                  RowText(
-                                    text: "Invoice No: ",
-                                    text2: state.invoiceDetailsModel?.reference ??
-                                        "",
-                                  ),
-                                  const Gap(10),
-                                  RowText(
-                                    text: "Owner Name:",
-                                    text2: state.invoiceDetailsModel?.invoiceable
-                                            ?.owner?.owner?.fullName ??
-                                        "",
-                                  ),
-                                  const Gap(10),
-                                  RowText(
-                                      text: "Owner Email:",
-                                      text2: context
-                                              .read<ProfileCubit>()
-                                              .state
-                                              .profileModel
-                                              ?.record
-                                              ?.email ??
-                                          " -- "),
-                                  const Gap(10),
-                                  RowText(
-                                    text: "Invoice Date:",
-                                    text2: const OccupantPage().dateTimeFormatter(
-                                        state.invoiceDetailsModel?.datetime),
-                                  ),
-                                  const Gap(10),
-                                  RowText(
-                                    text: "Owner TRN:",
-                                    text2: state.invoiceDetailsModel?.invoiceable
-                                            ?.owner?.owner?.trnNumber ??
-                                        " -- ",
-                                  ),
-                                  const Gap(10),
-                                  RowText(
-                                    text: "Due Date:",
-                                    text2: const OccupantPage().dateTimeFormatter(
-                                        state.invoiceDetailsModel?.dueDate),
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                             const Gap(10),
@@ -218,11 +270,12 @@ class InvoiceDetailsPage extends StatelessWidget {
                                   .read<AppThemeCubit>()
                                   .state
                                   .primaryColor,
-                              fontWeight: FontWeight.bold,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.04,
                             ),
                             const Gap(10),
-                            if (state
-                                    .invoiceDetailsModel?.transactions?.isEmpty ??
+                            if (state.invoiceDetailsModel?.transactions
+                                    ?.isEmpty ??
                                 true)
                               Container(
                                 margin: const EdgeInsets.symmetric(vertical: 5),
@@ -243,7 +296,8 @@ class InvoiceDetailsPage extends StatelessWidget {
                                     ontap: () {
                                       context
                                           .read<InvoiceDetailsCubit>()
-                                          .getInvoiceDetails(context, invoiceId);
+                                          .getInvoiceDetails(
+                                              context, invoiceId);
                                     }),
                               ),
                             Column(
@@ -277,9 +331,10 @@ class InvoiceDetailsPage extends StatelessWidget {
                                                 children: [
                                                   Expanded(
                                                     child: CustomText(
-                                                      text:
-                                                          e.account?.title ?? "",
-                                                      fontWeight: FontWeight.bold,
+                                                      text: e.account?.title ??
+                                                          "",
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                       fontSize: 18,
                                                     ),
                                                   ),
@@ -310,15 +365,17 @@ class InvoiceDetailsPage extends StatelessWidget {
                                                   text: e.description == "" ||
                                                           e.description == " "
                                                       ? " -- "
-                                                      : e.description ?? " -- "),
+                                                      : e.description ??
+                                                          " -- "),
                                               RowText(
                                                 text: "Vat",
-                                                text2: formatCurrency(e.vat ?? 0),
+                                                text2:
+                                                    formatCurrency(e.vat ?? 0),
                                               ),
                                               RowText(
                                                 text: "Amount",
-                                                text2:
-                                                    formatCurrency(e.amount ?? 0),
+                                                text2: formatCurrency(
+                                                    e.amount ?? 0),
                                               ),
                                             ],
                                           ),
@@ -341,7 +398,8 @@ class InvoiceDetailsPage extends StatelessWidget {
                                             ?.map((e) => e.amount ?? 0)
                                             .toList() ??
                                         [])
-                                    .reduce((value, element) => value + element)),
+                                    .reduce(
+                                        (value, element) => value + element)),
                               ),
                             const Gap(10),
                           ],

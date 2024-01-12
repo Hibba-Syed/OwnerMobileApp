@@ -51,6 +51,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
         ));
       }
       value as Failure;
+
       Fluttertoast.showToast(
           msg: value.errorResponse as String? ?? "Unable to get notifications");
       emit(state.copyWith(loadMoreState: LoadingState.error));

@@ -208,6 +208,7 @@ class DashboardPage extends StatelessWidget {
       {String image = "assets/back.png",
       void Function()? onTap,
       bool enableLeading = true,
+      bool enableTrailing = true,
       String? text,
       Widget? trailingIcon}) {
     return Column(
@@ -239,7 +240,16 @@ class DashboardPage extends StatelessWidget {
                   maxLines: 1,
                 ),
               )),
-            trailingIcon ?? notificationIcon(context)
+            trailingIcon ??
+                (enableTrailing
+                    ? notificationIcon(context)
+                    : IconButton(
+                        visualDensity: VisualDensity.compact,
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.safety_check,
+                          color: kTransparent,
+                        )))
           ],
         ),
         const Divider(

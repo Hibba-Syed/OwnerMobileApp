@@ -88,11 +88,12 @@ class _LedgerByDateState extends State<LedgerByDate> {
                         ],
                       ),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CustomText(
                             text: ledgerByDateDatum?.account ?? "",
                             fontWeight: FontWeight.bold,
-                            fontSize: MediaQuery.of(context).size.width * 0.05,
+                            fontSize: MediaQuery.of(context).size.width * 0.045,
                           ),
                           const Divider(),
                           Row(
@@ -207,6 +208,7 @@ class _LedgerByDateState extends State<LedgerByDate> {
                                               0.032,
                                       color: const Color(0xffB2B1B1),
                                     ),
+                                    const Gap(5),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,

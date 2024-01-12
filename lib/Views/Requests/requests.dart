@@ -23,9 +23,7 @@ class RequestsPage extends StatelessWidget {
             children: [
               const DashboardPage().appBar(
                 context,
-               
-                  text: "Unit $unitNumber - Requests",
-               
+                text: "Unit $unitNumber - Requests",
                 trailingIcon: IconButton(
                   onPressed: () => const LedgerPage().showFilter(context,
                       child: filterView(), resetFunction: () {
@@ -333,6 +331,7 @@ class RequestsPage extends StatelessWidget {
         Image.asset(
           image,
           width: MediaQuery.of(context).size.width * 0.04,
+          color: const Color(0xffB2B1B1),
         ),
         const Gap(5),
         CustomText(

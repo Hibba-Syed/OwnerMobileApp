@@ -22,6 +22,7 @@ class AppRoutes {
   static const miDetails = "/miDetails";
   static const tpDetails = "/tpDetails";
   static const compliances = "/compliances";
+  static const editCompliances = "/editCompliances";
   static const complianceDetails = "/complianceDetails";
   static const happinessCenter = "/happinessCenter";
   static const profile = "/profile";
@@ -31,6 +32,7 @@ class AppRoutes {
   static const sharedDocument = "/sharedDocument";
   static const ledger = "/ledger";
   static const ledgerByAccountDetail = "/ledgerByAccountDetail";
+  static const forgotPassword = "/forgotPassword";
   static const otpVerification = "/otpVerification";
   static const resetPassword = "/resetPassword";
   static const invoices = "/invoices";

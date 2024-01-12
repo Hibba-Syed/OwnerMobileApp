@@ -601,6 +601,7 @@ class InvoiceableOwner {
   int? isPrimary;
   int? isCurrent;
   String? titleDeedUrl;
+  String? email;
   OwnerOwner? owner;
 
   InvoiceableOwner({
@@ -610,6 +611,7 @@ class InvoiceableOwner {
     this.isPrimary,
     this.isCurrent,
     this.titleDeedUrl,
+    this.email,
     this.owner,
   });
 
@@ -621,6 +623,7 @@ class InvoiceableOwner {
         isPrimary: json["is_primary"],
         isCurrent: json["is_current"],
         titleDeedUrl: json["title_deed_url"],
+        email: json["email"],
         owner:
             json["owner"] == null ? null : OwnerOwner.fromJson(json["owner"]),
       );
@@ -632,6 +635,7 @@ class InvoiceableOwner {
         "is_primary": isPrimary,
         "is_current": isCurrent,
         "title_deed_url": titleDeedUrl,
+        "email": email,
         "owner": owner?.toJson(),
       };
 }

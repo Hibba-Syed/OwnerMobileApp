@@ -12,8 +12,9 @@ class CustomTextField extends StatelessWidget {
   final bool obscureText;
   final EdgeInsetsGeometry? contentPadding;
   final String? initialValue;
-  final bool? enabled;
+  final bool? readOnly;
   final Color? fillColor;
+  final void Function()? onTap;
   const CustomTextField(
       {super.key,
       this.prefix,
@@ -24,17 +25,20 @@ class CustomTextField extends StatelessWidget {
       this.maxLines = 1,
       this.validator,
       this.keyboardType,
-      this.enabled,
+      this.readOnly,
       this.obscureText = false,
       this.onChanged,
       this.initialValue,
+      this.onTap,
       this.fillColor = kWhite});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly ?? false,
       maxLines: maxLines,
-      enabled: enabled,
+      // enabled: enabled,
+      onTap: onTap,
       initialValue: initialValue,
       textAlignVertical: TextAlignVertical.center,
       onChanged: onChanged,
@@ -45,6 +49,8 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         contentPadding:
             contentPadding ?? const EdgeInsets.symmetric(vertical: 15),
+        disabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: kBlack.withOpacity(0.7))),
         filled: true,
         prefixIcon: prefix,
         fillColor: fillColor,

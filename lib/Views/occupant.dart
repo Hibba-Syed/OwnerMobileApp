@@ -24,9 +24,7 @@ class OccupantPage extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: const DashboardPage().appBar(
                 context,
-            
-                  text: "Unit $unitNumber - Occupant",
-              
+                text: "Unit $unitNumber - Occupant",
               ),
             ),
             Expanded(
@@ -254,13 +252,13 @@ class OccupantPage extends StatelessWidget {
                               const SizedBox(
                                 height: 10,
                               ),
-                            if (state.occupantModel?.occupant?.vehicles !=
-                                    null &&
-                                (state.occupantModel?.occupant?.vehicles
-                                        ?.isNotEmpty ??
-                                    false))
-                              vehicleSection(context,
-                                  state.occupantModel?.occupant?.vehicles),
+                            // if (state.occupantModel?.occupant?.vehicles !=
+                            //         null &&
+                            //     (state.occupantModel?.occupant?.vehicles
+                            //             ?.isNotEmpty ??
+                            //         false))
+                            //   vehicleSection(context,
+                            //       state.occupantModel?.occupant?.vehicles),
                             CustomText(
                               text: "Documents",
                               color: context
@@ -329,79 +327,79 @@ class OccupantPage extends StatelessWidget {
     );
   }
 
-  Widget vehicleSection(BuildContext context, dynamic vehicles) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CustomText(
-          text: "Vehicles",
-          color: context.read<AppThemeCubit>().state.primaryColor,
-          fontWeight: FontWeight.bold,
-          fontSize: 20,
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        vehicleRegistrationCard(context, "1231234", "Apr 1, 2024"),
-        const SizedBox(
-          height: 10,
-        ),
-        vehicleRegistrationCard(context, "6565765", "Sept 15, 2024"),
-        const SizedBox(
-          height: 10,
-        ),
-      ],
-    );
-  }
+  // Widget vehicleSection(BuildContext context, dynamic vehicles) {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       CustomText(
+  //         text: "Vehicles",
+  //         color: context.read<AppThemeCubit>().state.primaryColor,
+  //         fontWeight: FontWeight.bold,
+  //         fontSize: 20,
+  //       ),
+  //       const SizedBox(
+  //         height: 10,
+  //       ),
+  //       vehicleRegistrationCard(context, "1231234", "Apr 1, 2024"),
+  //       const SizedBox(
+  //         height: 10,
+  //       ),
+  //       vehicleRegistrationCard(context, "6565765", "Sept 15, 2024"),
+  //       const SizedBox(
+  //         height: 10,
+  //       ),
+  //     ],
+  //   );
+  // }
 
-  Widget vehicleRegistrationCard(
-      BuildContext context, String registration, String date) {
-    return const UnitsPage().roundedContainer(
-      context,
-      Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CustomText(
-                text: "Registration No.",
-                color: context.read<AppThemeCubit>().state.primaryColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 13,
-              ),
-              CustomText(
-                text: registration,
-                color: kBlack,
-                fontSize: 13,
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CustomText(
-                text: "Date Added : ",
-                color: context.read<AppThemeCubit>().state.primaryColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 13,
-              ),
-              CustomText(
-                text: date,
-                color: kBlack,
-                fontSize: 13,
-              ),
-            ],
-          ),
-        ],
-      ),
-      color: kGrey.shade200,
-      padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 5,
-      ),
-    );
-  }
+  // Widget vehicleRegistrationCard(
+  //     BuildContext context, String registration, String date) {
+  //   return const UnitsPage().roundedContainer(
+  //     context,
+  //     Column(
+  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //       children: [
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             CustomText(
+  //               text: "Registration No.",
+  //               color: context.read<AppThemeCubit>().state.primaryColor,
+  //               fontWeight: FontWeight.bold,
+  //               fontSize: 13,
+  //             ),
+  //             CustomText(
+  //               text: registration,
+  //               color: kBlack,
+  //               fontSize: 13,
+  //             ),
+  //           ],
+  //         ),
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             CustomText(
+  //               text: "Date Added : ",
+  //               color: context.read<AppThemeCubit>().state.primaryColor,
+  //               fontWeight: FontWeight.bold,
+  //               fontSize: 13,
+  //             ),
+  //             CustomText(
+  //               text: date,
+  //               color: kBlack,
+  //               fontSize: 13,
+  //             ),
+  //           ],
+  //         ),
+  //       ],
+  //     ),
+  //     color: kGrey.shade200,
+  //     padding: const EdgeInsets.symmetric(
+  //       horizontal: 10,
+  //       vertical: 5,
+  //     ),
+  //   );
+  // }
 
   Widget emergencyContactCard(BuildContext context, String name,
       {String? phoneNumber}) {

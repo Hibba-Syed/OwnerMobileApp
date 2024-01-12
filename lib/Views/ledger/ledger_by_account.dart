@@ -105,12 +105,16 @@ class _LedgerByAccountState extends State<LedgerByAccount> {
                                       fontSize: 17,
                                     ),
                                     const Gap(20),
-                                    Text(
-                                      formatCurrency(
+                                    CustomText(
+                                      text: formatCurrency(
                                           accountDatum?.closingBalance ?? 0),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+                                      fontWeight: FontWeight.bold,
+                                      color: (accountDatum?.closingBalance
+                                                  ?.isNegative ??
+                                              false)
+                                          ? const Color(0xff65D024)
+                                          : const Color(0xffFB5454),
+                                    )
                                   ],
                                 )),
                                 const Icon(
