@@ -170,35 +170,40 @@ class _RequestListPageState extends State<RequestListPage> {
                                                 application?.reference,
                                                 fontWeight: FontWeight.bold),
                                             const Gap(10),
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 5,
-                                                      vertical: 5),
-                                              decoration: BoxDecoration(
-                                                color: const RequestsPage()
-                                                    .getStatusColor(
-                                                        application?.status)
-                                                    .withOpacity(0.1),
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                              ),
-                                              child: Row(
-                                                children: [
-                                                  CustomText(
-                                                    text:
-                                                        "● ${application?.status}",
-                                                    fontSize:
-                                                        MediaQuery.of(context)
+                                            Flexible(
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 5,
+                                                        vertical: 5),
+                                                decoration: BoxDecoration(
+                                                  color: const RequestsPage()
+                                                      .getStatusColor(
+                                                          application?.status)
+                                                      .withOpacity(0.1),
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Flexible(
+                                                      child: CustomText(
+                                                        text:
+                                                            "● ${application?.status}",
+                                                        fontSize: MediaQuery.of(
+                                                                    context)
                                                                 .size
                                                                 .width *
                                                             0.03,
-                                                    color: const RequestsPage()
-                                                        .getStatusColor(
-                                                            application
-                                                                ?.status),
-                                                  )
-                                                ],
+                                                        color:
+                                                            const RequestsPage()
+                                                                .getStatusColor(
+                                                                    application
+                                                                        ?.status),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
                                             )
                                           ],
@@ -240,28 +245,24 @@ class _RequestListPageState extends State<RequestListPage> {
                                         const Gap(10),
                                         Row(
                                           children: [
-                                            Expanded(
-                                              child: const RequestsPage()
-                                                  .iconAndText(
-                                                context,
-                                                "assets/call.png",
-                                                application?.clientPhone,
-                                              ),
+                                            const RequestsPage()
+                                                .iconAndText(
+                                              context,
+                                              "assets/call.png",
+                                              application?.clientPhone,
                                             ),
-                                            const Gap(10),
-                                            Expanded(
-                                              child: const RequestsPage()
-                                                  .iconAndText(
-                                                      context,
-                                                      "assets/calender.png",
-                                                      const OccupantPage()
-                                                          .dateTimeFormatter(
-                                                              application
-                                                                  ?.createdAt),
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .end),
-                                            ),
+                                            const Gap(8),
+                                            const RequestsPage()
+                                                .iconAndText(
+                                                    context,
+                                                    "assets/calender.png",
+                                                    const OccupantPage()
+                                                        .dateTimeFormatter(
+                                                            application
+                                                                ?.createdAt),
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .end),
                                           ],
                                         ),
                                       ],

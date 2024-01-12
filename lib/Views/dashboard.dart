@@ -50,6 +50,8 @@ class DashboardPage extends StatelessWidget {
                       profileModel?.record?.company?.faviconUrl ?? "",
                       width: MediaQuery.of(context).size.width * 0.12,
                       height: MediaQuery.of(context).size.width * 0.12,
+                      errorBuilder: (context, error, stackTrace) =>
+                          Image.asset('assets/logo.png'),
                     ),
                   ),
                   const Gap(20),

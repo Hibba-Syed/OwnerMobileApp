@@ -15,6 +15,9 @@ class AuthenticationService {
             "username": email,
             "password": password,
           }).then((value) {
+        print("$baseUrl/mobile/owner/auth/login");
+        print(email);
+        print(password);
         if (value.statusCode == 200) {
           return Success(200, value.body);
         }

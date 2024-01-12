@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:iskaanowner/Blocs/Logout/logout_cubit.dart';
 import 'package:iskaanowner/Widgets/image_builder.dart';
+import 'package:iskaanowner/Widgets/select_profile_widget.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Models/profile.dart';
@@ -66,6 +67,7 @@ class SideDrawerPage extends StatelessWidget {
                         ),
                         textColor:
                             context.read<AppThemeCubit>().state.primaryColor,
+                            // function: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectProfilePage(),)),
                         function: () => showModalBottomSheet(
                             context: context,
                             isScrollControlled: true,
@@ -218,7 +220,9 @@ class SideDrawerPage extends StatelessWidget {
                                 ],
                               );
                             })),
-                  )
+                  
+                          ),
+                        
                 ],
               ),
             ),

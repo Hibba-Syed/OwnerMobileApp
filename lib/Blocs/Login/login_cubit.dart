@@ -19,6 +19,18 @@ class LoginCubit extends Cubit<LoginState> {
     emit(state.copyWith(obscure: obscure));
   }
 
+  void addItemInSecondaryLoginModelList(LoginModel? loginModel) {
+    state.secondaryLoginModelList?.add(loginModel);
+    emit(state.copyWith(
+        secondaryLoginModelList: state.secondaryLoginModelList ?? []));
+  }
+
+  void removeItemFromSecondaryLoginModelList(LoginModel? loginModel) {
+    state.secondaryLoginModelList?.remove(loginModel);
+    emit(state.copyWith(
+        secondaryLoginModelList: state.secondaryLoginModelList ?? []));
+  }
+
   void onChangePassword(String? password) {
     emit(state.copyWith(password: password));
   }
