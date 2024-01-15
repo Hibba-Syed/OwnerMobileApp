@@ -145,7 +145,7 @@ class ReceiptDetailsPage extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Expanded(
+                                          Flexible(
                                             child: CustomText(
                                               text: state.receiptDetailsModel
                                                       ?.title ??
@@ -172,22 +172,24 @@ class ReceiptDetailsPage extends StatelessWidget {
                                                 const UnitsPage()
                                                     .roundedContainer(
                                                         context,
-                                                        CustomText(
-                                                          text: state
-                                                                  .receiptDetailsModel
-                                                                  ?.association
-                                                                  ?.name ??
-                                                              "",
-                                                          color: context
-                                                              .read<
-                                                                  AppThemeCubit>()
-                                                              .state
-                                                              .primaryColor,
-                                                          fontSize: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.035,
+                                                        Flexible(
+                                                          child: CustomText(
+                                                            text: state
+                                                                    .receiptDetailsModel
+                                                                    ?.association
+                                                                    ?.name ??
+                                                                "",
+                                                            color: context
+                                                                .read<
+                                                                    AppThemeCubit>()
+                                                                .state
+                                                                .primaryColor,
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.035,
+                                                          ),
                                                         ),
                                                         color: context
                                                             .read<

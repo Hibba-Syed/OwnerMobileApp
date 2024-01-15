@@ -144,9 +144,11 @@ class _CreditNotesListPageState extends State<CreditNotesListPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          CustomText(
-                                            text: creditNote?.reference ?? "",
-                                            fontSize: 13,
+                                          Flexible(
+                                            child: CustomText(
+                                              text: creditNote?.reference ?? "",
+                                              fontSize: 13,
+                                            ),
                                           ),
                                           const RequestsPage().iconAndText(
                                             context,
@@ -162,15 +164,19 @@ class _CreditNotesListPageState extends State<CreditNotesListPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const CustomText(
-                                            text: "Amount",
-                                            fontSize: 13,
+                                          const Flexible(
+                                            child: CustomText(
+                                              text: "Amount",
+                                              fontSize: 13,
+                                            ),
                                           ),
-                                          CustomText(
-                                            text: formatCurrency(
-                                                creditNote?.amount),
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
+                                          Flexible(
+                                            child: CustomText(
+                                              text: formatCurrency(
+                                                  creditNote?.amount),
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
                                         ],
                                       ),

@@ -148,9 +148,11 @@ class _InvoicesListPageState extends State<InvoicesListPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          CustomText(
-                                            text: invoice?.reference ?? "",
-                                            fontSize: 13,
+                                          Flexible(
+                                            child: CustomText(
+                                              text: invoice?.reference ?? "",
+                                              fontSize: 13,
+                                            ),
                                           ),
                                           const RequestsPage().iconAndText(
                                             context,

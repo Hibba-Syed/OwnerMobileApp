@@ -144,9 +144,11 @@ class _ReceiptsListPageState extends State<ReceiptsListPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          CustomText(
-                                            text: receipt?.reference ?? "",
-                                            fontSize: 13,
+                                          Flexible(
+                                            child: CustomText(
+                                              text: receipt?.reference ?? "",
+                                              fontSize: 13,
+                                            ),
                                           ),
                                           const RequestsPage().iconAndText(
                                             context,
@@ -182,9 +184,11 @@ class _ReceiptsListPageState extends State<ReceiptsListPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          CustomText(
-                                            text: receipt?.paidBy ?? "",
-                                            fontSize: 13,
+                                          Flexible(
+                                            child: CustomText(
+                                              text: receipt?.paidBy ?? "",
+                                              fontSize: 13,
+                                            ),
                                           ),
                                           CustomText(
                                             text: receipt?.payeeType ?? "",
@@ -197,15 +201,19 @@ class _ReceiptsListPageState extends State<ReceiptsListPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const CustomText(
-                                            text: "Amount",
-                                            fontSize: 13,
+                                          const Flexible(
+                                            child: CustomText(
+                                              text: "Amount",
+                                              fontSize: 13,
+                                            ),
                                           ),
-                                          CustomText(
-                                            text:
-                                                formatCurrency(receipt?.amount),
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
+                                          Flexible(
+                                            child: CustomText(
+                                              text:
+                                                  formatCurrency(receipt?.amount),
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
                                         ],
                                       ),

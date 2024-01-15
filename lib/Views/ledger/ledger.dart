@@ -30,9 +30,7 @@ class LedgerPage extends StatelessWidget {
               children: [
                 const DashboardPage().appBar(
                   context,
-                
-                    text: "Unit $unitNumber - Ledger",
-               
+                  text: "Unit $unitNumber - Ledger",
                   trailingIcon: IconButton(
                     onPressed: () => showFilter(
                       context,
@@ -88,6 +86,7 @@ class LedgerPage extends StatelessWidget {
                 BlocBuilder<DownloadLedgerCubit, DownloadLedgerState>(
                   builder: (context, state) {
                     return CustomButton(
+                      padding: EdgeInsets.zero,
                       text: "Export Ledger",
                       function: () {
                         context.read<DownloadLedgerCubit>().downloadDocument(
@@ -95,7 +94,7 @@ class LedgerPage extends StatelessWidget {
                             "$baseUrl/mobile/owner/property/accounting/ledgers/units-ledger-export?ledgerIds[]=${context.read<LedgerCubit>().state.ledgerType?.id}&unit_id[]=$unitId&type=${context.read<LedgerCubit>().state.ledgerName}");
                       },
                       height: MediaQuery.of(context).size.width * 0.12,
-                      fontSize: MediaQuery.of(context).size.width * 0.035,
+                      fontSize: MediaQuery.of(context).size.width * 0.02,
                       buttonColor: context
                           .read<AppThemeCubit>()
                           .state
@@ -164,6 +163,7 @@ class LedgerPage extends StatelessWidget {
                 // ),
                 StatefulBuilder(builder: (context, changeState) {
                   return Container(
+                    height: MediaQuery.of(context).size.height* 0.07,
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10), color: kWhite),
