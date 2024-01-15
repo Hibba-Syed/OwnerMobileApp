@@ -239,6 +239,7 @@ class LoginPage extends StatelessWidget {
     String text, {
     String hintText = "",
     Widget? prefix,
+    Color? fillColor = kWhite,
     Widget? suffix,
     String? initialValue,
     bool obscure = false,
@@ -258,6 +259,7 @@ class LoginPage extends StatelessWidget {
             initialValue: initialValue,
             prefix: prefix,
             hintText: hintText,
+            fillColor: fillColor,
             validator: validator,
             suffix: suffix,
             onChanged: onChanged,

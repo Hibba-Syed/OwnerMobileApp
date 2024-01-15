@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cool_alert/cool_alert.dart';
 import 'package:iskaanowner/Blocs/Logout/logout_cubit.dart';
 import 'package:iskaanowner/Widgets/image_builder.dart';
@@ -66,162 +64,17 @@ class SideDrawerPage extends StatelessWidget {
                         ),
                         textColor:
                             context.read<AppThemeCubit>().state.primaryColor,
-                            // function: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectProfilePage(),)),
                         function: () => showModalBottomSheet(
                             context: context,
                             isScrollControlled: true,
                             builder: (context) {
                               String? userList = Global.storageService
                                   .getAuthenticationModelString();
-                              List<dynamic> users =
-                                  jsonDecode(userList ?? "[]");
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Gap(10),
-                                  CustomText(
-                                    text: "Select a Profile",
-                                    color: context
-                                        .read<AppThemeCubit>()
-                                        .state
-                                        .primaryColor,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  const Gap(10),
-                                  SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.height / 2,
-                                    child: GridView.builder(
-                                      padding: const EdgeInsets.all(5),
-                                      gridDelegate:
-                                          const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        mainAxisSpacing: 10,
-                                        crossAxisSpacing: 10,
-                                      ),
-                                      itemCount: users.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        LoginModel loginModel =
-                                            LoginModel.fromJson(users[index]);
-                                        return InkWell(
-                                          onTap: () async => await onProfileTap(
-                                              context, users, index),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Stack(
-                                                children: [
-                                                  Container(
-                                                    padding: EdgeInsets.all(
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.05),
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                            shape:
-                                                                BoxShape.circle,
-                                                            color: kWhite),
-                                                    child: ImageBuilder(
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.1,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.1,
-                                                      url: loginModel
-                                                              .owner
-                                                              ?.company
-                                                              ?.logoUrl ??
-                                                          "",
-                                                      isFit: true,
-                                                    ),
-                                                  ),
-                                                  if (index == 0)
-                                                    Positioned(
-                                                      right: 0,
-                                                      top: 0,
-                                                      child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(5),
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                color: Colors
-                                                                    .green),
-                                                        child: const Icon(
-                                                          Icons.done,
-                                                          color: kWhite,
-                                                          size: 15,
-                                                        ),
-                                                      ),
-                                                    )
-                                                ],
-                                              ),
-                                              CustomText(
-                                                text:
-                                                    "${loginModel.owner?.firstName ?? " -- "} ${loginModel.owner?.lastName ?? " -- "} ",
-                                                textAlign: TextAlign.center,
-                                                fontSize: 14,
-                                                maxLines: 2,
-                                              ),
-                                              CustomText(
-                                                text: loginModel
-                                                        .owner?.company?.name ??
-                                                    "",
-                                                fontSize: 12,
-                                                color: kGrey,
-                                                maxLines: 2,
-                                                textAlign: TextAlign.center,
-                                              )
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  Divider(
-                                    color: context
-                                        .read<AppThemeCubit>()
-                                        .state
-                                        .primaryColor,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(5),
-                                    child: CustomButton(
-                                        text: "Add Account",
-                                        icon: const Icon(
-                                          Icons.add,
-                                          color: kWhite,
-                                        ),
-                                        function: () {
-                                          final GlobalKey<FormState> key =
-                                              GlobalKey();
-                                          final LoginCubit loginCubit =
-                                              context.read<LoginCubit>();
-                                          showModalBottomSheet(
-                                              context: context,
-                                              isScrollControlled: true,
-                                              builder: (context) =>
-                                                  addNewAccount(context, key,
-                                                      loginCubit));
-                                        }),
-                                  )
-                                ],
-                              );
+                              List<LoginModel> users =
+                                  loginModelFromJson(userList ?? "");
+                              return selectProfile(context, users);
                             })),
-                  
-                          ),
-                        
+                  ),
                 ],
               ),
             ),
@@ -364,6 +217,7 @@ class SideDrawerPage extends StatelessWidget {
                               context,
                               "Email",
                               hintText: "Enter the email",
+                              fillColor: kBackgroundColor,
                               prefix: Icon(
                                 Icons.email_outlined,
                                 color: context
@@ -388,6 +242,7 @@ class SideDrawerPage extends StatelessWidget {
                               "Password",
                               hintText: "Enter password",
                               obscure: state.obscure,
+                              fillColor: kBackgroundColor,
                               prefix: Icon(
                                 Icons.lock_outline,
                                 color: context
@@ -527,6 +382,172 @@ class SideDrawerPage extends StatelessWidget {
               );
             },
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget selectProfile(BuildContext context, List users) {
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            const Gap(50),
+            CustomText(
+              text: "Select a Profile",
+              fontWeight: FontWeight.bold,
+              color: context.read<AppThemeCubit>().state.primaryColor,
+              fontSize: 20,
+            ),
+            const Gap(10),
+            Expanded(
+              child: ListView.separated(
+                padding: const EdgeInsets.all(10),
+                itemCount: users.length,
+                separatorBuilder: (BuildContext context, int index) {
+                  return const Gap(10);
+                },
+                itemBuilder: (BuildContext context, int index) {
+                  LoginModel? loginModel = users[index];
+                  return Container(
+                    padding: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10), color: kWhite),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(5),
+                          height: MediaQuery.of(context).size.width * 0.25,
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          decoration: BoxDecoration(
+                            color: const Color(0xffF2F2F2),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ImageBuilder(
+                            url: loginModel?.owner?.company?.faviconUrl ?? "",
+                            isFit: true,
+                            height: MediaQuery.of(context).size.width * 0.1,
+                            width: MediaQuery.of(context).size.width * 0.1,
+                          ),
+                        ),
+                        const Gap(10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              CustomText(
+                                text: loginModel?.owner?.fullName ?? '',
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.045,
+                                fontWeight: FontWeight.bold,
+                                color: kBlack,
+                                maxLines: 3,
+                                textAlign: TextAlign.left,
+                              ),
+                              const Gap(5),
+                              CustomText(
+                                text: 'Account Managed By',
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.03,
+                                fontWeight: FontWeight.w500,
+                                color: const Color(0xFFB2B1B1),
+                                maxLines: 3,
+                                textAlign: TextAlign.left,
+                              ),
+                              const Gap(5),
+                              CustomText(
+                                text: loginModel?.owner?.company?.name ?? '',
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.03,
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xFFB2B1B1),
+                                maxLines: 3,
+                                textAlign: TextAlign.left,
+                              ),
+                            ],
+                          ),
+                        ),
+                        if (index == 0) const Gap(5),
+                        if (index == 0)
+                          Container(
+                            height: 20,
+                            width: 20,
+                            margin: const EdgeInsets.only(bottom: 5),
+                            padding: const EdgeInsets.all(2.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(
+                                  color: context
+                                      .read<AppThemeCubit>()
+                                      .state
+                                      .primaryColor,
+                                  width: 1),
+                            ),
+                            child: Checkbox(
+                              value: index == 0 ? true : false,
+                              fillColor:
+                                  const MaterialStatePropertyAll(kTransparent),
+                              checkColor: context
+                                  .read<AppThemeCubit>()
+                                  .state
+                                  .primaryColor,
+                              side: BorderSide.none,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                  side: BorderSide.none),
+                              onChanged: (value) {},
+                            ),
+                          )
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+            Divider(
+              color: context.read<AppThemeCubit>().state.primaryColor,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: CustomButton(
+                  text: "Add Account",
+                  icon: const Icon(
+                    Icons.add_circle_outline,
+                    color: kWhite,
+                  ),
+                  buttonColor: context
+                      .read<AppThemeCubit>()
+                      .state
+                      .primaryColor
+                      .withOpacity(0.8),
+                  function: () {
+                    final GlobalKey<FormState> key = GlobalKey();
+                    final LoginCubit loginCubit = context.read<LoginCubit>();
+                    showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        builder: (context) =>
+                            addNewAccount(context, key, loginCubit));
+                  }),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: CustomButton(
+                  text: "Go back",
+                  icon: Icon(
+                    Icons.arrow_circle_left_outlined,
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                  ),
+                  textColor: context.read<AppThemeCubit>().state.primaryColor,
+                  invert: true,
+                  function: () {
+                    Navigator.pop(context);
+                  }),
+            )
+          ],
         ),
       ),
     );
