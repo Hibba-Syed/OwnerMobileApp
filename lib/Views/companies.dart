@@ -224,7 +224,7 @@ class CompaniesPage extends StatelessWidget {
                                                           ?.company
                                                           ?.themeColor ??
                                                       "#751b50"));
-                                          const LoginPage()
+                                           LoginPage()
                                               .initialCalls(context);
                                           return Navigator.pushReplacementNamed(
                                               context, AppRoutes.dashboard);

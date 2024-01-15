@@ -8,17 +8,17 @@ import '../../Notification/local_notification_service.dart';
 import '../../Utils/utils.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
-
+   LoginPage({super.key});
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> key = GlobalKey();
+
     return Scaffold(
       body: SafeArea(
         child: Stack(
           children: [
             loginHeaderImage(),
-            loginUi(context, key),
+            loginUi(context),
           ],
         ),
       ),
@@ -34,7 +34,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget loginUi(BuildContext context, GlobalKey<FormState> key) {
+  Widget loginUi(BuildContext context,) {
     final LoginCubit loginCubit = context.read<LoginCubit>();
     return Center(
       child: SingleChildScrollView(
@@ -43,7 +43,7 @@ class LoginPage extends StatelessWidget {
           child: BlocBuilder<LoginCubit, LoginState>(
             builder: (context, state) {
               return Form(
-                key: key,
+                key: _formKey,
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: customMaxWidth),
                   child: Column(
@@ -218,7 +218,7 @@ class LoginPage extends StatelessWidget {
                           return CustomButton(
                               text: "Login",
                               function: () {
-                                if (key.currentState?.validate() ?? false) {
+                                if (_formKey.currentState?.validate() ?? false) {
                                   loginCubit.loginUser(context);
                                 }
                               });
@@ -257,14 +257,15 @@ class LoginPage extends StatelessWidget {
         ),
         const Gap(10),
         CustomTextField(
-            initialValue: initialValue,
-            prefix: prefix,
-            hintText: hintText,
-            fillColor: fillColor,
-            validator: validator,
-            suffix: suffix,
-            onChanged: onChanged,
-            obscureText: obscure),
+          initialValue: initialValue,
+          prefix: prefix,
+          hintText: hintText,
+          fillColor: fillColor,
+          validator: validator,
+          suffix: suffix,
+          onChanged: onChanged,
+          obscureText: obscure,
+        ),
         const SizedBox(
           height: 10,
         ),

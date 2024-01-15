@@ -65,7 +65,7 @@ class LoginCubit extends Cubit<LoginState> {
               context.read<AppThemeCubit>().onChangeAppTheme(const ProfilePage()
                   .parseHexColor(state.loginModel?.owner?.company?.themeColor ??
                       "#751b50"));
-              const LoginPage().initialCalls(context);
+               LoginPage().initialCalls(context);
               return Navigator.pushReplacementNamed(
                   context, AppRoutes.dashboard);
             } else {

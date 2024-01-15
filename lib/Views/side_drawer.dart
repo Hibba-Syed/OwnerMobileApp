@@ -187,7 +187,7 @@ class SideDrawerPage extends StatelessWidget {
   }
 
   Widget addNewAccount(
-      BuildContext context, GlobalKey<FormState> key, LoginCubit loginCubit) {
+      BuildContext context, GlobalKey<FormState> formKey, LoginCubit loginCubit) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -200,7 +200,7 @@ class SideDrawerPage extends StatelessWidget {
                   Expanded(
                     child: SingleChildScrollView(
                       child: Form(
-                        key: key,
+                        key: formKey,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -216,7 +216,7 @@ class SideDrawerPage extends StatelessWidget {
                               fontSize: 20,
                             ),
                             const Gap(10),
-                            const LoginPage().textFieldWithText(
+                             LoginPage().textFieldWithText(
                               context,
                               "Email",
                               hintText: "Enter the email",
@@ -240,7 +240,7 @@ class SideDrawerPage extends StatelessWidget {
                               onChanged: (email) =>
                                   loginCubit.onChangeEmail(email),
                             ),
-                            const LoginPage().textFieldWithText(
+                             LoginPage().textFieldWithText(
                               context,
                               "Password",
                               hintText: "Enter password",
@@ -299,7 +299,7 @@ class SideDrawerPage extends StatelessWidget {
                                 return CustomButton(
                                     text: "Login",
                                     function: () {
-                                      if (key.currentState?.validate() ??
+                                      if (formKey.currentState?.validate() ??
                                           false) {
                                         loginCubit.loginUser(context,
                                             newUser: true);
@@ -581,7 +581,7 @@ class SideDrawerPage extends StatelessWidget {
       context
           .read<LoginCubit>()
           .onChangeLoginModel(LoginModel.fromJson(users[index]));
-      const LoginPage().initialCalls(context);
+       LoginPage().initialCalls(context);
       await context.read<ProfileCubit>().getProfile(context).then((value) {
         context
             .read<AuthenticationCubit>()

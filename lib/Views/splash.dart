@@ -24,7 +24,7 @@ class _SplashPageState extends State<SplashPage> {
     if (jsonAuthModel != null) {
       context.read<LoginCubit>().onChangeLoginModel(
           LoginModel.fromJson(jsonDecode(jsonAuthModel)[0]));
-      const LoginPage().initialCalls(context);
+       LoginPage().initialCalls(context);
       context.read<ProfileCubit>().getProfile(context).then((value) {
         context
             .read<AuthenticationCubit>()
