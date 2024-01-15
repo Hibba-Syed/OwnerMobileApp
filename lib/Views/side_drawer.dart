@@ -390,7 +390,7 @@ class SideDrawerPage extends StatelessWidget {
     );
   }
 
-  Widget selectProfile(BuildContext context, List users) {
+  Widget selectProfile(BuildContext context, List<LoginModel> users) {
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -431,7 +431,7 @@ class SideDrawerPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: ImageBuilder(
-                              url: loginModel?.owner?.company?.faviconUrl ?? "",
+                              url: loginModel.owner?.company?.faviconUrl ?? "",
                               isFit: true,
                               height: MediaQuery.of(context).size.width * 0.1,
                               width: MediaQuery.of(context).size.width * 0.1,
@@ -445,7 +445,7 @@ class SideDrawerPage extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 CustomText(
-                                  text: loginModel?.owner?.fullName ?? '',
+                                  text: loginModel.owner?.fullName ?? '',
                                   fontSize:
                                       MediaQuery.of(context).size.width * 0.045,
                                   fontWeight: FontWeight.bold,
@@ -465,7 +465,7 @@ class SideDrawerPage extends StatelessWidget {
                                 ),
                                 const Gap(5),
                                 CustomText(
-                                  text: loginModel?.owner?.company?.name ?? '',
+                                  text: loginModel.owner?.company?.name ?? '',
                                   fontSize:
                                       MediaQuery.of(context).size.width * 0.03,
                                   fontWeight: FontWeight.bold,
@@ -560,13 +560,14 @@ class SideDrawerPage extends StatelessWidget {
     );
   }
 
-  Future<void> onProfileTap(BuildContext context, List users, int index) async {
+  Future<void> onProfileTap(
+      BuildContext context, List<LoginModel> users, int index) async {
     if (users[0] == users[index]) {
       Fluttertoast.showToast(msg: "Already logged In");
       return;
     }
     Global.storageService.setAuthenticationModelString(
-      LoginModel.fromJson(users[index]),
+      users[index],
       addItInFront: true,
       index: index,
     );
@@ -578,9 +579,7 @@ class SideDrawerPage extends StatelessWidget {
     String? jsonAuthModel =
         Global.storageService.getAuthenticationModelString();
     if (jsonAuthModel != null) {
-      context
-          .read<LoginCubit>()
-          .onChangeLoginModel(LoginModel.fromJson(users[index]));
+      context.read<LoginCubit>().onChangeLoginModel(users[index]);
       const LoginPage().initialCalls(context);
       await context.read<ProfileCubit>().getProfile(context).then((value) {
         context
@@ -588,11 +587,8 @@ class SideDrawerPage extends StatelessWidget {
             .isDeviceSupported(context)
             .then((value) {
           context.read<AppThemeCubit>().onChangeAppTheme(const ProfilePage()
-              .parseHexColor(LoginModel.fromJson(users[index])
-                      .owner
-                      ?.company
-                      ?.themeColor ??
-                  "#751b50"));
+              .parseHexColor(
+                  users[index].owner?.company?.themeColor ?? "#751b50"));
           if (value == true) {
             return Navigator.pushReplacementNamed(
                 context, AppRoutes.authorization);

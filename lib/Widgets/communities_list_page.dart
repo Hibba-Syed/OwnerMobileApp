@@ -101,7 +101,7 @@ class _CommunitiesListPageState extends State<CommunitiesListPage> {
                                   url: communitiesDatum?.backgroundImageUrl ??
                                       "",
                                   height:
-                                      MediaQuery.of(context).size.height * 0.2,
+                                      MediaQuery.of(context).size.width * 0.4,
                                   width: double.infinity,
                                 ),
                                 if (communitiesDatum?.type != null)
@@ -152,7 +152,8 @@ class _CommunitiesListPageState extends State<CommunitiesListPage> {
                                   children: [
                                     Image.asset(
                                       "assets/home.png",
-                                      scale: 4,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.04,
                                     ),
                                     const Gap(10),
                                     CustomText(
@@ -175,7 +176,8 @@ class _CommunitiesListPageState extends State<CommunitiesListPage> {
                                     const Gap(10),
                                     Image.asset(
                                       "assets/location.png",
-                                      scale: 4,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.04,
                                     ),
                                     const Gap(10),
                                     CustomText(

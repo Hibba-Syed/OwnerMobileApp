@@ -61,7 +61,7 @@ class _UnitsListPageState extends State<UnitsListPage> {
                 },
                 child: ListView.builder(
                   controller: _scrollController,
-                  itemCount: state.unitsModel?.units?.length,
+                  itemCount: state.unitsModel?.units?.length ?? 0,
                   physics: const AlwaysScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
                     Unit? unit = state.unitsModel?.units?[index];
@@ -160,9 +160,13 @@ class _UnitsListPageState extends State<UnitsListPage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const CustomText(
+                                            CustomText(
                                               text: "Balance",
                                               fontWeight: FontWeight.bold,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.04,
                                             ),
                                             const Gap(10),
                                             Flexible(
@@ -183,6 +187,11 @@ class _UnitsListPageState extends State<UnitsListPage> {
                                                   text: formatCurrency(
                                                       unit?.unitBalance),
                                                   fontWeight: FontWeight.bold,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.04,
                                                   color: color,
                                                 );
                                               }),
@@ -234,18 +243,29 @@ class _UnitsListPageState extends State<UnitsListPage> {
           width: MediaQuery.of(context).size.width * 0.04,
         ),
         const Gap(5),
-        CustomText(
-          text: count.toString(),
-          fontSize: MediaQuery.of(context).size.width * 0.035,
-          fontWeight: FontWeight.bold,
-          color: const Color(0xffB2B1B1),
-        ),
-        const Gap(5),
-        CustomText(
-          text: text,
-          fontSize: MediaQuery.of(context).size.width * 0.035,
-          color: const Color(0xffB2B1B1),
-        ),
+        Expanded(
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: "$count  ",
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xffB2B1B1),
+                  ),
+                ),
+                TextSpan(
+                  text: text,
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035,
+                    color: const Color(0xffB2B1B1),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )
       ],
     );
   }
