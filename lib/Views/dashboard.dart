@@ -226,8 +226,10 @@ class DashboardPage extends StatelessWidget {
                   },
               icon: Image.asset(
                 image,
-                color: enableLeading ? const Color(0xff575757) : kTransparent,
-                scale: 4,
+                color: enableLeading
+                    ? const Color(0xff575757)
+                    : kTransparent,
+                scale: 5,
               ),
             ),
             if (text != null)
@@ -239,6 +241,7 @@ class DashboardPage extends StatelessWidget {
                   fontSize: MediaQuery.of(context).size.width * 0.05,
                   fontWeight: FontWeight.bold,
                   textAlign: TextAlign.center,
+                  maxFontSize: 18,
                   maxLines: 1,
                 ),
               )),

@@ -61,9 +61,12 @@ class _SplashPageState extends State<SplashPage> {
       body: Stack(
         children: [
           Container(
+            height: double.infinity, 
+            width: double.infinity,
             decoration: const BoxDecoration(
               image: DecorationImage(
                   image: AssetImage("assets/login_header.png"),
+                  fit: BoxFit.cover, 
                   alignment: Alignment.topCenter),
             ),
           ),
