@@ -24,15 +24,15 @@ class CompanySelectionWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(10.0),
         margin: const EdgeInsets.only(bottom: 10),
-        decoration:
-            BoxDecoration(borderRadius: BorderRadius.circular(10), color: kWhite),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10), color: kWhite),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               padding: const EdgeInsets.all(5),
-              height: MediaQuery.of(context).size.width * 0.3,
-              width: MediaQuery.of(context).size.width * 0.3,
+              height: MediaQuery.of(context).size.width * 0.2,
+              width: MediaQuery.of(context).size.width * 0.2,
               decoration: BoxDecoration(
                 color: const Color(0xffF2F2F2),
                 borderRadius: BorderRadius.circular(10),

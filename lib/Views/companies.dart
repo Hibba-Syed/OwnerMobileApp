@@ -79,40 +79,48 @@ class CompaniesPage extends StatelessWidget {
                             color: kTransparent,
                           ))),
                   const Gap(10),
+                  CustomText(
+                    text:
+                        "We found profile(s) against this email managed by other CMC(s).If you wish to add the profile(s) associated the this email please select from the list below.",
+                    fontSize: MediaQuery.of(context).size.width * 0.04,
+                  ),
+                  const Gap(10),
                   Expanded(
-                      child: ListView.builder(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.all(5),
-                    itemCount: loginModelList?.length ?? 0,
-                    itemBuilder: (context, index) {
-                      LoginModel loginModel = loginModelList![index];
-                      int? innerindex = state.secondaryLoginModelList
-                          ?.indexWhere((element) =>
-                              element?.owner?.id == loginModel.owner?.id);
-                      return CompanySelectionWidget(
-                        onTap: () {
-                          // print(state.secondaryLoginModelList?[innerindex ?? 0]
-                          //     ?.owner?.id);
-                          if (innerindex == -1 || innerindex == null) {
-                            context
-                                .read<LoginCubit>()
-                                .addItemInSecondaryLoginModelList(loginModel);
-                          } else {
-                            context
-                                .read<LoginCubit>()
-                                .removeItemFromSecondaryLoginModelList(
-                                    loginModel);
-                          }
-                        },
-                        isSelected: (innerindex != -1 && innerindex != null)
-                            ? true
-                            : false,
-                        title: loginModel.owner?.fullName ?? "",
-                        description: loginModel.owner?.company?.name ?? "",
-                        profilePictureUrl:
-                            loginModel.owner?.company?.logoUrl ?? '',
-                      );
-                    },
+                      child: Center(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.all(5),
+                      itemCount: loginModelList?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        LoginModel loginModel = loginModelList![index];
+                        int? innerIndex = state.secondaryLoginModelList
+                            ?.indexWhere((element) =>
+                                element?.owner?.id == loginModel.owner?.id);
+                        return CompanySelectionWidget(
+                          onTap: () {
+                            // print(state.secondaryLoginModelList?[innerIndex ?? 0]
+                            //     ?.owner?.id);
+                            if (innerIndex == -1 || innerIndex == null) {
+                              context
+                                  .read<LoginCubit>()
+                                  .addItemInSecondaryLoginModelList(loginModel);
+                            } else {
+                              context
+                                  .read<LoginCubit>()
+                                  .removeItemFromSecondaryLoginModelList(
+                                      loginModel);
+                            }
+                          },
+                          isSelected: (innerIndex != -1 && innerIndex != null)
+                              ? true
+                              : false,
+                          title: loginModel.owner?.fullName ?? "",
+                          description: loginModel.owner?.company?.name ?? "",
+                          profilePictureUrl:
+                              loginModel.owner?.company?.faviconUrl ?? '',
+                        );
+                      },
+                    ),
                   )),
                   // Expanded(
                   //   child: Center(
