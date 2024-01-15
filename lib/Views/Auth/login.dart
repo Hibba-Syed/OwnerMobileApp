@@ -1,6 +1,7 @@
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
 import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
 import 'package:iskaanowner/Blocs/Unit%20Financials/unit_financials_cubit.dart';
+import 'package:iskaanowner/Utils/constants.dart';
 
 import '../../Notification/firebase_service.dart';
 import '../../Notification/local_notification_service.dart';
@@ -44,7 +45,7 @@ class LoginPage extends StatelessWidget {
               return Form(
                 key: key,
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 400),
+                  constraints: const BoxConstraints(maxWidth: customMaxWidth),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
