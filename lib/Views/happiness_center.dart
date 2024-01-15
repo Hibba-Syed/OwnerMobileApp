@@ -65,8 +65,7 @@ class HappinessCenterPage extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: const DashboardPage().appBar(
                 context,
-                  text: "Happiness Center",
-               
+                text: "Happiness Center",
               ),
             ),
             Expanded(
@@ -465,6 +464,10 @@ class HappinessCenterPage extends StatelessWidget {
                                                   .size
                                                   .width /
                                               2,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              9,
                                           text: "Upload",
                                           function: () async {
                                             await FilePicker.platform.pickFiles(
@@ -619,8 +622,9 @@ class HappinessCenterPage extends StatelessWidget {
           expandedInsets: const EdgeInsets.all(0),
           onSelected: onSelected,
           enabled: loadingState == LoadingState.loading ? false : enabled,
-          inputDecorationTheme:
-              const InputDecorationTheme(border: UnderlineInputBorder()),
+          inputDecorationTheme: const InputDecorationTheme(
+            border: UnderlineInputBorder(),
+          ),
           trailingIcon: Builder(builder: (context) {
             if (loadingState == LoadingState.loading) {
               return const SizedBox(
@@ -635,7 +639,10 @@ class HappinessCenterPage extends StatelessWidget {
           }),
           dropdownMenuEntries:
               list.map<DropdownMenuEntry<String>>((String value) {
-            return DropdownMenuEntry<String>(value: value, label: value);
+            return DropdownMenuEntry<String>(
+              value: value,
+              label: value,
+            );
           }).toList(),
         ),
       ],

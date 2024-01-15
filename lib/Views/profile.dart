@@ -15,61 +15,59 @@ class ProfilePage extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: const DashboardPage().appBar(
                 context,
-             
-                  text: "Profile Information",
-             
+                text: "Profile Information",
               ),
             ),
-            BlocBuilder<ProfileCubit, ProfileState>(
-              builder: (context, state) {
-                if (state.loadingState == LoadingState.loading) {
-                  return const CustomLoader();
-                }
-                if (state.profileModel?.record == null) {
-                  return const CreditNotesPage().emptyList(
-                    ontap: () =>
-                        context.read<ProfileCubit>().getProfile(context),
-                  );
-                }
-                List<Map> profileData = [
-                  {
-                    "icon": Icons.email_outlined,
-                    "title": "Email",
-                    "subTitle": state.profileModel?.record?.email,
-                  },
-                  {
-                    "icon": Icons.phone_outlined,
-                    "title": "Phone",
-                    "subTitle": state.profileModel?.record?.primaryPhone,
-                  },
-                  {
-                    "icon": Icons.cake_outlined,
-                    "title": "D.O.B",
-                    "subTitle": state.profileModel?.record?.dob,
-                  },
-                  {
-                    "icon": Icons.padding_outlined,
-                    "title": "Passport Number",
-                    "subTitle": state.profileModel?.record?.passportNumber,
-                  },
-                  {
-                    "icon": Icons.calendar_month_outlined,
-                    "title": "Passport Expiry",
-                    "subTitle": state.profileModel?.record?.passportExpiry,
-                  },
-                  {
-                    "icon": Icons.perm_identity_outlined,
-                    "title": "Emirates ID",
-                    "subTitle": state.profileModel?.record?.emiratesIdNumber,
-                  },
-                  {
-                    "icon": Icons.email_outlined,
-                    "title": "Emirates ID Expiry",
-                    "subTitle": state.profileModel?.record?.emiratesIdExpiry,
-                  },
-                ];
-                return Center(
-                  child: SingleChildScrollView(
+            Expanded(
+              child: BlocBuilder<ProfileCubit, ProfileState>(
+                builder: (context, state) {
+                  if (state.loadingState == LoadingState.loading) {
+                    return const CustomLoader();
+                  }
+                  if (state.profileModel?.record == null) {
+                    return const CreditNotesPage().emptyList(
+                      ontap: () =>
+                          context.read<ProfileCubit>().getProfile(context),
+                    );
+                  }
+                  List<Map> profileData = [
+                    {
+                      "icon": Icons.email_outlined,
+                      "title": "Email",
+                      "subTitle": state.profileModel?.record?.email,
+                    },
+                    {
+                      "icon": Icons.phone_outlined,
+                      "title": "Phone",
+                      "subTitle": state.profileModel?.record?.primaryPhone,
+                    },
+                    {
+                      "icon": Icons.cake_outlined,
+                      "title": "D.O.B",
+                      "subTitle": state.profileModel?.record?.dob,
+                    },
+                    {
+                      "icon": Icons.padding_outlined,
+                      "title": "Passport Number",
+                      "subTitle": state.profileModel?.record?.passportNumber,
+                    },
+                    {
+                      "icon": Icons.calendar_month_outlined,
+                      "title": "Passport Expiry",
+                      "subTitle": state.profileModel?.record?.passportExpiry,
+                    },
+                    {
+                      "icon": Icons.perm_identity_outlined,
+                      "title": "Emirates ID",
+                      "subTitle": state.profileModel?.record?.emiratesIdNumber,
+                    },
+                    {
+                      "icon": Icons.email_outlined,
+                      "title": "Emirates ID Expiry",
+                      "subTitle": state.profileModel?.record?.emiratesIdExpiry,
+                    },
+                  ];
+                  return SingleChildScrollView(
                     child: Column(
                       children: [
                         Container(
@@ -131,9 +129,9 @@ class ProfilePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ],
         ),
