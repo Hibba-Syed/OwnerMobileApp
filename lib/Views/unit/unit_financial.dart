@@ -74,6 +74,7 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
                             builder: (context, downloadLedgerState) {
                               return CustomButton(
                                 text: "Export",
+                                padding: EdgeInsets.zero,
                                 function: () {
                                   if (state.selectedUnits.isNotEmpty) {
                                     String filter = "";
@@ -273,7 +274,11 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
                                                 CustomText(
                                                   text:
                                                       "Unit # : ${unitFinancialsRecord?.unitNumber ?? " -- "}",
-                                                  fontSize: 13,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.04,
                                                 ),
                                                 const Gap(5),
                                                 const Divider(
@@ -285,39 +290,44 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    CustomText(
-                                                      text: "Balance",
-                                                      fontSize:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.04,
+                                                    Flexible(
+                                                      child: CustomText(
+                                                        text: "Balance",
+                                                        fontSize: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.04,
+                                                      ),
                                                     ),
-                                                    CustomText(
-                                                      text: formatCurrency(
-                                                          unitFinancialsRecord
-                                                                  ?.balance ??
-                                                              0),
-                                                      color: (unitFinancialsRecord
-                                                                      ?.balance ??
-                                                                  0) ==
-                                                              0
-                                                          ? null
-                                                          : (unitFinancialsRecord
-                                                                      ?.balance
-                                                                      ?.isNegative ??
-                                                                  false)
-                                                              ? const Color(
-                                                                  0xffFB5454)
-                                                              : const Color(
-                                                                  0xff65D024),
-                                                      fontSize:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.04,
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                                    const Gap(10),
+                                                    Flexible(
+                                                      child: CustomText(
+                                                        text: formatCurrency(
+                                                            unitFinancialsRecord
+                                                                    ?.balance ??
+                                                                0),
+                                                        color: (unitFinancialsRecord
+                                                                        ?.balance ??
+                                                                    0) ==
+                                                                0
+                                                            ? null
+                                                            : (unitFinancialsRecord
+                                                                        ?.balance
+                                                                        ?.isNegative ??
+                                                                    false)
+                                                                ? const Color(
+                                                                    0xffFB5454)
+                                                                : const Color(
+                                                                    0xff65D024),
+                                                        fontSize: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.04,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),

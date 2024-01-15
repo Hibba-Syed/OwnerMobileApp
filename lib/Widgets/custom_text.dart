@@ -18,7 +18,7 @@ class CustomText extends StatelessWidget {
       this.fontSize = 16,
       this.textAlign,
       this.textDecoration,
-      this.maxFontSize= 14,
+      this.maxFontSize = 14,
       this.maxLines = 5})
       : super(key: key);
 
@@ -28,7 +28,7 @@ class CustomText extends StatelessWidget {
       text,
       textAlign: textAlign ?? TextAlign.left,
       maxLines: maxLines,
-      maxFontSize: maxFontSize,
+      // maxFontSize: maxFontSize,
       minFontSize: 0,
       style: TextStyle(
           color: color ?? const Color(0xff575757),

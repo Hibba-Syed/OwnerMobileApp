@@ -26,18 +26,21 @@ class SideDrawerPage extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(5),
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    height: MediaQuery.of(context).size.width * 0.3,
-                    decoration: const BoxDecoration(
-                      color: kWhite,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Image.network(
-                      profileModel?.record?.company?.faviconUrl ?? "",
-                      height: MediaQuery.of(context).size.width * 0.3,
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 400),
+                    child: Container(
+                      padding: const EdgeInsets.all(5),
                       width: MediaQuery.of(context).size.width * 0.3,
+                      height: MediaQuery.of(context).size.width * 0.3,
+                      decoration: const BoxDecoration(
+                        color: kWhite,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Image.network(
+                        profileModel?.record?.company?.faviconUrl ?? "",
+                        height: MediaQuery.of(context).size.width * 0.3,
+                        width: MediaQuery.of(context).size.width * 0.3,
+                      ),
                     ),
                   ),
                   const Gap(10),
@@ -416,7 +419,6 @@ class SideDrawerPage extends StatelessWidget {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: kWhite),
-                          
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
