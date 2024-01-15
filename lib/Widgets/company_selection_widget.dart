@@ -19,7 +19,6 @@ class CompanySelectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(profilePictureUrl);
     return InkWell(
       onTap: onTap,
       child: Container(
