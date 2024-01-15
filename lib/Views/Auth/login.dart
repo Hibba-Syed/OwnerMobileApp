@@ -28,6 +28,7 @@ class LoginPage extends StatelessWidget {
     return Image.asset(
       "assets/login_header.png",
       width: double.infinity,
+      height: double.infinity,
       fit: BoxFit.cover,
     );
   }
@@ -42,174 +43,188 @@ class LoginPage extends StatelessWidget {
             builder: (context, state) {
               return Form(
                 key: key,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      "assets/logo.png",
-                      width: MediaQuery.of(context).size.height * 0.15,
-                    ),
-                    const Gap(20),
-                    CustomText(
-                      text: "Owner's Login",
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                    const Gap(20),
-                    textFieldWithText(
-                      context,
-                      "Email",
-                      hintText: "Enter the email",
-                      prefix: Icon(
-                        Icons.email_outlined,
-                        color: context.read<AppThemeCubit>().state.primaryColor,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 400),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/logo.png",
+                        width: MediaQuery.of(context).size.height * 0.15,
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Field is mandatory";
-                        }
-                        if (!value.contains("@")) {
-                          return "Enter a Valid email";
-                        }
-                        return null;
-                      },
-                      onChanged: (email) => loginCubit.onChangeEmail(email),
-                    ),
-                    textFieldWithText(
-                      context,
-                      "Password",
-                      hintText: "Enter password",
-                      obscure: state.obscure,
-                      prefix: Icon(
-                        Icons.lock_outline,
+                      const Gap(20),
+                      CustomText(
+                        text: "Owner's Login",
                         color: context.read<AppThemeCubit>().state.primaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
                       ),
-                      suffix: IconButton(
-                        onPressed: () {
-                          loginCubit.onChangeObscure(!state.obscure);
-                        },
-                        icon: Icon(
-                          Icons.visibility_outlined,
+                      const Gap(20),
+                      textFieldWithText(
+                        context,
+                        "Email",
+                        hintText: "Enter the email",
+                        prefix: Icon(
+                          Icons.email_outlined,
                           color:
                               context.read<AppThemeCubit>().state.primaryColor,
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Field is mandatory";
+                          }
+                          if (!value.contains("@")) {
+                            return "Enter a Valid email";
+                          }
+                          return null;
+                        },
+                        onChanged: (email) => loginCubit.onChangeEmail(email),
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Field is mandatory";
-                        }
-                        return null;
-                      },
-                      onChanged: (password) =>
-                          loginCubit.onChangePassword(password),
-                    ),
-                    if (Global.storageService.getLoginCreds() != null &&
-                        context
-                            .read<AuthenticationCubit>()
-                            .isSupportedBiometrics)
-                      Row(
-                        children: [
-                          const Expanded(child: Divider()),
-                          const Gap(10),
-                          CustomText(
-                            text: "OR",
+                      textFieldWithText(
+                        context,
+                        "Password",
+                        hintText: "Enter password",
+                        obscure: state.obscure,
+                        prefix: Icon(
+                          Icons.lock_outline,
+                          color:
+                              context.read<AppThemeCubit>().state.primaryColor,
+                        ),
+                        suffix: IconButton(
+                          onPressed: () {
+                            loginCubit.onChangeObscure(!state.obscure);
+                          },
+                          icon: Icon(
+                            Icons.visibility_outlined,
                             color: context
                                 .read<AppThemeCubit>()
                                 .state
                                 .primaryColor,
                           ),
-                          const Gap(10),
-                          const Expanded(child: Divider())
-                        ],
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Field is mandatory";
+                          }
+                          return null;
+                        },
+                        onChanged: (password) =>
+                            loginCubit.onChangePassword(password),
                       ),
-                    if (Global.storageService.getLoginCreds() != null &&
-                        context
-                            .read<AuthenticationCubit>()
-                            .isSupportedBiometrics)
-                      const Gap(10),
-                    if (Global.storageService.getLoginCreds() != null &&
-                        context
-                            .read<AuthenticationCubit>()
-                            .isSupportedBiometrics)
-                      CustomButton(
-                          text: "Biometric Login",
-                          textColor:
-                              context.read<AppThemeCubit>().state.primaryColor,
-                          invert: true,
-                          icon: Builder(builder: (context) {
-                            IconData icon = Icons.security_outlined;
-                            if (context
-                                    .read<AuthenticationCubit>()
-                                    .getBiometricName(context) ==
-                                "face") {
-                              icon = Icons.face_outlined;
-                            }
-                            if (context
-                                    .read<AuthenticationCubit>()
-                                    .getBiometricName(context) ==
-                                "fingerprint") {
-                              icon = Icons.fingerprint_outlined;
-                            }
-                            return Icon(
-                              icon,
+                      if (Global.storageService.getLoginCreds() != null &&
+                          context
+                              .read<AuthenticationCubit>()
+                              .isSupportedBiometrics)
+                        Row(
+                          children: [
+                            const Expanded(child: Divider()),
+                            const Gap(10),
+                            CustomText(
+                              text: "OR",
                               color: context
                                   .read<AppThemeCubit>()
                                   .state
                                   .primaryColor,
-                            );
-                          }),
-                          function: () {
-                            if (context.read<LoginCubit>().state.loadingState ==
-                                LoadingState.loading) {
-                              return;
-                            }
-                            context.read<LoginCubit>().onChangeEmail(
-                                Global.storageService.getLoginCreds()?[0]);
-                            context.read<LoginCubit>().onChangePassword(
-                                Global.storageService.getLoginCreds()?[1]);
-                            context
-                                .read<AuthenticationCubit>()
-                                .authenticate(context, loginAuth: true);
-                          }),
-                    if (Global.storageService.getLoginCreds() != null &&
-                        context
-                            .read<AuthenticationCubit>()
-                            .isSupportedBiometrics)
-                      const Gap(10),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: InkWell(
-                        onTap: () => Navigator.pushNamed(
-                            context, AppRoutes.forgotPassword),
-                        child: CustomText(
-                          text: "Forgot password?",
-                          color:
-                              context.read<AppThemeCubit>().state.primaryColor,
+                            ),
+                            const Gap(10),
+                            const Expanded(child: Divider())
+                          ],
+                        ),
+                      if (Global.storageService.getLoginCreds() != null &&
+                          context
+                              .read<AuthenticationCubit>()
+                              .isSupportedBiometrics)
+                        const Gap(10),
+                      if (Global.storageService.getLoginCreds() != null &&
+                          context
+                              .read<AuthenticationCubit>()
+                              .isSupportedBiometrics)
+                        CustomButton(
+                            text: "Biometric Login",
+                            textColor: context
+                                .read<AppThemeCubit>()
+                                .state
+                                .primaryColor,
+                            invert: true,
+                            icon: Builder(builder: (context) {
+                              IconData icon = Icons.security_outlined;
+                              if (context
+                                      .read<AuthenticationCubit>()
+                                      .getBiometricName(context) ==
+                                  "face") {
+                                icon = Icons.face_outlined;
+                              }
+                              if (context
+                                      .read<AuthenticationCubit>()
+                                      .getBiometricName(context) ==
+                                  "fingerprint") {
+                                icon = Icons.fingerprint_outlined;
+                              }
+                              return Icon(
+                                icon,
+                                color: context
+                                    .read<AppThemeCubit>()
+                                    .state
+                                    .primaryColor,
+                              );
+                            }),
+                            function: () {
+                              if (context
+                                      .read<LoginCubit>()
+                                      .state
+                                      .loadingState ==
+                                  LoadingState.loading) {
+                                return;
+                              }
+                              context.read<LoginCubit>().onChangeEmail(
+                                  Global.storageService.getLoginCreds()?[0]);
+                              context.read<LoginCubit>().onChangePassword(
+                                  Global.storageService.getLoginCreds()?[1]);
+                              context
+                                  .read<AuthenticationCubit>()
+                                  .authenticate(context, loginAuth: true);
+                            }),
+                      if (Global.storageService.getLoginCreds() != null &&
+                          context
+                              .read<AuthenticationCubit>()
+                              .isSupportedBiometrics)
+                        const Gap(10),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: InkWell(
+                          onTap: () => Navigator.pushNamed(
+                              context, AppRoutes.forgotPassword),
+                          child: CustomText(
+                            text: "Forgot password?",
+                            color: context
+                                .read<AppThemeCubit>()
+                                .state
+                                .primaryColor,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Builder(
-                      builder: (context) {
-                        if (state.loadingState == LoadingState.loading) {
-                          return const SizedBox(
-                              height: 50,
-                              child:
-                                  Center(child: CircularProgressIndicator()));
-                        }
-                        return CustomButton(
-                            text: "Login",
-                            function: () {
-                              if (key.currentState?.validate() ?? false) {
-                                loginCubit.loginUser(context);
-                              }
-                            });
-                      },
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Builder(
+                        builder: (context) {
+                          if (state.loadingState == LoadingState.loading) {
+                            return const SizedBox(
+                                height: 50,
+                                child:
+                                    Center(child: CircularProgressIndicator()));
+                          }
+                          return CustomButton(
+                              text: "Login",
+                              function: () {
+                                if (key.currentState?.validate() ?? false) {
+                                  loginCubit.loginUser(context);
+                                }
+                              });
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
@@ -236,7 +251,7 @@ class LoginPage extends StatelessWidget {
         CustomText(
           text: text,
           color: const Color(0xffB2B1B1),
-          fontSize: MediaQuery.of(context).size.width * 0.032,
+          fontSize: 12,
         ),
         const Gap(10),
         CustomTextField(

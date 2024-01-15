@@ -61,15 +61,17 @@ class CustomButton extends StatelessWidget {
               const SizedBox(
                 width: 10,
               ),
-            Text(
-              text,
-              style: TextStyle(
-                color: textColor,
-                fontWeight: fontWeight,
-                fontSize: fontSize,
+            Flexible(
+              child: Text(
+                text,
+                style: TextStyle(
+                  color: textColor,
+                  fontWeight: fontWeight,
+                  fontSize: fontSize,
+                ),
+                textAlign: textAlign,
+                maxLines: maxLines,
               ),
-              textAlign: textAlign,
-              maxLines: maxLines,
             ),
           ],
         ),
