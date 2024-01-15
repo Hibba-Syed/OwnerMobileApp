@@ -416,6 +416,7 @@ class SideDrawerPage extends StatelessWidget {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: kWhite),
+                          
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
