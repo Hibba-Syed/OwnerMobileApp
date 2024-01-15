@@ -223,6 +223,7 @@ class AdDetailsPage extends StatelessWidget {
       children: [
         headingText(context, "Application Details"),
         Container(
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: kWhite,
@@ -236,78 +237,8 @@ class AdDetailsPage extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  children: [
-                    const UnitsPage().roundedContainer(
-                        context,
-                        Icon(
-                          Icons.person_outline,
-                          color:
-                              context.read<AppThemeCubit>().state.primaryColor,
-                        ),
-                        invert: true,
-                        padding: const EdgeInsets.all(20)),
-                    const Gap(10),
-                    Expanded(
-                      child: const UnitsPage().roundedContainer(
-                          context, CustomText(text: name ?? " -- "),
-                          padding: const EdgeInsets.all(20),
-                          color: kGrey.shade200),
-                    ),
-                  ],
-                ),
-              ),
-              Divider(
-                color: context.read<AppThemeCubit>().state.primaryColor,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Row(
-                      children: [
-                        Icon(Icons.phone_outlined),
-                        Gap(10),
-                        CustomText(text: "Phone :"),
-                      ],
-                    ),
-                    const Gap(10),
-                    const UnitsPage().roundedContainer(
-                      context,
-                      CustomText(
-                        text: phone ?? " --",
-                        color: context.read<AppThemeCubit>().state.primaryColor,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 8),
-                      invert: true,
-                    ),
-                    const Gap(10),
-                    const Row(
-                      children: [
-                        Icon(Icons.email_outlined),
-                        Gap(10),
-                        CustomText(text: "Email :"),
-                      ],
-                    ),
-                    const Gap(10),
-                    const UnitsPage().roundedContainer(
-                      context,
-                      CustomText(
-                        text: email ?? " -- ",
-                        color: context.read<AppThemeCubit>().state.primaryColor,
-                        maxLines: 1,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 8),
-                      invert: true,
-                    ),
-                  ],
-                ),
-              ),
+              const OccupantPage().emergencyContactCard(context, name ?? "",
+                  phoneNumber: phone),
               if (customWidget != null) customWidget
             ],
           ),

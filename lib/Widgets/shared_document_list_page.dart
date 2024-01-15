@@ -191,8 +191,8 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
                                           const Gap(5),
                                           Flexible(
                                             child: CustomText(
-                                              text: sharedDocumentsRecord
-                                                      ?.title ??
+                                              text: sharedDocumentsRecord?.title
+                                                      ?.capitalize() ??
                                                   "",
                                               color: const Color(0xffB2B1B1),
                                               fontWeight: FontWeight.w600,
@@ -240,42 +240,48 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
                                 ),
                                 const Gap(10),
                                 Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     CustomText(
-                                      text:
-                                          sharedDocumentsRecord?.documentName ??
-                                              " -- ",
+                                      text: sharedDocumentsRecord?.documentName
+                                              ?.capitalize() ??
+                                          " -- ",
                                       fontWeight: FontWeight.bold,
                                       fontSize:
                                           MediaQuery.of(context).size.width *
                                               0.045,
                                     ),
-                                    const Spacer(),
-                                    CustomButton(
-                                      text: "Download",
-                                      function: () {
-                                        if (sharedDocumentsRecord?.documents !=
-                                            null) {
-                                          launchUrl(Uri.parse(
-                                              sharedDocumentsRecord
-                                                      ?.documents ??
-                                                  ""));
-                                        }
-                                      },
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 40),
-                                      buttonColor: const Color(0xff65D024)
-                                          .withOpacity(0.1),
-                                      textColor: const Color(0xff65D024),
-                                      height:
-                                          MediaQuery.of(context).size.width *
-                                              0.1,
-                                      icon: Image.asset(
-                                        "assets/download_summary.png",
-                                        color: const Color(0xff65D024),
+                                    Flexible(
+                                      child: CustomButton(
+                                        text: "Download",
+                                        function: () {
+                                          if (sharedDocumentsRecord
+                                                  ?.documents !=
+                                              null) {
+                                            launchUrl(Uri.parse(
+                                                sharedDocumentsRecord
+                                                        ?.documents ??
+                                                    ""));
+                                          }
+                                        },
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.06,
+                                                0.4,
+                                        buttonColor: const Color(0xff65D024)
+                                            .withOpacity(0.1),
+                                        textColor: const Color(0xff65D024),
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.1,
+                                        icon: Image.asset(
+                                          "assets/download_summary.png",
+                                          color: const Color(0xff65D024),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.06,
+                                        ),
                                       ),
                                     )
                                   ],

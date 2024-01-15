@@ -467,6 +467,8 @@ class OccupantPage extends StatelessWidget {
                         padding: const EdgeInsets.all(5),
                         child: Image.asset(
                           e["icon"] as String,
+                          color:
+                              context.read<AppThemeCubit>().state.primaryColor,
                           width: MediaQuery.of(context).size.width * 0.06,
                         ),
                       ))

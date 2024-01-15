@@ -21,6 +21,10 @@ class CompaniesPage extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: CustomButton(
                 text: "Add all verified profiles",
+                icon: Image.asset(
+                  "assets/verified.png",
+                  scale: 4,
+                ),
                 function: () {
                   CoolAlert.show(
                       context: context,
@@ -87,10 +91,11 @@ class CompaniesPage extends StatelessWidget {
                   const Gap(10),
                   Expanded(
                       child: Center(
-                    child: ListView.builder(
+                    child: ListView.separated(
                       shrinkWrap: true,
                       padding: const EdgeInsets.all(5),
                       itemCount: loginModelList?.length ?? 0,
+                      separatorBuilder: (context, index) => const Gap(10),
                       itemBuilder: (context, index) {
                         LoginModel loginModel = loginModelList![index];
                         int? innerIndex = state.secondaryLoginModelList

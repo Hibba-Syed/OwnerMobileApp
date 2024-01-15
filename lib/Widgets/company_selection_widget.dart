@@ -19,11 +19,10 @@ class CompanySelectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(10.0),
-        margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10), color: kWhite),
         child: Row(
@@ -31,8 +30,8 @@ class CompanySelectionWidget extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.all(5),
-              height: MediaQuery.of(context).size.width * 0.2,
-              width: MediaQuery.of(context).size.width * 0.2,
+              height: MediaQuery.of(context).size.width * 0.25,
+              width: MediaQuery.of(context).size.width * 0.25,
               decoration: BoxDecoration(
                 color: const Color(0xffF2F2F2),
                 borderRadius: BorderRadius.circular(10),
@@ -51,15 +50,15 @@ class CompanySelectionWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Gap(5),
                   CustomText(
                     text: title ?? '',
-                    fontSize: MediaQuery.of(context).size.width * 0.05,
+                    fontSize: MediaQuery.of(context).size.width * 0.045,
                     fontWeight: FontWeight.bold,
                     color: kBlack,
                     maxLines: 3,
                     textAlign: TextAlign.left,
                   ),
+                  const Gap(5),
                   CustomText(
                     text: 'Account Managed By',
                     fontSize: MediaQuery.of(context).size.width * 0.03,
@@ -68,11 +67,11 @@ class CompanySelectionWidget extends StatelessWidget {
                     maxLines: 3,
                     textAlign: TextAlign.left,
                   ),
-                  const Gap(10),
+                  const Gap(5),
                   CustomText(
                     text: description ?? '',
                     fontSize: MediaQuery.of(context).size.width * 0.03,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.bold,
                     color: const Color(0xFFB2B1B1),
                     maxLines: 3,
                     textAlign: TextAlign.left,

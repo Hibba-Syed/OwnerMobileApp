@@ -21,15 +21,9 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -60,5 +54,22 @@ class DefaultFirebaseOptions {
     authDomain: 'iskaan-owners.firebaseapp.com',
     storageBucket: 'iskaan-owners.appspot.com',
     measurementId: 'G-DM9CSZ48FW',
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyB2bFjTvyLveKTGJ3pF6z-lbe5-CITLxwg',
+    appId: '1:83750489723:android:415a00bca1c18668941cde',
+    messagingSenderId: '83750489723',
+    projectId: 'iskaan-owners',
+    storageBucket: 'iskaan-owners.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDBL3Kgb1r0wQop8EGAr0v0AMOsQf96rYM',
+    appId: '1:83750489723:ios:1af3fcf82f76eff9941cde',
+    messagingSenderId: '83750489723',
+    projectId: 'iskaan-owners',
+    storageBucket: 'iskaan-owners.appspot.com',
+    iosBundleId: 'com.iskaan.ownerPortal',
   );
 }
