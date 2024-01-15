@@ -21,59 +21,59 @@ class CompaniesPage extends StatelessWidget {
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
         return Scaffold(
-          bottomNavigationBar: Padding(
-            padding: const EdgeInsets.all(10),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: customMaxWidth),
-              child: CustomButton(
-                  width: customMaxWidth,
-                  text: "Add all verified profiles",
-                  icon: Image.asset(
-                    "assets/verified.png",
-                    scale: 4,
-                  ),
-                  function: () {
-                    CoolAlert.show(
-                        context: context,
-                        type: CoolAlertType.loading,
-                        barrierDismissible: false,
-                        lottieAsset: "assets/loader.json");
-                    for (LoginModel? loginModel
-                        in state.secondaryLoginModelList ?? []) {
-                      if (loginModel != null) {
-                        Global.storageService.setAuthenticationModelString(
-                            loginModel,
-                            newUser: newUser);
-                      }
-                    }
-                    context
-                        .read<LoginCubit>()
-                        .onChangeLoginModel(state.secondaryLoginModelList?[0]);
-                    context
-                        .read<ProfileCubit>()
-                        .getProfile(context)
-                        .then((isLoaded) {
-                      if (isLoaded) {
-                        Navigator.pop(context);
-                        context.read<AppThemeCubit>().onChangeAppTheme(
-                            const ProfilePage().parseHexColor(state
-                                    .secondaryLoginModelList?[0]
-                                    ?.owner
-                                    ?.company
-                                    ?.themeColor ??
-                                "#751b50"));
-                        const LoginPage().initialCalls(context);
-                        return Navigator.pushReplacementNamed(
-                            context, AppRoutes.dashboard);
-                      } else {
-                        Navigator.pop(context);
-                        Fluttertoast.showToast(
-                            msg: "Unable to load profile, please try again !");
-                      }
-                    });
-                  }),
-            ),
-          ),
+          // bottomNavigationBar: Padding(
+          //   padding: const EdgeInsets.all(10),
+          //   child: ConstrainedBox(
+          //     constraints: const BoxConstraints(maxWidth: customMaxWidth),
+          //     child: CustomButton(
+          //         width: customMaxWidth,
+          //         text: "Add all verified profiles",
+          //         icon: Image.asset(
+          //           "assets/verified.png",
+          //           scale: 4,
+          //         ),
+          //         function: () {
+          //           CoolAlert.show(
+          //               context: context,
+          //               type: CoolAlertType.loading,
+          //               barrierDismissible: false,
+          //               lottieAsset: "assets/loader.json");
+          //           for (LoginModel? loginModel
+          //               in state.secondaryLoginModelList ?? []) {
+          //             if (loginModel != null) {
+          //               Global.storageService.setAuthenticationModelString(
+          //                   loginModel,
+          //                   newUser: newUser);
+          //             }
+          //           }
+          //           context
+          //               .read<LoginCubit>()
+          //               .onChangeLoginModel(state.secondaryLoginModelList?[0]);
+          //           context
+          //               .read<ProfileCubit>()
+          //               .getProfile(context)
+          //               .then((isLoaded) {
+          //             if (isLoaded) {
+          //               Navigator.pop(context);
+          //               context.read<AppThemeCubit>().onChangeAppTheme(
+          //                   const ProfilePage().parseHexColor(state
+          //                           .secondaryLoginModelList?[0]
+          //                           ?.owner
+          //                           ?.company
+          //                           ?.themeColor ??
+          //                       "#751b50"));
+          //               const LoginPage().initialCalls(context);
+          //               return Navigator.pushReplacementNamed(
+          //                   context, AppRoutes.dashboard);
+          //             } else {
+          //               Navigator.pop(context);
+          //               Fluttertoast.showToast(
+          //                   msg: "Unable to load profile, please try again !");
+          //             }
+          //           });
+          //         }),
+          //   ),
+          // ),
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(10),
@@ -119,9 +119,21 @@ class CompaniesPage extends StatelessWidget {
                                         element?.owner?.id ==
                                         loginModel?.owner?.id);
                                 return CompanySelectionWidget(
+                                  onChanged: (p0) {
+                                    if (innerIndex == -1 ||
+                                        innerIndex == null) {
+                                      context
+                                          .read<LoginCubit>()
+                                          .addItemInSecondaryLoginModelList(
+                                              loginModel);
+                                    } else {
+                                      context
+                                          .read<LoginCubit>()
+                                          .removeItemFromSecondaryLoginModelList(
+                                              loginModel);
+                                    }
+                                  },
                                   onTap: () {
-                                    // print(state.secondaryLoginModelList?[innerIndex ?? 0]
-                                    //     ?.owner?.id);
                                     if (innerIndex == -1 ||
                                         innerIndex == null) {
                                       context
@@ -149,6 +161,85 @@ class CompaniesPage extends StatelessWidget {
                               },
                             ),
                           )),
+                          const Gap(10),
+                          ConstrainedBox(
+                            constraints: const BoxConstraints(
+                                maxWidth: customMaxWidth,
+                                minWidth: 0,
+                                minHeight: 0),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: ConstrainedBox(
+                                constraints: const BoxConstraints(
+                                    maxWidth: customMaxWidth),
+                                child: CustomButton(
+                                    width: customMaxWidth,
+                                    text: "Add all verified profiles",
+                                    icon: Image.asset(
+                                      "assets/verified.png",
+                                      scale: 4,
+                                    ),
+                                    function: () {
+                                      if (state.secondaryLoginModelList
+                                              ?.isEmpty ??
+                                          true) {
+                                        Fluttertoast.showToast(
+                                            msg:
+                                                'Please select an account to move further');
+                                        return;
+                                      }
+                                      CoolAlert.show(
+                                          width: customMaxWidth / 2,
+                                          context: context,
+                                          type: CoolAlertType.loading,
+                                          barrierDismissible: false,
+                                          lottieAsset: "assets/loader.json");
+                                      for (LoginModel? loginModel
+                                          in state.secondaryLoginModelList ??
+                                              []) {
+                                        if (loginModel != null) {
+                                          Global.storageService
+                                              .setAuthenticationModelString(
+                                                  loginModel,
+                                                  newUser: newUser);
+                                        }
+                                      }
+                                      context
+                                          .read<LoginCubit>()
+                                          .onChangeLoginModel(state
+                                              .secondaryLoginModelList?[0]);
+                                      context
+                                          .read<ProfileCubit>()
+                                          .getProfile(context)
+                                          .then((isLoaded) {
+                                        if (isLoaded) {
+                                          Navigator.pop(context);
+                                          context
+                                              .read<AppThemeCubit>()
+                                              .onChangeAppTheme(const ProfilePage()
+                                                  .parseHexColor(state
+                                                          .secondaryLoginModelList?[
+                                                              0]
+                                                          ?.owner
+                                                          ?.company
+                                                          ?.themeColor ??
+                                                      "#751b50"));
+                                          const LoginPage()
+                                              .initialCalls(context);
+                                          return Navigator.pushReplacementNamed(
+                                              context, AppRoutes.dashboard);
+                                        } else {
+                                          Navigator.pop(context);
+                                          Fluttertoast.showToast(
+                                              msg:
+                                                  "Unable to load profile, please try again !");
+                                        }
+                                      });
+                                    }),
+                              ),
+                            ),
+                          ),
+
                           // Expanded(
                           //   child: Center(
                           //     child: GridView.builder(
@@ -278,7 +369,6 @@ class CompaniesPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                
                 ],
               ),
             ),

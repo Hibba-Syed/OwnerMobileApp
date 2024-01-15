@@ -9,6 +9,7 @@ class CompanySelectionWidget extends StatelessWidget {
   final String? description;
   final String? profilePictureUrl;
   final VoidCallback? onTap;
+  final void Function(bool?)? onChanged;
   const CompanySelectionWidget({
     super.key,
     this.isSelected = false,
@@ -16,6 +17,7 @@ class CompanySelectionWidget extends StatelessWidget {
     this.description,
     this.profilePictureUrl,
     this.onTap,
+    this.onChanged,
   });
 
   @override
@@ -100,7 +102,7 @@ class CompanySelectionWidget extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4),
                       side: BorderSide.none),
-                  onChanged: (value) {},
+                  onChanged: onChanged,
                 ),
               )
             ],

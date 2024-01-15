@@ -255,6 +255,7 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
                                     Flexible(
                                       child: CustomButton(
                                         text: "Download",
+                                        padding: EdgeInsets.zero,
                                         function: () {
                                           if (sharedDocumentsRecord
                                                   ?.documents !=
@@ -271,9 +272,12 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
                                         buttonColor: const Color(0xff65D024)
                                             .withOpacity(0.1),
                                         textColor: const Color(0xff65D024),
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.04,
                                         height:
                                             MediaQuery.of(context).size.width *
-                                                0.1,
+                                                0.07,
                                         icon: Image.asset(
                                           "assets/download_summary.png",
                                           color: const Color(0xff65D024),

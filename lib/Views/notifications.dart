@@ -155,7 +155,10 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                           children: [
                                             Icon(
                                               Icons.alarm_outlined,
-                                              size: 15,
+                                              size: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.03,
                                               color: context
                                                   .read<AppThemeCubit>()
                                                   .state
@@ -167,7 +170,10 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                                   .dateTimeFormatter(
                                                       notificationRecord
                                                           ?.createdAt),
-                                              fontSize: 12,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.03,
                                             )
                                           ],
                                         )
