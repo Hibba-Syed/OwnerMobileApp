@@ -70,18 +70,20 @@ class _ReceiptListPageState extends State<CompliancesListPage> {
                       children: [
                         InkWell(
                           onTap: () {
-                            context
-                                .read<ComplianceDetailsCubit>()
-                                .getUnitComplianceDetails(
-                                    context, compliance?.id, widget.unitId);
-                            Navigator.pushNamed(
-                              context,
-                              AppRoutes.complianceDetails,
-                              arguments: {
-                                "unit_id": widget.unitId,
-                                "id": compliance?.id
-                              },
-                            );
+                            if(compliance?.certificate?.isNotEmpty??false){
+                              context
+                                  .read<ComplianceDetailsCubit>()
+                                  .getUnitComplianceDetails(
+                                  context, compliance?.id, widget.unitId);
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutes.complianceDetails,
+                                arguments: {
+                                  "unit_id": widget.unitId,
+                                  "id": compliance?.id
+                                },
+                              );
+                            }
                           },
                           child: Container(
                             padding: const EdgeInsets.all(10),

@@ -158,6 +158,51 @@ class UnitsService {
     });
   }
 
+  static Future<Object?> updateUnitCompliance(
+    BuildContext context, {
+    required int id,
+    required int complianceAbleId,
+    required bool notApplicable,
+    required String certificateName,
+    required String date,
+    required String expiry,
+    required String description,
+    String? filePath,
+  }) async {
+    return await ExceptionService.applyTryCatch(() async {
+      var headers = {
+        "Authorization":
+            "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+      };
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(
+          "$baseUrl/mobile/owner/property/compliance/$id));",
+        ),
+      );
+      request.fields.addAll({
+        'datetime': date,
+        'expiry': expiry,
+        'complianceable_type': 'unit',
+        'complianceable_id': complianceAbleId.toString(),
+        'description': description,
+        'not_applicable': notApplicable ? '1' : '0',
+      });
+      if (filePath?.isNotEmpty??false) {
+        request.files.add(await http.MultipartFile.fromPath('file', filePath!));
+      }
+
+      request.headers.addAll(headers);
+      http.StreamedResponse response = await request.send();
+      String body = await response.stream.bytesToString();
+      print(body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return Success(200, body);
+      }
+      return Failure(400, jsonDecode(body)["message"]);
+    });
+  }
+
   static Future<Object?> getUnitInvoices(
     BuildContext context,
     int? id,

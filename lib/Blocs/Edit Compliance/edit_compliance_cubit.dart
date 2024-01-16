@@ -29,4 +29,42 @@ class EditComplianceCubit extends Cubit<EditComplianceState> {
   removeFile() {
     emit(state.removeFile());
   }
+
+  setCertificateUrl(String url) {
+    emit(state.copyWith(certificateUrl: url));
+  }
+
+  Future<void> updateCompliance(
+    BuildContext context, {
+    required int id,
+    required int complianceAbleId,
+  }) async {
+    emit(state.copyWith(loadingState: LoadingState.loading));
+    await UnitsService.updateUnitCompliance(
+      context,
+      id: id,
+      notApplicable: state.notApplicable,
+      certificateName: state.name ?? '',
+      date: state.customDateRange?.start.toString() ?? '',
+      expiry: state.customDateRange?.end.toString() ?? '',
+      complianceAbleId: complianceAbleId,
+      description: state.description ?? '',
+      filePath: state.file?.path,
+    ).then((value) {
+      if (value is Success) {
+        emit(
+          state.copyWith(
+            loadingState: LoadingState.success,
+          ),
+        );
+        Fluttertoast.showToast(msg: "Updated successfully");
+        Navigator.pop(context, true);
+        return;
+      }
+      value as Failure;
+      Fluttertoast.showToast(
+          msg: value.errorResponse as String? ?? "Unable to update compliance");
+      emit(state.copyWith(loadingState: LoadingState.error));
+    });
+  }
 }

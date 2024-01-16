@@ -25,7 +25,13 @@ class ComplianceDetailsPage extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.05,
           ),
           function: () {
-            Navigator.pushNamed(context, AppRoutes.editCompliances);
+            Navigator.pushNamed(
+              context,
+              AppRoutes.editCompliances,
+              arguments: {
+                'unit_id': unitId,
+              },
+            );
           },
           fontSize: MediaQuery.of(context).size.width * 0.035,
           buttonColor:
