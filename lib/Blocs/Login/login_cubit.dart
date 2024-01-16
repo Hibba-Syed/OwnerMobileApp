@@ -33,9 +33,35 @@ class LoginCubit extends Cubit<LoginState> {
         emit(state.copyWith(
           loginModel: loginModelFromJson(value.response as String)[0],
         ));
+        List<LoginModel> loginModelList =
+            loginModelFromJson(value.response as String);
+        String? deviceLoginModelList =
+            Global.storageService.getAuthenticationModelString();
+        if (deviceLoginModelList != null) {
+          List<LoginModel> convertedDeviceLoginModelList =
+              loginModelFromJson(deviceLoginModelList);
+          loginModelList.removeWhere((element) {
+            for (LoginModel convertedDeviceLoginModel
+                in convertedDeviceLoginModelList) {
+              if (element.owner?.id == convertedDeviceLoginModel.owner?.id &&
+                  element.owner?.email ==
+                      convertedDeviceLoginModel.owner?.email &&
+                  element.owner?.companyId ==
+                      convertedDeviceLoginModel.owner?.companyId) {
+                return true;
+              }
+            }
+            return false;
+          });
+        }
+
+        if (loginModelList.isEmpty) {
+          emit(state.copyWith(loadingState: LoadingState.error));
+          return Fluttertoast.showToast(
+              msg: "You are already logged in with this account");
+        }
         if (loginModelFromJson(value.response as String).length == 1) {
-          Global.storageService.setAuthenticationModelString(
-              loginModelFromJson(value.response as String)[0],
+          Global.storageService.setAuthenticationModelString(loginModelList[0],
               newUser: newUser);
           return context
               .read<ProfileCubit>()
@@ -43,7 +69,7 @@ class LoginCubit extends Cubit<LoginState> {
               .then((isLoaded) {
             if (isLoaded) {
               emit(state.copyWith(
-                loginModel: loginModelFromJson(value.response as String)[0],
+                loginModel: loginModelList[0],
                 loadingState: LoadingState.success,
               ));
               if (!newUser) {
@@ -53,7 +79,7 @@ class LoginCubit extends Cubit<LoginState> {
               context.read<AppThemeCubit>().onChangeAppTheme(const ProfilePage()
                   .parseHexColor(state.loginModel?.owner?.company?.themeColor ??
                       "#751b50"));
-               LoginPage().initialCalls(context);
+              LoginPage().initialCalls(context);
               return Navigator.pushReplacementNamed(
                   context, AppRoutes.dashboard);
             } else {
@@ -66,13 +92,11 @@ class LoginCubit extends Cubit<LoginState> {
             Global.storageService.setLoginCreds([state.email, state.password]);
           }
           emit(state.copyWith(
-            loginModel: loginModelFromJson(value.response as String)[0],
+            loginModel: loginModelList[0],
             loadingState: LoadingState.success,
           ));
-          return Navigator.pushNamed(context, AppRoutes.companies, arguments: [
-            loginModelFromJson(value.response as String),
-            newUser
-          ]);
+          return Navigator.pushNamed(context, AppRoutes.companies,
+              arguments: [loginModelList, newUser]);
         }
       }
       value as Failure;

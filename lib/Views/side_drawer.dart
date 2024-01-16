@@ -1,5 +1,6 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:iskaanowner/Blocs/Logout/logout_cubit.dart';
+import 'package:slideable/slideable.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Models/profile.dart';
@@ -70,11 +71,7 @@ class SideDrawerPage extends StatelessWidget {
                             context: context,
                             isScrollControlled: true,
                             builder: (context) {
-                              String? userList = Global.storageService
-                                  .getAuthenticationModelString();
-                              List<LoginModel> users =
-                                  loginModelFromJson(userList ?? "");
-                              return selectProfile(context, users);
+                              return selectProfile(context);
                             })),
                   ),
                 ],
@@ -257,7 +254,9 @@ class SideDrawerPage extends StatelessWidget {
                                   loginCubit.onChangeObscure(!state.obscure);
                                 },
                                 icon: Icon(
-                                  Icons.visibility_outlined,
+                                  state.obscure
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
                                   color: context
                                       .read<AppThemeCubit>()
                                       .state
@@ -268,18 +267,7 @@ class SideDrawerPage extends StatelessWidget {
                                 if (value == null || value.isEmpty) {
                                   return "Field is mandatory";
                                 }
-                                if (context.read<LoginCubit>().state.email ==
-                                        context
-                                            .read<LoginCubit>()
-                                            .state
-                                            .loginModel
-                                            ?.owner
-                                            ?.email &&
-                                    value ==
-                                        Global.storageService
-                                            .getLoginCreds()?[1]) {
-                                  return "Already logged in with this email";
-                                }
+
                                 return null;
                               },
                               onChanged: (password) =>
@@ -340,18 +328,6 @@ class SideDrawerPage extends StatelessWidget {
                                           color: kGrey.shade700,
                                         ),
                                         const Gap(10),
-                                        CustomText(
-                                          text: "Syncing new profiles guide :",
-                                          fontSize: 12,
-                                          color: kGrey.shade900,
-                                        ),
-                                        const Gap(10),
-                                        CustomText(
-                                          text:
-                                              "If you want to add new profiles using same credentials. Please logout and login again.",
-                                          fontSize: 12,
-                                          color: kGrey.shade700,
-                                        ),
                                       ],
                                     ),
                                   ),
@@ -389,7 +365,7 @@ class SideDrawerPage extends StatelessWidget {
     );
   }
 
-  Widget selectProfile(BuildContext context, List<LoginModel> users) {
+  Widget selectProfile(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -403,115 +379,154 @@ class SideDrawerPage extends StatelessWidget {
             ),
             const Gap(10),
             Expanded(
-              child: ListView.separated(
-                padding: const EdgeInsets.all(10),
-                itemCount: users.length,
-                separatorBuilder: (BuildContext context, int index) {
-                  return const Gap(10);
-                },
-                itemBuilder: (BuildContext context, int index) {
-                  LoginModel? loginModel = users[index];
-                  return GestureDetector(
-                    onTap: () => onProfileTap(context, users, index),
-                    child: Container(
-                      padding: const EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: kWhite),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(5),
-                            height: MediaQuery.of(context).size.width * 0.25,
-                            width: MediaQuery.of(context).size.width * 0.25,
-                            decoration: BoxDecoration(
-                              color: const Color(0xffF2F2F2),
+              child: StatefulBuilder(builder: (context, changeState) {
+                String? userList =
+                    Global.storageService.getAuthenticationModelString();
+                List<LoginModel>? users = [];
+                if (userList != null) {
+                  users = loginModelFromJson(userList);
+                }
+                return ListView.separated(
+                  padding: const EdgeInsets.all(10),
+                  itemCount: users.length,
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const Gap(10);
+                  },
+                  itemBuilder: (BuildContext context, int index) {
+                    LoginModel? loginModel = users?[index];
+                    return Slideable(
+                      items: index == 0
+                          ? []
+                          : [
+                              ActionItems(
+                                icon: Icon(
+                                  Icons.delete_outline,
+                                  color: context
+                                      .read<AppThemeCubit>()
+                                      .state
+                                      .primaryColor,
+                                ),
+                                onPress: () {
+                                  changeState(() {
+                                    Global.storageService
+                                        .removeAuthenticationModelString(
+                                            index: index);
+                                  });
+                                },
+                                backgroundColor: Colors.transparent,
+                              ),
+                            ],
+                      child: GestureDetector(
+                        onTap: () => onProfileTap(context, users ?? [], index),
+                        child: Container(
+                          padding: const EdgeInsets.all(10.0),
+                          decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: ImageBuilder(
-                              url: loginModel.owner?.company?.faviconUrl ?? "",
-                              isFit: true,
-                              height: MediaQuery.of(context).size.width * 0.1,
-                              width: MediaQuery.of(context).size.width * 0.1,
-                            ),
-                          ),
-                          const Gap(10),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                CustomText(
-                                  text: loginModel.owner?.fullName ?? '',
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.045,
-                                  fontWeight: FontWeight.bold,
-                                  color: kBlack,
-                                  maxLines: 3,
-                                  textAlign: TextAlign.left,
+                              color: kWhite),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(5),
+                                height:
+                                    MediaQuery.of(context).size.width * 0.25,
+                                width: MediaQuery.of(context).size.width * 0.25,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xffF2F2F2),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                                const Gap(5),
-                                CustomText(
-                                  text: 'Account Managed By',
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.03,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xFFB2B1B1),
-                                  maxLines: 3,
-                                  textAlign: TextAlign.left,
+                                child: ImageBuilder(
+                                  url: loginModel?.owner?.company?.faviconUrl ??
+                                      "",
+                                  isFit: true,
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.1,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.1,
                                 ),
-                                const Gap(5),
-                                CustomText(
-                                  text: loginModel.owner?.company?.name ?? '',
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.03,
-                                  fontWeight: FontWeight.bold,
-                                  color: const Color(0xFFB2B1B1),
-                                  maxLines: 3,
-                                  textAlign: TextAlign.left,
+                              ),
+                              const Gap(10),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    CustomText(
+                                      text: loginModel?.owner?.fullName ?? '',
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.045,
+                                      fontWeight: FontWeight.bold,
+                                      color: kBlack,
+                                      maxLines: 3,
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    const Gap(5),
+                                    CustomText(
+                                      text: 'Account Managed By',
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.03,
+                                      fontWeight: FontWeight.w500,
+                                      color: const Color(0xFFB2B1B1),
+                                      maxLines: 3,
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    const Gap(5),
+                                    CustomText(
+                                      text: loginModel?.owner?.company?.name ??
+                                          '',
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.03,
+                                      fontWeight: FontWeight.bold,
+                                      color: const Color(0xFFB2B1B1),
+                                      maxLines: 3,
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                          if (index == 0) const Gap(5),
-                          if (index == 0)
-                            Container(
-                              height: 20,
-                              width: 20,
-                              margin: const EdgeInsets.only(bottom: 5),
-                              padding: const EdgeInsets.all(2.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                                border: Border.all(
-                                    color: context
+                              ),
+                              if (index == 0) const Gap(5),
+                              if (index == 0)
+                                Container(
+                                  height: 20,
+                                  width: 20,
+                                  margin: const EdgeInsets.only(bottom: 5),
+                                  padding: const EdgeInsets.all(2.0),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(4),
+                                    border: Border.all(
+                                        color: context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor,
+                                        width: 1),
+                                  ),
+                                  child: Checkbox(
+                                    value: index == 0 ? true : false,
+                                    fillColor: const MaterialStatePropertyAll(
+                                        kTransparent),
+                                    checkColor: context
                                         .read<AppThemeCubit>()
                                         .state
                                         .primaryColor,
-                                    width: 1),
-                              ),
-                              child: Checkbox(
-                                value: index == 0 ? true : false,
-                                fillColor: const MaterialStatePropertyAll(
-                                    kTransparent),
-                                checkColor: context
-                                    .read<AppThemeCubit>()
-                                    .state
-                                    .primaryColor,
-                                side: BorderSide.none,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4),
-                                    side: BorderSide.none),
-                                onChanged: (value) {},
-                              ),
-                            )
-                        ],
+                                    side: BorderSide.none,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(4),
+                                        side: BorderSide.none),
+                                    onChanged: (value) {},
+                                  ),
+                                )
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
+                    );
+                  },
+                );
+              }),
             ),
             Divider(
               color: context.read<AppThemeCubit>().state.primaryColor,

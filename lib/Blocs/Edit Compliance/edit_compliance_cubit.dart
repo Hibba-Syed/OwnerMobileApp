@@ -11,7 +11,7 @@ class EditComplianceCubit extends Cubit<EditComplianceState> {
   }
 
   onChangeApplicable(bool? applicable) {
-    emit(state.copyWith(applicable: applicable));
+    emit(state.copyWith(notApplicable: applicable));
   }
 
   onChangeFile(File? file) {

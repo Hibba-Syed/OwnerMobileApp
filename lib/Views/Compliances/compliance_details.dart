@@ -1,5 +1,6 @@
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
 import 'package:iskaanowner/Blocs/Compliance%20Details/compliance_details_cubit.dart';
+import 'package:iskaanowner/Blocs/Edit%20Compliance/edit_compliance_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Models/compliance_details.dart';
@@ -25,6 +26,7 @@ class ComplianceDetailsPage extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.05,
           ),
           function: () {
+            context.read<EditComplianceCubit>().removeFile();
             Navigator.pushNamed(
               context,
               AppRoutes.editCompliances,

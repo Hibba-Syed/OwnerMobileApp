@@ -101,7 +101,7 @@ class CompanySelectionWidget extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4),
                       side: BorderSide.none),
-                  onChanged: (value) {},
+                  onChanged: null,
                 ),
               )
             ],

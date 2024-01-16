@@ -139,6 +139,7 @@ class _EditCompliancePageState extends State<EditCompliancePage> {
                             ),
                             const Gap(10),
                             CustomTextField(
+                              readOnly: true,
                               hintText:
                                   state.name ?? "Enter your certificate name",
                               initialValue: state.name,
@@ -166,16 +167,19 @@ class _EditCompliancePageState extends State<EditCompliancePage> {
                                   ? "Select a validity date range"
                                   : "${const OccupantPage().dateTimeFormatter(state.customDateRange?.start)} - ${const OccupantPage().dateTimeFormatter(state.customDateRange?.end)}",
                               readOnly: true,
-                              onTap: () => showDateRangePicker(
-                                context: context,
-                                firstDate: DateTime(1900, 01, 01),
-                                lastDate: DateTime(DateTime.now().year, 12, 31),
-                                currentDate: DateTime.now(),
-                              ).then(
-                                (value) => context
-                                    .read<EditComplianceCubit>()
-                                    .onChangeCustomDateRange(value),
-                              ),
+                              onTap: state.notApplicable
+                                  ? null
+                                  : () => showDateRangePicker(
+                                        context: context,
+                                        firstDate: DateTime(1900, 01, 01),
+                                        lastDate: DateTime(
+                                            DateTime.now().year, 12, 31),
+                                        currentDate: DateTime.now(),
+                                      ).then(
+                                        (value) => context
+                                            .read<EditComplianceCubit>()
+                                            .onChangeCustomDateRange(value),
+                                      ),
                             ),
                             const Gap(10),
                             CustomText(
@@ -187,6 +191,7 @@ class _EditCompliancePageState extends State<EditCompliancePage> {
                             ),
                             const Gap(10),
                             CustomTextField(
+                              readOnly: state.notApplicable,
                               hintText: state.description ??
                                   "Enter your description here",
                               initialValue: state.description,
@@ -216,24 +221,26 @@ class _EditCompliancePageState extends State<EditCompliancePage> {
                             CustomButton(
                                 width: MediaQuery.of(context).size.width / 2,
                                 text: "Upload",
-                                function: () async {
-                                  await FilePicker.platform.pickFiles(
-                                      allowedExtensions: [
-                                        ".png",
-                                        ".jpg",
-                                        "jpeg",
-                                        ".pdf",
-                                        ".gif"
-                                      ],
-                                      type: FileType.custom).then((value) {
-                                    if (value != null) {
-                                      context
-                                          .read<EditComplianceCubit>()
-                                          .onChangeFile(File(
-                                              value.files.first.path ?? ""));
-                                    }
-                                  });
-                                },
+                                function: state.notApplicable
+                                    ? null
+                                    : () async {
+                                        await FilePicker.platform
+                                            .pickFiles(allowedExtensions: [
+                                          ".png",
+                                          ".jpg",
+                                          "jpeg",
+                                          ".pdf",
+                                          ".gif"
+                                        ], type: FileType.custom).then((value) {
+                                          if (value != null) {
+                                            context
+                                                .read<EditComplianceCubit>()
+                                                .onChangeFile(File(
+                                                    value.files.first.path ??
+                                                        ""));
+                                          }
+                                        });
+                                      },
                                 textColor: context
                                     .read<AppThemeCubit>()
                                     .state
@@ -256,21 +263,18 @@ class _EditCompliancePageState extends State<EditCompliancePage> {
                             state.file != null
                                 ? _fileWidget(
                                     title: state.file!.path.split("/").last,
-                                    onClosePressed: () {
-                                      context
-                                          .read<EditComplianceCubit>()
-                                          .removeFile();
-                                    },
+                                    onClosePressed: state.notApplicable
+                                        ? null
+                                        : () {
+                                            context
+                                                .read<EditComplianceCubit>()
+                                                .removeFile();
+                                          },
                                   )
                                 : (state.certificateUrl?.isNotEmpty ?? false)
                                     ? _fileWidget(
                                         title: state.certificateUrl ?? '',
-                                        onClosePressed: () {
-                                          context
-                                              .read<EditComplianceCubit>()
-                                              .setCertificateUrl('');
-                                        },
-                                      )
+                                        onClosePressed: null)
                                     : const SizedBox.shrink()
                           ],
                         ),
@@ -288,7 +292,7 @@ class _EditCompliancePageState extends State<EditCompliancePage> {
 
   _fileWidget({
     required String title,
-    required VoidCallback onClosePressed,
+    required void Function()? onClosePressed,
   }) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
@@ -305,11 +309,12 @@ class _EditCompliancePageState extends State<EditCompliancePage> {
               textAlign: TextAlign.left,
             ),
           ),
-          const Gap(10),
-          IconButton(
-            onPressed: onClosePressed,
-            icon: const Icon(Icons.close),
-          )
+          if (onClosePressed != null) const Gap(10),
+          if (onClosePressed != null)
+            IconButton(
+              onPressed: onClosePressed,
+              icon: const Icon(Icons.close),
+            )
         ],
       ),
     );

@@ -4,9 +4,9 @@ import 'package:iskaanowner/Utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageService {
-  late final SharedPreferences _prefs;
+  late final SharedPreferences _pref;
   Future<StorageService> init() async {
-    _prefs = await SharedPreferences.getInstance();
+    _pref = await SharedPreferences.getInstance();
     return this;
   }
 
@@ -23,17 +23,32 @@ class StorageService {
       } else {
         users.add(value);
       }
-      return await _prefs.setString("users", jsonEncode(users));
+      return await _pref.setString("users", jsonEncode(users));
     }
-    return await _prefs.setString("users", jsonEncode([value]));
+    return await _pref.setString("users", jsonEncode([value]));
+  }
+
+  Future<bool> removeAuthenticationModelString({required int index}) async {
+    String? userList = getAuthenticationModelString();
+    if (userList != null) {
+      if (index == 0) {
+        Fluttertoast.showToast(
+            msg: "You cannot delete the profile you are logged in");
+        return false;
+      }
+      List users = jsonDecode(userList);
+      users.removeAt(index);
+      return await _pref.setString("users", jsonEncode(users));
+    }
+    return false;
   }
 
   Future<bool> setLoginCreds(List creds) async {
-    return await _prefs.setString("creds", jsonEncode(creds));
+    return await _pref.setString("creds", jsonEncode(creds));
   }
 
   List? getLoginCreds() {
-    String? creds = _prefs.getString("creds");
+    String? creds = _pref.getString("creds");
     if (creds == null) {
       return null;
     }
@@ -41,10 +56,10 @@ class StorageService {
   }
 
   String? getAuthenticationModelString() {
-    return _prefs.getString("users");
+    return _pref.getString("users");
   }
 
   Future<void> removeUser() async {
-    await _prefs.remove("users");
+    await _pref.remove("users");
   }
 }

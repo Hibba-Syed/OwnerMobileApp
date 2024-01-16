@@ -20,7 +20,7 @@ class EditComplianceState {
   EditComplianceState copyWith({
     final LoadingState? loadingState,
     final File? file,
-    final bool? applicable,
+    final bool? notApplicable,
     final DateTimeRange? customDateRange,
     final String? description,
     final String? name,
@@ -29,28 +29,31 @@ class EditComplianceState {
     return EditComplianceState(
       loadingState: loadingState ?? this.loadingState,
       file: file ?? this.file,
-      notApplicable: applicable ?? this.notApplicable,
+      notApplicable: notApplicable ?? this.notApplicable,
       customDateRange: customDateRange ?? this.customDateRange,
       description: description ?? this.description,
       name: name ?? this.name,
-      certificateUrl: certificateUrl?? this.certificateUrl,
+      certificateUrl: certificateUrl ?? this.certificateUrl,
     );
   }
+
   EditComplianceState removeFile({
     final LoadingState? loadingState,
     final File? file,
-    final bool? applicable,
+    final bool? notApplicable,
     final DateTimeRange? customDateRange,
     final String? description,
     final String? name,
+    final String? certificateUrl,
   }) {
     return EditComplianceState(
       loadingState: loadingState ?? this.loadingState,
       file: file,
-      notApplicable: applicable ?? this.notApplicable,
+      notApplicable: notApplicable ?? this.notApplicable,
       customDateRange: customDateRange ?? this.customDateRange,
       description: description ?? this.description,
       name: name ?? this.name,
+      certificateUrl: certificateUrl ?? this.certificateUrl,
     );
   }
 }

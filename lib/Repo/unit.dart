@@ -188,14 +188,13 @@ class UnitsService {
         'description': description,
         'not_applicable': notApplicable ? '1' : '0',
       });
-      if (filePath?.isNotEmpty??false) {
+      if (filePath?.isNotEmpty ?? false) {
         request.files.add(await http.MultipartFile.fromPath('file', filePath!));
       }
 
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       String body = await response.stream.bytesToString();
-      print(body);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return Success(200, body);
       }
