@@ -54,6 +54,7 @@ class Compliance {
   DateTime? duedate;
   DateTime? expiry;
   String? certificate;
+  int? notApplicable;
 
   Compliance({
     this.id,
@@ -61,16 +62,16 @@ class Compliance {
     this.duedate,
     this.expiry,
     this.certificate,
+    this.notApplicable,
   });
 
   factory Compliance.fromJson(Map<String, dynamic> json) => Compliance(
-        id: json["id"],
-        name: json["name"],
-        duedate:
-            json["duedate"] == null ? null : DateTime.parse(json["duedate"]),
-        expiry: json["expiry"] == null ? null : DateTime.parse(json["expiry"]),
-        certificate: json["certificate"],
-      );
+      id: json["id"],
+      name: json["name"],
+      duedate: json["duedate"] == null ? null : DateTime.parse(json["duedate"]),
+      expiry: json["expiry"] == null ? null : DateTime.parse(json["expiry"]),
+      certificate: json["certificate"],
+      notApplicable: json["not_applicable"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -78,5 +79,6 @@ class Compliance {
         "duedate": duedate?.toIso8601String(),
         "expiry": expiry?.toIso8601String(),
         "certificate": certificate,
+        "not_applicable": notApplicable
       };
 }
