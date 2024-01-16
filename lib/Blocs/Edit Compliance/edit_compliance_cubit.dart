@@ -10,8 +10,8 @@ class EditComplianceCubit extends Cubit<EditComplianceState> {
     emit(state.copyWith(customDateRange: dateTimeRange));
   }
 
-  onChangeApplicable(bool? applicable) {
-    emit(state.copyWith(notApplicable: applicable));
+  onChangeNotApplicable(bool? notApplicable) {
+    emit(state.copyWith(notApplicable: notApplicable));
   }
 
   onChangeFile(File? file) {

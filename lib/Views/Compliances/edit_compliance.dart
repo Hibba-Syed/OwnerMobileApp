@@ -1,10 +1,8 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:intl/intl.dart';
-import 'package:iskaanowner/Blocs/Compliance%20Details/compliance_details_cubit.dart';
 import 'package:iskaanowner/Blocs/Edit%20Compliance/edit_compliance_cubit.dart';
-import 'package:iskaanowner/Models/compliance_details.dart';
+import 'package:iskaanowner/Models/compliances.dart';
 
 import '../../Blocs/App Theme/app_theme_cubit.dart';
 import '../../Utils/utils.dart';
@@ -19,34 +17,39 @@ class EditCompliancePage extends StatefulWidget {
 class _EditCompliancePageState extends State<EditCompliancePage> {
   int? unitId;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  ComplianceDetailsModel? complianceDetailModel;
+  Compliance? _compliance;
   @override
   void initState() {
+    Future.delayed(Duration.zero, () {
+      Map<String, dynamic> arguments =
+      ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      unitId = arguments['unit_id'];
+      _compliance = arguments['compliance'];
+      EditComplianceCubit editComplianceCubit =
+      context.read<EditComplianceCubit>();
+      editComplianceCubit
+          .onChangeNotApplicable(_compliance?.notApplicable == 1 ? true : false);
+      editComplianceCubit.onChangeName(_compliance?.name ?? '');
+      if (_compliance?.duedate != null && _compliance?.expiry != null) {
+        editComplianceCubit.onChangeCustomDateRange(
+          DateTimeRange(
+            start: _compliance!.duedate!,
+            end: _compliance!.expiry!,
+          ),
+        );
+      }
+      editComplianceCubit.onChangeDescription(_compliance?.description ?? '');
+      editComplianceCubit
+          .setCertificateUrl(_compliance?.certificate?.split('/').last ?? '');
+    } );
+
+
     super.initState();
-    complianceDetailModel =
-        context.read<ComplianceDetailsCubit>().state.complianceDetailsModel;
-    EditComplianceCubit editComplianceCubit =
-        context.read<EditComplianceCubit>();
-    editComplianceCubit.onChangeName(complianceDetailModel?.record?.name ?? '');
-    editComplianceCubit.onChangeCustomDateRange(
-      DateTimeRange(
-        start: DateFormat("MM/dd/yyyy")
-            .parse(complianceDetailModel?.record?.date ?? ''),
-        end: DateFormat("MM/dd/yyyy")
-            .parse(complianceDetailModel?.record?.expiryDate ?? ''),
-      ),
-    );
-    editComplianceCubit
-        .onChangeDescription(complianceDetailModel?.record?.description ?? '');
-    editComplianceCubit.setCertificateUrl(
-        complianceDetailModel?.record?.certificate?.split('/').last ?? '');
   }
+
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> arguments =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    unitId = arguments['unit_id'];
     return Scaffold(
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(10),
@@ -56,21 +59,30 @@ class _EditCompliancePageState extends State<EditCompliancePage> {
           function: () {
             EditComplianceCubit editComplianceCubit =
                 context.read<EditComplianceCubit>();
-            if (_formKey.currentState!.validate()) {
-              if (editComplianceCubit.state.customDateRange == null) {
-                Fluttertoast.showToast(
-                    msg: 'Please select date range to continue');
-                return;
+            if (editComplianceCubit.state.notApplicable == false) {
+              if (_formKey.currentState!.validate()) {
+                if (editComplianceCubit.state.customDateRange == null) {
+                  Fluttertoast.showToast(
+                      msg: 'Please select date range to continue');
+                  return;
+                }
+                if ((editComplianceCubit.state.file?.path.isEmpty ?? true) &&
+                    (editComplianceCubit.state.certificateUrl?.isEmpty ??
+                        true)) {
+                  Fluttertoast.showToast(
+                      msg: 'Please select attachments to continue');
+                  return;
+                }
+                editComplianceCubit.updateCompliance(
+                  context,
+                  id: _compliance?.id ?? 0,
+                  complianceAbleId: unitId ?? 0,
+                );
               }
-              if ((editComplianceCubit.state.file?.path.isEmpty ?? true) &&
-                  (editComplianceCubit.state.certificateUrl?.isEmpty ?? true)) {
-                Fluttertoast.showToast(
-                    msg: 'Please select attachments to continue');
-                return;
-              }
+            } else {
               editComplianceCubit.updateCompliance(
                 context,
-                id: complianceDetailModel?.record?.id ?? 0,
+                id: _compliance?.id ?? 0,
                 complianceAbleId: unitId ?? 0,
               );
             }
@@ -124,7 +136,7 @@ class _EditCompliancePageState extends State<EditCompliancePage> {
                                   onChanged: (value) {
                                     context
                                         .read<EditComplianceCubit>()
-                                        .onChangeApplicable(value);
+                                        .onChangeNotApplicable(value);
                                   },
                                 ),
                               ],
