@@ -1,4 +1,4 @@
-part of 'comunities_cubit.dart';
+part of 'communities_cubit.dart';
 
 class CommunitiesState {
   final CommunitiesModel? communitiesModel;

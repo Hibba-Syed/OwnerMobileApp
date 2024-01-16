@@ -17,7 +17,8 @@ class VerifyOtpCubit extends Cubit<VerifyOtpState> {
       if (value is Success) {
         Fluttertoast.showToast(msg: "Otp verified successfully");
         context.read<CompaniesCubit>().getCompanies(context, email);
-        Navigator.pushNamed(context, AppRoutes.resetPassword, arguments: email);
+        Navigator.pushReplacementNamed(context, AppRoutes.resetPassword,
+            arguments: email);
         return emit(state.copyWith(
           loadingState: LoadingState.success,
         ));

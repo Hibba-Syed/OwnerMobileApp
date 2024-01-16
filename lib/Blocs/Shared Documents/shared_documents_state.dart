@@ -1,4 +1,4 @@
-part of 'shared_documnets_cubit.dart';
+part of 'shared_documents_cubit.dart';
 
 class SharedDocumentsState {
   final SharedDocumentsModel? sharedDocumentsModel;

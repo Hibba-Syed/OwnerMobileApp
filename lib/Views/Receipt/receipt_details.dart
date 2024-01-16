@@ -86,10 +86,12 @@ class ReceiptDetailsPage extends StatelessWidget {
                                                 ?.name ??
                                             "",
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 18,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.045,
                                         textAlign: TextAlign.left,
                                       ),
-                                      const Gap(10),
+                                      const Gap(2),
                                       CustomText(
                                         text: context
                                                 .read<ProfileCubit>()
@@ -100,7 +102,9 @@ class ReceiptDetailsPage extends StatelessWidget {
                                                 ?.address1 ??
                                             "",
                                         textAlign: TextAlign.left,
-                                        fontSize: 12,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.03,
                                         color: kGrey,
                                       ),
                                     ],
@@ -120,192 +124,154 @@ class ReceiptDetailsPage extends StatelessWidget {
                             ),
                             const Gap(10),
                             Container(
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: kWhite,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: kGrey.shade200,
-                                      blurRadius: 2,
-                                      spreadRadius: 2,
-                                    )
-                                  ],
-                                ),
-                                child: Theme(
-                                  data: Theme.of(context).copyWith(
-                                      dividerColor: Colors.transparent),
-                                  child: ListTileTheme(
-                                    contentPadding: EdgeInsets.zero,
-                                    dense: true,
-                                    horizontalTitleGap: 0.0,
-                                    minLeadingWidth: 0,
-                                    child: ExpansionTile(
-                                      title: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Flexible(
-                                            child: CustomText(
-                                              text: state.receiptDetailsModel
-                                                      ?.title ??
-                                                  " -- ",
-                                              color: context
-                                                  .read<AppThemeCubit>()
-                                                  .state
-                                                  .primaryColor,
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.05,
-                                              textAlign: TextAlign.left,
-                                            ),
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: kWhite,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: kGrey.shade200,
+                                    blurRadius: 2,
+                                    spreadRadius: 2,
+                                  )
+                                ],
+                              ),
+                              child: Theme(
+                                data: Theme.of(context)
+                                    .copyWith(dividerColor: Colors.transparent),
+                                child: ListTileTheme(
+                                  contentPadding: EdgeInsets.zero,
+                                  dense: true,
+                                  horizontalTitleGap: 0.0,
+                                  minLeadingWidth: 0,
+                                  child: ExpansionTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: CustomText(
+                                            text: state.receiptDetailsModel
+                                                    ?.title ??
+                                                " -- ",
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.045,
+                                            textAlign: TextAlign.left,
                                           ),
-                                          if (state.receiptDetailsModel
-                                                  ?.association?.name !=
-                                              null)
-                                            Row(
-                                              children: [
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                const UnitsPage()
-                                                    .roundedContainer(
-                                                        context,
-                                                        Flexible(
-                                                          child: CustomText(
-                                                            text: state
-                                                                    .receiptDetailsModel
-                                                                    ?.association
-                                                                    ?.name ??
-                                                                "",
-                                                            color: context
-                                                                .read<
-                                                                    AppThemeCubit>()
-                                                                .state
-                                                                .primaryColor,
-                                                            fontSize: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width *
-                                                                0.035,
-                                                          ),
-                                                        ),
+                                        ),
+                                        if (state.receiptDetailsModel
+                                                ?.association?.name !=
+                                            null)
+                                          Row(
+                                            children: [
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              const UnitsPage()
+                                                  .roundedContainer(
+                                                      context,
+                                                      CustomText(
+                                                        text: state
+                                                                .receiptDetailsModel
+                                                                ?.association
+                                                                ?.name ??
+                                                            "",
                                                         color: context
                                                             .read<
                                                                 AppThemeCubit>()
                                                             .state
-                                                            .primaryColor
-                                                            .withOpacity(0.1),
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal: 20,
-                                                                vertical: 5)),
-                                              ],
-                                            ),
-                                        ],
-                                      ),
-                                      children: [
-                                        const Gap(10),
-                                        const ProfilePage().profileInfoTile(
-                                            context,
-                                            "TRN:",
-                                            state.receiptDetailsModel
-                                                ?.association?.trnNumber),
-                                        const Gap(10),
-                                        const ProfilePage().profileInfoTile(
-                                            context,
-                                            "Unit:",
-                                            state.receiptDetailsModel
-                                                ?.unitwise?[0].name),
-                                        const Gap(10),
-                                        const ProfilePage().profileInfoTile(
-                                            context,
-                                            "Receipt No:",
-                                            state.receiptDetailsModel
-                                                ?.reference),
-                                        const Gap(10),
-                                        const ProfilePage().profileInfoTile(
-                                            context,
-                                            "Payment Method:",
-                                            state.receiptDetailsModel
-                                                ?.paymentMethod),
-                                        const Gap(10),
-                                        const ProfilePage().profileInfoTile(
-                                            context,
-                                            "Payment Date:",
-                                            const OccupantPage()
-                                                .dateTimeFormatter(state
-                                                    .receiptDetailsModel
-                                                    ?.paymentDate)),
-                                        const Gap(10),
-                                        const ProfilePage().profileInfoTile(
-                                            context,
-                                            "Receipt Date:",
-                                            const OccupantPage()
-                                                .dateTimeFormatter(state
-                                                    .receiptDetailsModel
-                                                    ?.datetime)),
-                                        const Gap(10),
-                                        const ProfilePage().profileInfoTile(
-                                            context,
-                                            "Paid by:",
-                                            state.receiptDetailsModel
-                                                ?.unitwise?[0].owner?.mobile),
-                                        const Gap(10),
-                                        const ProfilePage().profileInfoTile(
-                                            context,
-                                            "Phone:",
-                                            state.receiptDetailsModel
-                                                ?.unitwise?[0].owner?.mobile),
-                                        const Gap(10),
-                                        const ProfilePage().profileInfoTile(
-                                            context,
-                                            "Email:",
-                                            state.receiptDetailsModel
-                                                ?.unitwise?[0].owner?.email),
-                                        const Gap(10),
-                                        const ProfilePage().profileInfoTile(
-                                            context,
-                                            "Bank account:",
-                                            state.receiptDetailsModel?.account
-                                                ?.type),
-                                        const Gap(10),
+                                                            .primaryColor,
+                                                        fontSize: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.035,
+                                                      ),
+                                                      color: context
+                                                          .read<AppThemeCubit>()
+                                                          .state
+                                                          .primaryColor
+                                                          .withOpacity(0.1),
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 20,
+                                                          vertical: 5)),
+                                            ],
+                                          ),
                                       ],
                                     ),
+                                    children: [
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "TRN:",
+                                          state.receiptDetailsModel?.association
+                                              ?.trnNumber),
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "Unit:",
+                                          state.receiptDetailsModel
+                                              ?.unitwise?[0].name),
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "Receipt No:",
+                                          state.receiptDetailsModel?.reference),
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "Payment Method:",
+                                          state.receiptDetailsModel
+                                              ?.paymentMethod),
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "Payment Date:",
+                                          const OccupantPage()
+                                              .dateTimeFormatter(state
+                                                  .receiptDetailsModel
+                                                  ?.paymentDate)),
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "Receipt Date:",
+                                          const OccupantPage()
+                                              .dateTimeFormatter(state
+                                                  .receiptDetailsModel
+                                                  ?.datetime)),
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "Paid by:",
+                                          state.receiptDetailsModel
+                                              ?.unitwise?[0].owner?.mobile),
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "Phone:",
+                                          state.receiptDetailsModel
+                                              ?.unitwise?[0].owner?.mobile),
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "Email:",
+                                          state.receiptDetailsModel
+                                              ?.unitwise?[0].owner?.email),
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "Bank account:",
+                                          state.receiptDetailsModel?.account
+                                              ?.type),
+                                      const Gap(10),
+                                    ],
                                   ),
-                                )
-                                // Column(
-                                //   children: [
-                                //     Row(
-                                //       mainAxisAlignment:
-                                //           MainAxisAlignment.spaceBetween,
-                                //       children: [
-                                //         Expanded(
-                                //           child: CustomText(
-                                //             text: state
-                                //                     .receiptDetailsModel?.title ??
-                                //                 "",
-                                //             fontWeight: FontWeight.bold,
-                                //             fontSize: 18,
-                                //           ),
-                                //         ),
-                                //         const Gap(10),
-                                //         CustomText(
-                                //           text: state.receiptDetailsModel
-                                //                   ?.association?.name ??
-                                //               "",
-                                //           fontSize: 12,
-                                //           color: kGrey,
-                                //         ),
-                                //       ],
-                                //     ),
-                                //     const Divider(),
-
-                                //   ],
-                                // ),
                                 ),
+                              ),
+                            ),
                             const Gap(10),
                             CustomText(
                               text: "Transactions",
@@ -350,40 +316,61 @@ class ReceiptDetailsPage extends StatelessWidget {
                                                     child: CustomText(
                                                       text: e.account?.title ??
                                                           "",
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 18,
+                                                      fontSize:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.045,
                                                     ),
                                                   ),
                                                   const Gap(10),
                                                   Container(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 10,
-                                                          vertical: 5),
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                          color: context
-                                                              .read<
-                                                                  AppThemeCubit>()
-                                                              .state
-                                                              .primaryColor
-                                                              .withOpacity(
-                                                                  0.2)),
-                                                      child: CustomText(
-                                                          text: e.type
-                                                                  ?.capitalize() ??
-                                                              "")),
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 2),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: (e.type?.toLowerCase() ==
+                                                                  "credit"
+                                                              ? const Color(
+                                                                  0xff65D024)
+                                                              : const Color(
+                                                                  0xffFB5454))
+                                                          .withOpacity(0.1),
+                                                    ),
+                                                    child: CustomText(
+                                                      text: e.type
+                                                              ?.capitalize() ??
+                                                          "",
+                                                      fontSize:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.035,
+                                                      color:
+                                                          e.type?.toLowerCase() ==
+                                                                  "credit"
+                                                              ? const Color(
+                                                                  0xff65D024)
+                                                              : const Color(
+                                                                  0xffFB5454),
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                               CustomText(
-                                                  text: e.description == "" ||
-                                                          e.description == " "
-                                                      ? " -- "
-                                                      : e.description ??
-                                                          " -- "),
+                                                text: e.description == "" ||
+                                                        e.description == " "
+                                                    ? " -- "
+                                                    : e.description ?? " -- ",
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.04,
+                                              ),
                                               RowText(
                                                 text: "Amount",
                                                 text2: formatCurrency(

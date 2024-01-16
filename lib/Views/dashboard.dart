@@ -4,7 +4,6 @@ import 'package:iskaanowner/Views/side_drawer.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
-import '../Widgets/communities_list_page.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -151,9 +150,6 @@ class DashboardPage extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: color,
-          boxShadow: [
-            BoxShadow(spreadRadius: 2, blurRadius: 2, color: kGrey.shade200)
-          ],
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(

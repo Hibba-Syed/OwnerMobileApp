@@ -101,7 +101,7 @@ class LedgerCubit extends Cubit<LedgerState> {
       }
       value as Failure;
       Fluttertoast.showToast(
-          msg: value.errorResponse as String? ?? "Unable to get Legder");
+          msg: value.errorResponse as String? ?? "Unable to get Ledger");
       emit(state.copyWith(loadMoreLedgerByStatementState: LoadingState.error));
     });
   }
@@ -158,7 +158,7 @@ class LedgerCubit extends Cubit<LedgerState> {
       }
       value as Failure;
       Fluttertoast.showToast(
-          msg: value.errorResponse as String? ?? "Unable to get Legder");
+          msg: value.errorResponse as String? ?? "Unable to get Ledger");
       emit(state.copyWith(loadMoreLedgerByDateState: LoadingState.error));
     });
   }
@@ -216,7 +216,7 @@ class LedgerCubit extends Cubit<LedgerState> {
       }
       value as Failure;
       Fluttertoast.showToast(
-          msg: value.errorResponse as String? ?? "Unable to get Legder");
+          msg: value.errorResponse as String? ?? "Unable to get Ledger");
       emit(state.copyWith(loadMoreLedgerByAccountState: LoadingState.error));
     });
   }

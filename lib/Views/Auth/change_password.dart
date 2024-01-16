@@ -2,11 +2,10 @@ import '../../Blocs/App Theme/app_theme_cubit.dart';
 import '../../Utils/utils.dart';
 
 class ChangePasswordPage extends StatelessWidget {
-  const ChangePasswordPage({super.key});
-
+   ChangePasswordPage({super.key});
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> formKey = GlobalKey();
     return Scaffold(
       backgroundColor: kBackgroundColor,
       body: SafeArea(
@@ -16,14 +15,14 @@ class ChangePasswordPage extends StatelessWidget {
             children: [
               const DashboardPage().appBar(
                 context,
-                  text: "Change Password",
-             
+                text: "Change Password",
               ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Form(
-                    key: formKey,
-                    child: BlocBuilder<ChangePasswordCubit, ChangePasswordState>(
+                    key: _formKey,
+                    child:
+                        BlocBuilder<ChangePasswordCubit, ChangePasswordState>(
                       builder: (context, state) {
                         return Container(
                           padding: const EdgeInsets.all(10),
@@ -33,7 +32,7 @@ class ChangePasswordPage extends StatelessWidget {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const LoginPage().textFieldWithText(
+                               LoginPage().textFieldWithText(
                                   context, "Current Password",
                                   hintText: "Enter Current Password",
                                   onChanged: (value) => context
@@ -50,7 +49,8 @@ class ChangePasswordPage extends StatelessWidget {
                                     onPressed: () {
                                       context
                                           .read<ChangePasswordCubit>()
-                                          .onChangeOldObscure(!state.oldObscure);
+                                          .onChangeOldObscure(
+                                              !state.oldObscure);
                                     },
                                     icon: Icon(
                                       state.oldObscure
@@ -63,7 +63,7 @@ class ChangePasswordPage extends StatelessWidget {
                                           .withOpacity(0.8),
                                     ),
                                   )),
-                              const LoginPage().textFieldWithText(
+                               LoginPage().textFieldWithText(
                                   context, "New Password",
                                   obscure: state.newObscure,
                                   hintText: "Enter New Password",
@@ -83,7 +83,8 @@ class ChangePasswordPage extends StatelessWidget {
                                     onPressed: () {
                                       context
                                           .read<ChangePasswordCubit>()
-                                          .onChangeNewObscure(!state.newObscure);
+                                          .onChangeNewObscure(
+                                              !state.newObscure);
                                     },
                                     icon: Icon(
                                       state.newObscure
@@ -96,7 +97,7 @@ class ChangePasswordPage extends StatelessWidget {
                                           .withOpacity(0.8),
                                     ),
                                   )),
-                              const LoginPage().textFieldWithText(
+                               LoginPage().textFieldWithText(
                                   context, "Confirm New Password",
                                   obscure: state.confirmObscure,
                                   hintText: "Confirm New Password",
@@ -131,7 +132,8 @@ class ChangePasswordPage extends StatelessWidget {
                                 height: 20,
                               ),
                               Builder(builder: (context) {
-                                if (state.loadingState == LoadingState.loading) {
+                                if (state.loadingState ==
+                                    LoadingState.loading) {
                                   return const SizedBox(
                                     height: 50,
                                     child: Center(
@@ -147,7 +149,7 @@ class ChangePasswordPage extends StatelessWidget {
                                         .primaryColor
                                         .withOpacity(0.8),
                                     function: () {
-                                      if (formKey.currentState?.validate() ??
+                                      if (_formKey.currentState?.validate() ??
                                           false) {
                                         context
                                             .read<ChangePasswordCubit>()

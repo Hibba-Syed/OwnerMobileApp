@@ -6,11 +6,11 @@ import '../../Models/companies.dart';
 import '../../Utils/utils.dart';
 
 class ResetPasswordPage extends StatelessWidget {
-  const ResetPasswordPage({super.key});
-
+   ResetPasswordPage({super.key});
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> formKey = GlobalKey();
+
     String? email = ModalRoute.of(context)?.settings.arguments as String?;
     return Scaffold(
       body: SafeArea(
@@ -35,7 +35,7 @@ class ResetPasswordPage extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.all(10),
                     child: Form(
-                      key: formKey,
+                      key: _formKey,
                       child:
                           BlocBuilder<ResetPasswordCubit, ResetPasswordState>(
                         builder: (context, state) {
@@ -80,7 +80,7 @@ class ResetPasswordPage extends StatelessWidget {
                                       [],
                                 ),
                                 const Gap(10),
-                                const LoginPage().textFieldWithText(
+                                 LoginPage().textFieldWithText(
                                     context, "New Password",
                                     prefix: Icon(
                                       Icons.lock_outline,
@@ -120,7 +120,7 @@ class ResetPasswordPage extends StatelessWidget {
                                             .primaryColor,
                                       ),
                                     )),
-                                const LoginPage().textFieldWithText(
+                                 LoginPage().textFieldWithText(
                                     context, "Confirm New Password",
                                     prefix: Icon(
                                       Icons.lock_outline,
@@ -173,7 +173,7 @@ class ResetPasswordPage extends StatelessWidget {
                                   return CustomButton(
                                       text: "Reset Password",
                                       function: () {
-                                        if (formKey.currentState?.validate() ??
+                                        if (_formKey.currentState?.validate() ??
                                             false) {
                                           context
                                               .read<ResetPasswordCubit>()

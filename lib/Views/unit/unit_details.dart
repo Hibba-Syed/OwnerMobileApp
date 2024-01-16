@@ -53,9 +53,7 @@ class UnitDetailsPage extends StatelessWidget {
                   children: [
                     const DashboardPage().appBar(
                       context,
-
-                        text: "Unit ${unitNo ?? ""}",
-
+                      text: "Unit ${unitNo ?? ""}",
                     ),
                     const Gap(10),
                     CustomText(
@@ -264,7 +262,7 @@ class UnitDetailsPage extends StatelessWidget {
             },
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10.0),
             child: CustomButton(
                 text: "Shared Documents",
                 icon: Image.asset(
@@ -407,7 +405,7 @@ class UnitDetailsPage extends StatelessWidget {
           ),
           const Gap(10),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10.0),
             child: CustomButton(
                 text: "Shared Documents",
                 icon: Image.asset(

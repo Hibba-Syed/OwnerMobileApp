@@ -6,11 +6,11 @@ import '../../Blocs/Send OTP/send_otp_cubit.dart';
 import '../../Utils/utils.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
-  const ForgotPasswordPage({super.key});
-
+   ForgotPasswordPage({super.key});
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    GlobalKey<FormState> key = GlobalKey();
+
     return Scaffold(
       body: Center(
         child: SafeArea(
@@ -35,7 +35,7 @@ class ForgotPasswordPage extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(10),
                           child: Form(
-                            key: key,
+                            key: _formKey,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -91,7 +91,7 @@ class ForgotPasswordPage extends StatelessWidget {
                                     return CustomButton(
                                         text: "Send",
                                         function: () {
-                                          if (key.currentState?.validate() ??
+                                          if (_formKey.currentState?.validate() ??
                                               false) {
                                             context
                                                 .read<SendOtpCubit>()

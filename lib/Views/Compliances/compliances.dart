@@ -1,5 +1,4 @@
 import '../../Utils/utils.dart';
-import '../../Widgets/compliances_list_page.dart';
 
 class CompliancesPage extends StatelessWidget {
   const CompliancesPage({super.key});

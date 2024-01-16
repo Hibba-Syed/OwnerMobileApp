@@ -87,10 +87,12 @@ class InvoiceDetailsPage extends StatelessWidget {
                                                 ?.name ??
                                             "",
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 18,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.045,
                                         textAlign: TextAlign.left,
                                       ),
-                                      const Gap(10),
+                                      const Gap(2),
                                       CustomText(
                                         text: context
                                                 .read<ProfileCubit>()
@@ -101,7 +103,9 @@ class InvoiceDetailsPage extends StatelessWidget {
                                                 ?.address1 ??
                                             "",
                                         textAlign: TextAlign.left,
-                                        fontSize: 12,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.03,
                                         color: kGrey,
                                       ),
                                     ],
@@ -151,14 +155,10 @@ class InvoiceDetailsPage extends StatelessWidget {
                                             text: state.invoiceDetailsModel
                                                     ?.title ??
                                                 " -- ",
-                                            color: context
-                                                .read<AppThemeCubit>()
-                                                .state
-                                                .primaryColor,
                                             fontSize: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.05,
+                                                0.045,
                                             textAlign: TextAlign.left,
                                           ),
                                         ),
@@ -333,9 +333,11 @@ class InvoiceDetailsPage extends StatelessWidget {
                                                     child: CustomText(
                                                       text: e.account?.title ??
                                                           "",
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 18,
+                                                      fontSize:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.045,
                                                     ),
                                                   ),
                                                   const Gap(10),
@@ -343,30 +345,48 @@ class InvoiceDetailsPage extends StatelessWidget {
                                                     padding: const EdgeInsets
                                                         .symmetric(
                                                         horizontal: 10,
-                                                        vertical: 5),
+                                                        vertical: 2),
                                                     decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: context
-                                                          .read<AppThemeCubit>()
-                                                          .state
-                                                          .primaryColor
-                                                          .withOpacity(0.2),
-                                                    ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color: (e.type?.toLowerCase() ==
+                                                                    "credit"
+                                                                ? const Color(
+                                                                    0xff65D024)
+                                                                : const Color(
+                                                                    0xffFB5454))
+                                                            .withOpacity(0.1)),
                                                     child: CustomText(
-                                                        text: e.type
-                                                                ?.capitalize() ??
-                                                            ""),
+                                                      text: e.type
+                                                              ?.capitalize() ??
+                                                          "",
+                                                      fontSize:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.035,
+                                                      color:
+                                                          e.type?.toLowerCase() ==
+                                                                  "credit"
+                                                              ? const Color(
+                                                                  0xff65D024)
+                                                              : const Color(
+                                                                  0xffFB5454),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
                                               CustomText(
-                                                  text: e.description == "" ||
-                                                          e.description == " "
-                                                      ? " -- "
-                                                      : e.description ??
-                                                          " -- "),
+                                                text: e.description == "" ||
+                                                        e.description == " "
+                                                    ? " -- "
+                                                    : e.description ?? " -- ",
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.04,
+                                              ),
                                               RowText(
                                                 text: "Vat",
                                                 text2:

@@ -86,14 +86,24 @@ class ProfilePage extends StatelessWidget {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
+                              const Gap(20),
+                              Icon(
+                                Icons.person_outline,
+                                size: MediaQuery.of(context).size.width * 0.1,
+                                color: context
+                                    .read<AppThemeCubit>()
+                                    .state
+                                    .primaryColor,
+                              ),
                               const SizedBox(
-                                height: 20,
+                                height: 10,
                               ),
                               CustomText(
                                 text:
                                     "${state.profileModel?.record?.firstName ?? ""} ${state.profileModel?.record?.lastName ?? ""}",
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.05,
                               ),
                               CustomText(
                                 text:
@@ -102,7 +112,8 @@ class ProfilePage extends StatelessWidget {
                                     .read<AppThemeCubit>()
                                     .state
                                     .primaryColor,
-                                fontSize: 15,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.035,
                               ),
                               Divider(
                                 color: context

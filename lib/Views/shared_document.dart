@@ -1,5 +1,3 @@
-import 'package:iskaanowner/Widgets/shared_document_list_page.dart';
-
 import '../Utils/utils.dart';
 
 class SharedDocumentPage extends StatelessWidget {

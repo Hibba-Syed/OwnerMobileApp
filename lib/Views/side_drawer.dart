@@ -1,6 +1,5 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:iskaanowner/Blocs/Logout/logout_cubit.dart';
-import 'package:iskaanowner/Widgets/image_builder.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Models/profile.dart';
@@ -29,7 +28,7 @@ class SideDrawerPage extends StatelessWidget {
                   ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 400),
                     child: Container(
-                      padding: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(10),
                       width: MediaQuery.of(context).size.width * 0.3,
                       height: MediaQuery.of(context).size.width * 0.3,
                       decoration: const BoxDecoration(
@@ -186,8 +185,8 @@ class SideDrawerPage extends StatelessWidget {
     );
   }
 
-  Widget addNewAccount(
-      BuildContext context, GlobalKey<FormState> key, LoginCubit loginCubit) {
+  Widget addNewAccount(BuildContext context, GlobalKey<FormState> formKey,
+      LoginCubit loginCubit) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -200,7 +199,7 @@ class SideDrawerPage extends StatelessWidget {
                   Expanded(
                     child: SingleChildScrollView(
                       child: Form(
-                        key: key,
+                        key: formKey,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -216,7 +215,7 @@ class SideDrawerPage extends StatelessWidget {
                               fontSize: 20,
                             ),
                             const Gap(10),
-                            const LoginPage().textFieldWithText(
+                            LoginPage().textFieldWithText(
                               context,
                               "Email",
                               hintText: "Enter the email",
@@ -240,7 +239,7 @@ class SideDrawerPage extends StatelessWidget {
                               onChanged: (email) =>
                                   loginCubit.onChangeEmail(email),
                             ),
-                            const LoginPage().textFieldWithText(
+                            LoginPage().textFieldWithText(
                               context,
                               "Password",
                               hintText: "Enter password",
@@ -299,7 +298,7 @@ class SideDrawerPage extends StatelessWidget {
                                 return CustomButton(
                                     text: "Login",
                                     function: () {
-                                      if (key.currentState?.validate() ??
+                                      if (formKey.currentState?.validate() ??
                                           false) {
                                         loginCubit.loginUser(context,
                                             newUser: true);
@@ -580,7 +579,7 @@ class SideDrawerPage extends StatelessWidget {
         Global.storageService.getAuthenticationModelString();
     if (jsonAuthModel != null) {
       context.read<LoginCubit>().onChangeLoginModel(users[index]);
-      const LoginPage().initialCalls(context);
+      LoginPage().initialCalls(context);
       await context.read<ProfileCubit>().getProfile(context).then((value) {
         context
             .read<AuthenticationCubit>()

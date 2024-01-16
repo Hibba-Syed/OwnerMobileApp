@@ -94,7 +94,7 @@ class LedgerPage extends StatelessWidget {
                             "$baseUrl/mobile/owner/property/accounting/ledgers/units-ledger-export?ledgerIds[]=${context.read<LedgerCubit>().state.ledgerType?.id}&unit_id[]=$unitId&type=${context.read<LedgerCubit>().state.ledgerName}");
                       },
                       height: MediaQuery.of(context).size.width * 0.12,
-                      fontSize: MediaQuery.of(context).size.width * 0.02,
+                      fontSize: MediaQuery.of(context).size.width * 0.03,
                       buttonColor: context
                           .read<AppThemeCubit>()
                           .state
@@ -163,7 +163,7 @@ class LedgerPage extends StatelessWidget {
                 // ),
                 StatefulBuilder(builder: (context, changeState) {
                   return Container(
-                    height: MediaQuery.of(context).size.height* 0.07,
+                    height: MediaQuery.of(context).size.height * 0.07,
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10), color: kWhite),

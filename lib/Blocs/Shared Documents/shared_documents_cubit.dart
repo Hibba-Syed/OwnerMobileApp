@@ -2,7 +2,7 @@ import 'package:iskaanowner/Models/shared_document.dart';
 
 import '../../Utils/utils.dart';
 
-part 'shared_documnets_state.dart';
+part 'shared_documents_state.dart';
 
 class SharedDocumentsCubit extends Cubit<SharedDocumentsState> {
   SharedDocumentsCubit() : super(const SharedDocumentsState());
@@ -21,7 +21,7 @@ class SharedDocumentsCubit extends Cubit<SharedDocumentsState> {
       value as Failure;
       Fluttertoast.showToast(
           msg: value.errorResponse as String? ??
-              "Unable to get shared documnets");
+              "Unable to get shared documents");
       emit(state.copyWith(loadingState: LoadingState.error));
     });
   }

@@ -455,21 +455,30 @@ class OccupantPage extends StatelessWidget {
                   }
                 },
               ]
-                  .map((e) => Container(
-                        margin: const EdgeInsets.only(left: 10),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: context
-                                .read<AppThemeCubit>()
-                                .state
-                                .primaryColor
-                                .withOpacity(0.1)),
-                        padding: const EdgeInsets.all(5),
-                        child: Image.asset(
-                          e["icon"] as String,
-                          color:
-                              context.read<AppThemeCubit>().state.primaryColor,
-                          width: MediaQuery.of(context).size.width * 0.06,
+                  .map((e) => InkWell(
+                        onTap: e["onTap"] as Function()?,
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: (phoneNumber == null
+                                      ? kGrey
+                                      : context
+                                          .read<AppThemeCubit>()
+                                          .state
+                                          .primaryColor)
+                                  .withOpacity(0.1)),
+                          padding: const EdgeInsets.all(5),
+                          child: Image.asset(
+                            e["icon"] as String,
+                            color: phoneNumber == null
+                                ? kGrey
+                                : context
+                                    .read<AppThemeCubit>()
+                                    .state
+                                    .primaryColor,
+                            width: MediaQuery.of(context).size.width * 0.06,
+                          ),
                         ),
                       ))
                   .toList(),

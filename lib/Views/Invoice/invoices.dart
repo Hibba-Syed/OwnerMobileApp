@@ -1,5 +1,3 @@
-import 'package:iskaanowner/Widgets/invoices_list_page.dart';
-
 import '../../Utils/utils.dart';
 
 class InvoicesPage extends StatelessWidget {
@@ -19,9 +17,7 @@ class InvoicesPage extends StatelessWidget {
             children: [
               const DashboardPage().appBar(
                 context,
-              
-                  text: "Unit $unitNumber - Invoices",
-              
+                text: "Unit $unitNumber - Invoices",
                 trailingIcon: IconButton(
                   onPressed: () => const LedgerPage().showFilter(context,
                       child: filterView(context), resetFunction: () {

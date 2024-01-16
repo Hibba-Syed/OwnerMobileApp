@@ -1,7 +1,6 @@
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
 import 'package:iskaanowner/Utils/constants.dart';
 import 'package:iskaanowner/Utils/utils.dart';
-import 'package:iskaanowner/Widgets/image_builder.dart';
 
 class CompanySelectionWidget extends StatelessWidget {
   final bool isSelected;
@@ -9,7 +8,6 @@ class CompanySelectionWidget extends StatelessWidget {
   final String? description;
   final String? profilePictureUrl;
   final VoidCallback? onTap;
-  final void Function(bool?)? onChanged;
   const CompanySelectionWidget({
     super.key,
     this.isSelected = false,
@@ -17,7 +15,6 @@ class CompanySelectionWidget extends StatelessWidget {
     this.description,
     this.profilePictureUrl,
     this.onTap,
-    this.onChanged,
   });
 
   @override
@@ -35,6 +32,8 @@ class CompanySelectionWidget extends StatelessWidget {
             children: [
               Container(
                 padding: const EdgeInsets.all(5),
+                height: MediaQuery.of(context).size.width * 0.25,
+                width: MediaQuery.of(context).size.width * 0.25,
                 decoration: BoxDecoration(
                   color: const Color(0xffF2F2F2),
                   borderRadius: BorderRadius.circular(10),
@@ -102,7 +101,7 @@ class CompanySelectionWidget extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4),
                       side: BorderSide.none),
-                  onChanged: onChanged,
+                  onChanged: (value) {},
                 ),
               )
             ],

@@ -129,6 +129,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                                     .sendOTP(context, pushPage: false)
                                     .then((value) {
                                   if (value == true) {
+                                    resetTimer();
                                     startTimer();
                                   }
                                 });

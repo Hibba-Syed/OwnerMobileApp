@@ -56,7 +56,7 @@ class AppPages {
       ),
       PageEntity(
         route: AppRoutes.login,
-        page: const LoginPage(),
+        page:  LoginPage(),
         bloc: BlocProvider(
           create: (context) => LoginCubit(),
         ),
@@ -70,7 +70,7 @@ class AppPages {
       ),
       PageEntity(
         route: AppRoutes.resetPassword,
-        page: const ResetPasswordPage(),
+        page:  ResetPasswordPage(),
         bloc: BlocProvider(
           create: (context) => ResetPasswordCubit(),
         ),
@@ -206,7 +206,7 @@ class AppPages {
       ),
       PageEntity(
           route: AppRoutes.happinessCenter,
-          page: const HappinessCenterPage(),
+          page:  HappinessCenterPage(),
           bloc: MultiBlocProvider(
             providers: [
               BlocProvider(
@@ -222,15 +222,15 @@ class AppPages {
                 create: (context) => HappinessCenterCubit(),
               ),
             ],
-            child: const HappinessCenterPage(),
+            child:  HappinessCenterPage(),
           )),
       PageEntity(
         route: AppRoutes.forgotPassword,
-        page: const ForgotPasswordPage(),
+        page:  ForgotPasswordPage(),
       ),
       PageEntity(
           route: AppRoutes.changePassword,
-          page: const ChangePasswordPage(),
+          page: ChangePasswordPage(),
           bloc: BlocProvider(
             create: (context) => ChangePasswordCubit(),
           )),

@@ -1,6 +1,6 @@
 import '../../Utils/utils.dart';
 
-part 'comunities_state.dart';
+part 'communities_state.dart';
 
 class CommunitiesCubit extends Cubit<CommunitiesState> {
   CommunitiesCubit() : super(const CommunitiesState());

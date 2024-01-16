@@ -1,4 +1,3 @@
-import 'package:iskaanowner/Widgets/credit_notes_list_page.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../Utils/utils.dart';
@@ -21,9 +20,7 @@ class CreditNotesPage extends StatelessWidget {
             children: [
               const DashboardPage().appBar(
                 context,
-                  text: "Unit $unitNumber - Credit Notes",
-                
-                
+                text: "Unit $unitNumber - Credit Notes",
                 trailingIcon: IconButton(
                   onPressed: () => const LedgerPage().showFilter(context,
                       child: filterView(context), resetFunction: () {

@@ -1,5 +1,4 @@
 import '../../Utils/utils.dart';
-import '../../Widgets/receipts_list_page.dart';
 
 class ReceiptsPage extends StatelessWidget {
   const ReceiptsPage({super.key});
@@ -18,9 +17,7 @@ class ReceiptsPage extends StatelessWidget {
             children: [
               const DashboardPage().appBar(
                 context,
-              
-                  text: "Unit $unitNumber - Receipts",
-             
+                text: "Unit $unitNumber - Receipts",
                 trailingIcon: IconButton(
                   onPressed: () => const LedgerPage().showFilter(context,
                       child: filterView(context), resetFunction: () {

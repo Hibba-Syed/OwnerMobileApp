@@ -16,7 +16,7 @@ class RowText extends StatelessWidget {
         CustomText(
           text: text,
           fontWeight: FontWeight.bold,
-          fontSize: 14,
+          fontSize: MediaQuery.of(context).size.width * 0.035,
           textAlign: TextAlign.left,
         ),
         const Gap(20),
@@ -27,6 +27,7 @@ class RowText extends StatelessWidget {
               text: text2 ?? "See all",
               color: context.read<AppThemeCubit>().state.primaryColor,
               textAlign: TextAlign.right,
+              fontSize: MediaQuery.of(context).size.width * 0.04,
             ),
           ),
         ),

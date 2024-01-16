@@ -7,12 +7,12 @@ import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class HappinessCenterPage extends StatelessWidget {
-  const HappinessCenterPage({super.key});
+   HappinessCenterPage({super.key});
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     List<String> unitList = ["Select"];
     List<String> commonAreaList = ["Select"];
-    final GlobalKey<FormState> formKey = GlobalKey();
     return Scaffold(
       backgroundColor: kBackgroundColor,
       bottomNavigationBar: Padding(
@@ -45,7 +45,7 @@ class HappinessCenterPage extends StatelessWidget {
                     Fluttertoast.showToast(msg: "Select a unit");
                     return;
                   }
-                  if (!(formKey.currentState?.validate() ?? false)) {
+                  if (!(_formKey.currentState?.validate() ?? false)) {
                     return;
                   }
                   context.read<HappinessCenterCubit>().submitQuery(context);
@@ -71,7 +71,7 @@ class HappinessCenterPage extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 child: Form(
-                  key: formKey,
+                  key: _formKey,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Column(
@@ -465,9 +465,7 @@ class HappinessCenterPage extends StatelessWidget {
                                                   .width /
                                               2,
                                           height: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              9,
+                                                  .size.width/9,
                                           text: "Upload",
                                           function: () async {
                                             await FilePicker.platform.pickFiles(
@@ -622,9 +620,8 @@ class HappinessCenterPage extends StatelessWidget {
           expandedInsets: const EdgeInsets.all(0),
           onSelected: onSelected,
           enabled: loadingState == LoadingState.loading ? false : enabled,
-          inputDecorationTheme: const InputDecorationTheme(
-            border: UnderlineInputBorder(),
-          ),
+          inputDecorationTheme:
+              const InputDecorationTheme(border: UnderlineInputBorder()),
           trailingIcon: Builder(builder: (context) {
             if (loadingState == LoadingState.loading) {
               return const SizedBox(
@@ -639,10 +636,7 @@ class HappinessCenterPage extends StatelessWidget {
           }),
           dropdownMenuEntries:
               list.map<DropdownMenuEntry<String>>((String value) {
-            return DropdownMenuEntry<String>(
-              value: value,
-              label: value,
-            );
+            return DropdownMenuEntry<String>(value: value, label: value);
           }).toList(),
         ),
       ],
