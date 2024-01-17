@@ -87,10 +87,11 @@ class CsDetailsPage extends StatelessWidget {
                             ],
                           ),
                           const AdDetailsPage().applicationDetails(
-                              context,
-                              state.csDetailsModel?.record?.clientName,
-                              state.csDetailsModel?.record?.clientPhone,
-                              state.csDetailsModel?.record?.clientEmail),
+                            context,
+                            state.csDetailsModel?.record?.clientName,
+                            state.csDetailsModel?.record?.clientPhone,
+                           
+                          ),
                           const AdDetailsPage().supportingDocuments(context, [
                             {
                               "name": "Title Deed",

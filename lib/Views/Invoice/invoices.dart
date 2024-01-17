@@ -9,47 +9,56 @@ class InvoicesPage extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     String? unitNumber = arguments['unit_no'];
     int? unitId = arguments['unit_id'];
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              const DashboardPage().appBar(
-                context,
-                text: "Unit $unitNumber - Invoices",
-                trailingIcon: IconButton(
-                  onPressed: () => const LedgerPage().showFilter(context,
-                      child: filterView(context), resetFunction: () {
-                    context.read<InvoicesCubit>().reset();
-                    context.read<InvoicesCubit>().getInvoices(context, unitId);
-                    Navigator.pop(context);
-                  }, applyFunction: () {
-                    context.read<InvoicesCubit>().getInvoices(context, unitId);
-                    Navigator.pop(context);
-                  }),
-                  icon: Image.asset(
-                    "assets/filter.png",
-                    scale: 4,
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                const DashboardPage().appBar(
+                  context,
+                  text: "Unit $unitNumber - Invoices",
+                  trailingIcon: IconButton(
+                    onPressed: () => const LedgerPage().showFilter(context,
+                        child: filterView(context), resetFunction: () {
+                      context.read<InvoicesCubit>().reset();
+                      context
+                          .read<InvoicesCubit>()
+                          .getInvoices(context, unitId);
+                      Navigator.pop(context);
+                    }, applyFunction: () {
+                      context
+                          .read<InvoicesCubit>()
+                          .getInvoices(context, unitId);
+                      Navigator.pop(context);
+                    }),
+                    icon: Image.asset(
+                      "assets/filter.png",
+                      scale: 4,
+                    ),
                   ),
                 ),
-              ),
-              CustomSearch(
-                initialValue: context.read<InvoicesCubit>().state.keyword,
-                onSubmitted: (value) {
-                  context.read<InvoicesCubit>().onChangeKeyword(value);
-                  context.read<InvoicesCubit>().getInvoices(context, unitId);
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Expanded(
-                child: InvoicesListPage(
-                  unitId: unitId,
+                CustomSearch(
+                  initialValue: context.read<InvoicesCubit>().state.keyword,
+                  onSubmitted: (value) {
+                    context.read<InvoicesCubit>().onChangeKeyword(value);
+                    context.read<InvoicesCubit>().getInvoices(context, unitId);
+                  },
                 ),
-              ),
-            ],
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: InvoicesListPage(
+                    unitId: unitId,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

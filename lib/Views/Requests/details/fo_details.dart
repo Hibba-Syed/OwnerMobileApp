@@ -187,8 +187,7 @@ class FoDetailsPage extends StatelessWidget {
                           const AdDetailsPage().applicationDetails(
                               context,
                               state.foDetailsModel?.record?.clientName,
-                              state.foDetailsModel?.record?.clientPhone,
-                              state.foDetailsModel?.record?.clientEmail),
+                              state.foDetailsModel?.record?.clientPhone,),
                           const AdDetailsPage().supportingDocuments(context, [
                             {
                               "name": "Title Deed",

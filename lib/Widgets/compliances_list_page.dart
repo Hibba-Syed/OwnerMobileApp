@@ -101,7 +101,7 @@ class _ReceiptListPageState extends State<CompliancesListPage> {
                                   },
                                 );
                               },
-                              backgroudColor: Colors.transparent,
+                              backgroundColor: Colors.transparent,
                             ),
                           ],
                           child: InkWell(

@@ -83,8 +83,7 @@ class DpDetailsPage extends StatelessWidget {
                           const AdDetailsPage().applicationDetails(
                               context,
                               state.dpDetailsModel?.record?.clientName,
-                              state.dpDetailsModel?.record?.clientPhone,
-                              state.dpDetailsModel?.record?.clientEmail),
+                              state.dpDetailsModel?.record?.clientPhone,),
                           const AdDetailsPage().supportingDocuments(context, [
                             {
                               "name": "Title Deed",

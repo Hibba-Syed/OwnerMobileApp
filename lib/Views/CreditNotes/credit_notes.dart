@@ -11,55 +11,60 @@ class CreditNotesPage extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     String? unitNumber = arguments['unit_no'];
     int? unitId = arguments['unit_id'];
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              const DashboardPage().appBar(
-                context,
-                text: "Unit $unitNumber - Credit Notes",
-                trailingIcon: IconButton(
-                  onPressed: () => const LedgerPage().showFilter(context,
-                      child: filterView(context), resetFunction: () {
-                    context.read<CreditNotesCubit>().reset();
-                    context
-                        .read<CreditNotesCubit>()
-                        .getCreditNotes(context, unitId);
-                    Navigator.pop(context);
-                  }, applyFunction: () {
-                    context
-                        .read<CreditNotesCubit>()
-                        .getCreditNotes(context, unitId);
-                    Navigator.pop(context);
-                  }),
-                  icon: Image.asset(
-                    "assets/filter.png",
-                    scale: 4,
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: kBackgroundColor,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                const DashboardPage().appBar(
+                  context,
+                  text: "Unit $unitNumber - Credit Notes",
+                  trailingIcon: IconButton(
+                    onPressed: () => const LedgerPage().showFilter(context,
+                        child: filterView(context), resetFunction: () {
+                      context.read<CreditNotesCubit>().reset();
+                      context
+                          .read<CreditNotesCubit>()
+                          .getCreditNotes(context, unitId);
+                      Navigator.pop(context);
+                    }, applyFunction: () {
+                      context
+                          .read<CreditNotesCubit>()
+                          .getCreditNotes(context, unitId);
+                      Navigator.pop(context);
+                    }),
+                    icon: Image.asset(
+                      "assets/filter.png",
+                      scale: 4,
+                    ),
                   ),
                 ),
-              ),
-              CustomSearch(
-                initialValue: context.read<CreditNotesCubit>().state.keyword,
-                fillColor: kWhite,
-                onSubmitted: (value) {
-                  context.read<CreditNotesCubit>().onChangeKeyword(value);
-                  context
-                      .read<CreditNotesCubit>()
-                      .getCreditNotes(context, unitId);
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Expanded(
-                child: CreditNotesListPage(
-                  unitId: unitId,
+                CustomSearch(
+                  initialValue: context.read<CreditNotesCubit>().state.keyword,
+                  fillColor: kWhite,
+                  onSubmitted: (value) {
+                    context.read<CreditNotesCubit>().onChangeKeyword(value);
+                    context
+                        .read<CreditNotesCubit>()
+                        .getCreditNotes(context, unitId);
+                  },
                 ),
-              ),
-            ],
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: CreditNotesListPage(
+                    unitId: unitId,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

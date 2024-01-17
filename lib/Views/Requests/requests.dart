@@ -11,49 +11,58 @@ class RequestsPage extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     String? unitNumber = arguments['unit_no'];
     int? unitId = arguments['unit_id'];
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              const DashboardPage().appBar(
-                context,
-                text: "Unit $unitNumber - Requests",
-                trailingIcon: IconButton(
-                  onPressed: () => const LedgerPage().showFilter(context,
-                      child: filterView(), resetFunction: () {
-                    context.read<RequestsCubit>().resetFilters();
-                    context.read<RequestsCubit>().getRequests(context, unitId);
-                    Navigator.pop(context);
-                  }, applyFunction: () {
-                    context.read<RequestsCubit>().getRequests(context, unitId);
-                    Navigator.pop(context);
-                  }),
-                  icon: Image.asset(
-                    "assets/filter.png",
-                    scale: 4,
+    return InkWell(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: kBackgroundColor,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                const DashboardPage().appBar(
+                  context,
+                  text: "Unit $unitNumber - Requests",
+                  trailingIcon: IconButton(
+                    onPressed: () => const LedgerPage().showFilter(context,
+                        child: filterView(), resetFunction: () {
+                      context.read<RequestsCubit>().resetFilters();
+                      context
+                          .read<RequestsCubit>()
+                          .getRequests(context, unitId);
+                      Navigator.pop(context);
+                    }, applyFunction: () {
+                      context
+                          .read<RequestsCubit>()
+                          .getRequests(context, unitId);
+                      Navigator.pop(context);
+                    }),
+                    icon: Image.asset(
+                      "assets/filter.png",
+                      scale: 4,
+                    ),
                   ),
                 ),
-              ),
-              CustomSearch(
-                initialValue: context.read<RequestsCubit>().state.keyword,
-                fillColor: kWhite,
-                onSubmitted: (value) {
-                  context.read<RequestsCubit>().onChangeKeyword(value);
-                  context.read<RequestsCubit>().getRequests(context, unitId);
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Expanded(
-                child: RequestListPage(
-                  unitId: unitId,
+                CustomSearch(
+                  initialValue: context.read<RequestsCubit>().state.keyword,
+                  fillColor: kWhite,
+                  onSubmitted: (value) {
+                    context.read<RequestsCubit>().onChangeKeyword(value);
+                    context.read<RequestsCubit>().getRequests(context, unitId);
+                  },
                 ),
-              ),
-            ],
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: RequestListPage(
+                    unitId: unitId,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

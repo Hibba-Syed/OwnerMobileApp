@@ -59,7 +59,7 @@ class EditComplianceCubit extends Cubit<EditComplianceState> {
             loadingState: LoadingState.success,
           ),
         );
-        print('valueee: ${value.response}');
+     
         UpdateComplianceResponseModel responseModel =
             updateComplianceResponseModelFromJson(value.response as String);
         Fluttertoast.showToast(msg: "Updated successfully");

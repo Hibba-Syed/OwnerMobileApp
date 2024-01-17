@@ -31,7 +31,7 @@ class TpDetailsPage extends StatelessWidget {
                   if (state.loadingState == LoadingState.loading) {
                     return const CustomLoader();
                   }
-                  if (state.tpDetailsModel?.record != null) {
+                  if (state.tpDetailsModel?.record == null) {
                     return const CreditNotesPage().emptyList(ontap: () {
                       context
                           .read<RequestDetailsCubit>()
@@ -90,8 +90,7 @@ class TpDetailsPage extends StatelessWidget {
                           const AdDetailsPage().applicationDetails(
                               context,
                               state.tpDetailsModel?.record?.clientName,
-                              state.tpDetailsModel?.record?.clientPhone,
-                              state.tpDetailsModel?.record?.clientEmail),
+                              state.tpDetailsModel?.record?.clientPhone),
                           const AdDetailsPage().supportingDocuments(
                             context,
                             [

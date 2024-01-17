@@ -28,7 +28,7 @@ class WpDetailsPage extends StatelessWidget {
                   if (state.loadingState == LoadingState.loading) {
                     return const CustomLoader();
                   }
-                  if (state.wpDetailsModel?.record != null) {
+                  if (state.wpDetailsModel?.record == null) {
                     return const CreditNotesPage().emptyList(ontap: () {
                       context
                           .read<RequestDetailsCubit>()
@@ -128,10 +128,10 @@ class WpDetailsPage extends StatelessWidget {
                             ],
                           ),
                           const AdDetailsPage().applicationDetails(
-                              context,
-                              state.wpDetailsModel?.record?.clientName,
-                              state.wpDetailsModel?.record?.clientPhone,
-                              state.wpDetailsModel?.record?.clientEmail),
+                            context,
+                            state.wpDetailsModel?.record?.clientName,
+                            state.wpDetailsModel?.record?.clientPhone,
+                          ),
                           const AdDetailsPage().supportingDocuments(context, [
                             {
                               "name": "Title Deed",

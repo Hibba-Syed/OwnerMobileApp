@@ -48,273 +48,292 @@ class _EditCompliancePageState extends State<EditCompliancePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EditComplianceCubit, EditComplianceState>(
-      builder: (context, state) {
-        return Scaffold(
-          bottomNavigationBar: Padding(
-            padding: const EdgeInsets.all(10),
-            child: state.loadingState == LoadingState.loading
-                ? const SizedBox(
-                    height: 50.0,
-                    child: Center(child: CircularProgressIndicator()),
-                  )
-                : CustomButton(
-                    text: "Save",
-                    height: MediaQuery.of(context).size.width * 0.12,
-                    function: () {
-                      EditComplianceCubit editComplianceCubit =
-                          context.read<EditComplianceCubit>();
-                      if (editComplianceCubit.state.notApplicable == false) {
-                        if (_formKey.currentState!.validate()) {
-                          if (editComplianceCubit.state.customDateRange ==
-                              null) {
-                            Fluttertoast.showToast(
-                                msg: 'Please select date range to continue');
-                            return;
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: BlocBuilder<EditComplianceCubit, EditComplianceState>(
+        builder: (context, state) {
+          return Scaffold(
+            bottomNavigationBar: Padding(
+              padding: const EdgeInsets.all(10),
+              child: state.loadingState == LoadingState.loading
+                  ? const SizedBox(
+                      height: 50.0,
+                      child: Center(child: CircularProgressIndicator()),
+                    )
+                  : CustomButton(
+                      text: "Save",
+                      height: MediaQuery.of(context).size.width * 0.12,
+                      function: () {
+                        EditComplianceCubit editComplianceCubit =
+                            context.read<EditComplianceCubit>();
+                        if (editComplianceCubit.state.notApplicable == false) {
+                          if (_formKey.currentState!.validate()) {
+                            if (editComplianceCubit.state.customDateRange ==
+                                null) {
+                              Fluttertoast.showToast(
+                                  msg: 'Please select date range to continue');
+                              return;
+                            }
+                            if ((editComplianceCubit.state.file?.path.isEmpty ??
+                                    true) &&
+                                (editComplianceCubit
+                                        .state.certificateUrl?.isEmpty ??
+                                    true)) {
+                              Fluttertoast.showToast(
+                                  msg: 'Please select attachments to continue');
+                              return;
+                            }
+                            editComplianceCubit.updateCompliance(
+                              context,
+                              id: _compliance?.id ?? 0,
+                              complianceAbleId: unitId ?? 0,
+                            );
                           }
-                          if ((editComplianceCubit.state.file?.path.isEmpty ??
-                                  true) &&
-                              (editComplianceCubit
-                                      .state.certificateUrl?.isEmpty ??
-                                  true)) {
-                            Fluttertoast.showToast(
-                                msg: 'Please select attachments to continue');
-                            return;
-                          }
+                        } else {
                           editComplianceCubit.updateCompliance(
                             context,
                             id: _compliance?.id ?? 0,
                             complianceAbleId: unitId ?? 0,
                           );
                         }
-                      } else {
-                        editComplianceCubit.updateCompliance(
-                          context,
-                          id: _compliance?.id ?? 0,
-                          complianceAbleId: unitId ?? 0,
-                        );
-                      }
-                    },
-                    fontSize: MediaQuery.of(context).size.width * 0.035,
-                    buttonColor: context
-                        .read<AppThemeCubit>()
-                        .state
-                        .primaryColor
-                        .withOpacity(0.8),
-                  ),
-          ),
-          body: SafeArea(
-            child: BlocBuilder<EditComplianceCubit, EditComplianceState>(
-              builder: (context, state) {
-                return Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: const DashboardPage().appBar(
-                        context,
-                        text: "Edit Compliance",
-                      ),
+                      },
+                      fontSize: MediaQuery.of(context).size.width * 0.035,
+                      buttonColor: context
+                          .read<AppThemeCubit>()
+                          .state
+                          .primaryColor
+                          .withOpacity(0.8),
                     ),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: kWhite),
-                          child: Form(
-                            key: _formKey,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    CustomText(
-                                      text: "Not Applicable?*",
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xffB2B1B1),
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.032,
-                                    ),
-                                    const Gap(10),
-                                    Switch.adaptive(
-                                      value: state.notApplicable,
-                                      onChanged: (value) {
-                                        context
-                                            .read<EditComplianceCubit>()
-                                            .onChangeNotApplicable(value);
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                const Gap(10),
-                                CustomText(
-                                  text: "Name*",
-                                  fontWeight: FontWeight.bold,
-                                  color: const Color(0xffB2B1B1),
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.032,
-                                ),
-                                const Gap(10),
-                                CustomTextField(
-                                  readOnly: true,
-                                  hintText: state.name ??
-                                      "Enter your certificate name",
-                                  initialValue: state.name,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "Please enter a Name";
-                                    }
-                                    return null;
-                                  },
-                                  onChanged: (value) => context
-                                      .read<EditComplianceCubit>()
-                                      .onChangeName(value),
-                                ),
-                                const Gap(10),
-                                CustomText(
-                                  text: "Date and Expiry*",
-                                  fontWeight: FontWeight.bold,
-                                  color: const Color(0xffB2B1B1),
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.032,
-                                ),
-                                const Gap(10),
-                                CustomTextField(
-                                  hintText: state.customDateRange == null
-                                      ? "Select a validity date range"
-                                      : "${const OccupantPage().dateTimeFormatter(state.customDateRange?.start)} - ${const OccupantPage().dateTimeFormatter(state.customDateRange?.end)}",
-                                  readOnly: true,
-                                  onTap: state.notApplicable
-                                      ? null
-                                      : () => showDateRangePicker(
-                                            context: context,
-                                            firstDate: DateTime(1900, 01, 01),
-                                            lastDate: DateTime(
-                                                DateTime.now().year, 12, 31),
-                                            currentDate: DateTime.now(),
-                                          ).then(
-                                            (value) => context
-                                                .read<EditComplianceCubit>()
-                                                .onChangeCustomDateRange(value),
-                                          ),
-                                ),
-                                const Gap(10),
-                                CustomText(
-                                  text: "Description*",
-                                  fontWeight: FontWeight.bold,
-                                  color: const Color(0xffB2B1B1),
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.032,
-                                ),
-                                const Gap(10),
-                                CustomTextField(
-                                  readOnly: state.notApplicable,
-                                  hintText: state.description ??
-                                      "Enter your description here",
-                                  initialValue: state.description,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "Please enter your Description";
-                                    }
-                                    return null;
-                                  },
-                                  keyboardType: TextInputType.multiline,
-                                  maxLines: 5,
-                                  onChanged: (value) => context
-                                      .read<EditComplianceCubit>()
-                                      .onChangeDescription(value),
-                                ),
-                                const Gap(10),
-                                CustomText(
-                                  text: "Attachments*",
-                                  fontWeight: FontWeight.bold,
-                                  color: const Color(0xffB2B1B1),
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.032,
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                CustomButton(
-                                    width:
-                                        MediaQuery.of(context).size.width / 2,
-                                    text: "Upload",
-                                    function: state.notApplicable
-                                        ? null
-                                        : () async {
-                                            await FilePicker.platform
-                                                .pickFiles(allowedExtensions: [
-                                              ".png",
-                                              ".jpg",
-                                              "jpeg",
-                                              ".pdf",
-                                              ".gif"
-                                            ], type: FileType.custom).then(
-                                                    (value) {
-                                              if (value != null) {
-                                                context
-                                                    .read<EditComplianceCubit>()
-                                                    .onChangeFile(File(value
-                                                            .files.first.path ??
-                                                        ""));
-                                              }
-                                            });
-                                          },
-                                    textColor: context
-                                        .read<AppThemeCubit>()
-                                        .state
-                                        .primaryColor,
-                                    invert: true,
+            ),
+            body: SafeArea(
+              child: BlocBuilder<EditComplianceCubit, EditComplianceState>(
+                builder: (context, state) {
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: const DashboardPage().appBar(
+                          context,
+                          text: "Edit Compliance",
+                        ),
+                      ),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: kWhite),
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      CustomText(
+                                        text: "Not Applicable?*",
+                                        fontWeight: FontWeight.bold,
+                                        color: const Color(0xffB2B1B1),
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.032,
+                                      ),
+                                      const Gap(10),
+                                      Switch.adaptive(
+                                        value: state.notApplicable,
+                                        onChanged: (value) {
+                                          context
+                                              .read<EditComplianceCubit>()
+                                              .onChangeNotApplicable(value);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  const Gap(10),
+                                  CustomText(
+                                    text: "Name*",
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xffB2B1B1),
                                     fontSize:
                                         MediaQuery.of(context).size.width *
-                                            0.035,
-                                    icon: Image.asset(
-                                      "assets/upload.png",
-                                      width: MediaQuery.of(context).size.width *
-                                          0.05,
-                                      color: context
+                                            0.032,
+                                  ),
+                                  const Gap(10),
+                                  CustomTextField(
+                                    readOnly: true,
+                                    hintText: state.name ??
+                                        "Enter your certificate name",
+                                    initialValue: state.name,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Please enter a Name";
+                                      }
+                                      return null;
+                                    },
+                                    onChanged: (value) => context
+                                        .read<EditComplianceCubit>()
+                                        .onChangeName(value),
+                                  ),
+                                  const Gap(10),
+                                  CustomText(
+                                    text: "Date and Expiry*",
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xffB2B1B1),
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.032,
+                                  ),
+                                  const Gap(10),
+                                  CustomTextField(
+                                    hintText: state.customDateRange == null
+                                        ? "Select a validity date range"
+                                        : "${const OccupantPage().dateTimeFormatter(state.customDateRange?.start)} - ${const OccupantPage().dateTimeFormatter(state.customDateRange?.end)}",
+                                    readOnly: true,
+                                    onTap: state.notApplicable
+                                        ? null
+                                        : () => showDateRangePicker(
+                                              context: context,
+                                              firstDate: DateTime(1900, 01, 01),
+                                              lastDate: DateTime(
+                                                  DateTime.now().year, 12, 31),
+                                              currentDate: DateTime.now(),
+                                            ).then(
+                                              (value) => context
+                                                  .read<EditComplianceCubit>()
+                                                  .onChangeCustomDateRange(
+                                                      value),
+                                            ),
+                                  ),
+                                  const Gap(10),
+                                  CustomText(
+                                    text: "Description*",
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xffB2B1B1),
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.032,
+                                  ),
+                                  const Gap(10),
+                                  CustomTextField(
+                                    readOnly: state.notApplicable,
+                                    hintText: state.description ??
+                                        "Enter your description here",
+                                    initialValue: state.description,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Please enter your Description";
+                                      }
+                                      return null;
+                                    },
+                                    keyboardType: TextInputType.multiline,
+                                    maxLines: 5,
+                                    onChanged: (value) => context
+                                        .read<EditComplianceCubit>()
+                                        .onChangeDescription(value),
+                                  ),
+                                  const Gap(10),
+                                  CustomText(
+                                    text: "Attachments*",
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xffB2B1B1),
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.032,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  CustomButton(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2,
+                                      text: "Upload",
+                                      function: state.notApplicable
+                                          ? null
+                                          : () async {
+                                              await FilePicker.platform
+                                                  .pickFiles(
+                                                      allowedExtensions: [
+                                                    ".png",
+                                                    ".jpg",
+                                                    "jpeg",
+                                                    ".pdf",
+                                                    ".gif"
+                                                  ],
+                                                      type:
+                                                          FileType.custom).then(
+                                                      (value) {
+                                                if (value != null) {
+                                                  context
+                                                      .read<
+                                                          EditComplianceCubit>()
+                                                      .onChangeFile(File(value
+                                                              .files
+                                                              .first
+                                                              .path ??
+                                                          ""));
+                                                }
+                                              });
+                                            },
+                                      textColor: context
                                           .read<AppThemeCubit>()
                                           .state
                                           .primaryColor,
-                                    )),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                state.file != null
-                                    ? _fileWidget(
-                                        title: state.file!.path.split("/").last,
-                                        onClosePressed: state.notApplicable
-                                            ? null
-                                            : () {
-                                                context
-                                                    .read<EditComplianceCubit>()
-                                                    .removeFile();
-                                              },
-                                      )
-                                    : (state.certificateUrl?.isNotEmpty ??
-                                            false)
-                                        ? _fileWidget(
-                                            title: state.certificateUrl ?? '',
-                                            onClosePressed: null)
-                                        : const SizedBox.shrink()
-                              ],
+                                      invert: true,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.035,
+                                      icon: Image.asset(
+                                        "assets/upload.png",
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.05,
+                                        color: context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor,
+                                      )),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  state.file != null
+                                      ? _fileWidget(
+                                          title:
+                                              state.file!.path.split("/").last,
+                                          onClosePressed: state.notApplicable
+                                              ? null
+                                              : () {
+                                                  context
+                                                      .read<
+                                                          EditComplianceCubit>()
+                                                      .removeFile();
+                                                },
+                                        )
+                                      : (state.certificateUrl?.isNotEmpty ??
+                                              false)
+                                          ? _fileWidget(
+                                              title: state.certificateUrl ?? '',
+                                              onClosePressed: null)
+                                          : const SizedBox.shrink()
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                );
-              },
+                    ],
+                  );
+                },
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 

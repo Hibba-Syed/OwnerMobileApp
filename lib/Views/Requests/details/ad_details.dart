@@ -71,10 +71,10 @@ class AdDetailsPage extends StatelessWidget {
                                 },
                               ]),
                           applicationDetails(
-                              context,
-                              state.adDetailsModel?.record?.clientName,
-                              state.adDetailsModel?.record?.clientPhone,
-                              state.adDetailsModel?.record?.clientEmail),
+                            context,
+                            state.adDetailsModel?.record?.clientName,
+                            state.adDetailsModel?.record?.clientPhone,
+                          ),
                           customTableView(
                               context,
                               ["Device", "No of devices", "Cost"],
@@ -216,12 +216,11 @@ class AdDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget applicationDetails(
-      BuildContext context, String? name, String? phone, String? email,
-      {Widget? customWidget}) {
+  Widget applicationDetails(BuildContext context, String? name, String? phone,
+      {Widget? customWidget, enableHeader = true}) {
     return Column(
       children: [
-        headingText(context, "Application Details"),
+        if (enableHeader) headingText(context, "Application Details"),
         Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(

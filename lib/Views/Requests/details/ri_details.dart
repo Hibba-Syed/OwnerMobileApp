@@ -20,8 +20,7 @@ class RiDetailsPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10),
               child: const DashboardPage().appBar(context,
-                  text:
-                    const AdDetailsPage().getRequestName(type)),
+                  text: const AdDetailsPage().getRequestName(type)),
             ),
             Expanded(
               child: BlocBuilder<RequestDetailsCubit, RequestDetailsState>(
@@ -133,6 +132,10 @@ class RiDetailsPage extends StatelessWidget {
                               },
                             ],
                           ),
+                          const AdDetailsPage().headingText(
+                            context,
+                            "Emergency Contact Details",
+                          ),
                           const AdDetailsPage().customTableView(
                               context,
                               ["Vehicle Registration Number"],
@@ -143,28 +146,25 @@ class RiDetailsPage extends StatelessWidget {
                                       .toList() ??
                                   [],
                               title: "Vehicles"),
-                          const AdDetailsPage().customTableView(
+                          const AdDetailsPage().applicationDetails(
                               context,
-                              ["Person Name", "Phone No."],
-                              [
-                                [
-                                  state.riDetailsModel?.record?.application
-                                          ?.firstPersonName ??
-                                      " -- ",
-                                  state.riDetailsModel?.record?.application
-                                          ?.firstPersonNumber ??
-                                      " -- "
-                                ],
-                                [
-                                  state.riDetailsModel?.record?.application
-                                          ?.secondPersonName ??
-                                      " -- ",
-                                  state.riDetailsModel?.record?.application
-                                          ?.secondPersonNumber ??
-                                      " -- "
-                                ],
-                              ],
-                              title: "Emergency Contact Details"),
+                              state.riDetailsModel?.record?.application
+                                      ?.firstPersonName ??
+                                  " -- ",
+                              state.riDetailsModel?.record?.application
+                                      ?.firstPersonNumber ??
+                                  " -- ",
+                              enableHeader: false),
+                          const Gap(10),
+                          const AdDetailsPage().applicationDetails(
+                              context,
+                              state.riDetailsModel?.record?.application
+                                      ?.secondPersonName ??
+                                  " -- ",
+                              state.riDetailsModel?.record?.application
+                                      ?.secondPersonNumber ??
+                                  " -- ",
+                              enableHeader: false),
                           const AdDetailsPage().supportingDocuments(context, [
                             {
                               "name": "Tenancy Contract",

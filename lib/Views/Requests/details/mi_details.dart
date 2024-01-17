@@ -117,8 +117,7 @@ class MiDetailsPage extends StatelessWidget {
                           const AdDetailsPage().applicationDetails(
                               context,
                               state.miDetailsModel?.record?.clientName,
-                              state.miDetailsModel?.record?.clientPhone,
-                              state.miDetailsModel?.record?.clientEmail),
+                              state.miDetailsModel?.record?.clientPhone,),
                           const AdDetailsPage().supportingDocuments(context, [
                             {
                               "name": "Emirates ID Or Passport/Visa",

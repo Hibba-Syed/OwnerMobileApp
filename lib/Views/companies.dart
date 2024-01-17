@@ -175,8 +175,10 @@ class CompaniesPage extends StatelessWidget {
                                                                 "#751b50"));
                                             LoginPage().initialCalls(context);
                                             return Navigator
-                                                .pushReplacementNamed(context,
-                                                    AppRoutes.dashboard);
+                                                .pushNamedAndRemoveUntil(
+                                                    context,
+                                                    AppRoutes.dashboard,
+                                                    (route) => false);
                                           } else {
                                             Navigator.pop(context);
                                             Fluttertoast.showToast(

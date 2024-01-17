@@ -110,7 +110,6 @@ class SsDetailsPage extends StatelessWidget {
                             context,
                             state.ssDetailsModel?.record?.clientName,
                             state.ssDetailsModel?.record?.clientPhone,
-                            state.ssDetailsModel?.record?.clientEmail,
                             customWidget: Column(
                               children: [
                                 Divider(

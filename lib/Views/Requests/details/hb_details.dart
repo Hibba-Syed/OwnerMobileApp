@@ -120,8 +120,7 @@ class HbDetailsPage extends StatelessWidget {
                           const AdDetailsPage().applicationDetails(
                               context,
                               state.hbDetailsModel?.record?.clientName,
-                              state.hbDetailsModel?.record?.clientPhone,
-                              state.hbDetailsModel?.record?.clientEmail),
+                              state.hbDetailsModel?.record?.clientPhone,),
                           const AdDetailsPage().supportingDocuments(context, [
                             {
                               "name": "Title Deed",

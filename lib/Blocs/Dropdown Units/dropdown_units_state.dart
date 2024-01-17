@@ -1,7 +1,7 @@
 part of 'dropdown_units_cubit.dart';
 
 class DropdownUnitsState {
-    final DropdownUnitModel? unitsModel;
+  final DropdownUnitModel? unitsModel;
   final LoadingState loadingState;
   const DropdownUnitsState({
     this.unitsModel,
@@ -12,5 +12,12 @@ class DropdownUnitsState {
     return DropdownUnitsState(
         unitsModel: unitsModel ?? this.unitsModel,
         loadingState: loadingState ?? this.loadingState);
+  }
+
+  DropdownUnitsState reset({final LoadingState? loadingState}) {
+    return DropdownUnitsState(
+      unitsModel: null,
+      loadingState: loadingState ?? this.loadingState,
+    );
   }
 }

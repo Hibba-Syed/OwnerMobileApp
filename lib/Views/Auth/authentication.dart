@@ -4,8 +4,19 @@ import 'package:lottie/lottie.dart';
 
 import '../../Blocs/Logout/logout_cubit.dart';
 
-class AuthenticationPage extends StatelessWidget {
+class AuthenticationPage extends StatefulWidget {
   const AuthenticationPage({Key? key}) : super(key: key);
+
+  @override
+  State<AuthenticationPage> createState() => _AuthenticationPageState();
+}
+
+class _AuthenticationPageState extends State<AuthenticationPage> {
+  @override
+  void initState() {
+    context.read<AuthenticationCubit>().authenticate(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
