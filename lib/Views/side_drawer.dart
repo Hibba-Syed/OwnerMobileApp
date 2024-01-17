@@ -413,7 +413,7 @@ class SideDrawerPage extends StatelessWidget {
                                             index: index);
                                   });
                                 },
-                                backgroudColor: Colors.transparent,
+                                backgroundColor: Colors.transparent,
                               ),
                             ],
                       child: GestureDetector(

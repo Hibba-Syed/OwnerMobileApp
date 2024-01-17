@@ -125,7 +125,6 @@ class UnitsService {
             "Authorization":
                 "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
           }).then((value) {
-            print('ress: ${value.body}');
         if (value.statusCode == 200) {
           return Success(200, value.body);
         }

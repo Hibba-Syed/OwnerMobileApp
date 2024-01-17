@@ -7,7 +7,7 @@ import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
 class HappinessCenterPage extends StatelessWidget {
-   HappinessCenterPage({super.key});
+  HappinessCenterPage({super.key});
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -258,7 +258,7 @@ class HappinessCenterPage extends StatelessWidget {
                                                         .read<
                                                             HappinessCenterCubit>()
                                                         .onChangeRadioValue(
-                                                            "unit");
+                                                            "Unit");
                                                   },
                                                   child: AnimatedContainer(
                                                     duration: 400.ms,
@@ -305,7 +305,7 @@ class HappinessCenterPage extends StatelessWidget {
                                                         .read<
                                                             HappinessCenterCubit>()
                                                         .onChangeRadioValue(
-                                                            "common area");
+                                                            "Common Area");
                                                   },
                                                   child: AnimatedContainer(
                                                     duration: 400.ms,
@@ -465,7 +465,9 @@ class HappinessCenterPage extends StatelessWidget {
                                                   .width /
                                               2,
                                           height: MediaQuery.of(context)
-                                                  .size.width/9,
+                                                  .size
+                                                  .width /
+                                              9,
                                           text: "Upload",
                                           function: () async {
                                             await FilePicker.platform.pickFiles(

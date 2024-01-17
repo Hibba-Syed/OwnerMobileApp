@@ -184,25 +184,18 @@ class _RequestListPageState extends State<RequestListPage> {
                                                   borderRadius:
                                                       BorderRadius.circular(5),
                                                 ),
-                                                child: Row(
-                                                  children: [
-                                                    Flexible(
-                                                      child: CustomText(
-                                                        text:
-                                                            "● ${application?.status}",
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.03,
-                                                        color:
-                                                            const RequestsPage()
-                                                                .getStatusColor(
-                                                                    application
-                                                                        ?.status),
-                                                      ),
-                                                    )
-                                                  ],
+                                                child: CustomText(
+                                                  text:
+                                                      "● ${application?.status}",
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.03,
+                                                  textAlign: TextAlign.center,
+                                                  color: const RequestsPage()
+                                                      .getStatusColor(
+                                                          application?.status),
                                                 ),
                                               ),
                                             )
@@ -245,24 +238,20 @@ class _RequestListPageState extends State<RequestListPage> {
                                         const Gap(10),
                                         Row(
                                           children: [
-                                            const RequestsPage()
-                                                .iconAndText(
+                                            const RequestsPage().iconAndText(
                                               context,
                                               "assets/call.png",
                                               application?.clientPhone,
                                             ),
                                             const Gap(8),
-                                            const RequestsPage()
-                                                .iconAndText(
-                                                    context,
-                                                    "assets/calender.png",
-                                                    const OccupantPage()
-                                                        .dateTimeFormatter(
-                                                            application
-                                                                ?.createdAt),
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .end),
+                                            const RequestsPage().iconAndText(
+                                                context,
+                                                "assets/calender.png",
+                                                const OccupantPage()
+                                                    .dateTimeFormatter(
+                                                        application?.createdAt),
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end),
                                           ],
                                         ),
                                       ],

@@ -88,14 +88,14 @@ class _ReceiptListPageState extends State<CompliancesListPage> {
                                     'compliance': compliance,
                                   },
                                 ).then((value) {
-                                  if(value==true){
+                                  if (value == true) {
                                     context
                                         .read<CompliancesCubit>()
                                         .getCompliances(context, widget.unitId);
                                   }
                                 });
                               },
-                              backgroudColor: Colors.transparent,
+                              backgroundColor: Colors.transparent,
                             ),
                           ],
                           child: InkWell(
@@ -229,85 +229,72 @@ class _ReceiptListPageState extends State<CompliancesListPage> {
                                           ),
                                         ),
                                         const Gap(10),
-                                        (compliance?.certificate?.isEmpty ??
-                                                true)
-                                            ? CustomButton(
-                                                text: "Not Applicable",
-                                                padding: EdgeInsets.zero,
-                                                buttonColor:
-                                                    Colors.red.shade100,
-                                                textColor: Colors.red,
-                                                icon: Image.asset(
-                                                  "assets/certificate.png",
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.05,
-                                                  color: Colors.red,
-                                                ),
-                                                fontWeight: FontWeight.w500,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.08,
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.03,
-                                                function: () {
-                                                  if (compliance?.certificate !=
-                                                          null &&
-                                                      compliance?.certificate !=
-                                                          "") {
-                                                    launchUrl(Uri.parse(
-                                                        compliance
-                                                                ?.certificate ??
-                                                            ""));
-                                                    return;
-                                                  }
-                                                  Fluttertoast.showToast(
-                                                      msg:
-                                                          "No certificate found to download");
-                                                })
-                                            : CustomButton(
-                                                text: "Download Certificate",
-                                                padding: EdgeInsets.zero,
-                                                buttonColor:
-                                                    const Color(0xff73E12F)
+                                        CustomButton(
+                                            text: compliance?.notApplicable == 1
+                                                ? "Not Applicable"
+                                                : "Download Certificate",
+                                            padding: EdgeInsets.zero,
+                                            buttonColor: compliance
+                                                        ?.notApplicable ==
+                                                    1
+                                                ? const Color(0xffFB5454)
+                                                    .withOpacity(0.1)
+                                                : compliance?.certificate ==
+                                                        null
+                                                    ? kGrey.shade100
+                                                    : const Color(0xff73E12F)
                                                         .withOpacity(0.1),
-                                                textColor:
-                                                    const Color(0xff73E12F),
-                                                icon: Image.asset(
-                                                  "assets/certificate.png",
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.05,
-                                                ),
-                                                fontWeight: FontWeight.w500,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.08,
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.03,
-                                                function: () {
-                                                  if (compliance?.certificate !=
-                                                          null &&
-                                                      compliance?.certificate !=
-                                                          "") {
-                                                    launchUrl(Uri.parse(
-                                                        compliance
-                                                                ?.certificate ??
-                                                            ""));
-                                                    return;
-                                                  }
-                                                  Fluttertoast.showToast(
-                                                      msg:
-                                                          "No certificate found to download");
-                                                })
+                                            textColor: compliance
+                                                        ?.notApplicable ==
+                                                    1
+                                                ? const Color(0xffFB5454)
+                                                : compliance?.certificate ==
+                                                        null
+                                                    ? kGrey
+                                                    : const Color(0xff73E12F),
+                                            icon: Image.asset(
+                                              "assets/certificate.png",
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.05,
+                                              color: compliance
+                                                          ?.notApplicable ==
+                                                      1
+                                                  ? const Color(0xffFB5454)
+                                                  : compliance?.certificate ==
+                                                          null
+                                                      ? kGrey
+                                                      : const Color(0xff73E12F),
+                                            ),
+                                            fontWeight: FontWeight.w500,
+                                            height: MediaQuery
+                                                        .of(context)
+                                                    .size
+                                                    .width *
+                                                0.08,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.03,
+                                            function: () {
+                                              if (compliance?.notApplicable ==
+                                                  1) {
+                                                return;
+                                              }
+                                              if (compliance?.certificate !=
+                                                      null &&
+                                                  compliance?.certificate !=
+                                                      "") {
+                                                launchUrl(Uri.parse(
+                                                    compliance?.certificate ??
+                                                        ""));
+                                                return;
+                                              }
+                                              Fluttertoast.showToast(
+                                                  msg:
+                                                      "No certificate found to download");
+                                            })
                                       ],
                                     ),
                                   ),

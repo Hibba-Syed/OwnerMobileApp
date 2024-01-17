@@ -94,7 +94,7 @@ class LedgerPage extends StatelessWidget {
                             "$baseUrl/mobile/owner/property/accounting/ledgers/units-ledger-export?ledgerIds[]=${context.read<LedgerCubit>().state.ledgerType?.id}&unit_id[]=$unitId&type=${context.read<LedgerCubit>().state.ledgerName}");
                       },
                       height: MediaQuery.of(context).size.width * 0.12,
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
+                      fontSize: MediaQuery.of(context).size.width * 0.035,
                       buttonColor: context
                           .read<AppThemeCubit>()
                           .state
@@ -120,47 +120,6 @@ class LedgerPage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                // Container(
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(10),
-                //     color: kGrey.shade200,
-                //   ),
-                //   child: TabBar(
-                //     indicator: BoxDecoration(
-                //       borderRadius: BorderRadius.circular(10),
-                //       color: context.read<AppThemeCubit>().state.primaryColor,
-                //     ),
-                //     indicatorSize: TabBarIndicatorSize.tab,
-                //     labelColor: kWhite,
-                //     dividerColor: kTransparent,
-                //     onTap: (value) {
-                //       if (value == 0) {
-                //         return context
-                //             .read<LedgerCubit>()
-                //             .onChangeLedgerName("statement");
-                //       }
-                //       if (value == 1) {
-                //         return context
-                //             .read<LedgerCubit>()
-                //             .onChangeLedgerName("date");
-                //       }
-                //       return context
-                //           .read<LedgerCubit>()
-                //           .onChangeLedgerName("account");
-                //     },
-                //     tabs: const [
-                //       Tab(
-                //         text: "Statement",
-                //       ),
-                //       Tab(
-                //         text: "Date",
-                //       ),
-                //       Tab(
-                //         text: "Account",
-                //       ),
-                //     ],
-                //   ),
-                // ),
                 StatefulBuilder(builder: (context, changeState) {
                   return Container(
                     height: MediaQuery.of(context).size.height * 0.07,
@@ -178,7 +137,7 @@ class LedgerPage extends StatelessWidget {
                             },
                             child: AnimatedContainer(
                               duration: 400.ms,
-                              padding: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(5),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 color: context
@@ -203,6 +162,8 @@ class LedgerPage extends StatelessWidget {
                                             .state
                                             .primaryColor,
                                 maxLines: 1,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.04,
                               ),
                             ),
                           ),
@@ -217,7 +178,7 @@ class LedgerPage extends StatelessWidget {
                             },
                             child: AnimatedContainer(
                               duration: 400.ms,
-                              padding: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(5),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 color: context
@@ -242,6 +203,8 @@ class LedgerPage extends StatelessWidget {
                                             .state
                                             .primaryColor,
                                 maxLines: 1,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.04,
                               ),
                             ),
                           ),
@@ -256,7 +219,7 @@ class LedgerPage extends StatelessWidget {
                             },
                             child: AnimatedContainer(
                               duration: 400.ms,
-                              padding: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(5),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 color: context
@@ -281,6 +244,8 @@ class LedgerPage extends StatelessWidget {
                                             .state
                                             .primaryColor,
                                 maxLines: 1,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.04,
                               ),
                             ),
                           ),

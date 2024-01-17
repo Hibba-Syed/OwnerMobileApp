@@ -63,13 +63,13 @@ class HappinessCenterCubit extends Cubit<HappinessCenterState> {
     await HappinessCenterService.submitQuery(
       context,
       state.fileList ?? [],
-      state.complaintType ,
+      state.complaintType,
       state.communityId.toString(),
       state.radioValue,
       state.unitId.toString(),
       state.service == ""
-          ? state.complaintType 
-          : state.service ?? (state.complaintType ),
+          ? state.complaintType
+          : state.service ?? (state.complaintType),
       state.message ?? "",
     ).then((value) {
       if (value is Success) {

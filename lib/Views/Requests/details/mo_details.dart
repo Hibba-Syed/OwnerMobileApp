@@ -9,8 +9,8 @@ class MoDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     int? requestId =
         (ModalRoute.of(context)?.settings.arguments as List)[0] as int?;
-    String? reference =
-        (ModalRoute.of(context)?.settings.arguments as List)[1] as String?;
+    // String? reference =
+    //     (ModalRoute.of(context)?.settings.arguments as List)[1] as String?;
     String? type =
         (ModalRoute.of(context)?.settings.arguments as List)[2] as String?;
     return Scaffold(
@@ -20,8 +20,7 @@ class MoDetailsPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10),
               child: const DashboardPage().appBar(context,
-                  text:
-                      "${const AdDetailsPage().getRequestName(type)}\n${reference ?? ""}"),
+                  text: const AdDetailsPage().getRequestName(type)),
             ),
             Expanded(
               child: BlocBuilder<RequestDetailsCubit, RequestDetailsState>(

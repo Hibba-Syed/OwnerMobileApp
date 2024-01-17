@@ -223,7 +223,7 @@ class DashboardPage extends StatelessWidget {
               icon: Image.asset(
                 image,
                 color: enableLeading ? const Color(0xff575757) : kTransparent,
-                scale: 5,
+                scale: 4,
               ),
             ),
             if (text != null)

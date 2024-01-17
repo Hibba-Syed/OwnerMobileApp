@@ -25,14 +25,23 @@ class UserService {
 
   static Future<Object?> logout(BuildContext context) async {
     return await ExceptionService.applyTryCatch(() async {
-      return await http.get(
-          Uri.parse(
-            "$baseUrl/mobile/owner/auth/logout",
-          ),
-          headers: {
-            "Authorization":
-                "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
-          }).then((value) {
+      return await http
+          .post(
+        Uri.parse("$baseUrl/mobile/owner/auth/logout"),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization":
+              "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+        },
+        body: jsonEncode({
+          "token": loginModelFromJson(
+                  Global.storageService.getAuthenticationModelString() ?? "")
+              .map((e) => e.accessToken)
+              .toList()
+        }),
+      )
+          .then((value) {
         if (value.statusCode == 200) {
           return Success(200, value.body);
         }
