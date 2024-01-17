@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:iskaanowner/Models/compliance/update_compliance_response_model.dart';
+
 import '../../Utils/utils.dart';
 
 part 'edit_compliance_state.dart';
@@ -57,8 +59,17 @@ class EditComplianceCubit extends Cubit<EditComplianceState> {
             loadingState: LoadingState.success,
           ),
         );
+        print('valueee: ${value.response}');
+        UpdateComplianceResponseModel responseModel =
+            updateComplianceResponseModelFromJson(value.response as String);
         Fluttertoast.showToast(msg: "Updated successfully");
-        Navigator.pop(context, true);
+        Navigator.pop(
+          context,
+          {
+            'success': true,
+            'compliance': responseModel.compliance,
+          },
+        );
         return;
       }
       value as Failure;

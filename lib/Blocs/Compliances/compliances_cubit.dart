@@ -57,4 +57,13 @@ class CompliancesCubit extends Cubit<CompliancesState> {
       emit(state.copyWith(loadMoreState: LoadingState.error));
     });
   }
+
+  updateSpecificItemInCompliances({
+    required int index,
+    required Compliance compliance,
+  }) {
+    state.compliancesModel?.compliances?[index] = compliance;
+
+    emit(state.copyWith(compliancesModel: state.compliancesModel));
+  }
 }

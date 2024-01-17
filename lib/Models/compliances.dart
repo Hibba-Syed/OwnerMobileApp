@@ -68,13 +68,15 @@ class Compliance {
   });
 
   factory Compliance.fromJson(Map<String, dynamic> json) => Compliance(
-      id: json["id"],
-      name: json["name"],
-      duedate: json["duedate"] == null ? null : DateTime.parse(json["duedate"]),
-      expiry: json["expiry"] == null ? null : DateTime.parse(json["expiry"]),
-      certificate: json["certificate"],
-      notApplicable: json["not_applicable"],
-      description: json["description"]);
+        id: json["id"],
+        name: json["name"],
+        duedate:
+            json["duedate"] == null ? null : DateTime.parse(json["duedate"]),
+        expiry: json["expiry"] == null ? null : DateTime.parse(json["expiry"]),
+        certificate: json["certificate"],
+        notApplicable: json["not_applicable"],
+        description: json["description"],
+      );
 
   Map<String, dynamic> toJson() => {
         "id": id,

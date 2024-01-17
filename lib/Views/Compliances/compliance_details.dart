@@ -51,7 +51,8 @@ class ComplianceDetailsPage extends StatelessWidget {
                 ),
               },
             ).then((value) {
-              if (value == true) {
+              value as Map?;
+              if (value!=null && value['success']==true) {
                 context.read<ComplianceDetailsCubit>().getUnitComplianceDetails(
                       context,
                       id,

@@ -87,13 +87,19 @@ class _ReceiptListPageState extends State<CompliancesListPage> {
                                     'unit_id': widget.unitId,
                                     'compliance': compliance,
                                   },
-                                ).then((value) {
-                                  if (value == true) {
-                                    context
-                                        .read<CompliancesCubit>()
-                                        .getCompliances(context, widget.unitId);
-                                  }
-                                });
+                                ).then(
+                                  (value) {
+                                    value as Map?;
+                                    if (value != null &&
+                                        value['success'] == true) {
+                                      context
+                                          .read<CompliancesCubit>()
+                                          .updateSpecificItemInCompliances(
+                                              index: index,
+                                              compliance: value['compliance']);
+                                    }
+                                  },
+                                );
                               },
                               backgroudColor: Colors.transparent,
                             ),
