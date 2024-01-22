@@ -135,13 +135,6 @@ class AdDetailsPage extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: kWhite,
-            boxShadow: [
-              BoxShadow(
-                  offset: const Offset(1, 1),
-                  spreadRadius: 2,
-                  blurRadius: 2,
-                  color: kGrey.shade200),
-            ],
           ),
           child: Theme(
             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
@@ -220,19 +213,14 @@ class AdDetailsPage extends StatelessWidget {
       {Widget? customWidget, enableHeader = true}) {
     return Column(
       children: [
+        const Gap(5),
         if (enableHeader) headingText(context, "Application Details"),
+        const Gap(5),
         Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: kWhite,
-            boxShadow: [
-              BoxShadow(
-                  offset: const Offset(1, 1),
-                  spreadRadius: 2,
-                  blurRadius: 2,
-                  color: kGrey.shade200),
-            ],
           ),
           child: Column(
             children: [
@@ -249,26 +237,19 @@ class AdDetailsPage extends StatelessWidget {
   Widget supportingDocuments(BuildContext context, List<Map> data) {
     return Column(
       children: [
+        const Gap(5),
         headingText(context, "Supporting Documents"),
-        const SizedBox(
-          height: 10,
-        ),
+        const Gap(5),
         Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: kWhite,
-            boxShadow: [
-              BoxShadow(
-                  offset: const Offset(1, 1),
-                  spreadRadius: 2,
-                  blurRadius: 2,
-                  color: kGrey.shade200),
-            ],
           ),
           child: ListView.separated(
             itemCount: data.length,
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             separatorBuilder: (BuildContext context, int index) {
               return const Column(
                 children: [
@@ -298,72 +279,52 @@ class AdDetailsPage extends StatelessWidget {
     }
     return Column(
       children: [
+        const Gap(5),
         if (title != null) headingText(context, title),
-        if (title == null) const Gap(10),
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: kWhite,
-            boxShadow: [
-              BoxShadow(
-                  offset: const Offset(1, 1),
-                  spreadRadius: 2,
-                  blurRadius: 2,
-                  color: kGrey.shade200),
-            ],
-          ),
-          child: Column(
-            children: [
-              Row(
-                  children: columnName
-                      .map(
-                        (e) => Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: CustomText(
-                            text: e,
-                            fontWeight: FontWeight.bold,
-                            textAlign: TextAlign.left,
-                          ),
-                        )),
-                      )
-                      .toList()),
-              Divider(
-                color: context.read<AppThemeCubit>().state.primaryColor,
+        const Gap(5),
+        ListView.separated(
+          itemCount: data?.length ?? 0,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          separatorBuilder: (context, index) {
+            return const Divider(
+              thickness: 2,
+              endIndent: 100,
+              indent: 100,
+            );
+          },
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: kWhite,
               ),
-              ListView.separated(
-                itemCount: data?.length ?? 0,
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(
-                    height: 10,
-                  );
-                },
-                itemBuilder: (BuildContext context, int index) {
-                  List<String>? info = data?[index];
-                  return Row(
-                    children: info
-                            ?.map((e) => Expanded(
-                                    child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  child: CustomText(
-                                    text: e,
-                                    textAlign: TextAlign.left,
-                                  ),
-                                )))
-                            .toList() ??
-                        [],
-                  );
-                },
+              child: Column(
+                children: List.generate(
+                  columnName.length,
+                  (i) => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: CustomText(
+                          text: columnName[i],
+                          fontSize: 13,
+                        ),
+                      ),
+                      Flexible(
+                        child: CustomText(
+                          text: (data?[index][i] ?? " -- ").toString(),
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 10,
+            );
+          },
         ),
       ],
     );

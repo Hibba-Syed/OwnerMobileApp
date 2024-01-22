@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Repo/happiness_center_service.dart';
 
 import '../../Utils/utils.dart';
@@ -9,7 +10,10 @@ part 'happiness_center_state.dart';
 class HappinessCenterCubit extends Cubit<HappinessCenterState> {
   HappinessCenterCubit() : super(const HappinessCenterState(fileList: []));
   onChangeRadioValue(String? radioValue) {
-    emit(state.copyWith(radioValue: radioValue));
+    emit(state.copyWith(radioValue: ""));
+    Future.delayed(400.ms, () {
+      emit(state.copyWith(radioValue: radioValue));
+    });
   }
 
   onChangeEmail(String? email) {
@@ -17,7 +21,7 @@ class HappinessCenterCubit extends Cubit<HappinessCenterState> {
   }
 
   onChangeFiles(List<File>? fileList) {
-    if (state.fileList?.isEmpty ?? true) {
+    if (fileList?.isEmpty ?? true) {
       return emit(state.copyWith(fileList: fileList));
     }
     if (((state.fileList?.length ?? 0) + (fileList?.length ?? 0)) > 3) {

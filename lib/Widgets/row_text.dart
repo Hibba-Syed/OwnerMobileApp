@@ -4,9 +4,15 @@ import '../Utils/utils.dart';
 class RowText extends StatelessWidget {
   final String text;
   final String? text2;
+  final Color? color;
   final void Function()? onTap;
-  const RowText({Key? key, required this.text, this.onTap, this.text2})
-      : super(key: key);
+  const RowText({
+    Key? key,
+    required this.text,
+    this.onTap,
+    this.text2,
+    this.color,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +31,7 @@ class RowText extends StatelessWidget {
             onTap: onTap,
             child: CustomText(
               text: text2 ?? "See all",
-              color: context.read<AppThemeCubit>().state.primaryColor,
+              color: color ?? context.read<AppThemeCubit>().state.primaryColor,
               textAlign: TextAlign.right,
               fontSize: MediaQuery.of(context).size.width * 0.04,
             ),

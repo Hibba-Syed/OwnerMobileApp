@@ -39,6 +39,10 @@ class ChangePasswordPage extends StatelessWidget {
                                 LoginPage().textFieldWithText(
                                     context, "Current Password",
                                     hintText: "Enter Current Password",
+                                    readOnly: state.loadingState ==
+                                            LoadingState.loading
+                                        ? true
+                                        : false,
                                     onChanged: (value) => context
                                         .read<ChangePasswordCubit>()
                                         .onChangeOldPassword(value),
@@ -71,6 +75,10 @@ class ChangePasswordPage extends StatelessWidget {
                                     context, "New Password",
                                     obscure: state.newObscure,
                                     hintText: "Enter New Password",
+                                    readOnly: state.loadingState ==
+                                            LoadingState.loading
+                                        ? true
+                                        : false,
                                     onChanged: (value) => context
                                         .read<ChangePasswordCubit>()
                                         .onChangeNewPassword(value),
@@ -104,6 +112,10 @@ class ChangePasswordPage extends StatelessWidget {
                                 LoginPage().textFieldWithText(
                                     context, "Confirm New Password",
                                     obscure: state.confirmObscure,
+                                    readOnly: state.loadingState ==
+                                            LoadingState.loading
+                                        ? true
+                                        : false,
                                     hintText: "Confirm New Password",
                                     validator: (value) {
                                   if (value == null || value.isEmpty) {

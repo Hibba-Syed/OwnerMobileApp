@@ -21,9 +21,7 @@ class OwnersPage extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: const DashboardPage().appBar(
                 context,
-           
-                  text: "Unit $unitNumber - Owners",
-          
+                text: "Unit $unitNumber - Owners",
               ),
             ),
             Expanded(
@@ -80,7 +78,8 @@ class OwnersPage extends StatelessWidget {
                           {
                             "icon": Icons.calendar_month_outlined,
                             "key": "Passport Expiry",
-                            "value": owner?.detail?.passportExpiry,
+                            "value": const OccupantPage().dateTimeFormatter(
+                                owner?.detail?.passportExpiry),
                           },
                           {
                             "icon": Icons.numbers_outlined,
@@ -90,7 +89,8 @@ class OwnersPage extends StatelessWidget {
                           {
                             "icon": Icons.calendar_month_outlined,
                             "key": "Emirates ID Expiry",
-                            "value": owner?.detail?.emiratesIdExpiry,
+                            "value": const OccupantPage().dateTimeFormatter(
+                                owner?.detail?.emiratesIdExpiry),
                           },
                           {
                             "icon": Icons.numbers_outlined,
@@ -105,7 +105,8 @@ class OwnersPage extends StatelessWidget {
                           {
                             "icon": Icons.calendar_month_outlined,
                             "key": "Date of Birth",
-                            "value": owner?.detail?.dob,
+                            "value": const OccupantPage()
+                                .dateTimeFormatter(owner?.detail?.dob),
                           },
                           {
                             "icon": Icons.location_city_outlined,
@@ -133,13 +134,6 @@ class OwnersPage extends StatelessWidget {
                             margin: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                      offset: const Offset(1, 1),
-                                      spreadRadius: 2,
-                                      blurRadius: 2,
-                                      color: kGrey.shade200),
-                                ],
                                 color: kWhite),
                             child: Theme(
                               data: Theme.of(context)
@@ -166,7 +160,7 @@ class OwnersPage extends StatelessWidget {
                                           fontSize: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.05,
+                                              0.045,
                                           textAlign: TextAlign.left,
                                         ),
                                       ),
@@ -251,6 +245,8 @@ class OwnersPage extends StatelessWidget {
                                           return ListView.separated(
                                             itemCount: 3,
                                             shrinkWrap: true,
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
                                             separatorBuilder:
                                                 (BuildContext context,
                                                     int index) {
@@ -306,51 +302,52 @@ class OwnersPage extends StatelessWidget {
 
   Widget viewButton(BuildContext context, String? url) {
     return const UnitsPage().roundedContainer(
-        context,
-        InkWell(
-          onTap: () {
-            if (url != null && url != "$baseUrl/null" && url != "") {
-              launchUrl(Uri.parse(url));
-            }
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(
-                10,
+      context,
+      InkWell(
+        onTap: () {
+          if (url != null && url != "$baseUrl/null" && url != "") {
+            launchUrl(Uri.parse(url));
+          }
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(
+              10,
+            ),
+            color: (url == null || url == "$baseUrl/null" || url == "")
+                ? kGrey.withOpacity(0.1)
+                : context
+                    .read<AppThemeCubit>()
+                    .state
+                    .primaryColor
+                    .withOpacity(0.1),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                "assets/eye.png",
+                width: MediaQuery.of(context).size.width * 0.06,
+                color: (url == null || url == "$baseUrl/null" || url == "")
+                    ? kGrey
+                    : context.read<AppThemeCubit>().state.primaryColor,
               ),
-              color: (url == null || url == "$baseUrl/null" || url == "")
-                  ? kGrey.withOpacity(0.1)
-                  : context
-                      .read<AppThemeCubit>()
-                      .state
-                      .primaryColor
-                      .withOpacity(0.1),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset(
-                  "assets/eye.png",
-                  width: MediaQuery.of(context).size.width * 0.06,
-                  color: (url == null || url == "$baseUrl/null" || url == "")
-                      ? kGrey
-                      : context.read<AppThemeCubit>().state.primaryColor,
-                ),
-                CustomText(
-                  text: " View",
-                  fontSize: MediaQuery.of(context).size.width * 0.04,
-                  color: (url == null || url == "$baseUrl/null" || url == "")
-                      ? kGrey
-                      : context.read<AppThemeCubit>().state.primaryColor,
-                )
-              ],
-            ),
+              CustomText(
+                text: " View",
+                fontSize: MediaQuery.of(context).size.width * 0.04,
+                color: (url == null || url == "$baseUrl/null" || url == "")
+                    ? kGrey
+                    : context.read<AppThemeCubit>().state.primaryColor,
+              )
+            ],
           ),
         ),
-        invert:
-            (url == null || url == "$baseUrl/null" || url == "") ? false : true,
-        color: kWhite,
-        padding: const EdgeInsets.symmetric(horizontal: 10));
+      ),
+      invert:
+          (url == null || url == "$baseUrl/null" || url == "") ? false : true,
+      color: kWhite,
+      // padding: const EdgeInsets.symmetric(horizontal: 10),
+    );
   }
 }

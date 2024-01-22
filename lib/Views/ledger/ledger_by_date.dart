@@ -80,12 +80,6 @@ class _LedgerByDateState extends State<LedgerByDate> {
                       decoration: BoxDecoration(
                         color: kWhite,
                         borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                              color: kGrey.shade200,
-                              blurRadius: 2,
-                              spreadRadius: 2)
-                        ],
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,7 +123,7 @@ class _LedgerByDateState extends State<LedgerByDate> {
                                               0.03,
                                           color: Color(ledgerByDateDatum?.type
                                                       ?.toLowerCase() ==
-                                                  "payment"
+                                                  "charge"
                                               ? 0xffFB5454
                                               : 0xff65D024),
                                         )
@@ -217,14 +211,18 @@ class _LedgerByDateState extends State<LedgerByDate> {
                                           text: "Debit",
                                           fontSize: 13,
                                         ),
-                                        CustomText(
-                                          text: formatCurrency(
-                                              ledgerByDateDatum?.debit ?? 0),
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.032,
-                                          color: const Color(0xffB2B1B1),
+                                        const Gap(10),
+                                        Flexible(
+                                          child: CustomText(
+                                            text: formatCurrency(
+                                                ledgerByDateDatum?.debit ?? 0),
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.032,
+                                            color: const Color(0xffB2B1B1),
+                                            maxLines: 1,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -237,14 +235,18 @@ class _LedgerByDateState extends State<LedgerByDate> {
                                           text: "Credit",
                                           fontSize: 13,
                                         ),
-                                        CustomText(
-                                          text: formatCurrency(
-                                              ledgerByDateDatum?.credit ?? 0),
-                                          color: const Color(0xffB2B1B1),
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.032,
+                                        const Gap(10),
+                                        Flexible(
+                                          child: CustomText(
+                                            text: formatCurrency(
+                                                ledgerByDateDatum?.credit ?? 0),
+                                            color: const Color(0xffB2B1B1),
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.032,
+                                            maxLines: 1,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -264,14 +266,19 @@ class _LedgerByDateState extends State<LedgerByDate> {
                                                   .width *
                                               0.04,
                                         ),
-                                        CustomText(
-                                          text: formatCurrency(
-                                              ledgerByDateDatum?.balance ?? 0),
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.04,
-                                          fontWeight: FontWeight.bold,
+                                        const Gap(10),
+                                        Flexible(
+                                          child: CustomText(
+                                            text: formatCurrency(
+                                                ledgerByDateDatum?.balance ??
+                                                    0),
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.04,
+                                            fontWeight: FontWeight.bold,
+                                            maxLines: 1,
+                                          ),
                                         ),
                                       ],
                                     ),

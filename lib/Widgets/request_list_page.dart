@@ -92,16 +92,7 @@ class _RequestListPageState extends State<RequestListPage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: kWhite,
-                                boxShadow: [
-                                  BoxShadow(
-                                      offset: const Offset(
-                                        1,
-                                        1,
-                                      ),
-                                      spreadRadius: 2,
-                                      blurRadius: 2,
-                                      color: kGrey.shade200),
-                                ],
+                     
                               ),
                               child: Row(
                                 children: [
@@ -193,6 +184,7 @@ class _RequestListPageState extends State<RequestListPage> {
                                                               .width *
                                                           0.03,
                                                   textAlign: TextAlign.center,
+                                                  maxLines: 1,
                                                   color: const RequestsPage()
                                                       .getStatusColor(
                                                           application?.status),

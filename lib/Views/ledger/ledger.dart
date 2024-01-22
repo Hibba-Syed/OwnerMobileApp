@@ -443,6 +443,8 @@ class LedgerPage extends StatelessWidget {
                 context: context,
                 firstDate: DateTime(1900, 01, 01),
                 lastDate: DateTime(DateTime.now().year, 12, 31),
+                fieldStartHintText: "dd/mm/yyyy",
+                fieldEndHintText: "dd/mm/yyyy",
                 currentDate: DateTime.now(),
               ).then(
                 (value) =>
@@ -538,8 +540,12 @@ class LedgerPage extends StatelessWidget {
                   text: formatCurrency(
                     openingBalance ?? 0,
                   ),
-                  color: const Color(0xff65D024),
+                  color: ((openingBalance ?? 0) == 0)
+                      ? const Color(0xffB2B1B1)
+                      : const Color(0xff65D024),
                   fontWeight: FontWeight.bold,
+                  maxLines: 1,
+                  fontSize: MediaQuery.of(context).size.width * 0.04,
                 ),
               ],
             ),
@@ -564,8 +570,12 @@ class LedgerPage extends StatelessWidget {
                   text: formatCurrency(
                     closingBalance ?? 0,
                   ),
-                  color: const Color(0xffFB5454),
+                  color: ((closingBalance ?? 0) == 0)
+                      ? kBlack
+                      : const Color(0xffFB5454),
                   fontWeight: FontWeight.bold,
+                  maxLines: 1,
+                  fontSize: MediaQuery.of(context).size.width * 0.04,
                 ),
               ],
             ),

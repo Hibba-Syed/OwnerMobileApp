@@ -11,13 +11,13 @@ class RequestsPage extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     String? unitNumber = arguments['unit_no'];
     int? unitId = arguments['unit_id'];
-    return InkWell(
-      onTap: () {
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
-      child: Scaffold(
-        backgroundColor: kBackgroundColor,
-        body: SafeArea(
+    return Scaffold(
+      backgroundColor: kBackgroundColor,
+      body: GestureDetector(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
@@ -214,6 +214,7 @@ class RequestsPage extends StatelessWidget {
       {FontWeight? fontWeight,
       MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start}) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: mainAxisAlignment,
       children: [
         Image.asset(
@@ -221,7 +222,7 @@ class RequestsPage extends StatelessWidget {
           width: MediaQuery.of(context).size.width * 0.04,
           color: const Color(0xffB2B1B1),
         ),
-        const Gap(5),
+        const Gap(2),
         CustomText(
           text: text ?? "",
           fontWeight: fontWeight,

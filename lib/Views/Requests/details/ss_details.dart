@@ -1,6 +1,5 @@
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
 import 'package:iskaanowner/Views/Requests/details/ad_details.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../Utils/utils.dart';
 
@@ -22,8 +21,7 @@ class SsDetailsPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10),
               child: const DashboardPage().appBar(context,
-                  text:
-                      const AdDetailsPage().getRequestName(type)),
+                  text: const AdDetailsPage().getRequestName(type)),
             ),
             Expanded(
               child: BlocBuilder<RequestDetailsCubit, RequestDetailsState>(
@@ -118,148 +116,78 @@ class SsDetailsPage extends StatelessWidget {
                                       .state
                                       .primaryColor,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Column(
-                                    children: [
-                                      RowText(
-                                        text: "Tourism License",
-                                        text2: "View",
-                                        onTap: () {
-                                          if (state
-                                                  .ssDetailsModel
-                                                  ?.record
-                                                  ?.application
-                                                  ?.tourismLicense ==
-                                              null) {
-                                            Fluttertoast.showToast(
-                                                msg:
-                                                    "No licenses found to view");
-                                            return;
-                                          }
-                                          launchUrl(Uri.parse(
-                                              "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.tourismLicense}"));
-                                        },
-                                      ),
-                                      RowText(
-                                        text: "Tourism License Expiry",
-                                        text2: const OccupantPage()
-                                            .dateTimeFormatter(state
-                                                .ssDetailsModel
-                                                ?.record
-                                                ?.application
-                                                ?.tourismLicenseExpiry),
-                                      ),
-                                      const Gap(10),
-                                      RowText(
-                                        text: "Company All Risk Insurance",
-                                        text2: "View",
-                                        onTap: () {
-                                          if (state
-                                                  .ssDetailsModel
-                                                  ?.record
-                                                  ?.application
-                                                  ?.companyRiskInsurance ==
-                                              null) {
-                                            Fluttertoast.showToast(
-                                                msg:
-                                                    "No Company All Risk Insurance found to view");
-                                            return;
-                                          }
-                                          launchUrl(Uri.parse(
-                                              "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.companyRiskInsurance}"));
-                                        },
-                                      ),
-                                      RowText(
-                                        text:
-                                            "Company All Risk Insurance Expiry",
-                                        text2: const OccupantPage()
-                                            .dateTimeFormatter(state
-                                                .ssDetailsModel
-                                                ?.record
-                                                ?.application
-                                                ?.tourismLicenseExpiry),
-                                      ),
-                                      const Gap(10),
-                                      RowText(
-                                        text: "Visa Copy",
-                                        text2: "View",
-                                        onTap: () {
-                                          if (state.ssDetailsModel?.record
-                                                  ?.application?.visaCopy ==
-                                              null) {
-                                            Fluttertoast.showToast(
-                                                msg:
-                                                    "No Visa copy found to view");
-                                            return;
-                                          }
-                                          launchUrl(Uri.parse(
-                                              "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.visaCopy}"));
-                                        },
-                                      ),
-                                      RowText(
-                                        text: "Visa Copy Expiry",
-                                        text2: const OccupantPage()
-                                            .dateTimeFormatter(state
-                                                .ssDetailsModel
-                                                ?.record
-                                                ?.application
-                                                ?.visaCopyExpiry),
-                                      ),
-                                      const Gap(10),
-                                      RowText(
-                                        text: "Rera ID",
-                                        text2: "View",
-                                        onTap: () {
-                                          if (state.ssDetailsModel?.record
-                                                  ?.application?.reraId ==
-                                              null) {
-                                            Fluttertoast.showToast(
-                                                msg:
-                                                    "No Rera id found to view");
-                                            return;
-                                          }
-                                          launchUrl(Uri.parse(
-                                              "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.reraId}"));
-                                        },
-                                      ),
-                                      RowText(
-                                        text: "Rera ID Expiry",
-                                        text2: const OccupantPage()
-                                            .dateTimeFormatter(state
-                                                .ssDetailsModel
-                                                ?.record
-                                                ?.application
-                                                ?.reraIdExpiry),
-                                      ),
-                                      const Gap(10),
-                                      RowText(
-                                        text: "DTCM Permit",
-                                        text2: "View",
-                                        onTap: () {
-                                          if (state.ssDetailsModel?.record
-                                                  ?.application?.dtcmPermit ==
-                                              null) {
-                                            Fluttertoast.showToast(
-                                                msg:
-                                                    "No DTCM Permit found to view");
-                                            return;
-                                          }
-                                          launchUrl(Uri.parse(
-                                              "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.dtcmPermit}"));
-                                        },
-                                      ),
-                                      RowText(
-                                        text: "DTCM Permit Expiry",
-                                        text2: const OccupantPage()
-                                            .dateTimeFormatter(state
-                                                .ssDetailsModel
-                                                ?.record
-                                                ?.application
-                                                ?.visaCopyExpiry),
-                                      ),
-                                    ],
-                                  ),
+                                Column(
+                                  children: [
+                                    const OwnersPage().documentInfo(
+                                        context, "Company All Risk Insurance",
+                                        url:
+                                            "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.tourismLicense}"),
+                                    RowText(
+                                      text: "Tourism License Expiry",
+                                      text2: const OccupantPage()
+                                          .dateTimeFormatter(state
+                                              .ssDetailsModel
+                                              ?.record
+                                              ?.application
+                                              ?.tourismLicenseExpiry),
+                                    ),
+                                    const Gap(10),
+                                    const OwnersPage().documentInfo(
+                                        context, "Company All Risk Insurance",
+                                        url:
+                                            "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.companyRiskInsurance}"),
+                                    RowText(
+                                      text: "Company All Risk Insurance Expiry",
+                                      text2: const OccupantPage()
+                                          .dateTimeFormatter(state
+                                              .ssDetailsModel
+                                              ?.record
+                                              ?.application
+                                              ?.tourismLicenseExpiry),
+                                    ),
+                                    const Gap(10),
+                                    const OwnersPage().documentInfo(
+                                        context, "Rera ID",
+                                        url:
+                                            "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.visaCopy}"),
+                                    RowText(
+                                      text: "Visa Copy Expiry",
+                                      text2: const OccupantPage()
+                                          .dateTimeFormatter(state
+                                              .ssDetailsModel
+                                              ?.record
+                                              ?.application
+                                              ?.visaCopyExpiry),
+                                    ),
+                                    const Gap(10),
+                                    const OwnersPage().documentInfo(
+                                        context, "Rera ID",
+                                        url:
+                                            "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.reraId}"),
+                                    RowText(
+                                      text: "Rera ID Expiry",
+                                      text2: const OccupantPage()
+                                          .dateTimeFormatter(state
+                                              .ssDetailsModel
+                                              ?.record
+                                              ?.application
+                                              ?.reraIdExpiry),
+                                    ),
+                                    const Gap(10),
+                                    const OwnersPage().documentInfo(
+                                        context, "Rera ID",
+                                        url:
+                                            "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.dtcmPermit}"),
+                                    RowText(
+                                      text: "DTCM Permit Expiry",
+                                      text2: const OccupantPage()
+                                          .dateTimeFormatter(state
+                                              .ssDetailsModel
+                                              ?.record
+                                              ?.application
+                                              ?.visaCopyExpiry),
+                                    ),
+                                  ],
                                 ),
                                 const Gap(10),
                               ],

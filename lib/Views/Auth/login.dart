@@ -1,8 +1,8 @@
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
-import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
-import 'package:iskaanowner/Blocs/Unit%20Financials/unit_financials_cubit.dart';
 import 'package:iskaanowner/Utils/constants.dart';
 
+import '../../Blocs/Notifications/notifications_cubit.dart';
+import '../../Blocs/Unit Financials/unit_financials_cubit.dart';
 import '../../Notification/firebase_service.dart';
 import '../../Notification/local_notification_service.dart';
 import '../../Utils/utils.dart';
@@ -61,7 +61,7 @@ class LoginPage extends StatelessWidget {
                       ),
                       const Gap(20),
                       CustomText(
-                        text: "Owner's Login",
+                        text: "Owner Login",
                         color: context.read<AppThemeCubit>().state.primaryColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -70,7 +70,10 @@ class LoginPage extends StatelessWidget {
                       textFieldWithText(
                         context,
                         "Email",
-                        hintText: "Enter the email",
+                        hintText: "Enter your email",
+                        readOnly: state.loadingState == LoadingState.loading
+                            ? true
+                            : false,
                         prefix: Icon(
                           Icons.email_outlined,
                           color:
@@ -97,8 +100,14 @@ class LoginPage extends StatelessWidget {
                           color:
                               context.read<AppThemeCubit>().state.primaryColor,
                         ),
+                        readOnly: state.loadingState == LoadingState.loading
+                            ? true
+                            : false,
                         suffix: IconButton(
                           onPressed: () {
+                            if (state.loadingState == LoadingState.loading) {
+                              return;
+                            }
                             loginCubit.onChangeObscure(!state.obscure);
                           },
                           icon: Icon(
@@ -201,8 +210,13 @@ class LoginPage extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerRight,
                         child: InkWell(
-                          onTap: () => Navigator.pushNamed(
-                              context, AppRoutes.forgotPassword),
+                          onTap: () {
+                            if (state.loadingState == LoadingState.loading) {
+                              return;
+                            }
+                            Navigator.pushNamed(
+                                context, AppRoutes.forgotPassword);
+                          },
                           child: CustomText(
                             text: "Forgot password?",
                             color: context
@@ -226,6 +240,10 @@ class LoginPage extends StatelessWidget {
                           return CustomButton(
                               text: "Login",
                               function: () {
+                                if (state.loadingState ==
+                                    LoadingState.loading) {
+                                  return;
+                                }
                                 if (_formKey.currentState?.validate() ??
                                     false) {
                                   loginCubit.loginUser(context);
@@ -254,6 +272,7 @@ class LoginPage extends StatelessWidget {
     String? initialValue,
     bool obscure = false,
     void Function(String)? onChanged,
+    bool? readOnly,
     String? Function(String?)? validator,
   }) {
     return Column(
@@ -267,6 +286,7 @@ class LoginPage extends StatelessWidget {
         const Gap(10),
         CustomTextField(
           initialValue: initialValue,
+          readOnly: readOnly,
           prefix: prefix,
           hintText: hintText,
           fillColor: fillColor,

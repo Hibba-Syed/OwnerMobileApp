@@ -1,5 +1,6 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:iskaanowner/Blocs/Logout/logout_cubit.dart';
+import 'package:iskaanowner/Repo/user.dart';
 import 'package:slideable/slideable.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
@@ -26,33 +27,38 @@ class SideDrawerPage extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 400),
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      height: MediaQuery.of(context).size.width * 0.3,
-                      decoration: const BoxDecoration(
-                        color: kWhite,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Image.network(
-                        profileModel?.record?.company?.faviconUrl ?? "",
-                        height: MediaQuery.of(context).size.width * 0.3,
+                  Hero(
+                    tag: "company-logo",
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 400),
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
                         width: MediaQuery.of(context).size.width * 0.3,
+                        height: MediaQuery.of(context).size.width * 0.3,
+                        decoration: const BoxDecoration(
+                          color: kWhite,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Image.network(
+                          profileModel?.record?.company?.faviconUrl ?? "",
+                          height: MediaQuery.of(context).size.width * 0.3,
+                          width: MediaQuery.of(context).size.width * 0.3,
+                        ),
                       ),
                     ),
                   ),
                   const Gap(10),
                   CustomText(
-                    text: profileModel?.record?.fullName ?? "Unknown",
-                    fontSize: 14,
+                    text: "${profileModel?.record?.fullName ?? ""} ",
                     fontWeight: FontWeight.bold,
+                    fontSize: MediaQuery.of(context).size.width * 0.05,
                   ),
-                  const Gap(10),
                   CustomText(
-                      text:
-                          "Owner ID : ${profileModel?.record?.ownerNumber ?? " -- "}"),
+                    text:
+                        "Owner ID : ${profileModel?.record?.ownerNumber ?? " -- "}",
+                    color: context.read<AppThemeCubit>().state.primaryColor,
+                    fontSize: MediaQuery.of(context).size.width * 0.035,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 40),
@@ -62,11 +68,17 @@ class SideDrawerPage extends StatelessWidget {
                         icon: Image.asset(
                           "assets/switch_account.png",
                           width: MediaQuery.of(context).size.width * 0.06,
-                          color:
-                              context.read<AppThemeCubit>().state.primaryColor,
+                          color: context
+                              .read<AppThemeCubit>()
+                              .state
+                              .primaryColor
+                              .withOpacity(0.8),
                         ),
-                        textColor:
-                            context.read<AppThemeCubit>().state.primaryColor,
+                        textColor: context
+                            .read<AppThemeCubit>()
+                            .state
+                            .primaryColor
+                            .withOpacity(0.8),
                         function: () => showModalBottomSheet(
                             context: context,
                             isScrollControlled: true,
@@ -217,6 +229,10 @@ class SideDrawerPage extends StatelessWidget {
                               "Email",
                               hintText: "Enter the email",
                               fillColor: kBackgroundColor,
+                              readOnly:
+                                  state.loadingState == LoadingState.loading
+                                      ? true
+                                      : false,
                               prefix: Icon(
                                 Icons.email_outlined,
                                 color: context
@@ -240,6 +256,10 @@ class SideDrawerPage extends StatelessWidget {
                               context,
                               "Password",
                               hintText: "Enter password",
+                              readOnly:
+                                  state.loadingState == LoadingState.loading
+                                      ? true
+                                      : false,
                               obscure: state.obscure,
                               fillColor: kBackgroundColor,
                               prefix: Icon(
@@ -407,10 +427,28 @@ class SideDrawerPage extends StatelessWidget {
                                       .primaryColor,
                                 ),
                                 onPress: () {
-                                  changeState(() {
-                                    Global.storageService
-                                        .removeAuthenticationModelString(
-                                            index: index);
+                                  CoolAlert.show(
+                                      context: context,
+                                      type: CoolAlertType.loading,
+                                      lottieAsset: "assets/loader.json",
+                                      barrierDismissible: false);
+                                  UserService.singleLogout(
+                                          context, loginModel?.accessToken)
+                                      .then((value) {
+                                    if (value is Success) {
+                                      changeState(() {
+                                        Global.storageService
+                                            .removeAuthenticationModelString(
+                                                index: index);
+                                      });
+                                      Navigator.pop(context);
+                                      Fluttertoast.showToast(
+                                          msg: "Profile deleted successfully");
+                                      return;
+                                    }
+                                    Navigator.pop(context);
+                                    Fluttertoast.showToast(
+                                        msg: "Unable to delete the profile");
                                   });
                                 },
                                 backgroundColor: Colors.transparent,
@@ -464,7 +502,7 @@ class SideDrawerPage extends StatelessWidget {
                                     ),
                                     const Gap(5),
                                     CustomText(
-                                      text: 'Account Managed By',
+                                      text: 'Managed By',
                                       fontSize:
                                           MediaQuery.of(context).size.width *
                                               0.03,

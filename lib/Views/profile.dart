@@ -44,7 +44,8 @@ class ProfilePage extends StatelessWidget {
                     {
                       "icon": Icons.cake_outlined,
                       "title": "D.O.B",
-                      "subTitle": state.profileModel?.record?.dob,
+                      "subTitle": const OccupantPage()
+                          .dateTimeFormatter(state.profileModel?.record?.dob),
                     },
                     {
                       "icon": Icons.padding_outlined,
@@ -54,7 +55,8 @@ class ProfilePage extends StatelessWidget {
                     {
                       "icon": Icons.calendar_month_outlined,
                       "title": "Passport Expiry",
-                      "subTitle": state.profileModel?.record?.passportExpiry,
+                      "subTitle": const OccupantPage().dateTimeFormatter(
+                          state.profileModel?.record?.passportExpiry),
                     },
                     {
                       "icon": Icons.perm_identity_outlined,
@@ -64,78 +66,92 @@ class ProfilePage extends StatelessWidget {
                     {
                       "icon": Icons.email_outlined,
                       "title": "Emirates ID Expiry",
-                      "subTitle": state.profileModel?.record?.emiratesIdExpiry,
+                      "subTitle": const OccupantPage().dateTimeFormatter(
+                          state.profileModel?.record?.emiratesIdExpiry),
                     },
                   ];
                   return SingleChildScrollView(
                     child: Column(
                       children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            children: [
+                              ConstrainedBox(
+                                constraints:
+                                    const BoxConstraints(maxWidth: 400),
+                                child: Hero(
+                                  tag: "company-logo",
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.3,
+                                    height:
+                                        MediaQuery.of(context).size.width * 0.3,
+                                    decoration: const BoxDecoration(
+                                      color: kWhite,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Image.network(
+                                      state.profileModel?.record?.company
+                                              ?.faviconUrl ??
+                                          "",
+                                      height:
+                                          MediaQuery.of(context).size.width *
+                                              0.3,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.3,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const Gap(20),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CustomText(
+                                    text:
+                                        "${state.profileModel?.record?.firstName ?? ""} ${state.profileModel?.record?.lastName ?? ""}",
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.05,
+                                  ),
+                                  CustomText(
+                                    text:
+                                        "Owner ID : ${state.profileModel?.record?.ownerNumber ?? " -- "}",
+                                    color: context
+                                        .read<AppThemeCubit>()
+                                        .state
+                                        .primaryColor,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.035,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Gap(20),
                         Container(
                           margin: const EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: kWhite,
-                            boxShadow: [
-                              BoxShadow(
-                                  offset: const Offset(1, 1),
-                                  spreadRadius: 2,
-                                  blurRadius: 2,
-                                  color: kGrey.shade200),
-                            ],
                           ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Gap(20),
-                              Icon(
-                                Icons.person_outline,
-                                size: MediaQuery.of(context).size.width * 0.1,
-                                color: context
-                                    .read<AppThemeCubit>()
-                                    .state
-                                    .primaryColor,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              CustomText(
-                                text:
-                                    "${state.profileModel?.record?.firstName ?? ""} ${state.profileModel?.record?.lastName ?? ""}",
-                                fontWeight: FontWeight.bold,
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.05,
-                              ),
-                              CustomText(
-                                text:
-                                    "Owner ID : ${state.profileModel?.record?.ownerNumber ?? " -- "}",
-                                color: context
-                                    .read<AppThemeCubit>()
-                                    .state
-                                    .primaryColor,
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.035,
-                              ),
-                              Divider(
-                                color: context
-                                    .read<AppThemeCubit>()
-                                    .state
-                                    .primaryColor,
-                              ),
-                              ListView.builder(
-                                padding: const EdgeInsets.all(10),
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: profileData.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return profileInfoTile(
-                                    context,
-                                    profileData[index]["title"] as String,
-                                    profileData[index]["subTitle"] as String?,
-                                  );
-                                },
-                              ),
-                              const Gap(10),
-                            ],
+                          child: ListView.builder(
+                            padding: const EdgeInsets.all(10),
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: profileData.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return profileInfoTile(
+                                context,
+                                profileData[index]["title"] as String,
+                                profileData[index]["subTitle"] as String?,
+                              );
+                            },
                           ),
                         ),
                       ],

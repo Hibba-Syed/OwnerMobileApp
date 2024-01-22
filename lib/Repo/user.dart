@@ -50,6 +50,30 @@ class UserService {
     });
   }
 
+  static Future<Object?> singleLogout(
+      BuildContext context, String? accessToken) async {
+    return await ExceptionService.applyTryCatch(() async {
+      return await http
+          .post(
+        Uri.parse("$baseUrl/mobile/owner/auth/logout"),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $accessToken"
+        },
+        body: jsonEncode({
+          "token": [accessToken]
+        }),
+      )
+          .then((value) {
+        if (value.statusCode == 200) {
+          return Success(200, value.body);
+        }
+        return Failure(400, jsonDecode(value.body)["message"]);
+      });
+    });
+  }
+
   static Future<Object?> sendOTP(BuildContext context, String email) async {
     return await ExceptionService.applyTryCatch(() async {
       return await http.post(

@@ -3,6 +3,7 @@ import 'package:slideable/slideable.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
+import '../Blocs/Edit Compliance/edit_compliance_cubit.dart';
 import '../Models/compliances.dart';
 import '../Utils/utils.dart';
 
@@ -80,6 +81,28 @@ class _ReceiptListPageState extends State<CompliancesListPage> {
                                     .primaryColor,
                               ),
                               onPress: () {
+                                EditComplianceCubit editComplianceCubit =
+                                    context.read<EditComplianceCubit>();
+                                editComplianceCubit.onChangeNotApplicable(
+                                    compliance?.notApplicable == 1
+                                        ? true
+                                        : false);
+                                editComplianceCubit
+                                    .onChangeName(compliance?.name ?? '');
+                                if (compliance?.duedate != null &&
+                                    compliance?.expiry != null) {
+                                  editComplianceCubit.onChangeCustomDateRange(
+                                    DateTimeRange(
+                                      start: compliance!.duedate!,
+                                      end: compliance.expiry!,
+                                    ),
+                                  );
+                                }
+                                editComplianceCubit.onChangeDescription(
+                                    compliance?.description ?? '');
+                                editComplianceCubit.setCertificateUrl(
+                                    compliance?.certificate?.split('/').last ??
+                                        '');
                                 Navigator.pushNamed(
                                   context,
                                   AppRoutes.editCompliances,
@@ -131,17 +154,6 @@ class _ReceiptListPageState extends State<CompliancesListPage> {
                               decoration: BoxDecoration(
                                 color: kWhite,
                                 borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: const Offset(
-                                      1,
-                                      1,
-                                    ),
-                                    spreadRadius: 2,
-                                    blurRadius: 2,
-                                    color: kGrey.shade200,
-                                  ),
-                                ],
                               ),
                               child: Row(
                                 children: [

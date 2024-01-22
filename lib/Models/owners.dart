@@ -96,12 +96,12 @@ class Detail {
   String? primaryPhone;
   String? secondaryPhone;
   String? passportNumber;
-  String? passportExpiry;
+  DateTime? passportExpiry;
   String? emiratesIdNumber;
-  String? emiratesIdExpiry;
+  DateTime? emiratesIdExpiry;
   String? trnNumber;
   String? titleDeedNumber;
-  String? dob;
+  DateTime? dob;
   String? country;
   String? state;
   String? city;
@@ -137,12 +137,16 @@ class Detail {
         primaryPhone: json["primary_phone"],
         secondaryPhone: json["secondary_phone"],
         passportNumber: json["passport_number"],
-        passportExpiry: json["passport_expiry"],
+        passportExpiry: json["passport_expiry"] == null
+            ? null
+            : DateTime.parse(json["passport_expiry"]),
         emiratesIdNumber: json["emirates_id_number"],
-        emiratesIdExpiry: json["emirates_id_expiry"],
+        emiratesIdExpiry: json["emirates_id_expiry"] == null
+            ? null
+            : DateTime.parse(json["emirates_id_expiry"]),
         trnNumber: json["trn_number"],
         titleDeedNumber: json["title_deed_number"],
-        dob: json["dob"],
+        dob: json["dob"] == null ? null : DateTime.parse(json["dob"]),
         country: json["country"],
         state: json["state"],
         city: json["city"],

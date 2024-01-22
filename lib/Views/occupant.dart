@@ -90,7 +90,8 @@ class OccupantPage extends StatelessWidget {
                     {
                       "icon": Icons.calendar_month_outlined,
                       "key": "Date of Birth",
-                      "value": state.occupantModel?.occupant?.details?.dob,
+                      "value": dateTimeFormatter(
+                          state.occupantModel?.occupant?.details?.dob),
                     },
                     {
                       "icon": Icons.calendar_month_outlined,
@@ -138,13 +139,7 @@ class OccupantPage extends StatelessWidget {
                         margin: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                  offset: const Offset(1, 1),
-                                  spreadRadius: 2,
-                                  blurRadius: 2,
-                                  color: kGrey.shade200),
-                            ],
+                      
                             color: kWhite),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -295,6 +290,7 @@ class OccupantPage extends StatelessWidget {
                               return ListView.separated(
                                 itemCount: 4,
                                 shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
                                 separatorBuilder:
                                     (BuildContext context, int index) {
                                   return const Column(
@@ -491,7 +487,7 @@ class OccupantPage extends StatelessWidget {
 
   String dateTimeFormatter(DateTime? date) {
     if (date != null) {
-      return DateFormat.yMd().format(date);
+      return DateFormat("dd/MM/yyyy").format(date);
     }
     return " -- ";
   }

@@ -132,10 +132,6 @@ class RiDetailsPage extends StatelessWidget {
                               },
                             ],
                           ),
-                          const AdDetailsPage().headingText(
-                            context,
-                            "Emergency Contact Details",
-                          ),
                           const AdDetailsPage().customTableView(
                               context,
                               ["Vehicle Registration Number"],
@@ -146,6 +142,10 @@ class RiDetailsPage extends StatelessWidget {
                                       .toList() ??
                                   [],
                               title: "Vehicles"),
+                          const AdDetailsPage().headingText(
+                            context,
+                            "Emergency Contact Details",
+                          ),
                           const AdDetailsPage().applicationDetails(
                               context,
                               state.riDetailsModel?.record?.application

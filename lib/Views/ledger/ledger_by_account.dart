@@ -82,15 +82,9 @@ class _LedgerByAccountState extends State<LedgerByAccount> {
                             margin: const EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 2),
                             decoration: BoxDecoration(
-                                color: kWhite,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                      offset: const Offset(1, 1),
-                                      color: kGrey.shade200,
-                                      blurRadius: 2,
-                                      spreadRadius: 2),
-                                ]),
+                              color: kWhite,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             child: Row(
                               children: [
                                 Expanded(
@@ -109,11 +103,16 @@ class _LedgerByAccountState extends State<LedgerByAccount> {
                                       text: formatCurrency(
                                           accountDatum?.closingBalance ?? 0),
                                       fontWeight: FontWeight.bold,
-                                      color: (accountDatum?.closingBalance
-                                                  ?.isNegative ??
-                                              false)
-                                          ? const Color(0xff65D024)
-                                          : const Color(0xffFB5454),
+                                      color: ((accountDatum?.closingBalance ??
+                                                  0) ==
+                                              0)
+                                          ? const Color(0xffB2B1B1)
+                                          : (accountDatum?.closingBalance
+                                                      ?.isNegative ??
+                                                  false)
+                                              ? const Color(0xffFB5454)
+                                              : const Color(0xff65D024),
+                                      maxLines: 1,
                                     )
                                   ],
                                 )),

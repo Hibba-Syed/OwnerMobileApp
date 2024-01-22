@@ -52,7 +52,7 @@ class ResetPasswordPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CustomText(
-                                    text: "Company",
+                                    text: "Account",
                                     color: const Color(0xffB2B1B1),
                                     fontSize:
                                         MediaQuery.of(context).size.width *
@@ -60,7 +60,7 @@ class ResetPasswordPage extends StatelessWidget {
                                   ),
                                   const Gap(10),
                                   DropdownMenu<CompaniesRecord>(
-                                    hintText: "All Companies",
+                                    hintText: "All Accounts",
                                     onSelected: (CompaniesRecord? value) {
                                       context
                                           .read<ResetPasswordCubit>()
@@ -70,6 +70,10 @@ class ResetPasswordPage extends StatelessWidget {
                                         const InputDecorationTheme(
                                             border: UnderlineInputBorder()),
                                     expandedInsets: EdgeInsets.zero,
+                                      enabled:
+                                  state.loadingState == LoadingState.loading
+                                      ? false
+                                      : true,
                                     dropdownMenuEntries: companiesState
                                             .companiesModel?.record
                                             ?.map<
@@ -92,7 +96,10 @@ class ResetPasswordPage extends StatelessWidget {
                                             .read<AppThemeCubit>()
                                             .state
                                             .primaryColor,
-                                      ),
+                                      ),  readOnly:
+                                  state.loadingState == LoadingState.loading
+                                      ? true
+                                      : false,
                                       obscure: state.newPasswordObscure,
                                       hintText: "Enter New Password",
                                       onChanged: (value) => context
@@ -132,7 +139,10 @@ class ResetPasswordPage extends StatelessWidget {
                                             .read<AppThemeCubit>()
                                             .state
                                             .primaryColor,
-                                      ),
+                                      ),  readOnly:
+                                  state.loadingState == LoadingState.loading
+                                      ? true
+                                      : false,
                                       obscure: state.confirmPasswordObscure,
                                       hintText: "Confirm New Password",
                                       validator: (value) {

@@ -46,12 +46,6 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: kWhite,
                             borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: kGrey.shade200,
-                                  blurRadius: 2,
-                                  spreadRadius: 2)
-                            ],
                           ),
                           child: Column(
                             children: [
@@ -194,15 +188,19 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
                                               text: "Debit",
                                               fontSize: 13,
                                             ),
-                                            CustomText(
-                                              text: formatCurrency(
-                                                  ledgerAccountDatum?.debit ??
-                                                      0),
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.032,
-                                              color: const Color(0xffB2B1B1),
+                                            const Gap(10),
+                                            Flexible(
+                                              child: CustomText(
+                                                text: formatCurrency(
+                                                    ledgerAccountDatum?.debit ??
+                                                        0),
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.032,
+                                                color: const Color(0xffB2B1B1),
+                                                maxLines: 1,
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -215,15 +213,20 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
                                               text: "Credit",
                                               fontSize: 13,
                                             ),
-                                            CustomText(
-                                              text: formatCurrency(
-                                                  ledgerAccountDatum?.credit ??
-                                                      0),
-                                              color: const Color(0xffB2B1B1),
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.032,
+                                            const Gap(10),
+                                            Flexible(
+                                              child: CustomText(
+                                                text: formatCurrency(
+                                                    ledgerAccountDatum
+                                                            ?.credit ??
+                                                        0),
+                                                color: const Color(0xffB2B1B1),
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.032,
+                                                maxLines: 1,
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -243,15 +246,20 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
                                                       .width *
                                                   0.04,
                                             ),
-                                            CustomText(
-                                              text: formatCurrency(
-                                                  ledgerAccountDatum?.balance ??
-                                                      0),
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.04,
-                                              fontWeight: FontWeight.bold,
+                                            const Gap(10),
+                                            Flexible(
+                                              child: CustomText(
+                                                text: formatCurrency(
+                                                    ledgerAccountDatum
+                                                            ?.balance ??
+                                                        0),
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.04,
+                                                fontWeight: FontWeight.bold,
+                                                maxLines: 1,
+                                              ),
                                             ),
                                           ],
                                         ),

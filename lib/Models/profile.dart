@@ -68,7 +68,7 @@ class Record {
   dynamic countryId;
   dynamic postalCode;
   dynamic comments;
-  dynamic dob;
+  DateTime? dob;
   dynamic licenseNumber;
   dynamic tradeLicense;
   dynamic tradeLicenseExpiry;
@@ -78,10 +78,10 @@ class Record {
   dynamic idNumber;
   dynamic emiratesIdNumber;
   String? emiratesIdFile;
-  dynamic emiratesIdExpiry;
+  DateTime? emiratesIdExpiry;
   dynamic passportNumber;
   String? passportFile;
-  dynamic passportExpiry;
+  DateTime? passportExpiry;
   dynamic visaFile;
   dynamic emergencyContactName;
   dynamic emergencyContactEmail;
@@ -223,7 +223,7 @@ class Record {
         countryId: json["country_id"],
         postalCode: json["postal_code"],
         comments: json["comments"],
-        dob: json["dob"],
+        dob: json["dob"] == null ? null : DateTime.parse(json["dob"]),
         licenseNumber: json["license_number"],
         tradeLicense: json["trade_license"],
         tradeLicenseExpiry: json["trade_license_expiry"],
@@ -233,10 +233,12 @@ class Record {
         idNumber: json["id_number"],
         emiratesIdNumber: json["emirates_id_number"],
         emiratesIdFile: json["emirates_id_file"],
-        emiratesIdExpiry: json["emirates_id_expiry"],
+        emiratesIdExpiry: json["emirates_id_expiry"]==null? null : DateTime.parse(json["emirates_id_expiry"]),
         passportNumber: json["passport_number"],
         passportFile: json["passport_file"],
-        passportExpiry: json["passport_expiry"],
+        passportExpiry: json["passport_expiry"] == null
+            ? null
+            : DateTime.parse(json["passport_expiry"]),
         visaFile: json["visa_file"],
         emergencyContactName: json["emergency_contact_name"],
         emergencyContactEmail: json["emergency_contact_email"],

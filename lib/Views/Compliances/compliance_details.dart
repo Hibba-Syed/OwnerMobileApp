@@ -1,8 +1,5 @@
-import 'package:intl/intl.dart';
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
 import 'package:iskaanowner/Blocs/Compliance%20Details/compliance_details_cubit.dart';
-import 'package:iskaanowner/Blocs/Edit%20Compliance/edit_compliance_cubit.dart';
-import 'package:iskaanowner/Models/compliances.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Models/compliance_details.dart';
@@ -18,55 +15,6 @@ class ComplianceDetailsPage extends StatelessWidget {
     int? unitId = arguments['unit_id'];
     int? id = arguments['id'];
     return Scaffold(
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(10),
-        child: CustomButton(
-          text: "Update Compliance",
-          height: MediaQuery.of(context).size.width * 0.12,
-          icon: Image.asset(
-            "assets/edit.png",
-            width: MediaQuery.of(context).size.width * 0.05,
-          ),
-          function: () {
-            context.read<EditComplianceCubit>().removeFile();
-            ComplianceDetailsModel? complianceDetail = context
-                .read<ComplianceDetailsCubit>()
-                .state
-                .complianceDetailsModel;
-            Navigator.pushNamed(
-              context,
-              AppRoutes.editCompliances,
-              arguments: {
-                'unit_id': unitId,
-                'compliance': Compliance(
-                  id: complianceDetail?.record?.id,
-                  name: complianceDetail?.record?.name,
-                  description: complianceDetail?.record?.description,
-                  duedate: DateFormat("MM/dd/yyyy")
-                      .parse(complianceDetail?.record?.date ?? ''),
-                  expiry: DateFormat("MM/dd/yyyy")
-                      .parse(complianceDetail?.record?.expiryDate ?? ''),
-                  notApplicable: complianceDetail?.record?.notApplicable,
-                  certificate: complianceDetail?.record?.certificate,
-                ),
-              },
-            ).then((value) {
-              value as Map?;
-              if (value!=null && value['success']==true) {
-                context.read<ComplianceDetailsCubit>().getUnitComplianceDetails(
-                      context,
-                      id,
-                      unitId,
-                    );
-              }
-            });
-          },
-          fontSize: MediaQuery.of(context).size.width * 0.035,
-          buttonColor:
-              context.read<AppThemeCubit>().state.primaryColor.withOpacity(0.8),
-        ),
-      ),
-      backgroundColor: kBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(10),

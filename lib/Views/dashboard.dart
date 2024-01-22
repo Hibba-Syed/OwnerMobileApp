@@ -1,8 +1,8 @@
 import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
-import 'package:iskaanowner/Models/profile.dart';
 import 'package:iskaanowner/Views/side_drawer.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
+import '../Models/profile.dart';
 import '../Utils/utils.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -10,8 +10,6 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ProfileModel? profileModel =
-        context.read<ProfileCubit>().state.profileModel;
     return Scaffold(
       backgroundColor: kBackgroundColor,
       drawer: const Drawer(
@@ -29,89 +27,13 @@ class DashboardPage extends StatelessWidget {
                   child: appBar(
                     context,
                     image: "assets/menu.png",
+                    text: "Dashboard",
                     onTap: () {
                       Scaffold.of(context).openDrawer();
                     },
                   ),
                 );
               }),
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(5),
-                    width: MediaQuery.of(context).size.width * 0.12,
-                    height: MediaQuery.of(context).size.width * 0.12,
-                    decoration: const BoxDecoration(
-                      color: kWhite,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Image.network(
-                      profileModel?.record?.company?.faviconUrl ?? "",
-                      width: MediaQuery.of(context).size.width * 0.12,
-                      height: MediaQuery.of(context).size.width * 0.12,
-                      errorBuilder: (context, error, stackTrace) =>
-                          Image.asset('assets/logo.png'),
-                    ),
-                  ),
-                  const Gap(20),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomText(
-                          text:
-                              "Welcome to ${profileModel?.record?.company?.name?.capitalize()},",
-                          fontSize: MediaQuery.of(context).size.width * 0.04,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        CustomText(
-                          text:
-                              "${profileModel?.record?.fullName?.capitalize()}",
-                          fontSize: MediaQuery.of(context).size.width * 0.05,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-              const Gap(30),
-              categoriesRow(context, [
-                iconButton(
-                    context, "assets/unit_financials.png", "Unit's Financial",
-                    onTap: () {
-                  Navigator.pushNamed(context, AppRoutes.unitFinancial);
-                }),
-                BlocBuilder<DownloadSummaryCubit, DownloadSummaryState>(
-                  builder: (context, state) {
-                    return iconButton(context, "assets/download_summary.png",
-                        "Download Summary", onTap: () {
-                      context.read<DownloadSummaryCubit>().downloadDocument(
-                          context,
-                          "$baseUrl/mobile/owner/profile/download-financial-summary");
-                    }, loadingState: state.loadingState);
-                  },
-                ),
-                iconButton(
-                    context, "assets/shared_documents.png", "Shared Documents",
-                    onTap: () {
-                  context
-                      .read<SharedDocumentsCubit>()
-                      .getSharedDocuments(context);
-                  Navigator.pushNamed(context, AppRoutes.sharedDocument);
-                }),
-              ]),
-              const SizedBox(
-                height: 10,
-              ),
-              CustomText(
-                text: "Communities",
-                fontWeight: FontWeight.bold,
-                fontSize: MediaQuery.of(context).size.width * 0.05,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
               const Expanded(
                 child: CommunitiesListPage(),
               ),
@@ -176,6 +98,90 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
+  Widget header(BuildContext context) {
+    ProfileModel? profileModel =
+        context.read<ProfileCubit>().state.profileModel;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(5),
+              width: MediaQuery.of(context).size.width * 0.12,
+              height: MediaQuery.of(context).size.width * 0.12,
+              decoration: const BoxDecoration(
+                color: kWhite,
+                shape: BoxShape.circle,
+              ),
+              child: Image.network(
+                profileModel?.record?.company?.faviconUrl ?? "",
+                width: MediaQuery.of(context).size.width * 0.12,
+                height: MediaQuery.of(context).size.width * 0.12,
+                errorBuilder: (context, error, stackTrace) =>
+                    Image.asset('assets/logo.png'),
+              ),
+            ),
+            const Gap(20),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomText(
+                    text:
+                        "Welcome to ${profileModel?.record?.company?.name?.capitalize()},",
+                    fontSize: MediaQuery.of(context).size.width * 0.04,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  CustomText(
+                    text: "${profileModel?.record?.fullName?.capitalize()}",
+                    fontSize: MediaQuery.of(context).size.width * 0.05,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+        const Gap(30),
+        const DashboardPage().categoriesRow(context, [
+          const DashboardPage().iconButton(
+              context, "assets/unit_financials.png", "Unit's Financial",
+              onTap: () {
+            Navigator.pushNamed(context, AppRoutes.unitFinancial);
+          }),
+          BlocBuilder<DownloadSummaryCubit, DownloadSummaryState>(
+            builder: (context, state) {
+              return const DashboardPage().iconButton(
+                  context, "assets/download_summary.png", "Download Summary",
+                  onTap: () {
+                context.read<DownloadSummaryCubit>().downloadDocument(context,
+                    "$baseUrl/mobile/owner/profile/download-financial-summary");
+              }, loadingState: state.loadingState);
+            },
+          ),
+          const DashboardPage().iconButton(
+              context, "assets/shared_documents.png", "Shared Documents",
+              onTap: () {
+            context.read<SharedDocumentsCubit>().getSharedDocuments(context);
+            Navigator.pushNamed(context, AppRoutes.sharedDocument);
+          }),
+        ]),
+        const SizedBox(
+          height: 10,
+        ),
+        CustomText(
+          text: "Communities",
+          fontWeight: FontWeight.bold,
+          fontSize: MediaQuery.of(context).size.width * 0.05,
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+      ],
+    );
+  }
+
   String? capitalizeFirstWord(String? input) {
     if (input == null) {
       return input;
@@ -235,7 +241,6 @@ class DashboardPage extends StatelessWidget {
                   fontSize: MediaQuery.of(context).size.width * 0.05,
                   fontWeight: FontWeight.bold,
                   textAlign: TextAlign.center,
-                  maxFontSize: 18,
                   maxLines: 1,
                 ),
               )),

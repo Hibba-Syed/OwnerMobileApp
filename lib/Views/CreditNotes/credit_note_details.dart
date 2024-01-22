@@ -129,13 +129,6 @@ class CreditNoteDetailsPage extends StatelessWidget {
                               decoration: BoxDecoration(
                                 color: kWhite,
                                 borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: kGrey.shade200,
-                                    blurRadius: 2,
-                                    spreadRadius: 2,
-                                  )
-                                ],
                               ),
                               child: Theme(
                                 data: Theme.of(context)
@@ -146,68 +139,22 @@ class CreditNoteDetailsPage extends StatelessWidget {
                                   horizontalTitleGap: 0.0,
                                   minLeadingWidth: 0,
                                   child: ExpansionTile(
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: CustomText(
-                                            text: state.creditNoteDetailsModel
-                                                    ?.title ??
-                                                " -- ",
-                                            // color: context
-                                            //     .read<AppThemeCubit>()
-                                            //     .state
-                                            //     .primaryColor,
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.045,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                        if (state.creditNoteDetailsModel
-                                                ?.association?.name !=
-                                            null)
-                                          Row(
-                                            children: [
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              const UnitsPage()
-                                                  .roundedContainer(
-                                                      context,
-                                                      CustomText(
-                                                        text: state
-                                                                .creditNoteDetailsModel
-                                                                ?.association
-                                                                ?.name ??
-                                                            "",
-                                                        color: context
-                                                            .read<
-                                                                AppThemeCubit>()
-                                                            .state
-                                                            .primaryColor,
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.035,
-                                                      ),
-                                                      color: context
-                                                          .read<AppThemeCubit>()
-                                                          .state
-                                                          .primaryColor
-                                                          .withOpacity(0.1),
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 20,
-                                                          vertical: 5)),
-                                            ],
-                                          ),
-                                      ],
+                                    title: CustomText(
+                                      text: state.creditNoteDetailsModel
+                                              ?.reference ??
+                                          " -- ",
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.045,
+                                      textAlign: TextAlign.left,
                                     ),
                                     children: [
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "Title:",
+                                          state.creditNoteDetailsModel?.title),
                                       const Gap(10),
                                       const ProfilePage().profileInfoTile(
                                           context,
@@ -220,12 +167,18 @@ class CreditNoteDetailsPage extends StatelessWidget {
                                           "Unit:",
                                           state.creditNoteDetailsModel
                                               ?.creditable?.unitNumber),
-                                      const Gap(10),
-                                      const ProfilePage().profileInfoTile(
-                                          context,
-                                          "CreditNote No.",
-                                          state.creditNoteDetailsModel
-                                              ?.reference),
+                                      if (state.creditNoteDetailsModel
+                                              ?.association?.name !=
+                                          null)
+                                        const Gap(10),
+                                      if (state.creditNoteDetailsModel
+                                              ?.association?.name !=
+                                          null)
+                                        const ProfilePage().profileInfoTile(
+                                            context,
+                                            "Community Name.",
+                                            state.creditNoteDetailsModel
+                                                ?.association?.name),
                                       const Gap(10),
                                       const ProfilePage().profileInfoTile(
                                           context,
@@ -273,12 +226,6 @@ class CreditNoteDetailsPage extends StatelessWidget {
                                             color: kWhite,
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  blurRadius: 2,
-                                                  spreadRadius: 2,
-                                                  color: kGrey.shade200),
-                                            ],
                                           ),
                                           child: Column(
                                             crossAxisAlignment:
@@ -347,10 +294,34 @@ class CreditNoteDetailsPage extends StatelessWidget {
                                                         .width *
                                                     0.04,
                                               ),
-                                              RowText(
-                                                text: "Amount",
-                                                text2: formatCurrency(
-                                                    e.amount ?? 0),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  CustomText(
+                                                    text: "Amount",
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.035,
+                                                  ),
+                                                  const Gap(10),
+                                                  Flexible(
+                                                    child: CustomText(
+                                                      text: formatCurrency(
+                                                          e.amount ?? 0),
+                                                      fontSize:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.035,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ],
                                           ),
@@ -366,16 +337,44 @@ class CreditNoteDetailsPage extends StatelessWidget {
                             if (state.creditNoteDetailsModel?.transactions
                                     ?.isNotEmpty ??
                                 false)
-                              RowText(
-                                text: "Total : ",
-                                text2: formatCurrency((state
-                                            .creditNoteDetailsModel
-                                            ?.transactions
-                                            ?.map((e) => e.amount ?? 0)
-                                            .toList() ??
-                                        [])
-                                    .reduce(
-                                        (value, element) => value + element)),
+                              Container(
+                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: kWhite,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomText(
+                                      text: "Total",
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.035,
+                                    ),
+                                    const Gap(10),
+                                    Flexible(
+                                      child: CustomText(
+                                        text: formatCurrency(
+                                          (state.creditNoteDetailsModel
+                                                      ?.transactions
+                                                      ?.map(
+                                                          (e) => e.amount ?? 0)
+                                                      .toList() ??
+                                                  [])
+                                              .reduce((value, element) =>
+                                                  value + element),
+                                        ),
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.035,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             const Gap(10),
                           ],

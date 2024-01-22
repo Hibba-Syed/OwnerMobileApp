@@ -79,12 +79,6 @@ class _ReceiptsListPageState extends State<ReceiptsListPage> {
                             decoration: BoxDecoration(
                               color: kWhite,
                               borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: kGrey.shade200,
-                                    blurRadius: 2,
-                                    spreadRadius: 2)
-                              ],
                             ),
                             child: Row(
                               children: [
@@ -209,10 +203,14 @@ class _ReceiptsListPageState extends State<ReceiptsListPage> {
                                           ),
                                           Flexible(
                                             child: CustomText(
-                                              text:
-                                                  formatCurrency(receipt?.amount),
-                                              fontSize: 13,
+                                              text: formatCurrency(
+                                                  receipt?.amount),
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.035,
                                               fontWeight: FontWeight.bold,
+                                              maxLines: 1,
                                             ),
                                           ),
                                         ],

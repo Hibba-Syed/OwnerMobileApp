@@ -60,6 +60,7 @@ class _CommunitiesListPageState extends State<CommunitiesListPage> {
                   state.communitiesModel?.associations?[index];
               return Column(
                 children: [
+                  if (index == 0) const DashboardPage().header(context),
                   InkWell(
                     onTap: () {
                       context
@@ -79,13 +80,6 @@ class _CommunitiesListPageState extends State<CommunitiesListPage> {
                       decoration: BoxDecoration(
                         color: kWhite,
                         borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                              offset: const Offset(1, 1),
-                              spreadRadius: 2,
-                              blurRadius: 2,
-                              color: kGrey.shade200),
-                        ],
                       ),
                       child: Column(
                         children: [
@@ -137,58 +131,84 @@ class _CommunitiesListPageState extends State<CommunitiesListPage> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CustomText(
-                                  text: communitiesDatum?.name ?? " -- ",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.045,
-                                ),
-                                const Gap(10),
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/home.png",
-                                      width: MediaQuery.of(context).size.width *
-                                          0.04,
-                                    ),
-                                    const Gap(10),
-                                    CustomText(
-                                      text:
-                                          "${communitiesDatum?.unitCount ?? 0}",
-                                      color: const Color(0xffB2B1B1),
-                                      fontWeight: FontWeight.w600,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.035,
-                                    ),
-                                    const Gap(10),
-                                    CustomText(
-                                      text: "Unit(s)",
-                                      color: const Color(0xffB2B1B1),
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.035,
-                                    ),
-                                    const Gap(10),
-                                    Image.asset(
-                                      "assets/location.png",
-                                      width: MediaQuery.of(context).size.width *
-                                          0.04,
-                                    ),
-                                    const Gap(10),
-                                    CustomText(
-                                      text: communitiesDatum?.address ?? "",
-                                      color: const Color(0xffB2B1B1),
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.035,
-                                    ),
-                                  ],
-                                ),
-                              ],
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CustomText(
+                                    text: communitiesDatum?.name ?? " -- ",
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.045,
+                                  ),
+                                  const Gap(10),
+                                  Wrap(
+                                    alignment: WrapAlignment.start,
+                                    runAlignment: WrapAlignment.start,
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Image.asset(
+                                            "assets/home.png",
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.04,
+                                          ),
+                                          const Gap(10),
+                                          CustomText(
+                                            text:
+                                                "${communitiesDatum?.unitCount ?? 0}",
+                                            color: const Color(0xffB2B1B1),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.035,
+                                          ),
+                                          const Gap(10),
+                                          CustomText(
+                                            text: "Unit(s)",
+                                            color: const Color(0xffB2B1B1),
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.035,
+                                          ),
+                                          const Gap(10),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Image.asset(
+                                            "assets/location.png",
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.04,
+                                          ),
+                                          const Gap(10),
+                                          CustomText(
+                                            text:
+                                                communitiesDatum?.address ?? "",
+                                            color: const Color(0xffB2B1B1),
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.035,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],

@@ -70,7 +70,7 @@ class Details {
   String? emiratesIdNumber;
   DateTime? emiratesIdExpiry;
   String? trnNumber;
-  String? dob;
+  DateTime? dob;
   DateTime? tenancyContractExpiry;
   String? titleDeedNumber;
   String? country;
@@ -111,7 +111,7 @@ class Details {
             ? null
             : DateTime.parse(json["emirates_id_expiry"]),
         trnNumber: json["trn_number"],
-        dob: json["dob"],
+        dob: json["dob"] == null ? null : DateTime.parse(json["dob"]),
         tenancyContractExpiry: json["tenancy_contract_expiry"] == null
             ? null
             : DateTime.parse(json["tenancy_contract_expiry"]),

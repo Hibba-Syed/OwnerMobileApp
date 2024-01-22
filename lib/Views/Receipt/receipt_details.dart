@@ -128,13 +128,6 @@ class ReceiptDetailsPage extends StatelessWidget {
                               decoration: BoxDecoration(
                                 color: kWhite,
                                 borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: kGrey.shade200,
-                                    blurRadius: 2,
-                                    spreadRadius: 2,
-                                  )
-                                ],
                               ),
                               child: Theme(
                                 data: Theme.of(context)
@@ -145,64 +138,22 @@ class ReceiptDetailsPage extends StatelessWidget {
                                   horizontalTitleGap: 0.0,
                                   minLeadingWidth: 0,
                                   child: ExpansionTile(
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: CustomText(
-                                            text: state.receiptDetailsModel
-                                                    ?.title ??
-                                                " -- ",
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.045,
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                        if (state.receiptDetailsModel
-                                                ?.association?.name !=
-                                            null)
-                                          Row(
-                                            children: [
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              const UnitsPage()
-                                                  .roundedContainer(
-                                                      context,
-                                                      CustomText(
-                                                        text: state
-                                                                .receiptDetailsModel
-                                                                ?.association
-                                                                ?.name ??
-                                                            "",
-                                                        color: context
-                                                            .read<
-                                                                AppThemeCubit>()
-                                                            .state
-                                                            .primaryColor,
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.035,
-                                                      ),
-                                                      color: context
-                                                          .read<AppThemeCubit>()
-                                                          .state
-                                                          .primaryColor
-                                                          .withOpacity(0.1),
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 20,
-                                                          vertical: 5)),
-                                            ],
-                                          ),
-                                      ],
+                                    title: CustomText(
+                                      text: state
+                                              .receiptDetailsModel?.reference ??
+                                          " -- ",
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.045,
+                                      textAlign: TextAlign.left,
                                     ),
                                     children: [
+                                      const Gap(10),
+                                      const ProfilePage().profileInfoTile(
+                                          context,
+                                          "Title:",
+                                          state.receiptDetailsModel?.title),
                                       const Gap(10),
                                       const ProfilePage().profileInfoTile(
                                           context,
@@ -216,11 +167,18 @@ class ReceiptDetailsPage extends StatelessWidget {
                                           state.receiptDetailsModel
                                               ?.unitwise?[0].name),
                                       const Gap(10),
-                                      const ProfilePage().profileInfoTile(
-                                          context,
-                                          "Receipt No:",
-                                          state.receiptDetailsModel?.reference),
-                                      const Gap(10),
+                                      if (state.receiptDetailsModel?.association
+                                              ?.name !=
+                                          null)
+                                        const ProfilePage().profileInfoTile(
+                                            context,
+                                            "Community Name:",
+                                            state.receiptDetailsModel
+                                                ?.association?.name),
+                                      if (state.receiptDetailsModel?.association
+                                              ?.name !=
+                                          null)
+                                        const Gap(10),
                                       const ProfilePage().profileInfoTile(
                                           context,
                                           "Payment Method:",
@@ -294,12 +252,6 @@ class ReceiptDetailsPage extends StatelessWidget {
                                             color: kWhite,
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  blurRadius: 2,
-                                                  spreadRadius: 2,
-                                                  color: kGrey.shade200),
-                                            ],
                                           ),
                                           child: Column(
                                             crossAxisAlignment:
@@ -371,10 +323,34 @@ class ReceiptDetailsPage extends StatelessWidget {
                                                         .width *
                                                     0.04,
                                               ),
-                                              RowText(
-                                                text: "Amount",
-                                                text2: formatCurrency(
-                                                    e.amount ?? 0),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  CustomText(
+                                                    text: "Amount",
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.035,
+                                                  ),
+                                                  const Gap(10),
+                                                  Flexible(
+                                                    child: CustomText(
+                                                      text: formatCurrency(
+                                                          e.amount ?? 0),
+                                                      fontSize:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.035,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ],
                                           ),
@@ -390,15 +366,44 @@ class ReceiptDetailsPage extends StatelessWidget {
                             if (state.receiptDetailsModel?.transactions
                                     ?.isNotEmpty ??
                                 false)
-                              RowText(
-                                text: "Total : ",
-                                text2: formatCurrency((state
-                                            .receiptDetailsModel?.transactions
-                                            ?.map((e) => e.amount ?? 0)
-                                            .toList() ??
-                                        [])
-                                    .reduce(
-                                        (value, element) => value + element)),
+                              Container(
+                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: kWhite,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomText(
+                                      text: "Total",
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.035,
+                                    ),
+                                    const Gap(10),
+                                    Flexible(
+                                      child: CustomText(
+                                        text: formatCurrency(
+                                          (state.receiptDetailsModel
+                                                      ?.transactions
+                                                      ?.map(
+                                                          (e) => e.amount ?? 0)
+                                                      .toList() ??
+                                                  [])
+                                              .reduce((value, element) =>
+                                                  value + element),
+                                        ),
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.035,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             const Gap(10),
                           ],

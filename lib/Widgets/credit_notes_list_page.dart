@@ -79,12 +79,7 @@ class _CreditNotesListPageState extends State<CreditNotesListPage> {
                             decoration: BoxDecoration(
                               color: kWhite,
                               borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: kGrey.shade200,
-                                    blurRadius: 2,
-                                    spreadRadius: 2)
-                              ],
+                      
                             ),
                             child: Row(
                               children: [

@@ -86,13 +86,6 @@ class _UnitsListPageState extends State<UnitsListPage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: kWhite,
-                                boxShadow: [
-                                  BoxShadow(
-                                      offset: const Offset(1, 1),
-                                      color: kGrey.shade300,
-                                      blurRadius: 2,
-                                      spreadRadius: 2),
-                                ],
                               ),
                               child: Row(
                                 children: [
@@ -141,10 +134,10 @@ class _UnitsListPageState extends State<UnitsListPage> {
                                         unitInfoRow(
                                           "assets/bath.png",
                                           unit?.bathroomCount ?? 0,
-                                          "Bathroom",
+                                          "Bathroom(s)",
                                           "assets/bed.png",
                                           unit?.bedroomCount ?? 0,
-                                          "Bedroom",
+                                          "Bedroom(s)",
                                         ),
                                         unitInfoRow(
                                             "assets/sqft.png",
@@ -192,6 +185,7 @@ class _UnitsListPageState extends State<UnitsListPage> {
                                                               .size
                                                               .width *
                                                           0.04,
+                                                  maxLines: 1,
                                                   color: color,
                                                 );
                                               }),

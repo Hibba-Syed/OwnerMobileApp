@@ -62,6 +62,27 @@ class UnitDetailsPage extends StatelessWidget {
                       fontSize: MediaQuery.of(context).size.width * 0.05,
                     ),
                     const Gap(20),
+                    CustomButton(
+                        text: "Shared Documents",
+                        icon: Image.asset(
+                          "assets/document.png",
+                          width: MediaQuery.of(context).size.width * 0.06,
+                        ),
+                        height: MediaQuery.of(context).size.height * 0.06,
+                        fontSize: MediaQuery.of(context).size.width * 0.035,
+                        buttonColor: context
+                            .read<AppThemeCubit>()
+                            .state
+                            .primaryColor
+                            .withOpacity(0.8),
+                        function: () {
+                          context
+                              .read<SharedDocumentsCubit>()
+                              .getSharedDocuments(context, unitId: unitId);
+                          Navigator.pushNamed(context, AppRoutes.sharedDocument,
+                              arguments: unitId);
+                        }),
+                    const Gap(10),
                     StatefulBuilder(builder: (context, changeState) {
                       return Container(
                         padding: const EdgeInsets.all(10),
@@ -244,48 +265,19 @@ class UnitDetailsPage extends StatelessWidget {
         }
       },
     ];
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            itemCount: detailTabs.length,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (BuildContext context, int index) {
-              return gridCard(context, detailTabs[index]);
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10.0),
-            child: CustomButton(
-                text: "Shared Documents",
-                icon: Image.asset(
-                  "assets/document.png",
-                  width: MediaQuery.of(context).size.width * 0.06,
-                ),
-                height: MediaQuery.of(context).size.height * 0.06,
-                fontSize: MediaQuery.of(context).size.width * 0.035,
-                buttonColor: context
-                    .read<AppThemeCubit>()
-                    .state
-                    .primaryColor
-                    .withOpacity(0.8),
-                function: () {
-                  context
-                      .read<SharedDocumentsCubit>()
-                      .getSharedDocuments(context, unitId: unitId);
-                  Navigator.pushNamed(context, AppRoutes.sharedDocument,
-                      arguments: unitId);
-                }),
-          )
-        ],
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
       ),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      itemCount: detailTabs.length,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        return gridCard(context, detailTabs[index]);
+      },
     );
   }
 
@@ -386,49 +378,19 @@ class UnitDetailsPage extends StatelessWidget {
           }
         },
     ];
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: detailTabs.length,
-            itemBuilder: (BuildContext context, int index) {
-              return gridCard(context, detailTabs[index]);
-            },
-          ),
-          const Gap(10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10.0),
-            child: CustomButton(
-                text: "Shared Documents",
-                icon: Image.asset(
-                  "assets/document.png",
-                  width: MediaQuery.of(context).size.width * 0.06,
-                ),
-                height: MediaQuery.of(context).size.height * 0.06,
-                fontSize: MediaQuery.of(context).size.width * 0.035,
-                buttonColor: context
-                    .read<AppThemeCubit>()
-                    .state
-                    .primaryColor
-                    .withOpacity(0.8),
-                function: () {
-                  context
-                      .read<SharedDocumentsCubit>()
-                      .getSharedDocuments(context, unitId: unitId);
-                  Navigator.pushNamed(context, AppRoutes.sharedDocument,
-                      arguments: unitId);
-                }),
-          )
-        ],
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
       ),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: detailTabs.length,
+      itemBuilder: (BuildContext context, int index) {
+        return gridCard(context, detailTabs[index]);
+      },
     );
   }
 

@@ -32,18 +32,27 @@ class FirebaseNotificationService {
     BuildContext context,
     String accessToken,
   ) async {
-    await firebaseMessaging.getToken().then((value) {
-      Uri url = Uri.parse("$baseUrl/mobile/owner/auth/update/device-token");
-      http.post(url, body: {
-        "device_type": Platform.isAndroid ? "Android" : "IOS",
-        "device_token": value,
-      }, headers: {
-        "Authorization": "Bearer $accessToken"
-      }).then((value) {
-        if (kDebugMode) {
-          print(value.body);
-        }
-      });
+    String? token;
+    if (Platform.isIOS) {
+      token = await firebaseMessaging.getAPNSToken();
+      if (token == null) {
+        Fluttertoast.showToast(msg: "Apns not available");
+        return;
+      }
+    }
+    if (Platform.isAndroid) {
+      token = await firebaseMessaging.getToken();
+    }
+    Uri url = Uri.parse("$baseUrl/mobile/owner/auth/update/device-token");
+    http.post(url, body: {
+      "device_type": Platform.isAndroid ? "Android" : "IOS",
+      "device_token": token,
+    }, headers: {
+      "Authorization": "Bearer $accessToken"
+    }).then((value) {
+      if (kDebugMode) {
+        print(value.body);
+      }
     });
   }
 

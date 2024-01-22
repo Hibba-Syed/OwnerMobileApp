@@ -97,13 +97,7 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
                       decoration: BoxDecoration(
                         color: kWhite,
                         borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                              offset: const Offset(1, 1),
-                              spreadRadius: 2,
-                              blurRadius: 2,
-                              color: kGrey.shade200),
-                        ],
+          
                       ),
                       child: Column(
                         children: [

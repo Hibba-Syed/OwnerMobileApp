@@ -62,7 +62,7 @@ class CompanySelectionWidget extends StatelessWidget {
                     ),
                     const Gap(5),
                     CustomText(
-                      text: 'Account Managed By',
+                      text: 'Managed By',
                       fontSize: MediaQuery.of(context).size.width * 0.03,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFFB2B1B1),

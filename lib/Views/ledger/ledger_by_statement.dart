@@ -87,12 +87,6 @@ class _LedgerByStatementState extends State<LedgerByStatement> {
                       decoration: BoxDecoration(
                         color: kWhite,
                         borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                              color: kGrey.shade200,
-                              blurRadius: 2,
-                              spreadRadius: 2)
-                        ],
                       ),
                       child: Column(
                         children: [
@@ -129,7 +123,7 @@ class _LedgerByStatementState extends State<LedgerByStatement> {
                                               0.03,
                                           color: Color(
                                               ledger?.type?.toLowerCase() ==
-                                                      "payment"
+                                                      "charge"
                                                   ? 0xffFB5454
                                                   : 0xff65D024),
                                         )
@@ -204,14 +198,18 @@ class _LedgerByStatementState extends State<LedgerByStatement> {
                                           text: "Debit",
                                           fontSize: 13,
                                         ),
-                                        CustomText(
-                                          text: formatCurrency(
-                                              ledger?.debit ?? 0),
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.032,
-                                          color: const Color(0xffB2B1B1),
+                                        const Gap(10),
+                                        Flexible(
+                                          child: CustomText(
+                                            text: formatCurrency(
+                                                ledger?.debit ?? 0),
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.032,
+                                            color: const Color(0xffB2B1B1),
+                                            maxLines: 1,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -224,14 +222,18 @@ class _LedgerByStatementState extends State<LedgerByStatement> {
                                           text: "Credit",
                                           fontSize: 13,
                                         ),
-                                        CustomText(
-                                          text: formatCurrency(
-                                              ledger?.credit ?? 0),
-                                          color: const Color(0xffB2B1B1),
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.032,
+                                        const Gap(10),
+                                        Flexible(
+                                          child: CustomText(
+                                            text: formatCurrency(
+                                                ledger?.credit ?? 0),
+                                            color: const Color(0xffB2B1B1),
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.032,
+                                            maxLines: 1,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -251,14 +253,18 @@ class _LedgerByStatementState extends State<LedgerByStatement> {
                                                   .width *
                                               0.04,
                                         ),
-                                        CustomText(
-                                          text: formatCurrency(
-                                              ledger?.balance ?? 0),
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.04,
-                                          fontWeight: FontWeight.bold,
+                                        const Gap(10),
+                                        Flexible(
+                                          child: CustomText(
+                                            text: formatCurrency(
+                                                ledger?.balance ?? 0),
+                                            fontWeight: FontWeight.bold,
+                                            maxLines: 1,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.04,
+                                          ),
                                         ),
                                       ],
                                     ),
