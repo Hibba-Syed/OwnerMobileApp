@@ -23,9 +23,19 @@ class UnitDetailsPage extends StatelessWidget {
           if (unitSlug?.isEmpty ?? true) {
             Fluttertoast.showToast(msg: 'No service available');
           } else {
-            await launchUrl(Uri.parse(
-              "http://${context.read<ProfileCubit>().state.profileModel?.record?.company?.slug}.synergic360.com/$unitSlug",
-            ));
+            // Navigator.pushNamed(
+            //   context,
+            //   AppRoutes.myWebView,
+            //   arguments: [
+            //     communityName,
+            //     "http://${context.read<ProfileCubit>().state.profileModel?.record?.company?.slug}.synergic360.com/$unitSlug",
+            //   ],
+            // );
+            await launchUrl(
+              Uri.parse(
+                "http://${context.read<ProfileCubit>().state.profileModel?.record?.company?.slug}.synergic360.com/$unitSlug",
+              ),
+            );
           }
         },
         label: Row(

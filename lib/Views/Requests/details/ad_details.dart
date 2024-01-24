@@ -234,14 +234,15 @@ class AdDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget supportingDocuments(BuildContext context, List<Map> data) {
+  Widget supportingDocuments(BuildContext context, List<Map> data,
+      {EdgeInsetsGeometry? padding = const EdgeInsets.all(10)}) {
     return Column(
       children: [
         const Gap(5),
         headingText(context, "Supporting Documents"),
         const Gap(5),
         Container(
-          padding: const EdgeInsets.all(10),
+          padding: padding,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: kWhite,
@@ -309,13 +310,13 @@ class AdDetailsPage extends StatelessWidget {
                       Flexible(
                         child: CustomText(
                           text: columnName[i],
-                          fontSize: 13,
+                          fontSize: MediaQuery.of(context).size.width * 0.04,
                         ),
                       ),
                       Flexible(
                         child: CustomText(
                           text: (data?[index][i] ?? " -- ").toString(),
-                          fontSize: 13,
+                          fontSize: MediaQuery.of(context).size.width * 0.04,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

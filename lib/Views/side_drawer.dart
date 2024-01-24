@@ -113,31 +113,31 @@ class SideDrawerPage extends StatelessWidget {
                       size: 15,
                     ),
                   ),
-                  ListTile(
-                    onTap: () {
-                      context
-                          .read<HappinessCenterCubit>()
-                          .onChangeCommunityId(0);
-                      context.read<HappinessCenterCubit>().onChangeUnitId(0);
-                      context.read<HappinessCenterCubit>().onChangeService("");
-                      context.read<HappinessCenterCubit>().onChangeMessage("");
-                      context.read<HappinessCenterCubit>().onChangeFiles([]);
-                      Navigator.pushNamed(context, AppRoutes.happinessCenter);
-                    },
-                    leading: Image.asset(
-                      "assets/happiness_centre.png",
-                      color: context.read<AppThemeCubit>().state.primaryColor,
-                      width: MediaQuery.of(context).size.width * 0.06,
-                    ),
-                    title: const CustomText(
-                      text: "Happiness Center",
-                      textAlign: TextAlign.left,
-                    ),
-                    trailing: const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 15,
-                    ),
-                  ),
+                  // ListTile(
+                  //   onTap: () {
+                  //     context
+                  //         .read<HappinessCenterCubit>()
+                  //         .onChangeCommunityId(0);
+                  //     context.read<HappinessCenterCubit>().onChangeUnitId(0);
+                  //     context.read<HappinessCenterCubit>().onChangeService("");
+                  //     context.read<HappinessCenterCubit>().onChangeMessage("");
+                  //     context.read<HappinessCenterCubit>().onChangeFiles([]);
+                  //     Navigator.pushNamed(context, AppRoutes.happinessCenter);
+                  //   },
+                  //   leading: Image.asset(
+                  //     "assets/happiness_centre.png",
+                  //     color: context.read<AppThemeCubit>().state.primaryColor,
+                  //     width: MediaQuery.of(context).size.width * 0.06,
+                  //   ),
+                  //   title: const CustomText(
+                  //     text: "Happiness Center",
+                  //     textAlign: TextAlign.left,
+                  //   ),
+                  //   trailing: const Icon(
+                  //     Icons.arrow_forward_ios,
+                  //     size: 15,
+                  //   ),
+                  // ),
                   ListTile(
                     onTap: () {
                       Navigator.pushNamed(context, AppRoutes.changePassword);

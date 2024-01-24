@@ -90,6 +90,8 @@ class RequestsPage extends StatelessWidget {
               initialSelection: context.read<RequestsCubit>().state.requestType,
               hintText: "Select",
               expandedInsets: const EdgeInsets.all(0),
+              inputDecorationTheme:
+                  const InputDecorationTheme(border: UnderlineInputBorder()),
               onSelected: (requestType) => context
                   .read<RequestsCubit>()
                   .onChangeRequestType(requestType),
