@@ -5,6 +5,7 @@ import 'package:iskaanowner/Blocs/Edit%20Compliance/edit_compliance_cubit.dart';
 import 'package:iskaanowner/Blocs/Invoice%20details/invoice_details_cubit.dart';
 import 'package:iskaanowner/Blocs/Logout/logout_cubit.dart';
 import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
+import 'package:iskaanowner/Blocs/Primary%20Owner%20Activity/primary_owner_activity_cubit.dart';
 import 'package:iskaanowner/Blocs/Receipt%20details/receipt_details_cubit.dart';
 import 'package:iskaanowner/Blocs/Reset%20Password/reset_password_cubit.dart';
 import 'package:iskaanowner/Blocs/Send%20OTP/send_otp_cubit.dart';
@@ -56,7 +57,7 @@ class AppPages {
       ),
       PageEntity(
         route: AppRoutes.login,
-        page:  LoginPage(),
+        page: LoginPage(),
         bloc: BlocProvider(
           create: (context) => LoginCubit(),
         ),
@@ -70,7 +71,7 @@ class AppPages {
       ),
       PageEntity(
         route: AppRoutes.resetPassword,
-        page:  ResetPasswordPage(),
+        page: ResetPasswordPage(),
         bloc: BlocProvider(
           create: (context) => ResetPasswordCubit(),
         ),
@@ -111,8 +112,16 @@ class AppPages {
       PageEntity(
         route: AppRoutes.owners,
         page: const OwnersPage(),
-        bloc: BlocProvider(
-          create: (context) => OwnersCubit(),
+        bloc: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => OwnersCubit(),
+            ),
+            BlocProvider(
+              create: (context) => PrimaryOwnerActivityCubit(),
+            ),
+          ],
+          child: const OwnersPage(),
         ),
       ),
       PageEntity(
@@ -206,7 +215,7 @@ class AppPages {
       ),
       PageEntity(
           route: AppRoutes.happinessCenter,
-          page:  HappinessCenterPage(),
+          page: HappinessCenterPage(),
           bloc: MultiBlocProvider(
             providers: [
               BlocProvider(
@@ -222,11 +231,11 @@ class AppPages {
                 create: (context) => HappinessCenterCubit(),
               ),
             ],
-            child:  HappinessCenterPage(),
+            child: HappinessCenterPage(),
           )),
       PageEntity(
         route: AppRoutes.forgotPassword,
-        page:  ForgotPasswordPage(),
+        page: ForgotPasswordPage(),
       ),
       PageEntity(
           route: AppRoutes.changePassword,

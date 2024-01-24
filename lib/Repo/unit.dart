@@ -64,6 +64,47 @@ class UnitsService {
     });
   }
 
+  static Future<Object?> getUnitPrimaryOwnerActivity(
+      BuildContext context, int? unitId) async {
+    return await ExceptionService.applyTryCatch(() async {
+      return await http.get(
+          Uri.parse(
+            "$baseUrl/mobile/owner/property/unit/$unitId/primary-owner-logs",
+          ),
+          headers: {
+            "Authorization":
+                "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+          }).then((value) {
+        if (value.statusCode == 200) {
+          return Success(200, value.body);
+        }
+        return Failure(400, jsonDecode(value.body)["message"]);
+      });
+    });
+  }
+
+  static Future<Object?> makeUnitOwner(
+      BuildContext context, int? unitId, int? ownerId) async {
+    return await ExceptionService.applyTryCatch(() async {
+      return await http.post(
+          Uri.parse(
+            "$baseUrl/mobile/owner/property/unit/$unitId/change-primary-owner",
+          ),
+          headers: {
+            "Authorization":
+                "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+          },
+          body: {
+            "owner_id": ownerId,
+          }).then((value) {
+        if (value.statusCode == 200) {
+          return Success(200, value.body);
+        }
+        return Failure(400, jsonDecode(value.body)["message"]);
+      });
+    });
+  }
+
   static Future<Object?> getUnitOccupant(BuildContext context, int? id) async {
     return await ExceptionService.applyTryCatch(() async {
       return await http.get(

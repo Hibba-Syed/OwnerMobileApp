@@ -88,6 +88,7 @@ class Owner {
 }
 
 class Detail {
+  int? id;
   String? name;
   int? isPrimary;
   String? arabicName;
@@ -108,6 +109,7 @@ class Detail {
   String? fullAddress;
 
   Detail({
+    this.id,
     this.name,
     this.isPrimary,
     this.arabicName,
@@ -129,6 +131,7 @@ class Detail {
   });
 
   factory Detail.fromJson(Map<String, dynamic> json) => Detail(
+        id: json["id"],
         name: json["name"],
         isPrimary: json["is_primary"],
         arabicName: json["arabic_name"],
@@ -154,6 +157,7 @@ class Detail {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "name": name,
         "is_primary": isPrimary,
         "arabic_name": arabicName,

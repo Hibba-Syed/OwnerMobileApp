@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -139,7 +137,6 @@ class OccupantPage extends StatelessWidget {
                         margin: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                      
                             color: kWhite),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -440,13 +437,8 @@ class OccupantPage extends StatelessWidget {
                   "icon": "assets/whatsapp.png",
                   "onTap": () {
                     if (phoneNumber != null) {
-                      if (Platform.isAndroid) {
-                        launchUrl(Uri.parse(
-                            "https://wa.me/$phoneNumber/?text=${Uri.parse("hello!")}"));
-                      } else {
-                        launchUrl(Uri.parse(
-                            "https://api.whatsapp.com/send?phone=$phoneNumber=${Uri.parse("hello!")}"));
-                      }
+                      launchUrl(Uri.parse(
+                          "https://wa.me/$phoneNumber/?text=${Uri.parse("hello!")}"));
                     }
                   }
                 },

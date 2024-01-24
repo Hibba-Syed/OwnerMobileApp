@@ -220,7 +220,8 @@ class SideDrawerPage extends StatelessWidget {
                               color: context
                                   .read<AppThemeCubit>()
                                   .state
-                                  .primaryColor,
+                                  .primaryColor
+                                  .withOpacity(0.8),
                               fontSize: 20,
                             ),
                             const Gap(10),
@@ -305,6 +306,11 @@ class SideDrawerPage extends StatelessWidget {
                                 }
                                 return CustomButton(
                                     text: "Login",
+                                    buttonColor: context
+                                        .read<AppThemeCubit>()
+                                        .state
+                                        .primaryColor
+                                        .withOpacity(0.8),
                                     function: () {
                                       if (formKey.currentState?.validate() ??
                                           false) {
@@ -394,7 +400,11 @@ class SideDrawerPage extends StatelessWidget {
             CustomText(
               text: "Select a Profile",
               fontWeight: FontWeight.bold,
-              color: context.read<AppThemeCubit>().state.primaryColor,
+              color: context
+                  .read<AppThemeCubit>()
+                  .state
+                  .primaryColor
+                  .withOpacity(0.8),
               fontSize: 20,
             ),
             const Gap(10),
