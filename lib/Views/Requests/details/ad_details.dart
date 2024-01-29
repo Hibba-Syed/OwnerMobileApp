@@ -86,21 +86,22 @@ class AdDetailsPage extends StatelessWidget {
                                             formatCurrency(e.cost ?? 0)
                                           ])
                                       .toList() ??
-                                  []),
+                                  [],
+                              title: "Device"),
                           supportingDocuments(context, [
                             {
                               "name": "Title Deed",
                               "url": state.adDetailsModel?.record?.titleDeedUrl,
                             },
                             {
-                              "name": "ID File",
+                              "name": " Emirates ID",
                               "url":
                                   state.adDetailsModel?.record?.clientIdFileUrl,
                             },
                             {
-                              "name": "Passport File",
-                              "url":
-                                  state.adDetailsModel?.record?.passportFileUrl,
+                              "name": "Tenancy Contact",
+                              "url": state
+                                  .adDetailsModel?.record?.tenancyContractUrl,
                             },
                           ])
                         ],
@@ -290,8 +291,8 @@ class AdDetailsPage extends StatelessWidget {
           separatorBuilder: (context, index) {
             return const Divider(
               thickness: 2,
-              endIndent: 100,
-              indent: 100,
+              endIndent: 50,
+              indent: 50,
             );
           },
           itemBuilder: (BuildContext context, int index) {

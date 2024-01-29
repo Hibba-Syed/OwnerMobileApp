@@ -212,7 +212,7 @@ class UnitDetailsPage extends StatelessWidget {
       BuildContext context, String? unitNo, int? unitId) {
     List detailTabs = [
       {
-        "name": "Owners",
+        "name": "Owner(s)",
         "icon": "assets/owners.png",
         "onTap": () {
           context.read<OwnersCubit>().getOwners(context, unitId);

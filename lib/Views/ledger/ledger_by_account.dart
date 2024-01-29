@@ -39,7 +39,7 @@ class _LedgerByAccountState extends State<LedgerByAccount> {
   Widget build(BuildContext context) {
     return BlocBuilder<LedgerCubit, LedgerState>(
       builder: (context, state) {
-        if (state.loadingState == LoadingState.loading) {
+        if (state.ledgerByAccountLoadingState == LoadingState.loading) {
           return const CustomLoader();
         }
         if (state.ledgerByAccountModel?.record?.ledgers?.isEmpty ?? true) {

@@ -92,7 +92,6 @@ class _RequestListPageState extends State<RequestListPage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: kWhite,
-                     
                               ),
                               child: Row(
                                 children: [
@@ -217,7 +216,7 @@ class _RequestListPageState extends State<RequestListPage> {
                                               const Gap(10),
                                               CustomText(
                                                 text: application?.clientName ??
-                                                    "",
+                                                    " -- ",
                                                 maxLines: 1,
                                                 fontSize: MediaQuery.of(context)
                                                         .size
@@ -230,12 +229,16 @@ class _RequestListPageState extends State<RequestListPage> {
                                         const Gap(10),
                                         Row(
                                           children: [
-                                            const RequestsPage().iconAndText(
-                                              context,
-                                              "assets/call.png",
-                                              application?.clientPhone,
-                                            ),
-                                            const Gap(8),
+                                            if (application?.clientPhone !=
+                                                null)
+                                              const RequestsPage().iconAndText(
+                                                context,
+                                                "assets/call.png",
+                                                application?.clientPhone,
+                                              ),
+                                            if (application?.clientPhone !=
+                                                null)
+                                              const Gap(8),
                                             const RequestsPage().iconAndText(
                                                 context,
                                                 "assets/calender.png",

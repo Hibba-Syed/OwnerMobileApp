@@ -14,15 +14,13 @@ class MiDetailsPage extends StatelessWidget {
     String? type =
         (ModalRoute.of(context)?.settings.arguments as List)[2] as String?;
     return Scaffold(
-   
       body: SafeArea(
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(10),
               child: const DashboardPage().appBar(context,
-                  text:
-                      const AdDetailsPage().getRequestName(type)),
+                  text: const AdDetailsPage().getRequestName(type)),
             ),
             Expanded(
               child: BlocBuilder<RequestDetailsCubit, RequestDetailsState>(
@@ -115,9 +113,10 @@ class MiDetailsPage extends StatelessWidget {
                             ],
                           ),
                           const AdDetailsPage().applicationDetails(
-                              context,
-                              state.miDetailsModel?.record?.clientName,
-                              state.miDetailsModel?.record?.clientPhone,),
+                            context,
+                            state.miDetailsModel?.record?.clientName,
+                            state.miDetailsModel?.record?.clientPhone,
+                          ),
                           const AdDetailsPage().supportingDocuments(context, [
                             {
                               "name": "Emirates ID Or Passport/Visa",

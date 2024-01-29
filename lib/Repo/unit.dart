@@ -86,17 +86,24 @@ class UnitsService {
   static Future<Object?> makeUnitOwner(
       BuildContext context, int? unitId, int? ownerId) async {
     return await ExceptionService.applyTryCatch(() async {
-      return await http.post(
-          Uri.parse(
-            "$baseUrl/mobile/owner/property/unit/$unitId/change-primary-owner",
-          ),
-          headers: {
-            "Authorization":
-                "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
-          },
-          body: {
+      return await http
+          .post(
+        Uri.parse(
+          "$baseUrl/mobile/owner/property/unit/$unitId/change-primary-owner",
+        ),
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization":
+              "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+        },
+        body: jsonEncode(
+          {
             "owner_id": ownerId,
-          }).then((value) {
+          },
+        ),
+      )
+          .then((value) {
         if (value.statusCode == 200) {
           return Success(200, value.body);
         }

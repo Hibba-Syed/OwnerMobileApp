@@ -64,8 +64,15 @@ class CsDetailsPage extends StatelessWidget {
                                     " -- ",
                               },
                               {
+                                "icon": Icons.security,
+                                "title": "Description",
+                                "subTitle":
+                                    state.csDetailsModel?.record?.description ??
+                                        " -- ",
+                              },
+                              {
                                 "icon": Icons.calendar_month_outlined,
-                                "title": "Start date",
+                                "title": "Date",
                                 "subTitle": const OccupantPage()
                                     .dateTimeFormatter(state.csDetailsModel
                                         ?.record?.application?.date),
@@ -77,37 +84,13 @@ class CsDetailsPage extends StatelessWidget {
                                         ?.application?.time ??
                                     " -- ",
                               },
-                              {
-                                "icon": Icons.security,
-                                "title": "Description",
-                                "subTitle":
-                                    state.csDetailsModel?.record?.description ??
-                                        " -- ",
-                              },
                             ],
                           ),
                           const AdDetailsPage().applicationDetails(
                             context,
                             state.csDetailsModel?.record?.clientName,
                             state.csDetailsModel?.record?.clientPhone,
-                           
                           ),
-                          const AdDetailsPage().supportingDocuments(context, [
-                            {
-                              "name": "Title Deed",
-                              "url": state.csDetailsModel?.record?.titleDeedUrl,
-                            },
-                            {
-                              "name": "ID File",
-                              "url":
-                                  state.csDetailsModel?.record?.clientIdFileUrl,
-                            },
-                            {
-                              "name": "Passport File",
-                              "url":
-                                  state.csDetailsModel?.record?.passportFileUrl,
-                            },
-                          ])
                         ],
                       ),
                     ),

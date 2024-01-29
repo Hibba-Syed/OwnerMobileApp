@@ -149,139 +149,151 @@ class ComplianceDetailsPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          const Gap(10),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: kWhite,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Gap(10),
-                                CustomText(
-                                  text: "History",
-                                  color: context
-                                      .read<AppThemeCubit>()
-                                      .state
-                                      .primaryColor,
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.04,
-                                ),
-                                const Gap(10),
-                                ListView.separated(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      History? history = state
-                                          .complianceDetailsModel
-                                          ?.record
-                                          ?.history?[index];
-                                      return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const ProfilePage().profileInfoTile(
-                                              context,
-                                              "Compliance Date",
-                                              history?.date),
-                                          const ProfilePage().profileInfoTile(
-                                              context,
-                                              "Compliance Expiry",
-                                              history?.expiryDate),
-                                          const Gap(10),
-                                          CustomText(
-                                            text: "Certificate",
-                                            color: context
-                                                .read<AppThemeCubit>()
-                                                .state
-                                                .primaryColor,
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.04,
-                                          ),
-                                          const Gap(10),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              CustomText(
-                                                text: "Compliance Certificate",
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.04,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                              InkWell(
-                                                onTap: () {
-                                                  if (history?.certificate !=
-                                                      null) {
-                                                    launchUrl(Uri.parse(
-                                                        history?.certificate ??
-                                                            ""));
-                                                  }
-                                                },
-                                                child: Container(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                    horizontal: 10,
-                                                    vertical: 5,
-                                                  ),
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                      color: const Color(
-                                                              0xff65D024)
-                                                          .withOpacity(0.1)),
-                                                  child: Row(
-                                                    children: [
-                                                      Image.asset(
-                                                        "assets/download_summary.png",
+                          if ((state.complianceDetailsModel?.record?.history
+                                      ?.length ??
+                                  0) !=
+                              0)
+                            const Gap(10),
+                          if ((state.complianceDetailsModel?.record?.history
+                                      ?.length ??
+                                  0) !=
+                              0)
+                            Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: kWhite,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Gap(10),
+                                  CustomText(
+                                    text: "History",
+                                    color: context
+                                        .read<AppThemeCubit>()
+                                        .state
+                                        .primaryColor,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.04,
+                                  ),
+                                  const Gap(10),
+                                  ListView.separated(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemBuilder: (context, index) {
+                                        History? history = state
+                                            .complianceDetailsModel
+                                            ?.record
+                                            ?.history?[index];
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const ProfilePage().profileInfoTile(
+                                                context,
+                                                "Compliance Date",
+                                                history?.date),
+                                            const ProfilePage().profileInfoTile(
+                                                context,
+                                                "Compliance Expiry",
+                                                history?.expiryDate),
+                                            const Gap(10),
+                                            CustomText(
+                                              text: "Certificate",
+                                              color: context
+                                                  .read<AppThemeCubit>()
+                                                  .state
+                                                  .primaryColor,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.04,
+                                            ),
+                                            const Gap(10),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                CustomText(
+                                                  text:
+                                                      "Compliance Certificate",
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.04,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    if (history?.certificate !=
+                                                        null) {
+                                                      launchUrl(Uri.parse(
+                                                          history?.certificate ??
+                                                              ""));
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 5,
+                                                    ),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
                                                         color: const Color(
-                                                            0xff65D024),
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.05,
-                                                      ),
-                                                      CustomText(
-                                                        text: "Download",
-                                                        color: const Color(
-                                                            0xff65D024),
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.03,
-                                                      ),
-                                                    ],
+                                                                0xff65D024)
+                                                            .withOpacity(0.1)),
+                                                    child: Row(
+                                                      children: [
+                                                        Image.asset(
+                                                          "assets/download_summary.png",
+                                                          color: const Color(
+                                                              0xff65D024),
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.05,
+                                                        ),
+                                                        CustomText(
+                                                          text: "Download",
+                                                          color: const Color(
+                                                              0xff65D024),
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.03,
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) =>
+                                          const Padding(
+                                            padding: EdgeInsets.all(20),
+                                            child: Divider(
+                                              thickness: 2,
+                                            ),
                                           ),
-                                        ],
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) =>
-                                        const Padding(
-                                          padding: EdgeInsets.all(20),
-                                          child: Divider(
-                                            thickness: 2,
-                                          ),
-                                        ),
-                                    itemCount: state.complianceDetailsModel
-                                            ?.record?.history?.length ??
-                                        0)
-                              ],
+                                      itemCount: state.complianceDetailsModel
+                                              ?.record?.history?.length ??
+                                          0)
+                                ],
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     );

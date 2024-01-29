@@ -65,6 +65,14 @@ class MoDetailsPage extends StatelessWidget {
                               },
                               {
                                 "icon": Icons.calendar_month_outlined,
+                                "title": "Emergency Number",
+                                "subTitle": (state.moDetailsModel?.record
+                                            ?.application?.emergencyNumber ??
+                                        " -- ")
+                                    .toString(),
+                              },
+                              {
+                                "icon": Icons.calendar_month_outlined,
                                 "title": "Requested Time",
                                 "subTitle":
                                     "${state.moDetailsModel?.record?.application?.moveTimeFrom ?? ""} - ${state.moDetailsModel?.record?.application?.moveTimeTo ?? ""}",
@@ -84,25 +92,24 @@ class MoDetailsPage extends StatelessWidget {
                             ],
                           ),
                           const AdDetailsPage().applicationDetails(
-                              context,
-                              state.moDetailsModel?.record?.clientName,
-                              state.moDetailsModel?.record?.clientPhone,),
-                          const AdDetailsPage().supportingDocuments(context, [
-                            {
-                              "name": "Title Deed",
-                              "url": state.moDetailsModel?.record?.titleDeedUrl,
-                            },
-                            {
-                              "name": "ID File",
-                              "url":
-                                  state.moDetailsModel?.record?.clientIdFileUrl,
-                            },
-                            {
-                              "name": "Passport File",
-                              "url":
-                                  state.moDetailsModel?.record?.passportFileUrl,
-                            },
-                          ])
+                            context,
+                            state.moDetailsModel?.record?.clientName,
+                            state.moDetailsModel?.record?.clientPhone,
+                          ),
+                          Builder(builder: (context) {
+                            List<Map<dynamic, dynamic>> list = [];
+                            list.addAll(state.moDetailsModel?.record?.documents
+                                    ?.map(
+                                      (e) => {
+                                        "name": e.name?.capitalize() ?? " -- ",
+                                        "url": e.pathUrl,
+                                      },
+                                    )
+                                    .toList() ??
+                                []);
+                            return const AdDetailsPage()
+                                .supportingDocuments(context, list);
+                          })
                         ],
                       ),
                     ),

@@ -4,7 +4,9 @@ class LedgerState {
   final LedgerByStatementModel? ledgerByStatementModel;
   final LedgerByDateModel? ledgerByDateModel;
   final LedgerByAccountModel? ledgerByAccountModel;
-  final LoadingState loadingState;
+  final LoadingState ledgerByStatementLoadingState;
+  final LoadingState ledgerByDateLoadingState;
+  final LoadingState ledgerByAccountLoadingState;
   final LoadingState loadMoreLedgerByStatementState;
   final LoadingState loadMoreLedgerByDateState;
   final LoadingState loadMoreLedgerByAccountState;
@@ -18,7 +20,9 @@ class LedgerState {
     this.ledgerByStatementModel,
     this.ledgerByDateModel,
     this.ledgerByAccountModel,
-    this.loadingState = LoadingState.none,
+    this.ledgerByStatementLoadingState = LoadingState.none,
+    this.ledgerByDateLoadingState = LoadingState.none,
+    this.ledgerByAccountLoadingState = LoadingState.none,
     this.loadMoreLedgerByDateState = LoadingState.none,
     this.loadMoreLedgerByStatementState = LoadingState.none,
     this.loadMoreLedgerByAccountState = LoadingState.none,
@@ -33,7 +37,9 @@ class LedgerState {
     final LedgerByStatementModel? ledgerByStatementModel,
     final LedgerByDateModel? ledgerByDateModel,
     final LedgerByAccountModel? ledgerByAccountModel,
-    final LoadingState? loadingState,
+    final LoadingState? ledgerByStatementLoadingState,
+    final LoadingState? ledgerByDateLoadingState,
+    final LoadingState? ledgerByAccountLoadingState,
     final LoadingState? loadMoreLedgerByStatementState,
     final LoadingState? loadMoreLedgerByDateState,
     final LoadingState? loadMoreLedgerByAccountState,
@@ -50,7 +56,12 @@ class LedgerState {
           ledgerByStatementModel ?? this.ledgerByStatementModel,
       ledgerByDateModel: ledgerByDateModel ?? this.ledgerByDateModel,
       ledgerByAccountModel: ledgerByAccountModel ?? this.ledgerByAccountModel,
-      loadingState: loadingState ?? this.loadingState,
+      ledgerByStatementLoadingState:
+          ledgerByStatementLoadingState ?? this.ledgerByStatementLoadingState,
+      ledgerByDateLoadingState:
+          ledgerByDateLoadingState ?? this.ledgerByDateLoadingState,
+      ledgerByAccountLoadingState:
+          ledgerByAccountLoadingState ?? this.ledgerByAccountLoadingState,
       loadMoreLedgerByStatementState:
           loadMoreLedgerByStatementState ?? this.loadMoreLedgerByStatementState,
       loadMoreLedgerByDateState:

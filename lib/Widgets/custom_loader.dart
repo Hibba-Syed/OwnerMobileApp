@@ -8,7 +8,7 @@ class CustomLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Center(child: CircularProgressIndicator()
         // LottieBuilder.asset(
-        //   "assets/coffeeLoader.json",
+        //   "assets/progress_indicator.json",
         //   width: width,
         // ),
         );

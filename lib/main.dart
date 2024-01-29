@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           constraints:
               const BoxConstraints(maxWidth: customMaxWidth, minWidth: 0),
           child: MaterialApp(
-            title: 'Iskaan Owner',
+            title: 'ISKAAN Owner App',
             theme: ThemeData(
               scaffoldBackgroundColor: kBackgroundColor,
               bottomSheetTheme:

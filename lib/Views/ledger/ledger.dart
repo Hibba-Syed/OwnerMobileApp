@@ -7,7 +7,6 @@ import '../../Blocs/App Theme/app_theme_cubit.dart';
 import '../../Blocs/Credit Note Details/credit_note_details_cubit.dart';
 import '../../Blocs/Invoice details/invoice_details_cubit.dart';
 import '../../Blocs/Receipt details/receipt_details_cubit.dart';
-import '../../Blocs/Unit Financials/unit_financials_cubit.dart';
 import '../../Utils/utils.dart';
 
 class LedgerPage extends StatelessWidget {
@@ -279,49 +278,6 @@ class LedgerPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  DataRow ledgerDataRow(Map data,
-      {void Function()? onTap,
-      bool enableCheckbox = false,
-      required BuildContext context,
-      int? id,
-      List? selectedUnits}) {
-    List<dynamic> dataList = data.values.toList();
-    if (enableCheckbox) {
-      dataList.insert(0, "element");
-    }
-    return DataRow(
-        cells: List.generate(dataList.length, (index) {
-      if (enableCheckbox) {
-        if (index == 0) {
-          var modifiedList = List.from(selectedUnits ?? []);
-          int? index = modifiedList.indexWhere((element) => element == id);
-          return DataCell(Checkbox(
-            value: index != -1 ? true : false,
-            onChanged: (value) {
-              if (index != -1) {
-                modifiedList.removeAt(index);
-              } else {
-                modifiedList.add(id);
-              }
-              context
-                  .read<UnitFinancialsCubit>()
-                  .onChangeSelectedUnits(modifiedList);
-            },
-          ));
-        }
-      }
-      return ledgerDataCell(dataList[index], onTap: onTap);
-    }));
-  }
-
-  DataCell ledgerDataCell(dynamic text, {void Function()? onTap}) {
-    return DataCell(
-        CustomText(
-          text: (text ?? " -- ").toString(),
-        ),
-        onTap: onTap);
   }
 
   Future<T?> showFilter<T>(

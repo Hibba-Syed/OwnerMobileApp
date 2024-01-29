@@ -20,8 +20,7 @@ class DpDetailsPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10),
               child: const DashboardPage().appBar(context,
-                  text:
-                      const AdDetailsPage().getRequestName(type)),
+                  text: const AdDetailsPage().getRequestName(type)),
             ),
             Expanded(
               child: BlocBuilder<RequestDetailsCubit, RequestDetailsState>(
@@ -81,14 +80,11 @@ class DpDetailsPage extends StatelessWidget {
                             ],
                           ),
                           const AdDetailsPage().applicationDetails(
-                              context,
-                              state.dpDetailsModel?.record?.clientName,
-                              state.dpDetailsModel?.record?.clientPhone,),
+                            context,
+                            state.dpDetailsModel?.record?.clientName,
+                            state.dpDetailsModel?.record?.clientPhone,
+                          ),
                           const AdDetailsPage().supportingDocuments(context, [
-                            {
-                              "name": "Title Deed",
-                              "url": state.dpDetailsModel?.record?.titleDeedUrl,
-                            },
                             {
                               "name": "ID File",
                               "url":
@@ -98,6 +94,11 @@ class DpDetailsPage extends StatelessWidget {
                               "name": "Passport File",
                               "url":
                                   state.dpDetailsModel?.record?.passportFileUrl,
+                            },
+                            {
+                              "name": "Tenancy Contract",
+                              "url": state
+                                  .dpDetailsModel?.record?.tenancyContractUrl,
                             },
                           ])
                         ],

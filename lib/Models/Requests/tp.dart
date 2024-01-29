@@ -6,204 +6,205 @@ import 'dart:convert';
 
 import 'ad.dart';
 
-TpDetailsModel tpDetailsModelFromJson(String str) => TpDetailsModel.fromJson(json.decode(str));
+TpDetailsModel tpDetailsModelFromJson(String str) =>
+    TpDetailsModel.fromJson(json.decode(str));
 
 String tpDetailsModelToJson(TpDetailsModel data) => json.encode(data.toJson());
 
 class TpDetailsModel {
-    String? status;
-    Record? record;
-    int? code;
-    dynamic meta;
-    bool? requestStatus;
-    String? message;
+  String? status;
+  Record? record;
+  int? code;
+  dynamic meta;
+  bool? requestStatus;
+  String? message;
 
-    TpDetailsModel({
-        this.status,
-        this.record,
-        this.code,
-        this.meta,
-        this.requestStatus,
-        this.message,
-    });
+  TpDetailsModel({
+    this.status,
+    this.record,
+    this.code,
+    this.meta,
+    this.requestStatus,
+    this.message,
+  });
 
-    factory TpDetailsModel.fromJson(Map<String, dynamic> json) => TpDetailsModel(
+  factory TpDetailsModel.fromJson(Map<String, dynamic> json) => TpDetailsModel(
         status: json["status"],
         record: json["record"] == null ? null : Record.fromJson(json["record"]),
         code: json["code"],
         meta: json["meta"],
         requestStatus: json["request_status"],
         message: json["message"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "status": status,
         "record": record?.toJson(),
         "code": code,
         "meta": meta,
         "request_status": requestStatus,
         "message": message,
-    };
+      };
 }
 
 class Record {
-    int? id;
-    String? reference;
-    int? companyId;
-    int? associationId;
-    int? unitId;
-    int? accountId;
-    String? incomeType;
-    int? assigneeId;
-    String? applicationType;
-    int? applicationId;
-    dynamic parentId;
-    String? clientName;
-    String? clientEmail;
-    String? clientPhone;
-    String? firstName;
-    dynamic lastName;
-    String? email;
-    dynamic profilePicture;
-    String? clientIdType;
-    dynamic clientIdNumber;
-    dynamic clientIdFile;
-    dynamic clientIdExpiry;
-    dynamic passportFile;
-    dynamic passportExpiry;
-    dynamic passportNumber;
-    dynamic clientCountryId;
-    String? clientType;
-    dynamic description;
-    dynamic deletedAt;
-    String? status;
-    dynamic securityNumber;
-    int? payableAmount;
-    int? securityDeposit;
-    dynamic paymentStatus;
-    dynamic paymentRef;
-    int? documentsStatus;
-    int? securityDepositRefundStatus;
-    int? termsConditions;
-    dynamic tradeLicense;
-    dynamic contractNumber;
-    dynamic tradeLicenseExpiry;
-    dynamic titleDeed;
-    dynamic titleDeedNumber;
-    dynamic tenancyContract;
-    dynamic tenancyContractExpiry;
-    dynamic notifyStatus;
-    dynamic serviceChargeStatus;
-    int? convenienceFee;
-    dynamic convenienceFeeAccount;
-    dynamic approvalNote;
-    dynamic rejectionNote;
-    dynamic holdNote;
-    dynamic cancelNote;
-    dynamic completionNote;
-    dynamic requestNote;
-    dynamic processNote;
-    dynamic documentNote;
-    dynamic securityNote;
-    dynamic nocNote;
-    dynamic refundNote;
-    dynamic paymentNote;
-    dynamic terms;
-    DateTime? createdAt;
-    DateTime? updatedAt;
-    String? clientIdFileUrl;
-    String? passportFileUrl;
-    String? titleDeedUrl;
-    String? tenancyContractUrl;
-    String? tradeLicenseUrl;
-    bool? isMailable;
-    String? fullName;
-    String? profileImageUrl;
-    Association? association;
-    Unit? unit;
-    Application? application;
-    List<Document>? documents;
+  int? id;
+  String? reference;
+  int? companyId;
+  int? associationId;
+  int? unitId;
+  int? accountId;
+  String? incomeType;
+  int? assigneeId;
+  String? applicationType;
+  int? applicationId;
+  dynamic parentId;
+  String? clientName;
+  String? clientEmail;
+  String? clientPhone;
+  String? firstName;
+  dynamic lastName;
+  String? email;
+  dynamic profilePicture;
+  String? clientIdType;
+  dynamic clientIdNumber;
+  dynamic clientIdFile;
+  dynamic clientIdExpiry;
+  dynamic passportFile;
+  dynamic passportExpiry;
+  dynamic passportNumber;
+  dynamic clientCountryId;
+  String? clientType;
+  dynamic description;
+  dynamic deletedAt;
+  String? status;
+  dynamic securityNumber;
+  int? payableAmount;
+  int? securityDeposit;
+  dynamic paymentStatus;
+  dynamic paymentRef;
+  int? documentsStatus;
+  int? securityDepositRefundStatus;
+  int? termsConditions;
+  dynamic tradeLicense;
+  dynamic contractNumber;
+  dynamic tradeLicenseExpiry;
+  dynamic titleDeed;
+  dynamic titleDeedNumber;
+  dynamic tenancyContract;
+  dynamic tenancyContractExpiry;
+  dynamic notifyStatus;
+  dynamic serviceChargeStatus;
+  int? convenienceFee;
+  dynamic convenienceFeeAccount;
+  dynamic approvalNote;
+  dynamic rejectionNote;
+  dynamic holdNote;
+  dynamic cancelNote;
+  dynamic completionNote;
+  dynamic requestNote;
+  dynamic processNote;
+  dynamic documentNote;
+  dynamic securityNote;
+  dynamic nocNote;
+  dynamic refundNote;
+  dynamic paymentNote;
+  dynamic terms;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? clientIdFileUrl;
+  String? passportFileUrl;
+  String? titleDeedUrl;
+  String? tenancyContractUrl;
+  String? tradeLicenseUrl;
+  bool? isMailable;
+  String? fullName;
+  String? profileImageUrl;
+  Association? association;
+  Unit? unit;
+  Application? application;
+  List<Document>? documents;
 
-    Record({
-        this.id,
-        this.reference,
-        this.companyId,
-        this.associationId,
-        this.unitId,
-        this.accountId,
-        this.incomeType,
-        this.assigneeId,
-        this.applicationType,
-        this.applicationId,
-        this.parentId,
-        this.clientName,
-        this.clientEmail,
-        this.clientPhone,
-        this.firstName,
-        this.lastName,
-        this.email,
-        this.profilePicture,
-        this.clientIdType,
-        this.clientIdNumber,
-        this.clientIdFile,
-        this.clientIdExpiry,
-        this.passportFile,
-        this.passportExpiry,
-        this.passportNumber,
-        this.clientCountryId,
-        this.clientType,
-        this.description,
-        this.deletedAt,
-        this.status,
-        this.securityNumber,
-        this.payableAmount,
-        this.securityDeposit,
-        this.paymentStatus,
-        this.paymentRef,
-        this.documentsStatus,
-        this.securityDepositRefundStatus,
-        this.termsConditions,
-        this.tradeLicense,
-        this.contractNumber,
-        this.tradeLicenseExpiry,
-        this.titleDeed,
-        this.titleDeedNumber,
-        this.tenancyContract,
-        this.tenancyContractExpiry,
-        this.notifyStatus,
-        this.serviceChargeStatus,
-        this.convenienceFee,
-        this.convenienceFeeAccount,
-        this.approvalNote,
-        this.rejectionNote,
-        this.holdNote,
-        this.cancelNote,
-        this.completionNote,
-        this.requestNote,
-        this.processNote,
-        this.documentNote,
-        this.securityNote,
-        this.nocNote,
-        this.refundNote,
-        this.paymentNote,
-        this.terms,
-        this.createdAt,
-        this.updatedAt,
-        this.clientIdFileUrl,
-        this.passportFileUrl,
-        this.titleDeedUrl,
-        this.tenancyContractUrl,
-        this.tradeLicenseUrl,
-        this.isMailable,
-        this.fullName,
-        this.profileImageUrl,
-        this.association,
-        this.unit,
-        this.application,
-        this.documents,
-    });
+  Record({
+    this.id,
+    this.reference,
+    this.companyId,
+    this.associationId,
+    this.unitId,
+    this.accountId,
+    this.incomeType,
+    this.assigneeId,
+    this.applicationType,
+    this.applicationId,
+    this.parentId,
+    this.clientName,
+    this.clientEmail,
+    this.clientPhone,
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.profilePicture,
+    this.clientIdType,
+    this.clientIdNumber,
+    this.clientIdFile,
+    this.clientIdExpiry,
+    this.passportFile,
+    this.passportExpiry,
+    this.passportNumber,
+    this.clientCountryId,
+    this.clientType,
+    this.description,
+    this.deletedAt,
+    this.status,
+    this.securityNumber,
+    this.payableAmount,
+    this.securityDeposit,
+    this.paymentStatus,
+    this.paymentRef,
+    this.documentsStatus,
+    this.securityDepositRefundStatus,
+    this.termsConditions,
+    this.tradeLicense,
+    this.contractNumber,
+    this.tradeLicenseExpiry,
+    this.titleDeed,
+    this.titleDeedNumber,
+    this.tenancyContract,
+    this.tenancyContractExpiry,
+    this.notifyStatus,
+    this.serviceChargeStatus,
+    this.convenienceFee,
+    this.convenienceFeeAccount,
+    this.approvalNote,
+    this.rejectionNote,
+    this.holdNote,
+    this.cancelNote,
+    this.completionNote,
+    this.requestNote,
+    this.processNote,
+    this.documentNote,
+    this.securityNote,
+    this.nocNote,
+    this.refundNote,
+    this.paymentNote,
+    this.terms,
+    this.createdAt,
+    this.updatedAt,
+    this.clientIdFileUrl,
+    this.passportFileUrl,
+    this.titleDeedUrl,
+    this.tenancyContractUrl,
+    this.tradeLicenseUrl,
+    this.isMailable,
+    this.fullName,
+    this.profileImageUrl,
+    this.association,
+    this.unit,
+    this.application,
+    this.documents,
+  });
 
-    factory Record.fromJson(Map<String, dynamic> json) => Record(
+  factory Record.fromJson(Map<String, dynamic> json) => Record(
         id: json["id"],
         reference: json["reference"],
         companyId: json["company_id"],
@@ -266,8 +267,12 @@ class Record {
         refundNote: json["refund_note"],
         paymentNote: json["payment_note"],
         terms: json["terms"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
         clientIdFileUrl: json["client_id_file_url"],
         passportFileUrl: json["passport_file_url"],
         titleDeedUrl: json["title_deed_url"],
@@ -276,13 +281,20 @@ class Record {
         isMailable: json["is_mailable"],
         fullName: json["full_name"],
         profileImageUrl: json["profile_image_url"],
-        association: json["association"] == null ? null : Association.fromJson(json["association"]),
+        association: json["association"] == null
+            ? null
+            : Association.fromJson(json["association"]),
         unit: json["unit"] == null ? null : Unit.fromJson(json["unit"]),
-        application: json["application"] == null ? null : Application.fromJson(json["application"]),
-        documents: json["documents"] == null ? [] : List<Document>.from(json["documents"]!.map((x) => Document.fromJson(x))),
-    );
+        application: json["application"] == null
+            ? null
+            : Application.fromJson(json["application"]),
+        documents: json["documents"] == null
+            ? []
+            : List<Document>.from(
+                json["documents"]!.map((x) => Document.fromJson(x))),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "reference": reference,
         "company_id": companyId,
@@ -358,106 +370,108 @@ class Record {
         "association": association?.toJson(),
         "unit": unit?.toJson(),
         "application": application?.toJson(),
-        "documents": documents == null ? [] : List<dynamic>.from(documents!.map((x) => x.toJson())),
-    };
+        "documents": documents == null
+            ? []
+            : List<dynamic>.from(documents!.map((x) => x.toJson())),
+      };
 }
 
 class Application {
-    int? id;
-    dynamic clientId;
-    String? requesterType;
-    String? buyerRequesterType;
-    String? sellerRequesterType;
-    dynamic attorneyName;
-    dynamic attorneyEmail;
-    dynamic attorneyContact;
-    dynamic documentsStatus;
-    dynamic serviceChargeStatus;
-    dynamic rejectionNote;
-    dynamic moreDocuments;
-    dynamic requestStatus;
-    int? transferFee;
-    dynamic transferFeeRefrence;
-    int? transferSecurityDeposit;
-    dynamic transferSecurityChequeDetails;
-    dynamic transferSecurityChequeAttachment;
-    dynamic transferSecurityStatus;
-    dynamic transferFeeStatus;
-    dynamic developerName;
-    dynamic developerAddress;
-    dynamic serviceChargeClearTill;
-    dynamic nocValidity;
-    DateTime? createdAt;
-    DateTime? updatedAt;
-    dynamic deletedAt;
-    dynamic salePurchaseAgreement;
-    String? undertaking;
-    dynamic attorneyPoa;
-    dynamic attorneyPassport;
-    dynamic attorneyIdFile;
-    dynamic buyerCompanyTradeLicense;
-    dynamic sellerCompanyTradeLicense;
-    String? ownershipFile;
-    String? attorneyPassportUrl;
-    String? attorneyPoaUrl;
-    String? attorneyIdFileUrl;
-    String? buyerCompanyTradeLicenseUrl;
-    String? sellerCompanyTradeLicenseUrl;
-    String? transferSecurityChequeAttachmentUrl;
-    String? undertakingUrl;
-    String? ownershipFileUrl;
-    List<Buyer>? buyers;
-    List<Seller>? sellers;
+  int? id;
+  dynamic clientId;
+  String? requesterType;
+  String? buyerRequesterType;
+  String? sellerRequesterType;
+  dynamic attorneyName;
+  dynamic attorneyEmail;
+  dynamic attorneyContact;
+  dynamic documentsStatus;
+  dynamic serviceChargeStatus;
+  dynamic rejectionNote;
+  dynamic moreDocuments;
+  dynamic requestStatus;
+  int? transferFee;
+  dynamic transferFeeRefrence;
+  int? transferSecurityDeposit;
+  dynamic transferSecurityChequeDetails;
+  dynamic transferSecurityChequeAttachment;
+  dynamic transferSecurityStatus;
+  dynamic transferFeeStatus;
+  dynamic developerName;
+  dynamic developerAddress;
+  dynamic serviceChargeClearTill;
+  dynamic nocValidity;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  dynamic deletedAt;
+  dynamic salePurchaseAgreement;
+  String? undertaking;
+  dynamic attorneyPoa;
+  dynamic attorneyPassport;
+  dynamic attorneyIdFile;
+  dynamic buyerCompanyTradeLicense;
+  dynamic sellerCompanyTradeLicense;
+  String? ownershipFile;
+  String? attorneyPassportUrl;
+  String? attorneyPoaUrl;
+  String? attorneyIdFileUrl;
+  String? buyerCompanyTradeLicenseUrl;
+  String? sellerCompanyTradeLicenseUrl;
+  String? transferSecurityChequeAttachmentUrl;
+  String? undertakingUrl;
+  String? ownershipFileUrl;
+  List<Buyer>? buyers;
+  List<Seller>? sellers;
 
-    Application({
-        this.id,
-        this.clientId,
-        this.requesterType,
-        this.buyerRequesterType,
-        this.sellerRequesterType,
-        this.attorneyName,
-        this.attorneyEmail,
-        this.attorneyContact,
-        this.documentsStatus,
-        this.serviceChargeStatus,
-        this.rejectionNote,
-        this.moreDocuments,
-        this.requestStatus,
-        this.transferFee,
-        this.transferFeeRefrence,
-        this.transferSecurityDeposit,
-        this.transferSecurityChequeDetails,
-        this.transferSecurityChequeAttachment,
-        this.transferSecurityStatus,
-        this.transferFeeStatus,
-        this.developerName,
-        this.developerAddress,
-        this.serviceChargeClearTill,
-        this.nocValidity,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt,
-        this.salePurchaseAgreement,
-        this.undertaking,
-        this.attorneyPoa,
-        this.attorneyPassport,
-        this.attorneyIdFile,
-        this.buyerCompanyTradeLicense,
-        this.sellerCompanyTradeLicense,
-        this.ownershipFile,
-        this.attorneyPassportUrl,
-        this.attorneyPoaUrl,
-        this.attorneyIdFileUrl,
-        this.buyerCompanyTradeLicenseUrl,
-        this.sellerCompanyTradeLicenseUrl,
-        this.transferSecurityChequeAttachmentUrl,
-        this.undertakingUrl,
-        this.ownershipFileUrl,
-        this.buyers,
-        this.sellers,
-    });
+  Application({
+    this.id,
+    this.clientId,
+    this.requesterType,
+    this.buyerRequesterType,
+    this.sellerRequesterType,
+    this.attorneyName,
+    this.attorneyEmail,
+    this.attorneyContact,
+    this.documentsStatus,
+    this.serviceChargeStatus,
+    this.rejectionNote,
+    this.moreDocuments,
+    this.requestStatus,
+    this.transferFee,
+    this.transferFeeRefrence,
+    this.transferSecurityDeposit,
+    this.transferSecurityChequeDetails,
+    this.transferSecurityChequeAttachment,
+    this.transferSecurityStatus,
+    this.transferFeeStatus,
+    this.developerName,
+    this.developerAddress,
+    this.serviceChargeClearTill,
+    this.nocValidity,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.salePurchaseAgreement,
+    this.undertaking,
+    this.attorneyPoa,
+    this.attorneyPassport,
+    this.attorneyIdFile,
+    this.buyerCompanyTradeLicense,
+    this.sellerCompanyTradeLicense,
+    this.ownershipFile,
+    this.attorneyPassportUrl,
+    this.attorneyPoaUrl,
+    this.attorneyIdFileUrl,
+    this.buyerCompanyTradeLicenseUrl,
+    this.sellerCompanyTradeLicenseUrl,
+    this.transferSecurityChequeAttachmentUrl,
+    this.undertakingUrl,
+    this.ownershipFileUrl,
+    this.buyers,
+    this.sellers,
+  });
 
-    factory Application.fromJson(Map<String, dynamic> json) => Application(
+  factory Application.fromJson(Map<String, dynamic> json) => Application(
         id: json["id"],
         clientId: json["client_id"],
         requesterType: json["requester_type"],
@@ -475,15 +489,20 @@ class Application {
         transferFeeRefrence: json["transfer_fee_refrence"],
         transferSecurityDeposit: json["transfer_security_deposit"],
         transferSecurityChequeDetails: json["transfer_security_cheque_details"],
-        transferSecurityChequeAttachment: json["transfer_security_cheque_attachment"],
+        transferSecurityChequeAttachment:
+            json["transfer_security_cheque_attachment"],
         transferSecurityStatus: json["transfer_security_status"],
         transferFeeStatus: json["transfer_fee_status"],
         developerName: json["developer_name"],
         developerAddress: json["developer_address"],
         serviceChargeClearTill: json["service_charge_clear_till"],
         nocValidity: json["noc_validity"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
         deletedAt: json["deleted_at"],
         salePurchaseAgreement: json["sale_purchase_agreement"],
         undertaking: json["undertaking"],
@@ -498,14 +517,20 @@ class Application {
         attorneyIdFileUrl: json["attorney_id_file_url"],
         buyerCompanyTradeLicenseUrl: json["buyer_company_trade_license_url"],
         sellerCompanyTradeLicenseUrl: json["seller_company_trade_license_url"],
-        transferSecurityChequeAttachmentUrl: json["transfer_security_cheque_attachment_url"],
+        transferSecurityChequeAttachmentUrl:
+            json["transfer_security_cheque_attachment_url"],
         undertakingUrl: json["undertaking_url"],
         ownershipFileUrl: json["ownership_file_url"],
-        buyers: json["buyers"] == null ? [] : List<Buyer>.from(json["buyers"]!.map((x) => Buyer.fromJson(x))),
-        sellers: json["sellers"] == null ? [] : List<Seller>.from(json["sellers"]!.map((x) => Seller.fromJson(x))),
-    );
+        buyers: json["buyers"] == null
+            ? []
+            : List<Buyer>.from(json["buyers"]!.map((x) => Buyer.fromJson(x))),
+        sellers: json["sellers"] == null
+            ? []
+            : List<Seller>.from(
+                json["sellers"]!.map((x) => Seller.fromJson(x))),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "client_id": clientId,
         "requester_type": requesterType,
@@ -546,102 +571,107 @@ class Application {
         "attorney_id_file_url": attorneyIdFileUrl,
         "buyer_company_trade_license_url": buyerCompanyTradeLicenseUrl,
         "seller_company_trade_license_url": sellerCompanyTradeLicenseUrl,
-        "transfer_security_cheque_attachment_url": transferSecurityChequeAttachmentUrl,
+        "transfer_security_cheque_attachment_url":
+            transferSecurityChequeAttachmentUrl,
         "undertaking_url": undertakingUrl,
         "ownership_file_url": ownershipFileUrl,
-        "buyers": buyers == null ? [] : List<dynamic>.from(buyers!.map((x) => x.toJson())),
-        "sellers": sellers == null ? [] : List<dynamic>.from(sellers!.map((x) => x.toJson())),
-    };
+        "buyers": buyers == null
+            ? []
+            : List<dynamic>.from(buyers!.map((x) => x.toJson())),
+        "sellers": sellers == null
+            ? []
+            : List<dynamic>.from(sellers!.map((x) => x.toJson())),
+      };
 }
 
 class Buyer {
-    int? id;
-    int? transferPropertyRequestId;
-    dynamic buyerAuthorizedPerson;
-    dynamic buyerAuthorizedPersonArabic;
-    dynamic buyerTradeLicenseNumber;
-    String? buyerName;
-    String? buyerArabicName;
-    String? gender;
-    String? buyerBirthAddress;
-    DateTime? buyerDob;
-    DateTime? buyerPassportStart;
-    String? buyerPassportPlace;
-    int? buyerSharedValue;
-    String? buyerResidenceNumber;
-    String? buyerCellularNumber;
-    String? buyerOfficeNumber;
-    String? buyerPassportNumber;
-    DateTime? buyerPassportExpiry;
-    String? buyerEmail;
-    String? buyerCitizenship;
-    String? buyerEmiratesIdNumber;
-    String? buyerResidentialStreetAddress;
-    String? buyerResidentialCity;
-    String? buyerResidentialCountry;
-    String? buyerResidentialPobox;
-    String? buyerResidentialZip;
-    String? buyerCommunicationStreetAddress;
-    String? buyerCommunicationCity;
-    String? buyerCommunicationCountry;
-    String? buyerCommunicationPobox;
-    String? buyerCommunicationZip;
-    String? buyerPassport;
-    dynamic buyerVisa;
-    String? buyerEmiratesId;
-    DateTime? createdAt;
-    DateTime? updatedAt;
-    dynamic deletedAt;
-    String? buyerPassportUrl;
-    String? buyerVisaUrl;
-    String? buyerEmiratesIdUrl;
-    Country? country;
+  int? id;
+  int? transferPropertyRequestId;
+  dynamic buyerAuthorizedPerson;
+  dynamic buyerAuthorizedPersonArabic;
+  dynamic buyerTradeLicenseNumber;
+  String? buyerName;
+  String? buyerArabicName;
+  String? gender;
+  String? buyerBirthAddress;
+  DateTime? buyerDob;
+  DateTime? buyerPassportStart;
+  String? buyerPassportPlace;
+  int? buyerSharedValue;
+  String? buyerResidenceNumber;
+  String? buyerCellularNumber;
+  String? buyerOfficeNumber;
+  String? buyerPassportNumber;
+  DateTime? buyerPassportExpiry;
+  String? buyerEmail;
+  String? buyerCitizenship;
+  String? buyerEmiratesIdNumber;
+  String? buyerResidentialStreetAddress;
+  String? buyerResidentialCity;
+  String? buyerResidentialCountry;
+  String? buyerResidentialPobox;
+  String? buyerResidentialZip;
+  String? buyerCommunicationStreetAddress;
+  String? buyerCommunicationCity;
+  String? buyerCommunicationCountry;
+  String? buyerCommunicationPobox;
+  String? buyerCommunicationZip;
+  String? buyerPassport;
+  dynamic buyerVisa;
+  String? buyerEmiratesId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  dynamic deletedAt;
+  String? buyerPassportUrl;
+  String? buyerVisaUrl;
+  String? buyerEmiratesIdUrl;
+  Country? country;
 
-    Buyer({
-        this.id,
-        this.transferPropertyRequestId,
-        this.buyerAuthorizedPerson,
-        this.buyerAuthorizedPersonArabic,
-        this.buyerTradeLicenseNumber,
-        this.buyerName,
-        this.buyerArabicName,
-        this.gender,
-        this.buyerBirthAddress,
-        this.buyerDob,
-        this.buyerPassportStart,
-        this.buyerPassportPlace,
-        this.buyerSharedValue,
-        this.buyerResidenceNumber,
-        this.buyerCellularNumber,
-        this.buyerOfficeNumber,
-        this.buyerPassportNumber,
-        this.buyerPassportExpiry,
-        this.buyerEmail,
-        this.buyerCitizenship,
-        this.buyerEmiratesIdNumber,
-        this.buyerResidentialStreetAddress,
-        this.buyerResidentialCity,
-        this.buyerResidentialCountry,
-        this.buyerResidentialPobox,
-        this.buyerResidentialZip,
-        this.buyerCommunicationStreetAddress,
-        this.buyerCommunicationCity,
-        this.buyerCommunicationCountry,
-        this.buyerCommunicationPobox,
-        this.buyerCommunicationZip,
-        this.buyerPassport,
-        this.buyerVisa,
-        this.buyerEmiratesId,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt,
-        this.buyerPassportUrl,
-        this.buyerVisaUrl,
-        this.buyerEmiratesIdUrl,
-        this.country,
-    });
+  Buyer({
+    this.id,
+    this.transferPropertyRequestId,
+    this.buyerAuthorizedPerson,
+    this.buyerAuthorizedPersonArabic,
+    this.buyerTradeLicenseNumber,
+    this.buyerName,
+    this.buyerArabicName,
+    this.gender,
+    this.buyerBirthAddress,
+    this.buyerDob,
+    this.buyerPassportStart,
+    this.buyerPassportPlace,
+    this.buyerSharedValue,
+    this.buyerResidenceNumber,
+    this.buyerCellularNumber,
+    this.buyerOfficeNumber,
+    this.buyerPassportNumber,
+    this.buyerPassportExpiry,
+    this.buyerEmail,
+    this.buyerCitizenship,
+    this.buyerEmiratesIdNumber,
+    this.buyerResidentialStreetAddress,
+    this.buyerResidentialCity,
+    this.buyerResidentialCountry,
+    this.buyerResidentialPobox,
+    this.buyerResidentialZip,
+    this.buyerCommunicationStreetAddress,
+    this.buyerCommunicationCity,
+    this.buyerCommunicationCountry,
+    this.buyerCommunicationPobox,
+    this.buyerCommunicationZip,
+    this.buyerPassport,
+    this.buyerVisa,
+    this.buyerEmiratesId,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.buyerPassportUrl,
+    this.buyerVisaUrl,
+    this.buyerEmiratesIdUrl,
+    this.country,
+  });
 
-    factory Buyer.fromJson(Map<String, dynamic> json) => Buyer(
+  factory Buyer.fromJson(Map<String, dynamic> json) => Buyer(
         id: json["id"],
         transferPropertyRequestId: json["transfer_property_request_id"],
         buyerAuthorizedPerson: json["buyer_authorized_person"],
@@ -651,15 +681,21 @@ class Buyer {
         buyerArabicName: json["buyer_arabic_name"],
         gender: json["gender"],
         buyerBirthAddress: json["buyer_birth_address"],
-        buyerDob: json["buyer_dob"] == null ? null : DateTime.parse(json["buyer_dob"]),
-        buyerPassportStart: json["buyer_passport_start"] == null ? null : DateTime.parse(json["buyer_passport_start"]),
+        buyerDob: json["buyer_dob"] == null
+            ? null
+            : DateTime.parse(json["buyer_dob"]),
+        buyerPassportStart: json["buyer_passport_start"] == null
+            ? null
+            : DateTime.parse(json["buyer_passport_start"]),
         buyerPassportPlace: json["buyer_passport_place"],
         buyerSharedValue: json["buyer_shared_value"],
         buyerResidenceNumber: json["buyer_residence_number"],
         buyerCellularNumber: json["buyer_cellular_number"],
         buyerOfficeNumber: json["buyer_office_number"],
         buyerPassportNumber: json["buyer_passport_number"],
-        buyerPassportExpiry: json["buyer_passport_expiry"] == null ? null : DateTime.parse(json["buyer_passport_expiry"]),
+        buyerPassportExpiry: json["buyer_passport_expiry"] == null
+            ? null
+            : DateTime.parse(json["buyer_passport_expiry"]),
         buyerEmail: json["buyer_email"],
         buyerCitizenship: json["buyer_citizenship"],
         buyerEmiratesIdNumber: json["buyer_emirates_id_number"],
@@ -668,7 +704,8 @@ class Buyer {
         buyerResidentialCountry: json["buyer_residential_country"],
         buyerResidentialPobox: json["buyer_residential_pobox"],
         buyerResidentialZip: json["buyer_residential_zip"],
-        buyerCommunicationStreetAddress: json["buyer_communication_street_address"],
+        buyerCommunicationStreetAddress:
+            json["buyer_communication_street_address"],
         buyerCommunicationCity: json["buyer_communication_city"],
         buyerCommunicationCountry: json["buyer_communication_country"],
         buyerCommunicationPobox: json["buyer_communication_pobox"],
@@ -676,16 +713,21 @@ class Buyer {
         buyerPassport: json["buyer_passport"],
         buyerVisa: json["buyer_visa"],
         buyerEmiratesId: json["buyer_emirates_id"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
         deletedAt: json["deleted_at"],
         buyerPassportUrl: json["buyer_passport_url"],
         buyerVisaUrl: json["buyer_visa_url"],
         buyerEmiratesIdUrl: json["buyer_emirates_id_url"],
-        country: json["country"] == null ? null : Country.fromJson(json["country"]),
-    );
+        country:
+            json["country"] == null ? null : Country.fromJson(json["country"]),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "transfer_property_request_id": transferPropertyRequestId,
         "buyer_authorized_person": buyerAuthorizedPerson,
@@ -727,107 +769,107 @@ class Buyer {
         "buyer_visa_url": buyerVisaUrl,
         "buyer_emirates_id_url": buyerEmiratesIdUrl,
         "country": country?.toJson(),
-    };
+      };
 }
 
 class Country {
-    int? id;
-    String? name;
-    String? label;
-    String? value;
+  int? id;
+  String? name;
+  String? label;
+  String? value;
 
-    Country({
-        this.id,
-        this.name,
-        this.label,
-        this.value,
-    });
+  Country({
+    this.id,
+    this.name,
+    this.label,
+    this.value,
+  });
 
-    factory Country.fromJson(Map<String, dynamic> json) => Country(
+  factory Country.fromJson(Map<String, dynamic> json) => Country(
         id: json["id"],
         name: json["name"],
         label: json["label"],
         value: json["value"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "label": label,
         "value": value,
-    };
+      };
 }
 
 class Seller {
-    int? id;
-    int? transferPropertyRequestId;
-    dynamic sellerAuthorizedPerson;
-    dynamic sellerTradeLicenseNumber;
-    String? sellerName;
-    dynamic sellerResidenceNumber;
-    String? sellerCellularNumber;
-    String? sellerOfficeNumber;
-    dynamic sellerPassportNumber;
-    DateTime? sellerPassportExpiry;
-    String? sellerEmail;
-    dynamic sellerCitizenship;
-    dynamic sellerResidentialStreetAddress;
-    String? sellerResidentialCity;
-    String? sellerResidentialCountry;
-    String? sellerResidentialPobox;
-    String? sellerResidentialZip;
-    dynamic sellerCommunicationStreetAddress;
-    String? sellerCommunicationCity;
-    String? sellerCommunicationCountry;
-    String? sellerCommunicationPobox;
-    String? sellerCommunicationZip;
-    String? sellerPassport;
-    dynamic sellerVisa;
-    String? sellerEmiratesId;
-    DateTime? createdAt;
-    DateTime? updatedAt;
-    dynamic deletedAt;
-    String? sellerPassportUrl;
-    String? sellerVisaUrl;
-    String? sellerEmiratesIdUrl;
-    dynamic country;
+  int? id;
+  int? transferPropertyRequestId;
+  dynamic sellerAuthorizedPerson;
+  dynamic sellerTradeLicenseNumber;
+  String? sellerName;
+  dynamic sellerResidenceNumber;
+  String? sellerCellularNumber;
+  String? sellerOfficeNumber;
+  dynamic sellerPassportNumber;
+  DateTime? sellerPassportExpiry;
+  String? sellerEmail;
+  dynamic sellerCitizenship;
+  dynamic sellerResidentialStreetAddress;
+  String? sellerResidentialCity;
+  String? sellerResidentialCountry;
+  String? sellerResidentialPobox;
+  String? sellerResidentialZip;
+  dynamic sellerCommunicationStreetAddress;
+  String? sellerCommunicationCity;
+  String? sellerCommunicationCountry;
+  String? sellerCommunicationPobox;
+  String? sellerCommunicationZip;
+  String? sellerPassport;
+  dynamic sellerVisa;
+  String? sellerEmiratesId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  dynamic deletedAt;
+  String? sellerPassportUrl;
+  String? sellerVisaUrl;
+  String? sellerEmiratesIdUrl;
+  Country? country;
 
-    Seller({
-        this.id,
-        this.transferPropertyRequestId,
-        this.sellerAuthorizedPerson,
-        this.sellerTradeLicenseNumber,
-        this.sellerName,
-        this.sellerResidenceNumber,
-        this.sellerCellularNumber,
-        this.sellerOfficeNumber,
-        this.sellerPassportNumber,
-        this.sellerPassportExpiry,
-        this.sellerEmail,
-        this.sellerCitizenship,
-        this.sellerResidentialStreetAddress,
-        this.sellerResidentialCity,
-        this.sellerResidentialCountry,
-        this.sellerResidentialPobox,
-        this.sellerResidentialZip,
-        this.sellerCommunicationStreetAddress,
-        this.sellerCommunicationCity,
-        this.sellerCommunicationCountry,
-        this.sellerCommunicationPobox,
-        this.sellerCommunicationZip,
-        this.sellerPassport,
-        this.sellerVisa,
-        this.sellerEmiratesId,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt,
-        this.sellerPassportUrl,
-        this.sellerVisaUrl,
-        this.sellerEmiratesIdUrl,
-        this.country,
-    });
+  Seller({
+    this.id,
+    this.transferPropertyRequestId,
+    this.sellerAuthorizedPerson,
+    this.sellerTradeLicenseNumber,
+    this.sellerName,
+    this.sellerResidenceNumber,
+    this.sellerCellularNumber,
+    this.sellerOfficeNumber,
+    this.sellerPassportNumber,
+    this.sellerPassportExpiry,
+    this.sellerEmail,
+    this.sellerCitizenship,
+    this.sellerResidentialStreetAddress,
+    this.sellerResidentialCity,
+    this.sellerResidentialCountry,
+    this.sellerResidentialPobox,
+    this.sellerResidentialZip,
+    this.sellerCommunicationStreetAddress,
+    this.sellerCommunicationCity,
+    this.sellerCommunicationCountry,
+    this.sellerCommunicationPobox,
+    this.sellerCommunicationZip,
+    this.sellerPassport,
+    this.sellerVisa,
+    this.sellerEmiratesId,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.sellerPassportUrl,
+    this.sellerVisaUrl,
+    this.sellerEmiratesIdUrl,
+    this.country,
+  });
 
-    factory Seller.fromJson(Map<String, dynamic> json) => Seller(
+  factory Seller.fromJson(Map<String, dynamic> json) => Seller(
         id: json["id"],
         transferPropertyRequestId: json["transfer_property_request_id"],
         sellerAuthorizedPerson: json["seller_authorized_person"],
@@ -837,15 +879,19 @@ class Seller {
         sellerCellularNumber: json["seller_cellular_number"],
         sellerOfficeNumber: json["seller_office_number"],
         sellerPassportNumber: json["seller_passport_number"],
-        sellerPassportExpiry: json["seller_passport_expiry"] == null ? null : DateTime.parse(json["seller_passport_expiry"]),
+        sellerPassportExpiry: json["seller_passport_expiry"] == null
+            ? null
+            : DateTime.parse(json["seller_passport_expiry"]),
         sellerEmail: json["seller_email"],
         sellerCitizenship: json["seller_citizenship"],
-        sellerResidentialStreetAddress: json["seller_residential_street_address"],
+        sellerResidentialStreetAddress:
+            json["seller_residential_street_address"],
         sellerResidentialCity: json["seller_residential_city"],
         sellerResidentialCountry: json["seller_residential_country"],
         sellerResidentialPobox: json["seller_residential_pobox"],
         sellerResidentialZip: json["seller_residential_zip"],
-        sellerCommunicationStreetAddress: json["seller_communication_street_address"],
+        sellerCommunicationStreetAddress:
+            json["seller_communication_street_address"],
         sellerCommunicationCity: json["seller_communication_city"],
         sellerCommunicationCountry: json["seller_communication_country"],
         sellerCommunicationPobox: json["seller_communication_pobox"],
@@ -853,16 +899,21 @@ class Seller {
         sellerPassport: json["seller_passport"],
         sellerVisa: json["seller_visa"],
         sellerEmiratesId: json["seller_emirates_id"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
         deletedAt: json["deleted_at"],
         sellerPassportUrl: json["seller_passport_url"],
         sellerVisaUrl: json["seller_visa_url"],
         sellerEmiratesIdUrl: json["seller_emirates_id_url"],
-        country: json["country"],
-    );
+        country:
+            json["country"] == null ? null : Country.fromJson(json["country"]),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "transfer_property_request_id": transferPropertyRequestId,
         "seller_authorized_person": sellerAuthorizedPerson,
@@ -872,7 +923,8 @@ class Seller {
         "seller_cellular_number": sellerCellularNumber,
         "seller_office_number": sellerOfficeNumber,
         "seller_passport_number": sellerPassportNumber,
-        "seller_passport_expiry": "${sellerPassportExpiry!.year.toString().padLeft(4, '0')}-${sellerPassportExpiry!.month.toString().padLeft(2, '0')}-${sellerPassportExpiry!.day.toString().padLeft(2, '0')}",
+        "seller_passport_expiry":
+            "${sellerPassportExpiry!.year.toString().padLeft(4, '0')}-${sellerPassportExpiry!.month.toString().padLeft(2, '0')}-${sellerPassportExpiry!.day.toString().padLeft(2, '0')}",
         "seller_email": sellerEmail,
         "seller_citizenship": sellerCitizenship,
         "seller_residential_street_address": sellerResidentialStreetAddress,
@@ -895,68 +947,67 @@ class Seller {
         "seller_visa_url": sellerVisaUrl,
         "seller_emirates_id_url": sellerEmiratesIdUrl,
         "country": country,
-    };
+      };
 }
 
-
 class Document {
-    int? id;
-    int? companyId;
-    dynamic userId;
-    int? objectId;
-    String? objectType;
-    String? name;
-    dynamic folderName;
-    dynamic description;
-    String? path;
-    String? fileType;
-    String? mimeType;
-    String? fileExt;
-    dynamic issueDate;
-    dynamic expiryDate;
-    String? status;
-    dynamic type;
-    String? category;
-    dynamic note;
-    dynamic shareWith;
-    dynamic shareEndDate;
-    dynamic shareWithUnit;
-    dynamic shareEndDateUnit;
-    dynamic emailSent;
-    DateTime? createdAt;
-    DateTime? updatedAt;
-    String? pathUrl;
+  int? id;
+  int? companyId;
+  dynamic userId;
+  int? objectId;
+  String? objectType;
+  String? name;
+  dynamic folderName;
+  dynamic description;
+  String? path;
+  String? fileType;
+  String? mimeType;
+  String? fileExt;
+  dynamic issueDate;
+  dynamic expiryDate;
+  String? status;
+  dynamic type;
+  String? category;
+  dynamic note;
+  dynamic shareWith;
+  dynamic shareEndDate;
+  dynamic shareWithUnit;
+  dynamic shareEndDateUnit;
+  dynamic emailSent;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? pathUrl;
 
-    Document({
-        this.id,
-        this.companyId,
-        this.userId,
-        this.objectId,
-        this.objectType,
-        this.name,
-        this.folderName,
-        this.description,
-        this.path,
-        this.fileType,
-        this.mimeType,
-        this.fileExt,
-        this.issueDate,
-        this.expiryDate,
-        this.status,
-        this.type,
-        this.category,
-        this.note,
-        this.shareWith,
-        this.shareEndDate,
-        this.shareWithUnit,
-        this.shareEndDateUnit,
-        this.emailSent,
-        this.createdAt,
-        this.updatedAt,
-        this.pathUrl,
-    });
+  Document({
+    this.id,
+    this.companyId,
+    this.userId,
+    this.objectId,
+    this.objectType,
+    this.name,
+    this.folderName,
+    this.description,
+    this.path,
+    this.fileType,
+    this.mimeType,
+    this.fileExt,
+    this.issueDate,
+    this.expiryDate,
+    this.status,
+    this.type,
+    this.category,
+    this.note,
+    this.shareWith,
+    this.shareEndDate,
+    this.shareWithUnit,
+    this.shareEndDateUnit,
+    this.emailSent,
+    this.createdAt,
+    this.updatedAt,
+    this.pathUrl,
+  });
 
-    factory Document.fromJson(Map<String, dynamic> json) => Document(
+  factory Document.fromJson(Map<String, dynamic> json) => Document(
         id: json["id"],
         companyId: json["company_id"],
         userId: json["user_id"],
@@ -980,12 +1031,16 @@ class Document {
         shareWithUnit: json["share_with_unit"],
         shareEndDateUnit: json["share_end_date_unit"],
         emailSent: json["email_sent"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
         pathUrl: json["path_url"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "company_id": companyId,
         "user_id": userId,
@@ -1012,33 +1067,33 @@ class Document {
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
         "path_url": pathUrl,
-    };
+      };
 }
 
 class Unit {
-    int? id;
-    String? unitNumber;
-    bool? isLegalNoticeActive;
-    bool? isRdcActive;
+  int? id;
+  String? unitNumber;
+  bool? isLegalNoticeActive;
+  bool? isRdcActive;
 
-    Unit({
-        this.id,
-        this.unitNumber,
-        this.isLegalNoticeActive,
-        this.isRdcActive,
-    });
+  Unit({
+    this.id,
+    this.unitNumber,
+    this.isLegalNoticeActive,
+    this.isRdcActive,
+  });
 
-    factory Unit.fromJson(Map<String, dynamic> json) => Unit(
+  factory Unit.fromJson(Map<String, dynamic> json) => Unit(
         id: json["id"],
         unitNumber: json["unit_number"],
         isLegalNoticeActive: json["is_legal_notice_active"],
         isRdcActive: json["is_rdc_active"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "unit_number": unitNumber,
         "is_legal_notice_active": isLegalNoticeActive,
         "is_rdc_active": isRdcActive,
-    };
+      };
 }

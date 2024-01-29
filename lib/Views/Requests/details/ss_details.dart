@@ -118,10 +118,7 @@ class SsDetailsPage extends StatelessWidget {
                                 ),
                                 Column(
                                   children: [
-                                    const OwnersPage().documentInfo(
-                                        context, "Company All Risk Insurance",
-                                        url:
-                                            "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.tourismLicense}"),
+                                    const Gap(5),
                                     RowText(
                                       text: "Tourism License Expiry",
                                       text2: const OccupantPage()
@@ -132,10 +129,6 @@ class SsDetailsPage extends StatelessWidget {
                                               ?.tourismLicenseExpiry),
                                     ),
                                     const Gap(10),
-                                    const OwnersPage().documentInfo(
-                                        context, "Company All Risk Insurance",
-                                        url:
-                                            "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.companyRiskInsurance}"),
                                     RowText(
                                       text: "Company All Risk Insurance Expiry",
                                       text2: const OccupantPage()
@@ -146,10 +139,6 @@ class SsDetailsPage extends StatelessWidget {
                                               ?.tourismLicenseExpiry),
                                     ),
                                     const Gap(10),
-                                    const OwnersPage().documentInfo(
-                                        context, "Rera ID",
-                                        url:
-                                            "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.visaCopy}"),
                                     RowText(
                                       text: "Visa Copy Expiry",
                                       text2: const OccupantPage()
@@ -160,10 +149,6 @@ class SsDetailsPage extends StatelessWidget {
                                               ?.visaCopyExpiry),
                                     ),
                                     const Gap(10),
-                                    const OwnersPage().documentInfo(
-                                        context, "Rera ID",
-                                        url:
-                                            "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.reraId}"),
                                     RowText(
                                       text: "Rera ID Expiry",
                                       text2: const OccupantPage()
@@ -174,10 +159,6 @@ class SsDetailsPage extends StatelessWidget {
                                               ?.reraIdExpiry),
                                     ),
                                     const Gap(10),
-                                    const OwnersPage().documentInfo(
-                                        context, "Rera ID",
-                                        url:
-                                            "https://s3.amazonaws.com/hoam-dev/${state.ssDetailsModel?.record?.application?.dtcmPermit}"),
                                     RowText(
                                       text: "DTCM Permit Expiry",
                                       text2: const OccupantPage()
@@ -208,6 +189,31 @@ class SsDetailsPage extends StatelessWidget {
                               "name": "Passport File",
                               "url":
                                   "${state.ssDetailsModel?.record?.passportFileUrl}",
+                            },
+                            {
+                              "name": "Tourism License",
+                              "url":
+                                  "${state.ssDetailsModel?.record?.application?.tourismLicenseUrl}",
+                            },
+                            {
+                              "name": "Company All Risk Insurance",
+                              "url":
+                                  "${state.ssDetailsModel?.record?.application?.companyRiskInsuranceUrl}",
+                            },
+                            {
+                              "name": "Visa Copy",
+                              "url":
+                                  "${state.ssDetailsModel?.record?.application?.visaCopyUrl}",
+                            },
+                            {
+                              "name": "Rera ID",
+                              "url":
+                                  "${state.ssDetailsModel?.record?.application?.reraIdUrl}",
+                            },
+                            {
+                              "name": "DTCM Permit Expiry",
+                              "url":
+                                  "${state.ssDetailsModel?.record?.application?.dtcmPermitUrl}",
                             },
                           ])
                         ],

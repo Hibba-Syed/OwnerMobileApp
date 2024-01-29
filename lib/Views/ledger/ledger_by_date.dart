@@ -40,7 +40,7 @@ class _LedgerByDateState extends State<LedgerByDate> {
   Widget build(BuildContext context) {
     return BlocBuilder<LedgerCubit, LedgerState>(
       builder: (context, state) {
-        if (state.loadingState == LoadingState.loading) {
+        if (state.ledgerByDateLoadingState == LoadingState.loading) {
           return const CustomLoader();
         }
         if (state.ledgerByDateModel?.record?.data?.isEmpty ?? true) {

@@ -347,6 +347,8 @@ class Application {
   int? id;
   DateTime? startDate;
   DateTime? endDate;
+  DateTime? terminationDate;
+  String? terminationNote;
   int? numberOfPeople;
   String? peoples;
   dynamic description;
@@ -363,11 +365,24 @@ class Application {
   DateTime? dtcmPermitExpiry;
   DateTime? createdAt;
   DateTime? updatedAt;
+  String? tourismLicenseUrl;
+  String? companyRiskInsuranceUrl;
+  String? visaCopyUrl;
+  String? reraIdUrl;
+  String? dtcmPermitUrl;
+  bool? isTourismLicenseExpired;
+  bool? isCompanyRiskInsuranceExpired;
+  bool? isVisaCopyExpired;
+  bool? isReraIdExpired;
+  bool? isDtcmPermitExpired;
+  List<Guest>? guests;
 
   Application({
     this.id,
     this.startDate,
     this.endDate,
+    this.terminationDate,
+    this.terminationNote,
     this.numberOfPeople,
     this.peoples,
     this.description,
@@ -384,6 +399,17 @@ class Application {
     this.dtcmPermitExpiry,
     this.createdAt,
     this.updatedAt,
+    this.tourismLicenseUrl,
+    this.companyRiskInsuranceUrl,
+    this.visaCopyUrl,
+    this.reraIdUrl,
+    this.dtcmPermitUrl,
+    this.isTourismLicenseExpired,
+    this.isCompanyRiskInsuranceExpired,
+    this.isVisaCopyExpired,
+    this.isReraIdExpired,
+    this.isDtcmPermitExpired,
+    this.guests,
   });
 
   factory Application.fromJson(Map<String, dynamic> json) => Application(
@@ -393,6 +419,10 @@ class Application {
             : DateTime.parse(json["start_date"]),
         endDate:
             json["end_date"] == null ? null : DateTime.parse(json["end_date"]),
+        terminationDate: json["termination_date"] == null
+            ? null
+            : DateTime.parse(json["termination_date"]),
+        terminationNote: json["termination_note"],
         numberOfPeople: json["number_of_people"],
         peoples: json["peoples"],
         description: json["description"],
@@ -415,6 +445,20 @@ class Application {
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"]),
+        tourismLicenseUrl: json["tourism_license_url"],
+        companyRiskInsuranceUrl: json["company_risk_insurance_url"],
+        visaCopyUrl: json["visa_copy_url"],
+        reraIdUrl: json["rera_id_url"],
+        dtcmPermitUrl: json["dtcm_permit_url"],
+        isTourismLicenseExpired: json["is_tourism_license_expired"],
+        isCompanyRiskInsuranceExpired:
+            json["is_company_risk_insurance_expired"],
+        isVisaCopyExpired: json["is_visa_copy_expired"],
+        isReraIdExpired: json["is_rera_id_expired"],
+        isDtcmPermitExpired: json["is_dtcm_permit_expired"],
+        guests: json["guests"] == null
+            ? []
+            : List<Guest>.from(json["guests"]!.map((x) => Guest.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -423,6 +467,9 @@ class Application {
             "${startDate!.year.toString().padLeft(4, '0')}-${startDate!.month.toString().padLeft(2, '0')}-${startDate!.day.toString().padLeft(2, '0')}",
         "end_date":
             "${endDate!.year.toString().padLeft(4, '0')}-${endDate!.month.toString().padLeft(2, '0')}-${endDate!.day.toString().padLeft(2, '0')}",
+        "termination_date":
+            "${terminationDate!.year.toString().padLeft(4, '0')}-${terminationDate!.month.toString().padLeft(2, '0')}-${terminationDate!.day.toString().padLeft(2, '0')}",
+        "termination_note": terminationNote,
         "number_of_people": numberOfPeople,
         "peoples": peoples,
         "description": description,
@@ -440,6 +487,51 @@ class Application {
             "${dtcmPermitExpiry!.year.toString().padLeft(4, '0')}-${dtcmPermitExpiry!.month.toString().padLeft(2, '0')}-${dtcmPermitExpiry!.day.toString().padLeft(2, '0')}",
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
+        "tourism_license_url": tourismLicenseUrl,
+        "company_risk_insurance_url": companyRiskInsuranceUrl,
+        "visa_copy_url": visaCopyUrl,
+        "rera_id_url": reraIdUrl,
+        "dtcm_permit_url": dtcmPermitUrl,
+        "is_tourism_license_expired": isTourismLicenseExpired,
+        "is_company_risk_insurance_expired": isCompanyRiskInsuranceExpired,
+        "is_visa_copy_expired": isVisaCopyExpired,
+        "is_rera_id_expired": isReraIdExpired,
+        "is_dtcm_permit_expired": isDtcmPermitExpired,
+        "guests": guests == null
+            ? []
+            : List<dynamic>.from(guests!.map((x) => x.toJson())),
+      };
+}
+
+class Guest {
+  String? name;
+  String? code;
+  String? phone;
+  String? fileName;
+  String? fileUrl;
+
+  Guest({
+    this.name,
+    this.code,
+    this.phone,
+    this.fileName,
+    this.fileUrl,
+  });
+
+  factory Guest.fromJson(Map<String, dynamic> json) => Guest(
+        name: json["name"],
+        code: json["code"],
+        phone: json["phone"],
+        fileName: json["file_name"],
+        fileUrl: json["file_url"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "code": code,
+        "phone": phone,
+        "file_name": fileName,
+        "file_url": fileUrl,
       };
 }
 

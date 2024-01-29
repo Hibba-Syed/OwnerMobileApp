@@ -118,26 +118,10 @@ class HbDetailsPage extends StatelessWidget {
                             ],
                           ),
                           const AdDetailsPage().applicationDetails(
-                              context,
-                              state.hbDetailsModel?.record?.clientName,
-                              state.hbDetailsModel?.record?.clientPhone,),
-                          const AdDetailsPage().supportingDocuments(context, [
-                            {
-                              "name": "Title Deed",
-                              "url":
-                                  "${state.hbDetailsModel?.record?.titleDeedUrl}",
-                            },
-                            {
-                              "name": "ID File",
-                              "url":
-                                  "${state.hbDetailsModel?.record?.clientIdFileUrl}",
-                            },
-                            {
-                              "name": "Passport File",
-                              "url":
-                                  "${state.hbDetailsModel?.record?.passportFileUrl}",
-                            },
-                          ])
+                            context,
+                            state.hbDetailsModel?.record?.clientName,
+                            state.hbDetailsModel?.record?.clientPhone,
+                          ),
                         ],
                       ),
                     ),

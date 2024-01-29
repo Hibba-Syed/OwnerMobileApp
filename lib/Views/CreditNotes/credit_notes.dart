@@ -119,7 +119,7 @@ class CreditNotesPage extends StatelessWidget {
           ),
           const Gap(20),
           CustomText(
-            text: message ?? "No results found !!",
+            text: message ?? "No results !!",
           ),
           const Gap(20),
           Padding(

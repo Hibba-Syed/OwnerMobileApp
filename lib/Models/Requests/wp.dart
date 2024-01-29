@@ -410,42 +410,43 @@ class Application {
   DateTime? updatedAt;
   dynamic deletedAt;
   String? appointmentLetterUrl;
-  String? tradelicenseContractorUrl;
+  String? tradeLicenseContractorUrl;
   String? contractorInsuranceUrl;
   String? workDrawingUrl;
   String? nocFromOwnerUrl;
   String? securityChequeAttachmentUrl;
+  String? contractorCoverLetterUrl;
 
-  Application({
-    this.id,
-    this.contractorName,
-    this.contactPerson,
-    this.contractorPhone,
-    this.noOfStaffExpected,
-    this.startDate,
-    this.endDate,
-    this.assetCondition,
-    this.repairCost,
-    this.refundSecurityAmount,
-    this.securityChequeDetails,
-    this.securityChequeAttachment,
-    this.securityDepositStatus,
-    this.nocFromOwner,
-    this.appointmentLetter,
-    this.tradeLicenseContractor,
-    this.contractorInsurance,
-    this.workDrawing,
-    this.requiredDocCas,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
-    this.appointmentLetterUrl,
-    this.tradelicenseContractorUrl,
-    this.contractorInsuranceUrl,
-    this.workDrawingUrl,
-    this.nocFromOwnerUrl,
-    this.securityChequeAttachmentUrl,
-  });
+  Application(
+      {this.id,
+      this.contractorName,
+      this.contactPerson,
+      this.contractorPhone,
+      this.noOfStaffExpected,
+      this.startDate,
+      this.endDate,
+      this.assetCondition,
+      this.repairCost,
+      this.refundSecurityAmount,
+      this.securityChequeDetails,
+      this.securityChequeAttachment,
+      this.securityDepositStatus,
+      this.nocFromOwner,
+      this.appointmentLetter,
+      this.tradeLicenseContractor,
+      this.contractorInsurance,
+      this.workDrawing,
+      this.requiredDocCas,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.appointmentLetterUrl,
+      this.tradeLicenseContractorUrl,
+      this.contractorInsuranceUrl,
+      this.workDrawingUrl,
+      this.nocFromOwnerUrl,
+      this.securityChequeAttachmentUrl,
+      this.contractorCoverLetterUrl});
 
   factory Application.fromJson(Map<String, dynamic> json) => Application(
         id: json["id"],
@@ -478,11 +479,12 @@ class Application {
             : DateTime.parse(json["updated_at"]),
         deletedAt: json["deleted_at"],
         appointmentLetterUrl: json["appointment_letter_url"],
-        tradelicenseContractorUrl: json["tradelicense_contractor_url"],
+        tradeLicenseContractorUrl: json["tradelicense_contractor_url"],
         contractorInsuranceUrl: json["contractor_insurance_url"],
         workDrawingUrl: json["work_drawing_url"],
         nocFromOwnerUrl: json["noc_from_owner_url"],
         securityChequeAttachmentUrl: json["security_cheque_attachment_url"],
+        contractorCoverLetterUrl: json["contractor_cover_letter_url"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -511,7 +513,7 @@ class Application {
         "updated_at": updatedAt?.toIso8601String(),
         "deleted_at": deletedAt,
         "appointment_letter_url": appointmentLetterUrl,
-        "tradelicense_contractor_url": tradelicenseContractorUrl,
+        "tradelicense_contractor_url": tradeLicenseContractorUrl,
         "contractor_insurance_url": contractorInsuranceUrl,
         "work_drawing_url": workDrawingUrl,
         "noc_from_owner_url": nocFromOwnerUrl,

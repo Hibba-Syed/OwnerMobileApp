@@ -427,8 +427,8 @@ class Application {
   String? type;
   dynamic isDewaNocApplied;
   dynamic isFinalNocApplied;
-  dynamic dewaNocFee;
-  dynamic finalNocFee;
+  double? dewaNocFee;
+  double? finalNocFee;
   dynamic dewaNocPaymentStatus;
   dynamic finalNocPaymentStatus;
   dynamic finalNocDocumentStatus;
@@ -445,7 +445,7 @@ class Application {
   String? feePaymentStatusLbl;
   String? dewaNocPaymentStatusLbl;
   String? finalNocPaymentStatusLbl;
-  List<dynamic>? addons;
+  List<Addon>? addons;
   List<dynamic>? dewanoc;
 
   Application({
@@ -559,8 +559,8 @@ class Application {
         type: json["type"],
         isDewaNocApplied: json["is_dewa_noc_applied"],
         isFinalNocApplied: json["is_final_noc_applied"],
-        dewaNocFee: json["dewa_noc_fee"],
-        finalNocFee: json["final_noc_fee"],
+        dewaNocFee: json["dewa_noc_fee"]?.toDouble(),
+        finalNocFee: json["final_noc_fee"]?.toDouble(),
         dewaNocPaymentStatus: json["dewa_noc_payment_status"],
         finalNocPaymentStatus: json["final_noc_payment_status"],
         finalNocDocumentStatus: json["final_noc_document_status"],
@@ -579,7 +579,7 @@ class Application {
         finalNocPaymentStatusLbl: json["final_noc_payment_status_lbl"],
         addons: json["addons"] == null
             ? []
-            : List<dynamic>.from(json["addons"]!.map((x) => x)),
+            : List<Addon>.from(json["addons"]!.map((x) => Addon.fromJson(x))),
         dewanoc: json["dewanoc"] == null
             ? []
             : List<dynamic>.from(json["dewanoc"]!.map((x) => x)),
@@ -798,5 +798,45 @@ class Unit {
         "unit_number": unitNumber,
         "is_legal_notice_active": isLegalNoticeActive,
         "is_rdc_active": isRdcActive,
+      };
+}
+
+class Addon {
+  int? id;
+  int? applicationFitOutId;
+  String? serviceName;
+  double? servicePrice;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+
+  Addon({
+    this.id,
+    this.applicationFitOutId,
+    this.serviceName,
+    this.servicePrice,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  factory Addon.fromJson(Map<String, dynamic> json) => Addon(
+        id: json["id"],
+        applicationFitOutId: json["application_fit_out_id"],
+        serviceName: json["service_name"],
+        servicePrice: json["service_price"]?.toDouble(),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "application_fit_out_id": applicationFitOutId,
+        "service_name": serviceName,
+        "service_price": servicePrice,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
       };
 }

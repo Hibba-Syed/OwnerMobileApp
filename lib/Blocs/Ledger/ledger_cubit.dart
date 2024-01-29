@@ -49,7 +49,8 @@ class LedgerCubit extends Cubit<LedgerState> {
   /// -------- by Statement --------
   Future<void> getLedgerByStatement(BuildContext context, int? id) async {
     emit(state.copyWith(
-        loadingState: LoadingState.loading, pageLedgerByStatement: 1));
+        ledgerByStatementLoadingState: LoadingState.loading,
+        pageLedgerByStatement: 1));
     await UnitsService.getUnitLedgerByStatement(context, id, state.ledgerType,
             state.customDateRange, state.pageLedgerByStatement)
         .then((value) {
@@ -57,7 +58,7 @@ class LedgerCubit extends Cubit<LedgerState> {
         return emit(state.copyWith(
           ledgerByStatementModel:
               ledgerByStatementModelFromJson(value.response as String),
-          loadingState: LoadingState.success,
+          ledgerByStatementLoadingState: LoadingState.success,
         ));
       }
       value as Failure;
@@ -65,7 +66,7 @@ class LedgerCubit extends Cubit<LedgerState> {
         msg: value.errorResponse as String? ??
             "Unable to get ledger by statement",
       );
-      emit(state.copyWith(loadingState: LoadingState.error));
+      emit(state.copyWith(ledgerByStatementLoadingState: LoadingState.error));
     });
   }
 
@@ -109,7 +110,7 @@ class LedgerCubit extends Cubit<LedgerState> {
   /// -------- by Date --------
   Future<void> getLedgerByDate(BuildContext context, int? id) async {
     emit(state.copyWith(
-        loadingState: LoadingState.loading, pageLedgerByDate: 1));
+        ledgerByDateLoadingState: LoadingState.loading, pageLedgerByDate: 1));
     await UnitsService.getUnitLedgerByDate(context, id, state.ledgerType,
             state.customDateRange, state.pageLedgerByDate)
         .then((value) {
@@ -117,14 +118,14 @@ class LedgerCubit extends Cubit<LedgerState> {
         return emit(state.copyWith(
           ledgerByDateModel:
               ledgerByDateModelFromJson(value.response as String),
-          loadingState: LoadingState.success,
+          ledgerByDateLoadingState: LoadingState.success,
         ));
       }
       value as Failure;
       Fluttertoast.showToast(
         msg: value.errorResponse as String? ?? "Unable to get ledger by date",
       );
-      emit(state.copyWith(loadingState: LoadingState.error));
+      emit(state.copyWith(ledgerByDateLoadingState: LoadingState.error));
     });
   }
 
@@ -166,7 +167,8 @@ class LedgerCubit extends Cubit<LedgerState> {
   /// -------- by Account --------
   Future<void> getLedgerByAccount(BuildContext context, int? id) async {
     emit(state.copyWith(
-        loadingState: LoadingState.loading, pageLedgerByAccount: 1));
+        ledgerByAccountLoadingState: LoadingState.loading,
+        pageLedgerByAccount: 1));
     await UnitsService.getUnitLedgerByAccount(context, id, state.ledgerType,
             state.customDateRange, state.pageLedgerByAccount)
         .then((value) {
@@ -174,7 +176,7 @@ class LedgerCubit extends Cubit<LedgerState> {
         return emit(state.copyWith(
           ledgerByAccountModel:
               ledgerByAccountModelFromJson(value.response as String),
-          loadingState: LoadingState.success,
+          ledgerByAccountLoadingState: LoadingState.success,
         ));
       }
       value as Failure;
@@ -182,7 +184,7 @@ class LedgerCubit extends Cubit<LedgerState> {
         msg:
             value.errorResponse as String? ?? "Unable to get ledger by account",
       );
-      emit(state.copyWith(loadingState: LoadingState.error));
+      emit(state.copyWith(ledgerByAccountLoadingState: LoadingState.error));
     });
   }
 

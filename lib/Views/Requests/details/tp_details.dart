@@ -293,7 +293,7 @@ class TpDetailsPage extends StatelessWidget {
                                                   ),
                                                   "key": "Citizenship",
                                                   "value":
-                                                      seller?.sellerCitizenship,
+                                                      seller?.country?.name,
                                                 },
                                               ]
                                                   .map((Map<String, dynamic>
@@ -483,7 +483,7 @@ class TpDetailsPage extends StatelessWidget {
                                                     ),
                                                     "key": "Citizenship",
                                                     "value":
-                                                        buyer?.buyerCitizenship,
+                                                        buyer?.country?.name,
                                                   },
                                                 ]
                                                     .map((Map<String, dynamic>
@@ -578,10 +578,10 @@ class TpDetailsPage extends StatelessWidget {
             },
           ],
         ),
-        const AdDetailsPage().applicationDetails(
-            context,
-            state.tpDetailsModel?.record?.clientName,
-            state.tpDetailsModel?.record?.clientPhone),
+        // const AdDetailsPage().applicationDetails(
+        //     context,
+        //     state.tpDetailsModel?.record?.clientName,
+        //     state.tpDetailsModel?.record?.clientPhone),
         const AdDetailsPage().supportingDocuments(
           context,
           [

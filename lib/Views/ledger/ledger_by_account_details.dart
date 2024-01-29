@@ -86,7 +86,7 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
                                                   0.03,
                                               color: Color(ledgerAccountDatum
                                                           ?.type
-                                                          ?.toLowerCase() ==
+                                                          ?.toLowerCase() !=
                                                       "payment"
                                                   ? 0xffFB5454
                                                   : 0xff65D024),

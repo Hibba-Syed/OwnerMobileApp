@@ -59,20 +59,28 @@ class WpDetailsPage extends StatelessWidget {
                               {
                                 "icon": Icons.person_outlined,
                                 "title": "Contractor Name",
-                                "subTitle":
-                                    state.wpDetailsModel?.record?.clientName,
+                                "subTitle": state.wpDetailsModel?.record
+                                    ?.application?.contractorName,
                               },
                               {
                                 "icon": Icons.phone_android_outlined,
                                 "title": "Contractor Contact Person",
-                                "subTitle":
-                                    state.wpDetailsModel?.record?.clientName,
+                                "subTitle": state.wpDetailsModel?.record
+                                    ?.application?.contactPerson,
+                              },
+                              {
+                                "icon": Icons.phone_android_outlined,
+                                "title": "Contractor Phone",
+                                "subTitle": state.wpDetailsModel?.record
+                                    ?.application?.contractorPhone,
                               },
                               {
                                 "icon": Icons.group_outlined,
                                 "title": "No. of Staff Expected",
-                                "subTitle":
-                                    state.wpDetailsModel?.record?.clientName,
+                                "subTitle": (state.wpDetailsModel?.record
+                                            ?.application?.noOfStaffExpected ??
+                                        " -- ")
+                                    .toString(),
                               },
                               {
                                 "icon": Icons.calendar_month_outlined,
@@ -89,6 +97,13 @@ class WpDetailsPage extends StatelessWidget {
                                         ?.record?.application?.endDate),
                               },
                               {
+                                "icon": Icons.check_box_outline_blank_outlined,
+                                "title": "Payable Amount",
+                                "subTitle": state.wpDetailsModel?.record
+                                        ?.payableAmount ??
+                                    " -- ",
+                              },
+                              {
                                 "icon": Icons.security,
                                 "title": "Security Deposit",
                                 "subTitle":
@@ -98,25 +113,6 @@ class WpDetailsPage extends StatelessWidget {
                                   "Status",
                                   "pending",
                                 ),
-                              },
-                              {
-                                "icon": Icons.check_box_outline_blank_outlined,
-                                "title": "Payable Amount",
-                                "subTitle": state.wpDetailsModel?.record
-                                        ?.payableAmount ??
-                                    " -- ",
-                                "widget": const ProfilePage().profileInfoTile(
-                                  context,
-                                  "Status",
-                                  "pending",
-                                ),
-                              },
-                              {
-                                "icon": Icons.money_outlined,
-                                "title": "Cheque details",
-                                "subTitle": state.wpDetailsModel?.record
-                                        ?.serviceChargeStatus ??
-                                    " -- ",
                               },
                               {
                                 "icon": Icons.notes_outlined,
@@ -132,22 +128,66 @@ class WpDetailsPage extends StatelessWidget {
                             state.wpDetailsModel?.record?.clientName,
                             state.wpDetailsModel?.record?.clientPhone,
                           ),
-                          const AdDetailsPage().supportingDocuments(context, [
-                            {
-                              "name": "Title Deed",
-                              "url": state.wpDetailsModel?.record?.titleDeedUrl,
-                            },
-                            {
-                              "name": "ID File",
-                              "url":
-                                  state.wpDetailsModel?.record?.clientIdFileUrl,
-                            },
-                            {
-                              "name": "Passport File",
-                              "url":
-                                  state.wpDetailsModel?.record?.passportFileUrl,
-                            },
-                          ])
+                          Builder(builder: (context) {
+                            final List<Map<dynamic, dynamic>> list = [];
+                            list.addAll(state.wpDetailsModel?.record?.documents
+                                    ?.map((e) => {
+                                          "name":
+                                              e.name?.capitalize() ?? " -- ",
+                                          "url": e.pathUrl,
+                                        })
+                                    .toList() ??
+                                []);
+                            list.addAll([
+                              {
+                                "name": "Tenancy Contact",
+                                "url": state
+                                    .wpDetailsModel?.record?.tenancyContractUrl,
+                              },
+                              {
+                                "name": "Title Deed",
+                                "url":
+                                    state.wpDetailsModel?.record?.titleDeedUrl,
+                              },
+                              {
+                                "name": "Company Trade License",
+                                "url": state
+                                    .wpDetailsModel?.record?.tradeLicenseUrl,
+                              },
+                              {
+                                "name": "NOC From Owner",
+                                "url": state.wpDetailsModel?.record?.application
+                                    ?.nocFromOwnerUrl,
+                              },
+                              {
+                                "name": "Appointment Letter",
+                                "url": state.wpDetailsModel?.record?.application
+                                    ?.appointmentLetterUrl,
+                              },
+                              {
+                                "name": "Contractor Trade License",
+                                "url": state.wpDetailsModel?.record?.application
+                                    ?.tradeLicenseContractorUrl,
+                              },
+                              {
+                                "name": "Contractor Cover Letter",
+                                "url": state.wpDetailsModel?.record?.application
+                                    ?.contractorCoverLetterUrl,
+                              },
+                              {
+                                "name": "Contractor Insurance",
+                                "url": state.wpDetailsModel?.record?.application
+                                    ?.contractorInsuranceUrl,
+                              },
+                              {
+                                "name": "Drawing",
+                                "url": state.wpDetailsModel?.record?.application
+                                    ?.workDrawingUrl,
+                              },
+                            ]);
+                            return const AdDetailsPage()
+                                .supportingDocuments(context, list);
+                          })
                         ],
                       ),
                     ),

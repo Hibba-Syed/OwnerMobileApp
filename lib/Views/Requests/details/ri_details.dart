@@ -81,26 +81,31 @@ class RiDetailsPage extends StatelessWidget {
                                 "icon": Icons.card_travel_outlined,
                                 "title": "Passport No.",
                                 "subTitle": state.riDetailsModel?.record
-                                        ?.passportNumber ??
+                                        ?.application?.ownerNumber ??
                                     " -- ",
                               },
                               {
                                 "icon": Icons.person_3_outlined,
-                                "title": "ID No.",
+                                "title": "Emirates ID No.",
                                 "subTitle": state.riDetailsModel?.record
-                                        ?.clientIdNumber ??
+                                        ?.application?.emiratesIdNumber ??
                                     " -- ",
                               },
                               {
-                                "icon": Icons.email_outlined,
-                                "title": "Email",
-                                "subTitle":
-                                    state.riDetailsModel?.record?.clientEmail ??
-                                        " -- ",
+                                "title": "Title Deed Number",
+                                "subTitle": state.riDetailsModel?.record
+                                        ?.titleDeedNumber ??
+                                    " -- ",
+                              },
+                              {
+                                "title": "Mollak Owner Number",
+                                "subTitle": state.riDetailsModel?.record
+                                        ?.application?.ownerNumber ??
+                                    " -- ",
                               },
                               {
                                 "icon": Icons.request_page_outlined,
-                                "title": "Move In Request Ref#",
+                                "title": "Move In Request Reference",
                                 "subTitle": state
                                         .riDetailsModel
                                         ?.record
@@ -111,7 +116,7 @@ class RiDetailsPage extends StatelessWidget {
                               },
                               {
                                 "icon": Icons.question_answer_outlined,
-                                "title": "Status",
+                                "title": "Move In Request Status",
                                 "subTitle": state.riDetailsModel?.record
                                         ?.moveInRequest?.application?.status ??
                                     " -- ",
@@ -119,29 +124,35 @@ class RiDetailsPage extends StatelessWidget {
                               {
                                 "icon": Icons.people_outlined,
                                 "title": "Adults",
-                                "subTitle":
-                                    state.riDetailsModel?.record?.status ??
-                                        " -- ",
+                                "subTitle": (state.riDetailsModel?.record
+                                            ?.application?.adult ??
+                                        " -- ")
+                                    .toString(),
                               },
                               {
                                 "icon": Icons.child_care_outlined,
                                 "title": "Children",
-                                "subTitle":
-                                    state.riDetailsModel?.record?.status ??
-                                        " -- ",
+                                "subTitle": (state.riDetailsModel?.record
+                                            ?.application?.child ??
+                                        " -- ")
+                                    .toString(),
                               },
                             ],
                           ),
-                          const AdDetailsPage().customTableView(
-                              context,
-                              ["Vehicle Registration Number"],
-                              state.riDetailsModel?.record?.application
-                                      ?.residentVehicle
-                                      ?.map((e) =>
-                                          [e.registrationNumber ?? " -- "])
-                                      .toList() ??
-                                  [],
-                              title: "Vehicles"),
+                          if ((state.riDetailsModel?.record?.application
+                                      ?.residentVehicle?.length ??
+                                  0) !=
+                              0)
+                            const AdDetailsPage().customTableView(
+                                context,
+                                ["Vehicle Registration Number"],
+                                state.riDetailsModel?.record?.application
+                                        ?.residentVehicle
+                                        ?.map((e) =>
+                                            [e.registrationNumber ?? " -- "])
+                                        .toList() ??
+                                    [],
+                                title: "Vehicles"),
                           const AdDetailsPage().headingText(
                             context,
                             "Emergency Contact Details",
@@ -155,7 +166,6 @@ class RiDetailsPage extends StatelessWidget {
                                       ?.firstPersonNumber ??
                                   " -- ",
                               enableHeader: false),
-                          const Gap(10),
                           const AdDetailsPage().applicationDetails(
                               context,
                               state.riDetailsModel?.record?.application
@@ -176,19 +186,19 @@ class RiDetailsPage extends StatelessWidget {
                               "url": state.riDetailsModel?.record?.titleDeedUrl,
                             },
                             {
-                              "name": "ID File",
-                              "url":
-                                  state.riDetailsModel?.record?.clientIdFileUrl,
-                            },
-                            {
                               "name": "Passport File",
-                              "url":
-                                  state.riDetailsModel?.record?.passportFileUrl,
+                              "url": state.riDetailsModel?.record?.application
+                                  ?.passportFileUrl,
                             },
                             {
                               "name": "Trade License",
                               "url":
                                   state.riDetailsModel?.record?.tradeLicenseUrl,
+                            },
+                            {
+                              "name": "Emirates ID File",
+                              "url": state.riDetailsModel?.record?.application
+                                  ?.emiratesIdFileUrl,
                             },
                           ])
                         ],

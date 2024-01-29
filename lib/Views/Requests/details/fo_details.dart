@@ -20,8 +20,7 @@ class FoDetailsPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10),
               child: const DashboardPage().appBar(context,
-                  text:
-                     const AdDetailsPage().getRequestName(type)),
+                  text: const AdDetailsPage().getRequestName(type)),
             ),
             Expanded(
               child: BlocBuilder<RequestDetailsCubit, RequestDetailsState>(
@@ -60,66 +59,95 @@ class FoDetailsPage extends StatelessWidget {
                                 {
                                   "icon": Icons.person_outlined,
                                   "title": "Contractor Name",
-                                  "subTitle":
-                                      state.foDetailsModel?.record?.clientName,
+                                  "subTitle": state.foDetailsModel?.record
+                                      ?.application?.contractorName,
                                 },
                                 {
                                   "icon": Icons.phone_android_outlined,
                                   "title": "Contractor Contact Person",
-                                  "subTitle":
-                                      state.foDetailsModel?.record?.clientName,
+                                  "subTitle": state.foDetailsModel?.record
+                                      ?.application?.contactPerson,
+                                },
+                                {
+                                  "icon": Icons.phone_android_outlined,
+                                  "title": "Contractor Phone",
+                                  "subTitle": state.foDetailsModel?.record
+                                      ?.application?.contractorPhone,
                                 },
                                 {
                                   "icon": Icons.group_outlined,
                                   "title": "No. of Staff Expected",
-                                  "subTitle":
-                                      state.foDetailsModel?.record?.clientName,
+                                  "subTitle": (state
+                                              .foDetailsModel
+                                              ?.record
+                                              ?.application
+                                              ?.noOfStaffExpected ??
+                                          " -- ")
+                                      .toString(),
                                 },
                                 {
                                   "icon": Icons.calendar_month_outlined,
                                   "title": "Start date",
-                                  "subTitle":
-                                      state.foDetailsModel?.record?.clientName,
-                                  "widget": const ProfilePage().profileInfoTile(
-                                    context,
-                                    "End Date",
-                                    "23 May 20223",
-                                  )
+                                  "subTitle": const OccupantPage()
+                                      .dateTimeFormatter(state.foDetailsModel
+                                          ?.record?.application?.startDate),
+                                },
+                                {
+                                  "icon": Icons.calendar_month_outlined,
+                                  "title": "End date",
+                                  "subTitle": const OccupantPage()
+                                      .dateTimeFormatter(state.foDetailsModel
+                                          ?.record?.application?.endDate),
                                 },
                                 {
                                   "icon": Icons.fast_forward_outlined,
                                   "title": "Temporary Electricity Required?",
-                                  "subTitle": "No",
+                                  "subTitle": state.foDetailsModel?.record
+                                              ?.application?.isElectricity ==
+                                          1
+                                      ? "Yes"
+                                      : "No",
                                 },
                                 {
                                   "icon":
                                       Icons.indeterminate_check_box_outlined,
                                   "title": "NOC (fit out) Fee",
-                                  "subTitle": " -- ",
+                                  "subTitle": (state.foDetailsModel?.record
+                                              ?.application?.fitoutFee ??
+                                          " -- ")
+                                      .toString(),
                                 },
                                 {
                                   "icon": Icons.security,
                                   "title": "Security Deposit",
                                   "subTitle":
-                                      "${state.foDetailsModel?.record?.securityDeposit ?? " -- "}",
-                                  "widget": const ProfilePage().profileInfoTile(
-                                    context,
-                                    "Status",
-                                    "pending",
-                                  ),
+                                      "${state.foDetailsModel?.record?.application?.securityDeposit ?? " -- "}",
+                                },
+                                {
+                                  "icon": Icons.security,
+                                  "title": "Security Deposit Status",
+                                  "subTitle": state
+                                          .foDetailsModel
+                                          ?.record
+                                          ?.application
+                                          ?.securityDepositStatusLbl ??
+                                      " -- ",
                                 },
                                 {
                                   "icon":
                                       Icons.check_box_outline_blank_outlined,
                                   "title": "Total Payable Fee",
                                   "subTitle": state.foDetailsModel?.record
-                                          ?.payableAmount ??
+                                          ?.application?.totalPayableFee ??
                                       " -- ",
-                                  "widget": const ProfilePage().profileInfoTile(
-                                    context,
-                                    "Status",
-                                    "pending",
-                                  ),
+                                },
+                                {
+                                  "icon":
+                                      Icons.check_box_outline_blank_outlined,
+                                  "title": "Total Payable Fee Status",
+                                  "subTitle": state.foDetailsModel?.record
+                                          ?.application?.feePaymentStatusLbl ??
+                                      " -- ",
                                 },
                                 {
                                   "icon": Icons.notes_outlined,
@@ -129,81 +157,139 @@ class FoDetailsPage extends StatelessWidget {
                                       " -- ",
                                 },
                               ]),
-                          // const AdDetailsPage().customTableView(
-                          //     context,
-                          //     ["Service Name", "Amount"],
-                          //     state.foDetailsModel?.record?.application?.addons
-                          //             ?.map((e) => [
-                          //                   e.serviceName ?? " -- ",
-                          //                   "${e.servicePrice ?? 0}"
-                          //                 ])
-                          //             .toList() ??
-                          //         [],
-                          //     title: "Add Ons"),
                           const AdDetailsPage().customTableView(
                               context,
-                              [
-                                "Dewa NOC Requested",
-                                "Dewa NOC Fee (AED)",
-                                "Payment Status"
-                              ],
-                              [
+                              ["Service Name", "Amount"],
+                              state.foDetailsModel?.record?.application?.addons
+                                      ?.map((e) => [
+                                            e.serviceName ?? " -- ",
+                                            formatCurrency(e.servicePrice ?? 0)
+                                          ])
+                                      .toList() ??
+                                  [],
+                              title: "Add Ons"),
+                          if ((state.foDetailsModel?.record?.application
+                                      ?.isDewaNocApplied ??
+                                  0) ==
+                              1)
+                            const AdDetailsPage().customTableView(
+                                context,
                                 [
-                                  (state.foDetailsModel?.record?.application
-                                                  ?.isDewaNocApplied ??
-                                              0) ==
-                                          0
-                                      ? "No"
-                                      : "Yes",
-                                  "${state.foDetailsModel?.record?.application?.dewaNocFee ?? "0"}",
-                                  state.foDetailsModel?.record?.application
-                                          ?.dewaNocPaymentStatus ??
-                                      "pending",
-                                ]
-                              ],
-                              title: "DEWA NOC Details"),
-                          const AdDetailsPage().customTableView(
-                              context,
-                              [
-                                "Dewa NOC Requested",
-                                "Dewa NOC Fee (AED)",
-                                "Payment Status"
-                              ],
-                              [
+                                  "Dewa NOC Requested",
+                                  "Dewa NOC Fee",
+                                  "Payment Status"
+                                ],
                                 [
-                                  (state.foDetailsModel?.record?.application
-                                                  ?.isFinalNocApplied ??
-                                              0) ==
-                                          0
-                                      ? "No"
-                                      : "Yes",
-                                  "${state.foDetailsModel?.record?.application?.finalNocFee ?? "0"}",
-                                  state.foDetailsModel?.record?.application
-                                          ?.finalNocPaymentStatus ??
-                                      "pending",
-                                ]
-                              ],
-                              title: "Final NOC Details"),
+                                  [
+                                    "Yes",
+                                    formatCurrency(state.foDetailsModel?.record
+                                        ?.application?.dewaNocFee),
+                                    state.foDetailsModel?.record?.application
+                                            ?.dewaNocPaymentStatus ??
+                                        "pending",
+                                  ]
+                                ],
+                                title: "DEWA NOC Details"),
+                          if ((state.foDetailsModel?.record?.application
+                                      ?.isFinalNocApplied ??
+                                  0) ==
+                              1)
+                            const AdDetailsPage().customTableView(
+                                context,
+                                [
+                                  "Dewa NOC Requested",
+                                  "Dewa NOC Fee",
+                                  "Payment Status"
+                                ],
+                                [
+                                  [
+                                    "Yes",
+                                    formatCurrency(state.foDetailsModel?.record
+                                        ?.application?.finalNocFee),
+                                    state.foDetailsModel?.record?.application
+                                            ?.finalNocPaymentStatus ??
+                                        "pending",
+                                  ]
+                                ],
+                                title: "Final NOC Details"),
                           const AdDetailsPage().applicationDetails(
-                              context,
-                              state.foDetailsModel?.record?.clientName,
-                              state.foDetailsModel?.record?.clientPhone,),
-                          const AdDetailsPage().supportingDocuments(context, [
-                            {
-                              "name": "Title Deed",
-                              "url": state.foDetailsModel?.record?.titleDeedUrl,
-                            },
-                            {
-                              "name": "ID File",
-                              "url":
-                                  state.foDetailsModel?.record?.clientIdFileUrl,
-                            },
-                            {
-                              "name": "Passport File",
-                              "url":
-                                  state.foDetailsModel?.record?.passportFileUrl,
-                            },
-                          ])
+                            context,
+                            state.foDetailsModel?.record?.clientName,
+                            state.foDetailsModel?.record?.clientPhone,
+                          ),
+                          Builder(builder: (context) {
+                            List<Map<dynamic, dynamic>> list = [];
+                            list.addAll(state.foDetailsModel?.record?.documents
+                                    ?.map(
+                                      (e) => {
+                                        "name": e.name?.capitalize() ?? " -- ",
+                                        "url": e.pathUrl,
+                                      },
+                                    )
+                                    .toList() ??
+                                []);
+                            list.addAll(
+                              [
+                                {
+                                  "name": "Tenancy Contact",
+                                  "url": state.foDetailsModel?.record
+                                      ?.tenancyContractUrl,
+                                },
+                                {
+                                  "name": "Title Deed",
+                                  "url": state
+                                      .foDetailsModel?.record?.titleDeedUrl,
+                                },
+                                {
+                                  "name": "Company Trade License",
+                                  "url": state
+                                      .foDetailsModel?.record?.tradeLicenseUrl,
+                                },
+                                {
+                                  "name": "NOC From Owner",
+                                  "url": state.foDetailsModel?.record
+                                      ?.application?.nocFromOwnerUrl,
+                                },
+                                {
+                                  "name": "Appointment Letter",
+                                  "url": state.foDetailsModel?.record
+                                      ?.application?.appointmentLetterUrl,
+                                },
+                                {
+                                  "name": "Contractor Trade License",
+                                  "url": state.foDetailsModel?.record
+                                      ?.application?.tradeLicenseContractorUrl,
+                                },
+                                {
+                                  "name": "Contractor Cover Letter",
+                                  "url": state.foDetailsModel?.record
+                                      ?.application?.contractorCoverLetterUrl,
+                                },
+                                {
+                                  "name": "Contractor Insurance",
+                                  "url": state.foDetailsModel?.record
+                                      ?.application?.contractorInsuranceUrl,
+                                },
+                                {
+                                  "name": "Drawing",
+                                  "url": state.foDetailsModel?.record
+                                      ?.application?.workDrawingUrl,
+                                },
+                                {
+                                  "name": "DVD Approval fire fighting System",
+                                  "url": state.foDetailsModel?.record
+                                      ?.application?.dcdApprovalFireFightingUrl,
+                                },
+                                {
+                                  "name": "DCD Approval fire fighting contractor",
+                                  "url": state.foDetailsModel?.record
+                                      ?.application?.dcdApprovalFireFightingUrl,
+                                },
+                              ],
+                            );
+                            return const AdDetailsPage()
+                                .supportingDocuments(context, list);
+                          })
                         ],
                       ),
                     ),

@@ -59,246 +59,241 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
           );
         }
 
-        return Column(
-          children: [
-            Expanded(
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  context
-                      .read<SharedDocumentsCubit>()
-                      .getSharedDocuments(context, unitId: widget.unitId);
-                },
-                child: ListView.builder(
-                  padding: const EdgeInsets.all(10),
-                  itemCount:
-                      state.sharedDocumentsModel?.sharedDocuments?.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    SharedDocument? sharedDocumentsRecord =
-                        state.sharedDocumentsModel?.sharedDocuments?[index];
-                    String? url = sharedDocumentsRecord?.documents;
-                    String type = "File";
-                    String fileExtension = path.extension(url ?? "");
-                    fileExtension = fileExtension.toLowerCase();
-                    if (fileExtension == ".png" ||
-                        fileExtension == ".jpeg" ||
-                        fileExtension == ".jpg") {
-                      type = "Image";
-                    }
-                    if (fileExtension == ".doc" ||
-                        fileExtension == ".xlsx" ||
-                        fileExtension == ".docx") {
-                      type = "Document";
-                    }
-                    if (fileExtension == ".pdf") {
-                      type = "Pdf";
-                    }
-                    return Container(
-                      margin: const EdgeInsets.symmetric(vertical: 5),
-                      decoration: BoxDecoration(
-                        color: kWhite,
-                        borderRadius: BorderRadius.circular(10),
-          
-                      ),
-                      child: Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              topRight: Radius.circular(10),
-                            ),
-                            child: Stack(
-                              children: [
-                                Builder(builder: (context) {
-                                  if (type.toLowerCase() == "pdf") {
-                                    return SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.width *
-                                              0.45,
-                                      width: double.infinity,
-                                      child: const PDF(
-                                        swipeHorizontal: true,
-                                      ).cachedFromUrl(
-                                          sharedDocumentsRecord?.documents ??
-                                              ""),
-                                    );
-                                  }
-                                  return ImageBuilder(
-                                    url: sharedDocumentsRecord?.documents ?? "",
+        return RefreshIndicator(
+          onRefresh: () async {
+            context
+                .read<SharedDocumentsCubit>()
+                .getSharedDocuments(context, unitId: widget.unitId);
+          },
+          child: ListView.builder(
+            controller: _scrollController,
+            padding: const EdgeInsets.all(10),
+            itemCount: state.sharedDocumentsModel?.sharedDocuments?.length,
+            itemBuilder: (BuildContext context, int index) {
+              SharedDocument? sharedDocumentsRecord =
+                  state.sharedDocumentsModel?.sharedDocuments?[index];
+              String? url = sharedDocumentsRecord?.documents;
+              String type = "File";
+              String fileExtension = path.extension(url ?? "");
+              fileExtension = fileExtension.toLowerCase();
+              if (fileExtension == ".png" ||
+                  fileExtension == ".jpeg" ||
+                  fileExtension == ".jpg") {
+                type = "Image";
+              }
+              if (fileExtension == ".doc" ||
+                  fileExtension == ".xlsx" ||
+                  fileExtension == ".docx") {
+                type = "Document";
+              }
+              if (fileExtension == ".pdf") {
+                type = "Pdf";
+              }
+              return Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 5),
+                    decoration: BoxDecoration(
+                      color: kWhite,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      children: [
+                        ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                          ),
+                          child: Stack(
+                            children: [
+                              Builder(builder: (context) {
+                                if (type.toLowerCase() == "pdf") {
+                                  return SizedBox(
                                     height: MediaQuery.of(context).size.width *
                                         0.45,
                                     width: double.infinity,
+                                    child: const PDF(
+                                      swipeHorizontal: true,
+                                    ).cachedFromUrl(
+                                        sharedDocumentsRecord?.documents ?? ""),
                                   );
-                                }),
-                                Container(
-                                  margin: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(7),
-                                    color: kWhite,
-                                  ),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    decoration: BoxDecoration(
-                                      color: context
-                                          .read<AppThemeCubit>()
-                                          .state
-                                          .primaryColor
-                                          .withOpacity(0.8),
-                                      borderRadius: BorderRadius.circular(7),
-                                    ),
-                                    child: CustomText(
-                                      text: type,
-                                      color: kWhite,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.035,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Flexible(
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Image.asset(
-                                            widget.unitId != null
-                                                ? "assets/unit.png"
-                                                : "assets/community.png",
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.04,
-                                            color: const Color(0xff575757),
-                                          ),
-                                          const Gap(5),
-                                          Flexible(
-                                            child: CustomText(
-                                              text: sharedDocumentsRecord?.title
-                                                      ?.capitalize() ??
-                                                  "",
-                                              color: const Color(0xffB2B1B1),
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.035,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const Gap(10),
-                                    Flexible(
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Image.asset(
-                                            "assets/calender.png",
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.04,
-                                            color: const Color(0xff575757),
-                                          ),
-                                          const Gap(5),
-                                          Flexible(
-                                            child: CustomText(
-                                              text: const OccupantPage()
-                                                  .dateTimeFormatter(
-                                                      sharedDocumentsRecord
-                                                          ?.expiryDate),
-                                              color: const Color(0xffB2B1B1),
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.035,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                                }
+                                return ImageBuilder(
+                                  url: sharedDocumentsRecord?.documents ?? "",
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.45,
+                                  width: double.infinity,
+                                );
+                              }),
+                              Container(
+                                margin: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  color: kWhite,
                                 ),
-                                const Gap(10),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    CustomText(
-                                      text: sharedDocumentsRecord?.documentName
-                                              ?.capitalize() ??
-                                          " -- ",
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.045,
-                                    ),
-                                    Flexible(
-                                      child: CustomButton(
-                                        text: "Download",
-                                        padding: EdgeInsets.zero,
-                                        function: () {
-                                          if (sharedDocumentsRecord
-                                                  ?.documents !=
-                                              null) {
-                                            launchUrl(Uri.parse(
-                                                sharedDocumentsRecord
-                                                        ?.documents ??
-                                                    ""));
-                                          }
-                                        },
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.4,
-                                        buttonColor: const Color(0xff65D024)
-                                            .withOpacity(0.1),
-                                        textColor: const Color(0xff65D024),
-                                        fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.04,
-                                        height:
-                                            MediaQuery.of(context).size.width *
-                                                0.07,
-                                        icon: Image.asset(
-                                          "assets/download_summary.png",
-                                          color: const Color(0xff65D024),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5),
+                                  decoration: BoxDecoration(
+                                    color: context
+                                        .read<AppThemeCubit>()
+                                        .state
+                                        .primaryColor
+                                        .withOpacity(0.8),
+                                    borderRadius: BorderRadius.circular(7),
+                                  ),
+                                  child: CustomText(
+                                    text: type,
+                                    color: kWhite,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.035,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Image.asset(
+                                          widget.unitId != null
+                                              ? "assets/unit.png"
+                                              : "assets/community.png",
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.06,
+                                              0.04,
+                                          color: const Color(0xff575757),
                                         ),
+                                        const Gap(5),
+                                        Flexible(
+                                          child: CustomText(
+                                            text: sharedDocumentsRecord?.title
+                                                    ?.capitalize() ??
+                                                "",
+                                            color: const Color(0xffB2B1B1),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.035,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const Gap(10),
+                                  Flexible(
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Image.asset(
+                                          "assets/calender.png",
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.04,
+                                          color: const Color(0xff575757),
+                                        ),
+                                        const Gap(5),
+                                        Flexible(
+                                          child: CustomText(
+                                            text: const OccupantPage()
+                                                .dateTimeFormatter(
+                                                    sharedDocumentsRecord
+                                                        ?.expiryDate),
+                                            color: const Color(0xffB2B1B1),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.035,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const Gap(10),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText(
+                                    text: sharedDocumentsRecord?.documentName
+                                            ?.capitalize() ??
+                                        " -- ",
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.045,
+                                  ),
+                                  Flexible(
+                                    child: CustomButton(
+                                      text: "Download",
+                                      padding: EdgeInsets.zero,
+                                      function: () {
+                                        if (sharedDocumentsRecord?.documents !=
+                                            null) {
+                                          launchUrl(Uri.parse(
+                                              sharedDocumentsRecord
+                                                      ?.documents ??
+                                                  ""));
+                                        }
+                                      },
+                                      width: MediaQuery.of(context).size.width *
+                                          0.4,
+                                      buttonColor: const Color(0xff65D024)
+                                          .withOpacity(0.1),
+                                      textColor: const Color(0xff65D024),
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.04,
+                                      height:
+                                          MediaQuery.of(context).size.width *
+                                              0.07,
+                                      icon: Image.asset(
+                                        "assets/download_summary.png",
+                                        color: const Color(0xff65D024),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.06,
                                       ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-            if (state.loadMoreState == LoadingState.loading)
-              const SizedBox(
-                height: 100,
-                child: Center(child: CircularProgressIndicator()),
-              )
-          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  if ((index + 1) ==
+                      state.sharedDocumentsModel?.sharedDocuments?.length)
+                    SizedBox(
+                      height: 150,
+                      child: state.loadMoreState == LoadingState.loading
+                          ? const Center(child: CircularProgressIndicator())
+                          : null,
+                    ),
+                ],
+              );
+            },
+          ),
         );
       },
     );

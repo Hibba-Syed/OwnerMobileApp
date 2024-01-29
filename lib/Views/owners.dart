@@ -1,4 +1,5 @@
 import 'package:cool_alert/cool_alert.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Blocs/Primary%20Owner%20Activity/primary_owner_activity_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -26,7 +27,7 @@ class OwnersPage extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: const DashboardPage().appBar(
                 context,
-                text: "Unit $unitNumber - Owners",
+                text: "Unit $unitNumber - Owner(s)",
               ),
             ),
             GestureDetector(
@@ -36,161 +37,176 @@ class OwnersPage extends StatelessWidget {
                     .getPrimaryOwnerActivity(context, unitId);
                 showModalBottomSheet(
                   context: context,
-                  builder: (context) => Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Gap(20),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: CustomText(
-                          text: "Status Logs",
-                          fontWeight: FontWeight.bold,
-                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                  builder: (context) => Container(
+                    decoration: BoxDecoration(
+                      color: kBackgroundColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Gap(20),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: CustomText(
+                            text: "Primary status history",
+                            fontWeight: FontWeight.bold,
+                            fontSize: MediaQuery.of(context).size.width * 0.05,
+                          ),
                         ),
-                      ),
-                      const Divider(),
-                      Expanded(
-                        child: BlocBuilder<PrimaryOwnerActivityCubit,
-                            PrimaryOwnerActivityState>(
-                          builder: (context, state) {
-                            if (state.loadingState == LoadingState.loading) {
-                              return const CustomLoader();
-                            }
-                            return ListView.separated(
-                              padding: const EdgeInsets.all(10),
-                              itemCount: state.primaryOwnerActivityModel?.record
-                                      ?.length ??
-                                  0,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                  padding: const EdgeInsets.all(10),
-                                  // margin: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: kWhite),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Container(
-                                            padding: const EdgeInsets.all(10),
-                                            decoration: BoxDecoration(
-                                                color: context
-                                                    .read<AppThemeCubit>()
-                                                    .state
-                                                    .primaryColor
-                                                    .withOpacity(0.1),
-                                                shape: BoxShape.circle),
-                                            child: CustomText(
-                                              text: state
-                                                      .primaryOwnerActivityModel
-                                                      ?.record?[index]
-                                                      .currentOwner
-                                                      ?.split(" ")
-                                                      .first[0] ??
-                                                  "",
-                                              color: context
-                                                  .read<AppThemeCubit>()
-                                                  .state
-                                                  .primaryColor,
-                                            ),
-                                          ),
-                                          const Gap(10),
-                                          Image.asset(
-                                            "assets/switch.png",
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.05,
-                                          ),
-                                          const Gap(10),
-                                          Container(
-                                            padding: const EdgeInsets.all(10),
-                                            decoration: BoxDecoration(
-                                                color: context
-                                                    .read<AppThemeCubit>()
-                                                    .state
-                                                    .primaryColor
-                                                    .withOpacity(0.1),
-                                                shape: BoxShape.circle),
-                                            child: CustomText(
-                                              text: state
-                                                      .primaryOwnerActivityModel
-                                                      ?.record?[index]
-                                                      .oldOwner
-                                                      ?.split(" ")
-                                                      .first[0] ??
-                                                  "",
-                                              color: context
-                                                  .read<AppThemeCubit>()
-                                                  .state
-                                                  .primaryColor,
-                                            ),
-                                          ),
-                                          const Spacer(),
-                                          CustomText(
-                                            text: const OccupantPage()
-                                                .dateTimeFormatter(
-                                              state.primaryOwnerActivityModel
-                                                  ?.record?[index].createdAt,
-                                            ),
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.03,
-                                          )
-                                        ],
+                        const Divider(),
+                        Expanded(
+                          child: BlocBuilder<PrimaryOwnerActivityCubit,
+                              PrimaryOwnerActivityState>(
+                            builder: (context, state) {
+                              if (state.loadingState == LoadingState.loading) {
+                                return const CustomLoader();
+                              }
+                              if ((state.primaryOwnerActivityModel?.record
+                                          ?.length ??
+                                      0) ==
+                                  0) {
+                                return const CreditNotesPage().emptyList(
+                                  ontap: () => context
+                                      .read<PrimaryOwnerActivityCubit>()
+                                      .getPrimaryOwnerActivity(
+                                        context,
+                                        unitId,
                                       ),
-                                      Row(
-                                        children: [
-                                          CustomText(
-                                            text: state
-                                                    .primaryOwnerActivityModel
-                                                    ?.record?[index]
-                                                    .currentOwner ??
-                                                "",
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.04,
-                                          ),
-                                          CustomText(
-                                            text: " to ",
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.04,
-                                          ),
-                                          CustomText(
-                                            text: state
-                                                    .primaryOwnerActivityModel
-                                                    ?.record?[index]
-                                                    .currentOwner ??
-                                                "",
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.04,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
                                 );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return const Gap(20);
-                              },
-                            );
-                          },
+                              }
+                              return ListView.separated(
+                                padding: const EdgeInsets.all(10),
+                                itemCount: state.primaryOwnerActivityModel
+                                        ?.record?.length ??
+                                    0,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: kWhite),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              color: context
+                                                  .read<AppThemeCubit>()
+                                                  .state
+                                                  .primaryColor
+                                                  .withOpacity(0.1),
+                                              shape: BoxShape.circle),
+                                          child: CustomText(
+                                            text:
+                                                "${state.primaryOwnerActivityModel?.record?[index].oldOwner?.split(" ").first[0] ?? ""}${state.primaryOwnerActivityModel?.record?[index].oldOwner?.split(" ").last[0] ?? ""}",
+                                            color: context
+                                                .read<AppThemeCubit>()
+                                                .state
+                                                .primaryColor,
+                                          ),
+                                        ),
+                                        const Gap(10),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: CustomText(
+                                                      text: state
+                                                              .primaryOwnerActivityModel
+                                                              ?.record?[index]
+                                                              .oldOwner ??
+                                                          "",
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.04,
+                                                    ),
+                                                  ),
+                                                  const Gap(10),
+                                                  CustomText(
+                                                    text: const OccupantPage()
+                                                        .dateTimeFormatter(
+                                                      state
+                                                          .primaryOwnerActivityModel
+                                                          ?.record?[index]
+                                                          .createdAt,
+                                                    ),
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.03,
+                                                  )
+                                                ],
+                                              ),
+                                              RichText(
+                                                text: TextSpan(
+                                                  children: [
+                                                    TextSpan(
+                                                        text: "has made ",
+                                                        style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.035,
+                                                          color: kGrey,
+                                                        )),
+                                                    TextSpan(
+                                                        text: state
+                                                                .primaryOwnerActivityModel
+                                                                ?.record?[index]
+                                                                .currentOwner ??
+                                                            " -- ",
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.035,
+                                                            color: kGrey,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                    TextSpan(
+                                                        text:
+                                                            " the new primary owner",
+                                                        style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.035,
+                                                          color: kGrey,
+                                                        )),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) {
+                                  return const Gap(10);
+                                },
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               },
@@ -232,14 +248,19 @@ class OwnersPage extends StatelessWidget {
                       itemCount: state.ownersModel?.units?.owners?.length,
                       itemBuilder: (BuildContext context, int index) {
                         bool iAmPrimary = false;
+                        bool noOneIsPrimary = false;
                         Owner? owner = state.ownersModel?.units?.owners?[index];
                         for (Owner element
                             in state.ownersModel?.units?.owners ?? []) {
                           if (element.detail?.primaryEmail ==
                                   profileModel?.record?.primaryEmail &&
-                              element.detail?.id == profileModel?.record?.id) {
+                              element.detail?.id == profileModel?.record?.id &&
+                              element.detail?.isPrimary == 1) {
                             iAmPrimary = true;
                           }
+                        }
+                        if (iAmPrimary == false) {
+                          noOneIsPrimary = true;
                         }
                         List<Map<String, dynamic>> ownerData = [
                           {
@@ -341,7 +362,7 @@ class OwnersPage extends StatelessWidget {
                                 horizontalTitleGap: 0.0,
                                 minLeadingWidth: 0,
                                 child: ExpansionTile(
-                                  initiallyExpanded: index == 0 ? true : false,
+                                  // initiallyExpanded: index == 0 ? true : false,
                                   tilePadding: EdgeInsets.zero,
                                   title: Row(
                                     mainAxisAlignment:
@@ -465,40 +486,109 @@ class OwnersPage extends StatelessWidget {
                                           );
                                         }),
                                         if (owner?.detail?.isPrimary == 0 &&
-                                            iAmPrimary)
+                                                iAmPrimary ||
+                                            (noOneIsPrimary &&
+                                                owner?.detail?.primaryEmail ==
+                                                    profileModel?.record
+                                                        ?.primaryEmail &&
+                                                owner?.detail?.id ==
+                                                    profileModel?.record?.id))
                                           const Gap(20),
                                         if (owner?.detail?.isPrimary == 0 &&
-                                            iAmPrimary)
+                                                iAmPrimary ||
+                                            (noOneIsPrimary &&
+                                                owner?.detail?.primaryEmail ==
+                                                    profileModel?.record
+                                                        ?.primaryEmail &&
+                                                owner?.detail?.id ==
+                                                    profileModel?.record?.id))
                                           CustomButton(
                                             text: "Make Primary",
-                                            function: () {
-                                              CoolAlert.show(
-                                                  confirmBtnColor: context
-                                                      .read<AppThemeCubit>()
-                                                      .state
-                                                      .primaryColor,
-                                                  backgroundColor: context
-                                                      .read<AppThemeCubit>()
-                                                      .state
-                                                      .primaryColor
-                                                      .withOpacity(0.1),
-                                                  context: context,
-                                                  type: CoolAlertType.info,
-                                                  confirmBtnText: "Yes",
-                                                  cancelBtnText: "No",
-                                                  text:
-                                                      "Are you sure you want to make this owner as primary owner",
-                                                  title: "Are you sure?",
-                                                  showCancelBtn: true,
-                                                  onConfirmBtnTap: () {
+                                            function: () async {
+                                              bool yes = false;
+                                              await CoolAlert.show(
+                                                confirmBtnColor: context
+                                                    .read<AppThemeCubit>()
+                                                    .state
+                                                    .primaryColor,
+                                                backgroundColor: context
+                                                    .read<AppThemeCubit>()
+                                                    .state
+                                                    .primaryColor
+                                                    .withOpacity(0.1),
+                                                context: context,
+                                                type: CoolAlertType.info,
+                                                confirmBtnText: "Yes",
+                                                cancelBtnText: "No",
+                                                text: (noOneIsPrimary &&
+                                                        owner?.detail
+                                                                ?.primaryEmail ==
+                                                            profileModel?.record
+                                                                ?.primaryEmail &&
+                                                        owner?.detail?.id ==
+                                                            profileModel
+                                                                ?.record?.id)
+                                                    ? "Are you sure you want to make yourself primary owner?"
+                                                    : "Are you sure you want to make this owner as primary owner?",
+                                                title: "Are you sure?",
+                                                showCancelBtn: true,
+                                                onConfirmBtnTap: () {
+                                                  yes = true;
+                                                },
+                                              ).then(
+                                                (value) {
+                                                  if (yes == true) {
                                                     CoolAlert.show(
-                                                      context: context,
-                                                      type:
-                                                          CoolAlertType.loading,
-                                                      lottieAsset:
-                                                          "assets/loader.json",
+                                                        context: context,
+                                                        type: CoolAlertType
+                                                            .loading,
+                                                        barrierDismissible:
+                                                            false,
+                                                        lottieAsset:
+                                                            "assets/loader.json",
+                                                        text:
+                                                            "Switching Primary Owner ...");
+                                                    Future.delayed(
+                                                      2.seconds,
+                                                      () {
+                                                        UnitsService
+                                                                .makeUnitOwner(
+                                                                    context,
+                                                                    unitId,
+                                                                    owner
+                                                                        ?.detail
+                                                                        ?.id)
+                                                            .then(
+                                                          (value) {
+                                                            Navigator.pop(
+                                                                context);
+                                                            if (value
+                                                                is Success) {
+                                                              context
+                                                                  .read<
+                                                                      OwnersCubit>()
+                                                                  .getOwners(
+                                                                      context,
+                                                                      unitId);
+                                                              Fluttertoast
+                                                                  .showToast(
+                                                                      msg:
+                                                                          "Primary owner changed successfully");
+                                                            }
+                                                            if (value
+                                                                is Failure) {
+                                                              Fluttertoast
+                                                                  .showToast(
+                                                                      msg:
+                                                                          "Unable to change primary owner");
+                                                            }
+                                                          },
+                                                        );
+                                                      },
                                                     );
-                                                  });
+                                                  }
+                                                },
+                                              );
                                             },
                                           )
                                       ],
