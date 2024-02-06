@@ -284,7 +284,7 @@ class _LedgerByStatementState extends State<LedgerByStatement> {
                       height: 150,
                       child: state.loadMoreLedgerByStatementState ==
                               LoadingState.loading
-                          ? const Center(child: CircularProgressIndicator())
+                          ? const CustomLoader()
                           : null,
                     ),
                 ],

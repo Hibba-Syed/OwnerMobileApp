@@ -34,12 +34,24 @@ class ImageBuilder extends StatelessWidget {
   }
 
   Widget errorImage() {
-    return FadeInImage(
-        width: width,
-        height: height,
-        placeholder: const AssetImage('assets/loader.gif'),
-        image: const AssetImage('assets/placeHolder.png'),
-        placeholderFit: BoxFit.contain,
-        fit: BoxFit.contain);
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
+          color: kGrey.shade200),
+      width: width,
+      height: height,
+      child: Center(
+        child: Image.asset(
+          'assets/placeHolder.png',
+          width: width != null && width != 0 ? (width ?? 0) / 2 : null,
+          height: height != null && height != 0 ? (height ?? 0) / 2 : null,
+          fit: BoxFit.contain,
+          color: kGrey.shade300,
+        ),
+      ),
+    );
   }
 }

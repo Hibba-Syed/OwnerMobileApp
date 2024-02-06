@@ -32,10 +32,7 @@ class _EditCompliancePageState extends State<EditCompliancePage> {
             bottomNavigationBar: Padding(
               padding: const EdgeInsets.all(10),
               child: state.loadingState == LoadingState.loading
-                  ? const SizedBox(
-                      height: 50.0,
-                      child: Center(child: CircularProgressIndicator()),
-                    )
+                  ? const SizedBox(height: 50.0, child: CustomLoader())
                   : CustomButton(
                       text: "Save",
                       height: MediaQuery.of(context).size.width * 0.12,

@@ -163,6 +163,8 @@ class TpDetailsPage extends StatelessWidget {
                                   Seller? seller = state.tpDetailsModel?.record
                                       ?.application?.sellers?[index];
                                   return Container(
+                                    margin:
+                                        const EdgeInsets.symmetric(vertical: 5),
                                     padding: const EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
@@ -346,6 +348,8 @@ class TpDetailsPage extends StatelessWidget {
                                   Buyer? buyer = state.tpDetailsModel?.record
                                       ?.application?.buyers?[index];
                                   return Container(
+                                    margin:
+                                        const EdgeInsets.symmetric(vertical: 5),
                                     padding: const EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),

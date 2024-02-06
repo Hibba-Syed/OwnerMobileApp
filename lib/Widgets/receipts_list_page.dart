@@ -259,8 +259,7 @@ class _ReceiptsListPageState extends State<ReceiptsListPage> {
                           SizedBox(
                             height: 150,
                             child: state.loadMoreState == LoadingState.loading
-                                ? const Center(
-                                    child: CircularProgressIndicator())
+                                ? const CustomLoader()
                                 : null,
                           ),
                       ],

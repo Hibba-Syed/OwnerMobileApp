@@ -93,9 +93,7 @@ class ForgotPasswordPage extends StatelessWidget {
                                               LoadingState.loading) {
                                             return const SizedBox(
                                                 height: 50,
-                                                child: Center(
-                                                    child:
-                                                        CircularProgressIndicator()));
+                                                child: CustomLoader());
                                           }
                                           return CustomButton(
                                               text: "Send",

@@ -101,14 +101,7 @@ class LedgerPage extends StatelessWidget {
                           .withOpacity(0.8),
                       icon: state.loadingState == LoadingState.loading
                           ? const SizedBox(
-                              height: 15,
-                              width: 15,
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  color: kWhite,
-                                ),
-                              ),
-                            )
+                              height: 15, width: 15, child: CustomLoader())
                           : Image.asset(
                               "assets/export.png",
                               width: MediaQuery.of(context).size.width * 0.06,

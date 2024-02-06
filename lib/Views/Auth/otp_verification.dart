@@ -65,12 +65,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
               child: Builder(
                 builder: (context) {
                   if (state.loadingState == LoadingState.loading) {
-                    return const SizedBox(
-                      height: 50,
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
+                    return const SizedBox(height: 50, child: CustomLoader());
                   }
                   return CustomButton(
                       text: "Verify",
@@ -164,9 +159,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                                         ? const SizedBox(
                                             height: 20,
                                             width: 20,
-                                            child: Center(
-                                                child:
-                                                    CircularProgressIndicator()))
+                                            child: CustomLoader())
                                         : (_secondsRemaining > 0)
                                             ? CustomText(
                                                 text: "($_secondsRemaining) ",

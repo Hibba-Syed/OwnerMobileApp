@@ -107,6 +107,9 @@ class MoDetailsPage extends StatelessWidget {
                                     )
                                     .toList() ??
                                 []);
+                            if (list.isEmpty) {
+                              return const SizedBox.shrink();
+                            }
                             return const AdDetailsPage()
                                 .supportingDocuments(context, list);
                           })

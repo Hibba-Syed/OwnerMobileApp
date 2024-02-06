@@ -61,10 +61,7 @@ class _MyWebViewState extends State<MyWebView> {
               child: Stack(
                 children: [
                   WebViewWidget(controller: webViewController),
-                  if (isLoading)
-                    const Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                  if (isLoading) const CustomLoader()
                   // if (isError) const CreditNotesPage().emptyList(),
                 ],
               ),

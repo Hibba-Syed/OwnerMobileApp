@@ -24,12 +24,7 @@ class HappinessCenterPage extends StatelessWidget {
           child: BlocBuilder<HappinessCenterCubit, HappinessCenterState>(
             builder: (context, state) {
               if (state.loadingState == LoadingState.loading) {
-                return const SizedBox(
-                  height: 50,
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
+                return const SizedBox(height: 50, child: CustomLoader());
               }
               return CustomButton(
                   text: "Submit",
@@ -768,12 +763,7 @@ class HappinessCenterPage extends StatelessWidget {
               suffix: Builder(builder: (context) {
                 if (loadingState == LoadingState.loading) {
                   return const SizedBox(
-                    width: 30,
-                    height: 30,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
+                      width: 30, height: 30, child: CustomLoader());
                 }
                 return const Icon(Icons.arrow_drop_down);
               }),
@@ -789,12 +779,7 @@ class HappinessCenterPage extends StatelessWidget {
             trailingIcon: Builder(builder: (context) {
               if (loadingState == LoadingState.loading) {
                 return const SizedBox(
-                  width: 30,
-                  height: 30,
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
+                    width: 30, height: 30, child: CustomLoader());
               }
               return const Icon(Icons.arrow_drop_down);
             }),

@@ -83,7 +83,6 @@ class _InvoicesListPageState extends State<InvoicesListPage> {
                             decoration: BoxDecoration(
                               color: kWhite,
                               borderRadius: BorderRadius.circular(10),
-                
                             ),
                             child: Row(
                               children: [
@@ -240,8 +239,7 @@ class _InvoicesListPageState extends State<InvoicesListPage> {
                           SizedBox(
                             height: 150,
                             child: state.loadMoreState == LoadingState.loading
-                                ? const Center(
-                                    child: CircularProgressIndicator())
+                                ? const CustomLoader()
                                 : null,
                           ),
                       ],

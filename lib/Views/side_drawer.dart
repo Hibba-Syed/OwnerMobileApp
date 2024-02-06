@@ -156,6 +156,24 @@ class SideDrawerPage extends StatelessWidget {
                       size: 15,
                     ),
                   ),
+                  // ListTile(
+                  //   onTap: () {
+                  //     Navigator.pushNamed(context, AppRoutes.verifyDocuments);
+                  //   },
+                  //   leading: Image.asset(
+                  //     "assets/change_password.png",
+                  //     color: context.read<AppThemeCubit>().state.primaryColor,
+                  //     width: MediaQuery.of(context).size.width * 0.06,
+                  //   ),
+                  //   title: const CustomText(
+                  //     text: "verify documents",
+                  //     textAlign: TextAlign.left,
+                  //   ),
+                  //   trailing: const Icon(
+                  //     Icons.arrow_forward_ios,
+                  //     size: 15,
+                  //   ),
+                  // ),
                   const Spacer(),
                   Padding(
                     padding: const EdgeInsets.all(10),
@@ -163,9 +181,7 @@ class SideDrawerPage extends StatelessWidget {
                       builder: (context, state) {
                         if (state.loadingState == LoadingState.loading) {
                           return const SizedBox(
-                            height: 50,
-                            child: Center(child: CircularProgressIndicator()),
-                          );
+                              height: 50, child: CustomLoader());
                         }
                         return CustomButton(
                           text: "Logout",
@@ -300,9 +316,7 @@ class SideDrawerPage extends StatelessWidget {
                                 if (state.loadingState ==
                                     LoadingState.loading) {
                                   return const SizedBox(
-                                      height: 50,
-                                      child: Center(
-                                          child: CircularProgressIndicator()));
+                                      height: 50, child: CustomLoader());
                                 }
                                 return CustomButton(
                                     text: "Login",

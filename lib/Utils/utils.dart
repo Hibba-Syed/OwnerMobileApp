@@ -16,4 +16,5 @@ export 'data.dart';
 export 'enums.dart';
 export 'global.dart';
 
-const String baseUrl = "http://api.synergic360.com";
+// const String baseUrl = "http://api.synergic360.com";
+const String baseUrl = "https://api.oamservices.com";

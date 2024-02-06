@@ -87,7 +87,7 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
                 type = "Document";
               }
               if (fileExtension == ".pdf") {
-                type = "Pdf";
+                type = "PDF";
               }
               return Column(
                 children: [
@@ -287,7 +287,7 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
                     SizedBox(
                       height: 150,
                       child: state.loadMoreState == LoadingState.loading
-                          ? const Center(child: CircularProgressIndicator())
+                          ? const CustomLoader()
                           : null,
                     ),
                 ],

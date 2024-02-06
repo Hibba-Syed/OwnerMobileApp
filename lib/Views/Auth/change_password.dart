@@ -151,11 +151,7 @@ class ChangePasswordPage extends StatelessWidget {
                                   if (state.loadingState ==
                                       LoadingState.loading) {
                                     return const SizedBox(
-                                      height: 50,
-                                      child: Center(
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                    );
+                                        height: 50, child: CustomLoader());
                                   }
                                   return CustomButton(
                                       text: "Update Password",

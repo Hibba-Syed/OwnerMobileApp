@@ -51,10 +51,10 @@ class Unit {
   String? residentName;
   int? unitId;
   String? unitNumber;
-  int? unitSizeSqft;
-  int? bedroomCount;
-  int? bathroomCount;
-  int? parkings;
+  double? unitSizeSqft;
+  double? bedroomCount;
+  double? bathroomCount;
+  double? parkings;
   double? unitCharges;
   double? unitPayment;
   double? unitBalance;
@@ -84,10 +84,10 @@ class Unit {
         residentName: json["resident_name"],
         unitId: json["unit_id"],
         unitNumber: json["unit_number"],
-        unitSizeSqft: json["unit_size_sqft"],
-        bedroomCount: json["bedroom_count"],
-        bathroomCount: json["bathroom_count"],
-        parkings: json["parkings"],
+        unitSizeSqft: json["unit_size_sqft"]?.toDouble(),
+        bedroomCount: json["bedroom_count"]?.toDouble(),
+        bathroomCount: json["bathroom_count"]?.toDouble(),
+        parkings: json["parkings"]?.toDouble(),
         unitCharges: json["unit_charges"]?.toDouble(),
         unitPayment: json["unit_payment"]?.toDouble(),
         unitBalance: json["unit_balance"]?.toDouble(),

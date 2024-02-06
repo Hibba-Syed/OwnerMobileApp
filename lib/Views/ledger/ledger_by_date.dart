@@ -297,7 +297,7 @@ class _LedgerByDateState extends State<LedgerByDate> {
                       height: 150,
                       child: state.loadMoreLedgerByDateState ==
                               LoadingState.loading
-                          ? const Center(child: CircularProgressIndicator())
+                          ? const CustomLoader()
                           : null,
                     ),
                 ],

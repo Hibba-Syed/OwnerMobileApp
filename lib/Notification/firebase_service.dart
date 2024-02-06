@@ -34,11 +34,7 @@ class FirebaseNotificationService {
   ) async {
     String? token;
     if (Platform.isIOS) {
-      token = await firebaseMessaging.getAPNSToken();
-      if (token == null) {
-        Fluttertoast.showToast(msg: "Apns not available");
-        return;
-      }
+      token = await firebaseMessaging.getToken();
     }
     if (Platform.isAndroid) {
       token = await firebaseMessaging.getToken();

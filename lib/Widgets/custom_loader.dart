@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 
 class CustomLoader extends StatelessWidget {
   final double width;
-  const CustomLoader({Key? key, this.width = 100}) : super(key: key);
+  final bool applyCenter;
+  const CustomLoader({Key? key, this.width = 100, this.applyCenter = true})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator()
-        // LottieBuilder.asset(
-        //   "assets/progress_indicator.json",
-        //   width: width,
-        // ),
-        );
+    if (applyCenter) {
+      return const Center(child: CircularProgressIndicator.adaptive()
+          // LottieBuilder.asset(
+          //   "assets/progress_indicator.json",
+          //   width: width,
+          // ),
+          );
+    }
+    return const CircularProgressIndicator.adaptive();
   }
 }

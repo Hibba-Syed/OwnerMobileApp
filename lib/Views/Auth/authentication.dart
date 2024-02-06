@@ -36,7 +36,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     if (state.loadingState == LoadingState.loading) {
                       return const SizedBox(
                         height: 50,
-                        child: Center(child: CircularProgressIndicator()),
+                        child: CustomLoader(),
                       );
                     }
                     return IconButton(

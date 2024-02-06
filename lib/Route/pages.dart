@@ -27,6 +27,7 @@ import 'package:iskaanowner/Views/Requests/details/tp_details.dart';
 import 'package:iskaanowner/Views/Requests/details/wp_details.dart';
 import 'package:iskaanowner/Views/companies.dart';
 import 'package:iskaanowner/Views/ledger/ledger_by_account_details.dart';
+import 'package:iskaanowner/Views/verify_documents.dart';
 import 'package:iskaanowner/Views/web_view.dart';
 
 import '../Blocs/Compliance Details/compliance_details_cubit.dart';
@@ -236,6 +237,10 @@ class AppPages {
       PageEntity(
         route: AppRoutes.forgotPassword,
         page: ForgotPasswordPage(),
+      ),
+      PageEntity(
+        route: AppRoutes.verifyDocuments,
+        page: const VerifyDocumentsPage(),
       ),
       PageEntity(
           route: AppRoutes.changePassword,

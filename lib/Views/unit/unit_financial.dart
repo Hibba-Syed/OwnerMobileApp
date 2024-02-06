@@ -108,12 +108,7 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
                                     ? const SizedBox(
                                         height: 15,
                                         width: 15,
-                                        child: Center(
-                                          child: CircularProgressIndicator(
-                                            color: kWhite,
-                                          ),
-                                        ),
-                                      )
+                                        child: CustomLoader())
                                     : Image.asset(
                                         "assets/export.png",
                                         width:
@@ -157,7 +152,6 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
                                       decoration: BoxDecoration(
                                         color: kWhite,
                                         borderRadius: BorderRadius.circular(10),
-                           
                                       ),
                                       child: Row(
                                         children: [
@@ -345,10 +339,7 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
                           ),
                         ),
                         if (state.loadMoreState == LoadingState.loading)
-                          const SizedBox(
-                            height: 150,
-                            child: Center(child: CircularProgressIndicator()),
-                          )
+                          const SizedBox(height: 150, child: CustomLoader())
                       ],
                     ),
                   );

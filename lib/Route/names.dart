@@ -41,4 +41,5 @@ class AppRoutes {
   static const receiptDetails = "/receiptDetails";
   static const creditNotes = "/creditNotes";
   static const creditNoteDetails = "/creditNoteDetails";
+  static const verifyDocuments = "/verifyDocuments";
 }

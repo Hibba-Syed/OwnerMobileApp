@@ -92,18 +92,6 @@ class RiDetailsPage extends StatelessWidget {
                                     " -- ",
                               },
                               {
-                                "title": "Title Deed Number",
-                                "subTitle": state.riDetailsModel?.record
-                                        ?.titleDeedNumber ??
-                                    " -- ",
-                              },
-                              {
-                                "title": "Mollak Owner Number",
-                                "subTitle": state.riDetailsModel?.record
-                                        ?.application?.ownerNumber ??
-                                    " -- ",
-                              },
-                              {
                                 "icon": Icons.request_page_outlined,
                                 "title": "Move In Request Reference",
                                 "subTitle": state

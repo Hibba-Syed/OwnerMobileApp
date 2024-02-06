@@ -13,7 +13,6 @@ class DocumentService {
         "Authorization":
             "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
       });
-
       if (response.statusCode == 200) {
         String? extension = response.headers['content-type'];
         extension = extension?.split('/').last;

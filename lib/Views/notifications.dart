@@ -187,8 +187,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                 height: 150,
                                 child:
                                     state.loadMoreState == LoadingState.loading
-                                        ? const Center(
-                                            child: CircularProgressIndicator())
+                                        ? const CustomLoader()
                                         : null,
                               ),
                           ],

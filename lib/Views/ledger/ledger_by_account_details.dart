@@ -319,7 +319,7 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
       return "assets/creditNote.png";
     }
     if (makeNotificationDefault) {
-      return "assets/read_bell.png";
+      return "assets/notification.png";
     }
     return "assets/ledger.png";
   }

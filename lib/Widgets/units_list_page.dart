@@ -202,8 +202,7 @@ class _UnitsListPageState extends State<UnitsListPage> {
                           SizedBox(
                             height: 150,
                             child: state.loadMoreState == LoadingState.loading
-                                ? const Center(
-                                    child: CircularProgressIndicator())
+                                ? const CustomLoader()
                                 : null,
                           ),
                       ],
@@ -218,8 +217,8 @@ class _UnitsListPageState extends State<UnitsListPage> {
     );
   }
 
-  Widget unitInfoRow(String image1, int count1, String text1, String image2,
-      int count2, String text2) {
+  Widget unitInfoRow(String image1, double count1, String text1, String image2,
+      double count2, String text2) {
     return Row(
       children: [
         Expanded(child: individualInfo(image1, count1, text1)),
@@ -229,7 +228,7 @@ class _UnitsListPageState extends State<UnitsListPage> {
     );
   }
 
-  Widget individualInfo(String image, int count, String text) {
+  Widget individualInfo(String image, double count, String text) {
     return Row(
       children: [
         Image.asset(
@@ -242,7 +241,7 @@ class _UnitsListPageState extends State<UnitsListPage> {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: "$count  ",
+                  text: "${count.toStringAsFixed(0)}  ",
                   style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.035,
                     fontWeight: FontWeight.bold,

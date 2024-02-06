@@ -136,10 +136,7 @@ class _LedgerByAccountState extends State<LedgerByAccount> {
               ),
             ),
             if (state.loadMoreLedgerByAccountState == LoadingState.loading)
-              const SizedBox(
-                height: 150,
-                child: Center(child: CircularProgressIndicator()),
-              )
+              const SizedBox(height: 150, child: CustomLoader())
           ],
         );
       },

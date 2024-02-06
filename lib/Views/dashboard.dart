@@ -78,8 +78,8 @@ class DashboardPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             loadingState == LoadingState.loading
-                ? CircularProgressIndicator(
-                    color: context.read<AppThemeCubit>().state.primaryColor,
+                ? const CustomLoader(
+                    applyCenter: false,
                   )
                 : Image.asset(
                     icon,
