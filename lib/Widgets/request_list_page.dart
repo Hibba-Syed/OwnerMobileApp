@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Views/Requests/details/ad_details.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
@@ -263,7 +264,7 @@ class _RequestListPageState extends State<RequestListPage> {
                                 ? const CustomLoader()
                                 : null,
                           ),
-                      ],
+                      ].animate(interval: 600.ms).fade(),
                     );
                   },
                 ),

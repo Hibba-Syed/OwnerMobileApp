@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Views/Requests/details/ad_details.dart';
 
 import '../../../Utils/utils.dart';
@@ -139,7 +140,7 @@ class MiDetailsPage extends StatelessWidget {
                                   "${state.miDetailsModel?.record?.tradeLicenseUrl}",
                             },
                           ])
-                        ],
+                        ].animate(interval: 50.ms).fade(),
                       ),
                     ),
                   );

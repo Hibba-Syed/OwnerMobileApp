@@ -28,6 +28,12 @@ class StorageService {
     return await _pref.setString("users", jsonEncode([value]));
   }
 
+  Future<bool> setAuthenticationModelListString(
+    String value,
+  ) async {
+    return await _pref.setString("users", value);
+  }
+
   Future<bool> removeAuthenticationModelString({required int index}) async {
     String? userList = getAuthenticationModelString();
     if (userList != null) {

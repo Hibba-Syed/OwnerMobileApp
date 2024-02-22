@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../Utils/utils.dart';
@@ -16,22 +14,10 @@ class _MyWebViewState extends State<MyWebView> {
   bool isError = false;
   final WebViewController webViewController = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted);
+  late String communityName;
   @override
   void initState() {
     super.initState();
-    Timer.periodic(const Duration(seconds: 2), (timer) {
-      webViewController.runJavaScript(
-          'document.getElementsByClassName("ant-btn")[1].style.display="none";');
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     webViewController.setNavigationDelegate(NavigationDelegate(
       onWebResourceError: (error) => setState(() {
         isLoading = false;
@@ -43,12 +29,16 @@ class _MyWebViewState extends State<MyWebView> {
         });
       },
     ));
-    String communityName =
+    communityName =
         (ModalRoute.of(context)?.settings.arguments as List)[0] as String? ??
             "";
     webViewController.loadRequest(Uri.parse(
         (ModalRoute.of(context)?.settings.arguments as List)[1] as String? ??
             ""));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Column(

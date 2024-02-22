@@ -1,3 +1,5 @@
+import 'package:flutter_animate/flutter_animate.dart';
+
 import '../../Blocs/App Theme/app_theme_cubit.dart';
 import '../../Utils/utils.dart';
 
@@ -147,13 +149,14 @@ class ChangePasswordPage extends StatelessWidget {
                                 const SizedBox(
                                   height: 20,
                                 ),
-                                Builder(builder: (context) {
-                                  if (state.loadingState ==
-                                      LoadingState.loading) {
-                                    return const SizedBox(
-                                        height: 50, child: CustomLoader());
-                                  }
-                                  return CustomButton(
+                                Builder(
+                                  builder: (context) {
+                                    if (state.loadingState ==
+                                        LoadingState.loading) {
+                                      return const SizedBox(
+                                          height: 50, child: CustomLoader());
+                                    }
+                                    return CustomButton(
                                       text: "Update Password",
                                       buttonColor: context
                                           .read<AppThemeCubit>()
@@ -167,9 +170,11 @@ class ChangePasswordPage extends StatelessWidget {
                                               .read<ChangePasswordCubit>()
                                               .changePassword(context);
                                         }
-                                      });
-                                }),
-                              ],
+                                      },
+                                    );
+                                  },
+                                ),
+                              ].animate(interval: 100.ms).fade(),
                             ),
                           );
                         },

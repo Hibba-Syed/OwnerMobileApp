@@ -195,7 +195,7 @@ class OwnersPage extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                  );
+                                  ).animate().fade(duration: 600.ms);
                                 },
                                 separatorBuilder:
                                     (BuildContext context, int index) {
@@ -348,255 +348,243 @@ class OwnersPage extends StatelessWidget {
                           },
                         ];
                         return Container(
-                            padding: const EdgeInsets.all(10),
-                            margin: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: kWhite),
-                            child: Theme(
-                              data: Theme.of(context)
-                                  .copyWith(dividerColor: Colors.transparent),
-                              child: ListTileTheme(
-                                contentPadding: EdgeInsets.zero,
-                                dense: true,
-                                horizontalTitleGap: 0.0,
-                                minLeadingWidth: 0,
-                                child: ExpansionTile(
-                                  // initiallyExpanded: index == 0 ? true : false,
-                                  tilePadding: EdgeInsets.zero,
-                                  title: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: CustomText(
-                                          text: owner?.detail?.name ?? "",
-                                          color: context
-                                              .read<AppThemeCubit>()
-                                              .state
-                                              .primaryColor,
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.045,
-                                          textAlign: TextAlign.left,
-                                        ),
+                          padding: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: kWhite),
+                          child: Theme(
+                            data: Theme.of(context)
+                                .copyWith(dividerColor: Colors.transparent),
+                            child: ListTileTheme(
+                              contentPadding: EdgeInsets.zero,
+                              dense: true,
+                              horizontalTitleGap: 0.0,
+                              minLeadingWidth: 0,
+                              child: ExpansionTile(
+                                // initiallyExpanded: index == 0 ? true : false,
+                                tilePadding: EdgeInsets.zero,
+                                title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: CustomText(
+                                        text: owner?.detail?.name ?? "",
+                                        color: context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.045,
+                                        textAlign: TextAlign.left,
                                       ),
-                                      if (owner?.detail?.isPrimary == 1)
-                                        Row(
-                                          children: [
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            const UnitsPage().roundedContainer(
-                                                context,
-                                                CustomText(
-                                                  text: "Primary",
-                                                  color: context
-                                                      .read<AppThemeCubit>()
-                                                      .state
-                                                      .primaryColor,
-                                                  fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.035,
-                                                ),
+                                    ),
+                                    if (owner?.detail?.isPrimary == 1)
+                                      Row(
+                                        children: [
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          const UnitsPage().roundedContainer(
+                                              context,
+                                              CustomText(
+                                                text: "Primary",
                                                 color: context
                                                     .read<AppThemeCubit>()
                                                     .state
-                                                    .primaryColor
-                                                    .withOpacity(0.1),
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 20,
-                                                        vertical: 5)),
-                                          ],
-                                        ),
-                                    ],
-                                  ),
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Column(
-                                          children: ownerData
-                                              .map((e) => const ProfilePage()
-                                                      .profileInfoTile(
-                                                    context,
-                                                    e["key"] as String,
-                                                    e["value"] as String?,
-                                                  ))
-                                              .toList(),
-                                        ),
-                                        const Gap(10),
-                                        CustomText(
-                                          text: "Documents",
-                                          color: context
-                                              .read<AppThemeCubit>()
-                                              .state
-                                              .primaryColor,
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.04,
-                                        ),
-                                        const Gap(10),
-                                        Builder(builder: (context) {
-                                          List documents = [
-                                            {
-                                              "name": "Title Deed",
-                                              "url":
-                                                  owner?.documents?.titleDeed,
-                                            },
-                                            {
-                                              "name": "Passport",
-                                              "url": owner
-                                                  ?.documents?.passportFile,
-                                            },
-                                            {
-                                              "name": "ID",
-                                              "url": owner?.documents?.idFile,
-                                            },
-                                          ];
-                                          return ListView.separated(
-                                            itemCount: 3,
-                                            shrinkWrap: true,
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            separatorBuilder:
-                                                (BuildContext context,
-                                                    int index) {
-                                              return const Column(
-                                                children: [
-                                                  Divider(
-                                                    thickness: 0.5,
-                                                  ),
-                                                  Gap(5),
-                                                ],
-                                              );
-                                            },
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return documentInfo(context,
-                                                  documents[index]["name"],
-                                                  url: documents[index]["url"]);
-                                            },
-                                          );
-                                        }),
-                                        if (owner?.detail?.isPrimary == 0 &&
-                                                iAmPrimary ||
-                                            (noOneIsPrimary &&
-                                                owner?.detail?.primaryEmail ==
-                                                    profileModel?.record
-                                                        ?.primaryEmail &&
-                                                owner?.detail?.id ==
-                                                    profileModel?.record?.id))
-                                          const Gap(20),
-                                        if (owner?.detail?.isPrimary == 0 &&
-                                                iAmPrimary ||
-                                            (noOneIsPrimary &&
-                                                owner?.detail?.primaryEmail ==
-                                                    profileModel?.record
-                                                        ?.primaryEmail &&
-                                                owner?.detail?.id ==
-                                                    profileModel?.record?.id))
-                                          CustomButton(
-                                            text: "Make Primary",
-                                            function: () async {
-                                              bool yes = false;
-                                              await CoolAlert.show(
-                                                confirmBtnColor: context
-                                                    .read<AppThemeCubit>()
-                                                    .state
                                                     .primaryColor,
-                                                backgroundColor: context
-                                                    .read<AppThemeCubit>()
-                                                    .state
-                                                    .primaryColor
-                                                    .withOpacity(0.1),
-                                                context: context,
-                                                type: CoolAlertType.info,
-                                                confirmBtnText: "Yes",
-                                                cancelBtnText: "No",
-                                                text: (noOneIsPrimary &&
-                                                        owner?.detail
-                                                                ?.primaryEmail ==
-                                                            profileModel?.record
-                                                                ?.primaryEmail &&
-                                                        owner?.detail?.id ==
-                                                            profileModel
-                                                                ?.record?.id)
-                                                    ? "Are you sure you want to make yourself primary owner?"
-                                                    : "Are you sure you want to make this owner as primary owner?",
-                                                title: "Are you sure?",
-                                                showCancelBtn: true,
-                                                onConfirmBtnTap: () {
-                                                  yes = true;
-                                                },
-                                              ).then(
-                                                (value) {
-                                                  if (yes == true) {
-                                                    CoolAlert.show(
-                                                        context: context,
-                                                        type: CoolAlertType
-                                                            .loading,
-                                                        barrierDismissible:
-                                                            false,
-                                                        lottieAsset:
-                                                            "assets/loader.json",
-                                                        text:
-                                                            "Switching Primary Owner ...");
-                                                    Future.delayed(
-                                                      2.seconds,
-                                                      () {
-                                                        UnitsService
-                                                                .makeUnitOwner(
-                                                                    context,
-                                                                    unitId,
-                                                                    owner
-                                                                        ?.detail
-                                                                        ?.id)
-                                                            .then(
-                                                          (value) {
-                                                            Navigator.pop(
-                                                                context);
-                                                            if (value
-                                                                is Success) {
-                                                              context
-                                                                  .read<
-                                                                      OwnersCubit>()
-                                                                  .getOwners(
-                                                                      context,
-                                                                      unitId);
-                                                              Fluttertoast
-                                                                  .showToast(
-                                                                      msg:
-                                                                          "Primary owner changed successfully");
-                                                            }
-                                                            if (value
-                                                                is Failure) {
-                                                              Fluttertoast
-                                                                  .showToast(
-                                                                      msg:
-                                                                          "Unable to change primary owner");
-                                                            }
-                                                          },
-                                                        );
-                                                      },
-                                                    );
-                                                  }
-                                                },
-                                              );
-                                            },
-                                          )
-                                      ],
-                                    ),
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.035,
+                                              ),
+                                              color: context
+                                                  .read<AppThemeCubit>()
+                                                  .state
+                                                  .primaryColor
+                                                  .withOpacity(0.1),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 20,
+                                                      vertical: 5)),
+                                        ],
+                                      ),
                                   ],
                                 ),
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        children: ownerData
+                                            .map((e) => const ProfilePage()
+                                                    .profileInfoTile(
+                                                  context,
+                                                  e["key"] as String,
+                                                  e["value"] as String?,
+                                                ))
+                                            .toList(),
+                                      ),
+                                      const Gap(10),
+                                      CustomText(
+                                        text: "Documents",
+                                        color: context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.04,
+                                      ),
+                                      const Gap(10),
+                                      Builder(builder: (context) {
+                                        return ListView.separated(
+                                          itemCount:
+                                              owner?.documents?.length ?? 0,
+                                          shrinkWrap: true,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          separatorBuilder:
+                                              (BuildContext context,
+                                                  int index) {
+                                            return const Column(
+                                              children: [
+                                                Divider(
+                                                  thickness: 0.5,
+                                                ),
+                                                Gap(5),
+                                              ],
+                                            );
+                                          },
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return documentInfo(
+                                                context,
+                                                owner?.documents?[index].name ??
+                                                    "",
+                                                url: owner?.documents?[index]
+                                                        .url ??
+                                                    "");
+                                          },
+                                        );
+                                      }),
+                                      if (owner?.detail?.isPrimary == 0 &&
+                                              iAmPrimary ||
+                                          (noOneIsPrimary &&
+                                              owner?.detail?.primaryEmail ==
+                                                  profileModel
+                                                      ?.record?.primaryEmail &&
+                                              owner?.detail?.id ==
+                                                  profileModel?.record?.id))
+                                        const Gap(20),
+                                      if (owner?.detail?.isPrimary == 0 &&
+                                              iAmPrimary ||
+                                          (noOneIsPrimary &&
+                                              owner?.detail?.primaryEmail ==
+                                                  profileModel
+                                                      ?.record?.primaryEmail &&
+                                              owner?.detail?.id ==
+                                                  profileModel?.record?.id))
+                                        CustomButton(
+                                          text: "Make Primary",
+                                          buttonColor: context
+                                              .read<AppThemeCubit>()
+                                              .state
+                                              .primaryColor
+                                              .withOpacity(0.8),
+                                          function: () async {
+                                            bool yes = false;
+                                            await CoolAlert.show(
+                                              confirmBtnColor: context
+                                                  .read<AppThemeCubit>()
+                                                  .state
+                                                  .primaryColor,
+                                              backgroundColor: context
+                                                  .read<AppThemeCubit>()
+                                                  .state
+                                                  .primaryColor
+                                                  .withOpacity(0.1),
+                                              context: context,
+                                              type: CoolAlertType.info,
+                                              confirmBtnText: "Yes",
+                                              cancelBtnText: "No",
+                                              text: (noOneIsPrimary &&
+                                                      owner?.detail
+                                                              ?.primaryEmail ==
+                                                          profileModel?.record
+                                                              ?.primaryEmail &&
+                                                      owner?.detail?.id ==
+                                                          profileModel
+                                                              ?.record?.id)
+                                                  ? "Are you sure you want to make yourself primary owner?"
+                                                  : "Are you sure you want to make this owner as primary owner?",
+                                              title: "Are you sure?",
+                                              showCancelBtn: true,
+                                              onConfirmBtnTap: () {
+                                                yes = true;
+                                              },
+                                            ).then(
+                                              (value) {
+                                                if (yes == true) {
+                                                  CoolAlert.show(
+                                                      context: context,
+                                                      type:
+                                                          CoolAlertType.loading,
+                                                      barrierDismissible: false,
+                                                      lottieAsset:
+                                                          "assets/loader.json",
+                                                      text:
+                                                          "Switching Primary Owner ...");
+                                                  Future.delayed(
+                                                    2.seconds,
+                                                    () {
+                                                      UnitsService
+                                                              .makeUnitOwner(
+                                                                  context,
+                                                                  unitId,
+                                                                  owner?.detail
+                                                                      ?.id)
+                                                          .then(
+                                                        (value) {
+                                                          Navigator.pop(
+                                                              context);
+                                                          if (value
+                                                              is Success) {
+                                                            context
+                                                                .read<
+                                                                    OwnersCubit>()
+                                                                .getOwners(
+                                                                    context,
+                                                                    unitId);
+                                                            Fluttertoast.showToast(
+                                                                msg:
+                                                                    "Primary owner changed successfully");
+                                                          }
+                                                          if (value
+                                                              is Failure) {
+                                                            Fluttertoast.showToast(
+                                                                msg:
+                                                                    "Unable to change primary owner");
+                                                          }
+                                                        },
+                                                      );
+                                                    },
+                                                  );
+                                                }
+                                              },
+                                            );
+                                          },
+                                        )
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ));
+                            ),
+                          ),
+                        ).animate().fade(duration: 600.ms);
                       },
                     ),
                   );

@@ -1,4 +1,6 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Blocs/Invoice%20details/invoice_details_cubit.dart';
+import 'package:iskaanowner/Views/Requests/details/ad_details.dart';
 
 import '../../Blocs/App Theme/app_theme_cubit.dart';
 import '../../Utils/utils.dart';
@@ -444,8 +446,23 @@ class InvoiceDetailsPage extends StatelessWidget {
                                   ],
                                 ),
                               ),
+                            if (state.invoiceDetailsModel?.documents
+                                    ?.isNotEmpty ??
+                                false)
+                              const AdDetailsPage().supportingDocuments(
+                                  context,
+                                  state.invoiceDetailsModel?.documents
+                                          ?.map(
+                                            (e) => {
+                                              "name": e.name,
+                                              "url": e.pathUrl,
+                                            },
+                                          )
+                                          .toList() ??
+                                      [],
+                                  headerText: "Documents"),
                             const Gap(10),
-                          ],
+                          ].animate(interval: 50.ms).fade(),
                         ),
                       ),
                     ),

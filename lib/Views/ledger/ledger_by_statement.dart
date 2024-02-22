@@ -1,3 +1,5 @@
+import 'package:flutter_animate/flutter_animate.dart';
+
 import '../../Blocs/App Theme/app_theme_cubit.dart';
 import '../../Models/ledger_by_statement.dart';
 import '../../Utils/utils.dart';
@@ -287,7 +289,7 @@ class _LedgerByStatementState extends State<LedgerByStatement> {
                           ? const CustomLoader()
                           : null,
                     ),
-                ],
+                ].animate(interval: 50.ms).fade(),
               );
             },
           ),

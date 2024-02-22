@@ -1,3 +1,5 @@
+import 'package:flutter_animate/flutter_animate.dart';
+
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
 
@@ -153,7 +155,7 @@ class ProfilePage extends StatelessWidget {
                               );
                             },
                           ),
-                        ),
+                        ).animate().fade(duration: 600.ms),
                       ],
                     ),
                   );

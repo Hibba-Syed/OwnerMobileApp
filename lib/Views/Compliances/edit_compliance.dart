@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Blocs/Edit%20Compliance/edit_compliance_cubit.dart';
 import 'package:iskaanowner/Models/compliances.dart';
 
@@ -292,7 +293,7 @@ class _EditCompliancePageState extends State<EditCompliancePage> {
                                           onClosePressed: null)
                                       : const SizedBox.shrink()
                             ],
-                          ),
+                          ).animate().fade(duration: 600.ms),
                         ),
                       ),
                     ),

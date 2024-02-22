@@ -1,4 +1,6 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Blocs/Credit%20Note%20Details/credit_note_details_cubit.dart';
+import 'package:iskaanowner/Views/Requests/details/ad_details.dart';
 
 import '../../Blocs/App Theme/app_theme_cubit.dart';
 import '../../Utils/utils.dart';
@@ -338,7 +340,6 @@ class CreditNoteDetailsPage extends StatelessWidget {
                                     ?.isNotEmpty ??
                                 false)
                               Container(
-                                margin: const EdgeInsets.symmetric(vertical: 5),
                                 padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: kWhite,
@@ -376,8 +377,23 @@ class CreditNoteDetailsPage extends StatelessWidget {
                                   ],
                                 ),
                               ),
+                            if (state.creditNoteDetailsModel?.documents
+                                    ?.isNotEmpty ??
+                                false)
+                              const AdDetailsPage().supportingDocuments(
+                                  context,
+                                  state.creditNoteDetailsModel?.documents
+                                          ?.map(
+                                            (e) => {
+                                              "name": e.name,
+                                              "url": e.pathUrl,
+                                            },
+                                          )
+                                          .toList() ??
+                                      [],
+                                  headerText: "Documents"),
                             const Gap(10),
-                          ],
+                          ].animate(interval: 50.ms).fade(),
                         ),
                       ),
                     ),

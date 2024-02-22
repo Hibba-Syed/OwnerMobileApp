@@ -101,7 +101,11 @@ class LedgerPage extends StatelessWidget {
                           .withOpacity(0.8),
                       icon: state.loadingState == LoadingState.loading
                           ? const SizedBox(
-                              height: 15, width: 15, child: CustomLoader())
+                              height: 15,
+                              width: 15,
+                              child: CustomLoader(
+                                color: kWhite,
+                              ))
                           : Image.asset(
                               "assets/export.png",
                               width: MediaQuery.of(context).size.width * 0.06,
@@ -126,6 +130,9 @@ class LedgerPage extends StatelessWidget {
                               changeState(() {
                                 DefaultTabController.of(context).animateTo(0);
                               });
+                              context
+                                  .read<LedgerCubit>()
+                                  .onChangeLedgerName("statement");
                             },
                             child: AnimatedContainer(
                               duration: 400.ms,
@@ -167,6 +174,9 @@ class LedgerPage extends StatelessWidget {
                               changeState(() {
                                 DefaultTabController.of(context).animateTo(1);
                               });
+                              context
+                                  .read<LedgerCubit>()
+                                  .onChangeLedgerName("date");
                             },
                             child: AnimatedContainer(
                               duration: 400.ms,
@@ -208,6 +218,9 @@ class LedgerPage extends StatelessWidget {
                               changeState(() {
                                 DefaultTabController.of(context).animateTo(2);
                               });
+                              context
+                                  .read<LedgerCubit>()
+                                  .onChangeLedgerName("account");
                             },
                             child: AnimatedContainer(
                               duration: 400.ms,

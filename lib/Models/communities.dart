@@ -14,7 +14,7 @@ class CommunitiesModel {
   int? totalAssociations;
   List<Association>? associations;
   String? currentPage;
-  int? perPage;
+  String? perPage;
   int? totalPages;
 
   CommunitiesModel({
@@ -33,7 +33,7 @@ class CommunitiesModel {
             : List<Association>.from(
                 json["associations"]!.map((x) => Association.fromJson(x))),
         currentPage: json["current_page"]?.toString(),
-        perPage: json["per_page"],
+        perPage: json["per_page"]?.toString(),
         totalPages: json["total_pages"],
       );
 

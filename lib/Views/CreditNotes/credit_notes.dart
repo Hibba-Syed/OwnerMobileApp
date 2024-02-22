@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../Utils/utils.dart';
@@ -127,7 +128,7 @@ class CreditNotesPage extends StatelessWidget {
             child: CustomButton(text: "Refresh", function: ontap),
           )
         ],
-      ),
+      ).animate().fade(duration: 600.ms),
     );
   }
 }

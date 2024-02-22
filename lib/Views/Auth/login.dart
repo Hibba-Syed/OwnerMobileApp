@@ -233,8 +233,7 @@ class LoginPage extends StatelessWidget {
                         builder: (context) {
                           if (state.loadingState == LoadingState.loading) {
                             return const SizedBox(
-                                height: 50,
-                                child:CustomLoader());
+                                height: 50, child: CustomLoader());
                           }
                           return CustomButton(
                               text: "Login",

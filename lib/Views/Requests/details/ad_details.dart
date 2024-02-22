@@ -1,3 +1,5 @@
+import 'package:flutter_animate/flutter_animate.dart';
+
 import '../../../Blocs/App Theme/app_theme_cubit.dart';
 import '../../../Utils/utils.dart';
 
@@ -104,7 +106,7 @@ class AdDetailsPage extends StatelessWidget {
                                   .adDetailsModel?.record?.tenancyContractUrl,
                             },
                           ])
-                        ],
+                        ].animate(interval: 50.ms).fade(),
                       ),
                     ),
                   );
@@ -235,12 +237,16 @@ class AdDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget supportingDocuments(BuildContext context, List<Map> data,
-      {EdgeInsetsGeometry? padding = const EdgeInsets.all(10)}) {
+  Widget supportingDocuments(
+    BuildContext context,
+    List<Map> data, {
+    EdgeInsetsGeometry? padding = const EdgeInsets.all(10),
+    String? headerText,
+  }) {
     return Column(
       children: [
         const Gap(5),
-        headingText(context, "Supporting Documents"),
+        headingText(context,headerText?? "Supporting Documents"),
         const Gap(5),
         Container(
           padding: padding,

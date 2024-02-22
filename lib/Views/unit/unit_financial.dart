@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Blocs/Unit%20Financials/unit_financials_cubit.dart';
 
 import '../../Blocs/App Theme/app_theme_cubit.dart';
@@ -104,11 +105,15 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
                                         .state
                                         .primaryColor
                                         .withOpacity(0.8),
-                                icon: state.loadingState == LoadingState.loading
+                                icon: downloadLedgerState.loadingState ==
+                                        LoadingState.loading
                                     ? const SizedBox(
                                         height: 15,
                                         width: 15,
-                                        child: CustomLoader())
+                                        child: CustomLoader(
+                                          applyCenter: true,
+                                          color: kWhite,
+                                        ))
                                     : Image.asset(
                                         "assets/export.png",
                                         width:
@@ -329,17 +334,25 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
                                     if ((index + 1) ==
                                         state.unitFinancialsModel?.unitSummaries
                                             ?.length)
-                                      const SizedBox(
+                                      SizedBox(
                                         height: 150,
+                                        child: state.loadMoreState ==
+                                                LoadingState.loading
+                                            ? const CustomLoader(
+                                                applyCenter: true,
+                                              )
+                                            : null,
                                       ),
-                                  ],
+                                  ]
+                                      .animate(
+                                        interval: 600.ms,
+                                      )
+                                      .fade(),
                                 );
                               },
                             ),
                           ),
                         ),
-                        if (state.loadMoreState == LoadingState.loading)
-                          const SizedBox(height: 150, child: CustomLoader())
                       ],
                     ),
                   );

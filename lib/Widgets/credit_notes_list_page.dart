@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Models/credit_notes.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -221,7 +222,7 @@ class _CreditNotesListPageState extends State<CreditNotesListPage> {
                                 ? const CustomLoader()
                                 : null,
                           ),
-                      ],
+                      ].animate(interval: 600.ms).fade(),
                     );
                   },
                 ),

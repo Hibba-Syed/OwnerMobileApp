@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Views/Requests/details/ad_details.dart';
 
 import '../../../Utils/utils.dart';
@@ -189,7 +190,7 @@ class RiDetailsPage extends StatelessWidget {
                                   ?.emiratesIdFileUrl,
                             },
                           ])
-                        ],
+                        ].animate(interval: 50.ms).fade(),
                       ),
                     ),
                   );

@@ -16,5 +16,8 @@ export 'data.dart';
 export 'enums.dart';
 export 'global.dart';
 
-// const String baseUrl = "http://api.synergic360.com";
-const String baseUrl = "https://api.oamservices.com";
+const String baseUrl = "$ssl://api.$serverName.com";
+// const String ssl = "http";
+// const String serverName = "synergic360";
+const String ssl = "https";
+const String serverName = "oamservices";

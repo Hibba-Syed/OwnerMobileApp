@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
 
 import '../Utils/utils.dart';
@@ -163,32 +164,38 @@ class _UnitsListPageState extends State<UnitsListPage> {
                                             ),
                                             const Gap(10),
                                             Flexible(
-                                              child:
-                                                  Builder(builder: (context) {
-                                                Color? color;
-                                                if (unit?.unitBalance != null) {
-                                                  if (unit!.unitBalance!
-                                                      .isNegative) {
-                                                    color =
-                                                        const Color(0xffFB5454);
-                                                  } else {
-                                                    color =
-                                                        const Color(0xff65D024);
+                                              child: Builder(
+                                                builder: (context) {
+                                                  Color? color;
+                                                  if (unit?.unitBalance !=
+                                                      null) {
+                                                    if (unit!.unitBalance!
+                                                        .isNegative) {
+                                                      color = const Color(
+                                                          0xffFB5454);
+                                                    } else if (unit
+                                                            .unitBalance ==
+                                                        0) {
+                                                      color = null;
+                                                    } else {
+                                                      color = const Color(
+                                                          0xff65D024);
+                                                    }
                                                   }
-                                                }
-                                                return CustomText(
-                                                  text: formatCurrency(
-                                                      unit?.unitBalance),
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.04,
-                                                  maxLines: 1,
-                                                  color: color,
-                                                );
-                                              }),
+                                                  return CustomText(
+                                                    text: formatCurrency(
+                                                        unit?.unitBalance),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.04,
+                                                    maxLines: 1,
+                                                    color: color,
+                                                  );
+                                                },
+                                              ),
                                             )
                                           ],
                                         )
@@ -205,7 +212,7 @@ class _UnitsListPageState extends State<UnitsListPage> {
                                 ? const CustomLoader()
                                 : null,
                           ),
-                      ],
+                      ].animate(interval: 600.ms).fade(),
                     );
                   },
                 ),

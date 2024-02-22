@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
 import 'package:iskaanowner/Views/ledger/ledger_by_account_details.dart';
 
@@ -191,7 +192,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                         : null,
                               ),
                           ],
-                        );
+                        ).animate().fade(duration: 600.ms);
                       },
                     ),
                   );

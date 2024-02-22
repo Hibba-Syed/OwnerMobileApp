@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
 import 'package:iskaanowner/Views/side_drawer.dart';
 
@@ -58,7 +59,7 @@ class DashboardPage extends StatelessWidget {
           childAspectRatio: 10 / 10),
       itemCount: 3,
       itemBuilder: (BuildContext context, int index) {
-        return list[index];
+        return list[index].animate().fade(duration: 600.ms);
       },
     );
   }

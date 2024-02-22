@@ -525,8 +525,8 @@ class UnitsService {
             "Authorization":
                 "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
           }).then((value) {
-        if (value.statusCode == 201) {
-          return Success(201, value.body);
+        if (value.statusCode == 200 || value.statusCode == 201) {
+          return Success(200, value.body);
         }
         return Failure(400, jsonDecode(value.body)["message"]);
       });

@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -244,6 +245,9 @@ class OccupantPage extends StatelessWidget {
                               const SizedBox(
                                 height: 10,
                               ),
+
+                            // vehicle section removed by fiza
+
                             // if (state.occupantModel?.occupant?.vehicles !=
                             //         null &&
                             //     (state.occupantModel?.occupant?.vehicles
@@ -262,30 +266,10 @@ class OccupantPage extends StatelessWidget {
                             ),
                             const Gap(10),
                             Builder(builder: (context) {
-                              List documents = [
-                                {
-                                  "name": "Passport",
-                                  "url": state.occupantModel?.occupant
-                                      ?.documents?.passportFile,
-                                },
-                                {
-                                  "name": "Tenancy Contract",
-                                  "url": state.occupantModel?.occupant
-                                      ?.documents?.tenancyContract,
-                                },
-                                {
-                                  "name": "Title Deed",
-                                  "url": state.occupantModel?.occupant
-                                      ?.documents?.titleDeed,
-                                },
-                                {
-                                  "name": "ID",
-                                  "url": state.occupantModel?.occupant
-                                      ?.documents?.idFile,
-                                },
-                              ];
                               return ListView.separated(
-                                itemCount: 4,
+                                itemCount: state.occupantModel?.occupant
+                                        ?.documents?.length ??
+                                    0,
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 separatorBuilder:
@@ -301,14 +285,19 @@ class OccupantPage extends StatelessWidget {
                                 },
                                 itemBuilder: (BuildContext context, int index) {
                                   return const OwnersPage().documentInfo(
-                                      context, documents[index]["name"],
-                                      url: documents[index]["url"]);
+                                      context,
+                                      state.occupantModel?.occupant
+                                              ?.documents?[index].name ??
+                                          "",
+                                      url: state.occupantModel?.occupant
+                                              ?.documents?[index].url ??
+                                          "");
                                 },
                               );
                             }),
                           ],
                         ),
-                      ),
+                      ).animate().fade(duration: 600.ms),
                     ),
                   );
                 },
@@ -319,80 +308,6 @@ class OccupantPage extends StatelessWidget {
       ),
     );
   }
-
-  // Widget vehicleSection(BuildContext context, dynamic vehicles) {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       CustomText(
-  //         text: "Vehicles",
-  //         color: context.read<AppThemeCubit>().state.primaryColor,
-  //         fontWeight: FontWeight.bold,
-  //         fontSize: 20,
-  //       ),
-  //       const SizedBox(
-  //         height: 10,
-  //       ),
-  //       vehicleRegistrationCard(context, "1231234", "Apr 1, 2024"),
-  //       const SizedBox(
-  //         height: 10,
-  //       ),
-  //       vehicleRegistrationCard(context, "6565765", "Sept 15, 2024"),
-  //       const SizedBox(
-  //         height: 10,
-  //       ),
-  //     ],
-  //   );
-  // }
-
-  // Widget vehicleRegistrationCard(
-  //     BuildContext context, String registration, String date) {
-  //   return const UnitsPage().roundedContainer(
-  //     context,
-  //     Column(
-  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //       children: [
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             CustomText(
-  //               text: "Registration No.",
-  //               color: context.read<AppThemeCubit>().state.primaryColor,
-  //               fontWeight: FontWeight.bold,
-  //               fontSize: 13,
-  //             ),
-  //             CustomText(
-  //               text: registration,
-  //               color: kBlack,
-  //               fontSize: 13,
-  //             ),
-  //           ],
-  //         ),
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             CustomText(
-  //               text: "Date Added : ",
-  //               color: context.read<AppThemeCubit>().state.primaryColor,
-  //               fontWeight: FontWeight.bold,
-  //               fontSize: 13,
-  //             ),
-  //             CustomText(
-  //               text: date,
-  //               color: kBlack,
-  //               fontSize: 13,
-  //             ),
-  //           ],
-  //         ),
-  //       ],
-  //     ),
-  //     color: kGrey.shade200,
-  //     padding: const EdgeInsets.symmetric(
-  //       horizontal: 10,
-  //       vertical: 5,
-  //     ),
-  //   );
-  // }
 
   Widget emergencyContactCard(BuildContext context, String name,
       {String? phoneNumber}) {

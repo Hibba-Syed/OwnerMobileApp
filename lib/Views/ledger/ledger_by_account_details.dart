@@ -1,3 +1,5 @@
+import 'package:flutter_animate/flutter_animate.dart';
+
 import '../../Blocs/App Theme/app_theme_cubit.dart';
 import '../../Models/ledger_by_account.dart';
 import '../../Utils/utils.dart';
@@ -271,7 +273,7 @@ class LedgerByAccountDetailsPage extends StatelessWidget {
                             ],
                           ),
                         ),
-                      ],
+                      ].animate(interval: 50.ms).fade(),
                     ),
                   );
                 },

@@ -10,7 +10,7 @@ class CommunitiesService {
     return await ExceptionService.applyTryCatch(() async {
       return await http.get(
           Uri.parse(
-            "$baseUrl/mobile/owner/property/communities?page=$page&lmit=$limit",
+            "$baseUrl/mobile/owner/property/communities?page=$page&limit=$limit",
           ),
           headers: {
             "Authorization":

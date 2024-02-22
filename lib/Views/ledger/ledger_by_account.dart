@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Models/ledger_by_account.dart';
 
 import '../../Utils/utils.dart';
@@ -49,95 +50,90 @@ class _LedgerByAccountState extends State<LedgerByAccount> {
                 .getLedgerByAccount(context, widget.unitId),
           );
         }
-        return Column(
-          children: [
-            Expanded(
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  context
-                      .read<LedgerCubit>()
-                      .getLedgerByAccount(context, widget.unitId);
-                },
-                child: ListView.builder(
-                  controller: _scrollController,
-                  itemCount:
-                      state.ledgerByAccountModel?.record?.ledgers?.length,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    AccountDatum? accountDatum =
-                        state.ledgerByAccountModel?.record?.ledgers?[index];
-                    return Column(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            if (accountDatum?.transactions?.isNotEmpty ??
-                                false) {
-                              Navigator.pushNamed(
-                                  context, AppRoutes.ledgerByAccountDetail,
-                                  arguments: accountDatum);
-                            }
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(10),
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 2),
-                            decoration: BoxDecoration(
-                              color: kWhite,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CustomText(
-                                      text: accountDatum?.name ?? "",
-                                      textAlign: TextAlign.left,
-                                      fontWeight: FontWeight.bold,
-                                      maxLines: 1,
-                                      fontSize: 17,
-                                    ),
-                                    const Gap(20),
-                                    CustomText(
-                                      text: formatCurrency(
-                                          accountDatum?.closingBalance ?? 0),
-                                      fontWeight: FontWeight.bold,
-                                      color: ((accountDatum?.closingBalance ??
-                                                  0) ==
-                                              0)
-                                          ? const Color(0xffB2B1B1)
-                                          : (accountDatum?.closingBalance
-                                                      ?.isNegative ??
-                                                  false)
-                                              ? const Color(0xffFB5454)
-                                              : const Color(0xff65D024),
-                                      maxLines: 1,
-                                    )
-                                  ],
-                                )),
-                                const Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 15,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        if ((index + 1) ==
-                            state.ledgerByAccountModel?.record?.ledgers?.length)
-                          const SizedBox(
-                            height: 150,
-                          ),
-                      ],
-                    );
-                  },
-                ),
-              ),
-            ),
-            if (state.loadMoreLedgerByAccountState == LoadingState.loading)
-              const SizedBox(height: 150, child: CustomLoader())
-          ],
+        return RefreshIndicator(
+          onRefresh: () async {
+            context
+                .read<LedgerCubit>()
+                .getLedgerByAccount(context, widget.unitId);
+          },
+          child: ListView.builder(
+            controller: _scrollController,
+            itemCount: state.ledgerByAccountModel?.record?.ledgers?.length,
+            physics: const AlwaysScrollableScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              AccountDatum? accountDatum =
+                  state.ledgerByAccountModel?.record?.ledgers?[index];
+              return Column(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      if (accountDatum?.transactions?.isNotEmpty ?? false) {
+                        Navigator.pushNamed(
+                            context, AppRoutes.ledgerByAccountDetail,
+                            arguments: accountDatum);
+                      }
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 2),
+                      decoration: BoxDecoration(
+                        color: kWhite,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomText(
+                                text: accountDatum?.name ?? "",
+                                textAlign: TextAlign.left,
+                                fontWeight: FontWeight.bold,
+                                maxLines: 1,
+                                fontSize: 17,
+                              ),
+                              const Gap(20),
+                              CustomText(
+                                text: formatCurrency(
+                                    accountDatum?.closingBalance ?? 0),
+                                fontWeight: FontWeight.bold,
+                                color:
+                                    ((accountDatum?.closingBalance ?? 0) == 0)
+                                        ? const Color(0xffB2B1B1)
+                                        : (accountDatum?.closingBalance
+                                                    ?.isNegative ??
+                                                false)
+                                            ? const Color(0xffFB5454)
+                                            : const Color(0xff65D024),
+                                maxLines: 1,
+                              )
+                            ],
+                          )),
+                          const Icon(
+                            Icons.arrow_forward_ios,
+                            size: 15,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  if ((index + 1) ==
+                      state.ledgerByAccountModel?.record?.ledgers?.length)
+                    SizedBox(
+                      height: 150,
+                      child: state.loadMoreLedgerByAccountState ==
+                              LoadingState.loading
+                          ? const CustomLoader(
+                              applyCenter: true,
+                            )
+                          : null,
+                    ),
+                ].animate(interval: 50.ms).fade(),
+              );
+            },
+          ),
         );
       },
     );

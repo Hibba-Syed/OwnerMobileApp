@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'credit_note_details.dart';
+
 InvoiceDetailsModel invoiceDetailsModelFromJson(String str) =>
     InvoiceDetailsModel.fromJson(json.decode(str));
 
@@ -49,7 +51,7 @@ class InvoiceDetailsModel {
   String? description;
   String? pdfUrl;
   List<Transaction>? transactions;
-  List<dynamic>? documents;
+  List<Document>? documents;
   Association? association;
   Invoiceable? invoiceable;
   List<dynamic>? externalEntries;
@@ -152,7 +154,8 @@ class InvoiceDetailsModel {
                 json["vat_transactions"]!.map((x) => Transaction.fromJson(x))),
         documents: json["documents"] == null
             ? []
-            : List<dynamic>.from(json["documents"]!.map((x) => x)),
+            : List<Document>.from(
+                json["documents"]!.map((x) => Document.fromJson(x))),
         association: json["association"] == null
             ? null
             : Association.fromJson(json["association"]),
@@ -210,7 +213,7 @@ class InvoiceDetailsModel {
             : List<dynamic>.from(transactions!.map((x) => x.toJson())),
         "documents": documents == null
             ? []
-            : List<dynamic>.from(documents!.map((x) => x)),
+            : List<dynamic>.from(documents!.map((x) => x.toJson())),
         "association": association?.toJson(),
         "invoiceable": invoiceable?.toJson(),
         "external_entries": externalEntries == null
@@ -390,7 +393,7 @@ class Invoiceable {
   String? unitNumber;
   String? name;
   dynamic mollakUnitName;
-  int? unitSizeSqft;
+  double? unitSizeSqft;
   int? unitTypeId;
   int? componentId;
   dynamic subComponentId;
@@ -491,7 +494,7 @@ class Invoiceable {
         unitNumber: json["unit_number"],
         name: json["name"],
         mollakUnitName: json["mollak_unit_name"],
-        unitSizeSqft: json["unit_size_sqft"],
+        unitSizeSqft: json["unit_size_sqft"]?.toDouble(),
         unitTypeId: json["unit_type_id"],
         componentId: json["component_id"],
         subComponentId: json["sub_component_id"],

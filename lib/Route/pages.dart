@@ -34,6 +34,7 @@ import '../Blocs/Compliance Details/compliance_details_cubit.dart';
 import '../Utils/utils.dart';
 import '../Views/Compliances/compliance_details.dart';
 import '../Views/Requests/details/mo_details.dart';
+import '../Views/change_icon.dart';
 
 class AppPages {
   static List<PageEntity> routes() {
@@ -192,6 +193,10 @@ class AppPages {
       PageEntity(
         route: AppRoutes.miDetails,
         page: const MiDetailsPage(),
+      ),
+      PageEntity(
+        route: AppRoutes.changeIcon,
+        page: const ChangeIcon(),
       ),
       PageEntity(
         route: AppRoutes.compliances,

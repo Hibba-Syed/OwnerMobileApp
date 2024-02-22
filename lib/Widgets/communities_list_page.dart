@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
 
 import '../Utils/utils.dart';
@@ -223,7 +224,11 @@ class _CommunitiesListPageState extends State<CommunitiesListPage> {
                           ? const CustomLoader()
                           : null,
                     ),
-                ],
+                ]
+                    .animate(
+                      interval: 600.ms,
+                    )
+                    .fade(),
               );
             },
           ),

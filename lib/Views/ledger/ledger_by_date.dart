@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Views/ledger/ledger_by_account_details.dart';
 
 import '../../Blocs/App Theme/app_theme_cubit.dart';
@@ -300,7 +301,7 @@ class _LedgerByDateState extends State<LedgerByDate> {
                           ? const CustomLoader()
                           : null,
                     ),
-                ],
+                ].animate(interval: 50.ms).fade(),
               );
             },
           ),

@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
 import 'package:iskaanowner/Blocs/Compliance%20Details/compliance_details_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -294,7 +295,7 @@ class ComplianceDetailsPage extends StatelessWidget {
                                 ],
                               ),
                             ),
-                        ],
+                        ].animate(interval: 50.ms).fade(),
                       ),
                     );
                   },

@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:path/path.dart' as path;
 import 'package:url_launcher/url_launcher.dart';
@@ -163,7 +164,7 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Flexible(
+                                  Expanded(
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
@@ -178,7 +179,7 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
                                           color: const Color(0xff575757),
                                         ),
                                         const Gap(5),
-                                        Flexible(
+                                        Expanded(
                                           child: CustomText(
                                             text: sharedDocumentsRecord?.title
                                                     ?.capitalize() ??
@@ -195,35 +196,29 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
                                     ),
                                   ),
                                   const Gap(10),
-                                  Flexible(
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Image.asset(
-                                          "assets/calender.png",
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.04,
-                                          color: const Color(0xff575757),
-                                        ),
-                                        const Gap(5),
-                                        Flexible(
-                                          child: CustomText(
-                                            text: const OccupantPage()
-                                                .dateTimeFormatter(
-                                                    sharedDocumentsRecord
-                                                        ?.expiryDate),
-                                            color: const Color(0xffB2B1B1),
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Image.asset(
+                                        "assets/calender.png",
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.04,
+                                        color: const Color(0xff575757),
+                                      ),
+                                      const Gap(5),
+                                      CustomText(
+                                        text: const OccupantPage()
+                                            .dateTimeFormatter(
+                                                sharedDocumentsRecord
+                                                    ?.expiryDate),
+                                        color: const Color(0xffB2B1B1),
+                                        fontWeight: FontWeight.w600,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
                                                 0.035,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -232,14 +227,18 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  CustomText(
-                                    text: sharedDocumentsRecord?.documentName
-                                            ?.capitalize() ??
-                                        " -- ",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize:
-                                        MediaQuery.of(context).size.width *
-                                            0.045,
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width / 2,
+                                    child: CustomText(
+                                      text: sharedDocumentsRecord?.documentName
+                                              ?.capitalize() ??
+                                          " -- ",
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.045,
+                                    ),
                                   ),
                                   Flexible(
                                     child: CustomButton(
@@ -290,7 +289,7 @@ class _SharedDocumentsListPageState extends State<SharedDocumentsListPage> {
                           ? const CustomLoader()
                           : null,
                     ),
-                ],
+                ].animate(interval: 600.ms).fade(),
               );
             },
           ),

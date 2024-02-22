@@ -149,41 +149,228 @@ class TpDetailsPage extends StatelessWidget {
                               );
                             }),
                           ),
-                        ],
+                        ].animate(interval: 50.ms).fade(),
                         body: TabBarView(
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: [
-                              ListView.builder(
-                                padding: const EdgeInsets.only(top: 20),
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: state.tpDetailsModel?.record
-                                    ?.application?.sellers?.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  Seller? seller = state.tpDetailsModel?.record
-                                      ?.application?.sellers?[index];
-                                  return Container(
-                                    margin:
-                                        const EdgeInsets.symmetric(vertical: 5),
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: kWhite,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: [
+                            ListView.builder(
+                              padding: const EdgeInsets.only(top: 20),
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: state.tpDetailsModel?.record
+                                  ?.application?.sellers?.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                Seller? seller = state.tpDetailsModel?.record
+                                    ?.application?.sellers?[index];
+                                return Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 5),
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: kWhite,
+                                  ),
+                                  child: Theme(
+                                    data: Theme.of(context).copyWith(
+                                        dividerColor: Colors.transparent),
+                                    child: ListTileTheme(
+                                      contentPadding: EdgeInsets.zero,
+                                      dense: true,
+                                      horizontalTitleGap: 0.0,
+                                      minLeadingWidth: 0,
+                                      child: ExpansionTile(
+                                        title: const AdDetailsPage()
+                                            .headingText(context,
+                                                "Seller ${index + 1} Details"),
+                                        children: [
+                                          Column(
+                                            children: [
+                                              {
+                                                "icon": Icon(
+                                                  Icons.person,
+                                                  color: context
+                                                      .read<AppThemeCubit>()
+                                                      .state
+                                                      .primaryColor,
+                                                ),
+                                                "key": "Seller Type",
+                                                "value": state
+                                                    .tpDetailsModel
+                                                    ?.record
+                                                    ?.application
+                                                    ?.sellerRequesterType,
+                                              },
+                                              {
+                                                "icon": Icon(
+                                                  Icons.person,
+                                                  color: context
+                                                      .read<AppThemeCubit>()
+                                                      .state
+                                                      .primaryColor,
+                                                ),
+                                                "key": "Seller Name",
+                                                "value": seller?.sellerName,
+                                              },
+                                              {
+                                                "icon": Icon(
+                                                  Icons.numbers_outlined,
+                                                  color: context
+                                                      .read<AppThemeCubit>()
+                                                      .state
+                                                      .primaryColor,
+                                                ),
+                                                "key": "Resident Number",
+                                                "value": seller
+                                                    ?.sellerResidenceNumber,
+                                              },
+                                              {
+                                                "icon": Icon(
+                                                  Icons.numbers_outlined,
+                                                  color: context
+                                                      .read<AppThemeCubit>()
+                                                      .state
+                                                      .primaryColor,
+                                                ),
+                                                "key": "Cellular Number",
+                                                "value": seller
+                                                    ?.sellerCellularNumber,
+                                              },
+                                              {
+                                                "icon": Icon(
+                                                  Icons.numbers_outlined,
+                                                  color: context
+                                                      .read<AppThemeCubit>()
+                                                      .state
+                                                      .primaryColor,
+                                                ),
+                                                "key": "Office Number",
+                                                "value":
+                                                    seller?.sellerOfficeNumber,
+                                              },
+                                              {
+                                                "icon": Icon(
+                                                  Icons.numbers_outlined,
+                                                  color: context
+                                                      .read<AppThemeCubit>()
+                                                      .state
+                                                      .primaryColor,
+                                                ),
+                                                "key": "Passport Number",
+                                                "value": seller
+                                                    ?.sellerPassportNumber,
+                                              },
+                                              {
+                                                "icon": Icon(
+                                                  Icons.calendar_month_outlined,
+                                                  color: context
+                                                      .read<AppThemeCubit>()
+                                                      .state
+                                                      .primaryColor,
+                                                ),
+                                                "key": "Passport Expiry",
+                                                "value": const OccupantPage()
+                                                    .dateTimeFormatter(seller
+                                                        ?.sellerPassportExpiry),
+                                              },
+                                              {
+                                                "icon": Icon(
+                                                  Icons.email_outlined,
+                                                  color: context
+                                                      .read<AppThemeCubit>()
+                                                      .state
+                                                      .primaryColor,
+                                                ),
+                                                "key": "Email",
+                                                "value": seller?.sellerEmail,
+                                              },
+                                              {
+                                                "icon": Icon(
+                                                  Icons.location_city_outlined,
+                                                  color: context
+                                                      .read<AppThemeCubit>()
+                                                      .state
+                                                      .primaryColor,
+                                                ),
+                                                "key": "Citizenship",
+                                                "value": seller?.country?.name,
+                                              },
+                                            ]
+                                                .map((Map<String, dynamic> e) =>
+                                                    const ProfilePage()
+                                                        .profileInfoTile(
+                                                            context,
+                                                            e["key"],
+                                                            e["value"]))
+                                                .toList(),
+                                          ),
+                                          const AdDetailsPage()
+                                              .supportingDocuments(
+                                                  context,
+                                                  [
+                                                    {
+                                                      "name": "Passport Copy",
+                                                      "url": seller
+                                                          ?.sellerPassportUrl,
+                                                    },
+                                                    {
+                                                      "name": "Visa Copy",
+                                                      "url":
+                                                          seller?.sellerVisaUrl,
+                                                    },
+                                                    {
+                                                      "name":
+                                                          "Emirates ID Copy",
+                                                      "url": seller
+                                                          ?.sellerEmiratesIdUrl,
+                                                    },
+                                                  ],
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 10)),
+                                        ],
+                                      ),
                                     ),
-                                    child: Theme(
-                                      data: Theme.of(context).copyWith(
-                                          dividerColor: Colors.transparent),
-                                      child: ListTileTheme(
-                                        contentPadding: EdgeInsets.zero,
-                                        dense: true,
-                                        horizontalTitleGap: 0.0,
-                                        minLeadingWidth: 0,
-                                        child: ExpansionTile(
-                                          title: const AdDetailsPage()
-                                              .headingText(context,
-                                                  "Seller ${index + 1} Details"),
-                                          children: [
-                                            Column(
+                                  ),
+                                );
+                              },
+                            ),
+                            ListView.builder(
+                              padding: const EdgeInsets.only(top: 20),
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: state.tpDetailsModel?.record
+                                  ?.application?.buyers?.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                Buyer? buyer = state.tpDetailsModel?.record
+                                    ?.application?.buyers?[index];
+                                return Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 5),
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: kWhite,
+                                  ),
+                                  child: Theme(
+                                    data: Theme.of(context).copyWith(
+                                        dividerColor: Colors.transparent),
+                                    child: ListTileTheme(
+                                      contentPadding: EdgeInsets.zero,
+                                      dense: true,
+                                      horizontalTitleGap: 0.0,
+                                      minLeadingWidth: 0,
+                                      child: ExpansionTile(
+                                        title: const AdDetailsPage()
+                                            .headingText(context,
+                                                "Buyer ${index + 1} Details"),
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: kWhite,
+                                            ),
+                                            child: Column(
                                               children: [
                                                 {
                                                   "icon": Icon(
@@ -193,12 +380,12 @@ class TpDetailsPage extends StatelessWidget {
                                                         .state
                                                         .primaryColor,
                                                   ),
-                                                  "key": "Seller Type",
+                                                  "key": "Buyer Type",
                                                   "value": state
                                                       .tpDetailsModel
                                                       ?.record
                                                       ?.application
-                                                      ?.sellerRequesterType,
+                                                      ?.buyerRequesterType,
                                                 },
                                                 {
                                                   "icon": Icon(
@@ -208,8 +395,8 @@ class TpDetailsPage extends StatelessWidget {
                                                         .state
                                                         .primaryColor,
                                                   ),
-                                                  "key": "Seller Name",
-                                                  "value": seller?.sellerName,
+                                                  "key": "Buyer Name",
+                                                  "value": buyer?.buyerName,
                                                 },
                                                 {
                                                   "icon": Icon(
@@ -220,8 +407,8 @@ class TpDetailsPage extends StatelessWidget {
                                                         .primaryColor,
                                                   ),
                                                   "key": "Resident Number",
-                                                  "value": seller
-                                                      ?.sellerResidenceNumber,
+                                                  "value": buyer
+                                                      ?.buyerResidenceNumber,
                                                 },
                                                 {
                                                   "icon": Icon(
@@ -232,8 +419,8 @@ class TpDetailsPage extends StatelessWidget {
                                                         .primaryColor,
                                                   ),
                                                   "key": "Cellular Number",
-                                                  "value": seller
-                                                      ?.sellerCellularNumber,
+                                                  "value": buyer
+                                                      ?.buyerCellularNumber,
                                                 },
                                                 {
                                                   "icon": Icon(
@@ -244,8 +431,8 @@ class TpDetailsPage extends StatelessWidget {
                                                         .primaryColor,
                                                   ),
                                                   "key": "Office Number",
-                                                  "value": seller
-                                                      ?.sellerOfficeNumber,
+                                                  "value":
+                                                      buyer?.buyerOfficeNumber,
                                                 },
                                                 {
                                                   "icon": Icon(
@@ -256,8 +443,8 @@ class TpDetailsPage extends StatelessWidget {
                                                         .primaryColor,
                                                   ),
                                                   "key": "Passport Number",
-                                                  "value": seller
-                                                      ?.sellerPassportNumber,
+                                                  "value": buyer
+                                                      ?.buyerPassportNumber,
                                                 },
                                                 {
                                                   "icon": Icon(
@@ -270,8 +457,8 @@ class TpDetailsPage extends StatelessWidget {
                                                   ),
                                                   "key": "Passport Expiry",
                                                   "value": const OccupantPage()
-                                                      .dateTimeFormatter(seller
-                                                          ?.sellerPassportExpiry),
+                                                      .dateTimeFormatter(buyer
+                                                          ?.buyerPassportExpiry),
                                                 },
                                                 {
                                                   "icon": Icon(
@@ -282,7 +469,7 @@ class TpDetailsPage extends StatelessWidget {
                                                         .primaryColor,
                                                   ),
                                                   "key": "Email",
-                                                  "value": seller?.sellerEmail,
+                                                  "value": buyer?.buyerEmail,
                                                 },
                                                 {
                                                   "icon": Icon(
@@ -294,8 +481,7 @@ class TpDetailsPage extends StatelessWidget {
                                                         .primaryColor,
                                                   ),
                                                   "key": "Citizenship",
-                                                  "value":
-                                                      seller?.country?.name,
+                                                  "value": buyer?.country?.name,
                                                 },
                                               ]
                                                   .map((Map<String, dynamic>
@@ -307,231 +493,39 @@ class TpDetailsPage extends StatelessWidget {
                                                               e["value"]))
                                                   .toList(),
                                             ),
-                                            const AdDetailsPage()
-                                                .supportingDocuments(
-                                                    context,
-                                                    [
-                                                      {
-                                                        "name": "Passport Copy",
-                                                        "url": seller
-                                                            ?.sellerPassportUrl,
-                                                      },
-                                                      {
-                                                        "name": "Visa Copy",
-                                                        "url": seller
-                                                            ?.sellerVisaUrl,
-                                                      },
-                                                      {
-                                                        "name":
-                                                            "Emirates ID Copy",
-                                                        "url": seller
-                                                            ?.sellerEmiratesIdUrl,
-                                                      },
-                                                    ],
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        vertical: 10)),
-                                          ],
-                                        ),
+                                          ),
+                                          const AdDetailsPage()
+                                              .supportingDocuments(
+                                                  context,
+                                                  [
+                                                    {
+                                                      "name": "Passport Copy",
+                                                      "url": buyer
+                                                          ?.buyerPassportUrl,
+                                                    },
+                                                    {
+                                                      "name": "Visa Copy",
+                                                      "url":
+                                                          buyer?.buyerVisaUrl,
+                                                    },
+                                                    {
+                                                      "name":
+                                                          "Emirates ID Copy",
+                                                      "url": buyer
+                                                          ?.buyerEmiratesIdUrl,
+                                                    },
+                                                  ],
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 10)),
+                                        ],
                                       ),
                                     ),
-                                  );
-                                },
-                              ),
-                              ListView.builder(
-                                padding: const EdgeInsets.only(top: 20),
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: state.tpDetailsModel?.record
-                                    ?.application?.buyers?.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  Buyer? buyer = state.tpDetailsModel?.record
-                                      ?.application?.buyers?[index];
-                                  return Container(
-                                    margin:
-                                        const EdgeInsets.symmetric(vertical: 5),
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: kWhite,
-                                    ),
-                                    child: Theme(
-                                      data: Theme.of(context).copyWith(
-                                          dividerColor: Colors.transparent),
-                                      child: ListTileTheme(
-                                        contentPadding: EdgeInsets.zero,
-                                        dense: true,
-                                        horizontalTitleGap: 0.0,
-                                        minLeadingWidth: 0,
-                                        child: ExpansionTile(
-                                          title: const AdDetailsPage()
-                                              .headingText(context,
-                                                  "Buyer ${index + 1} Details"),
-                                          children: [
-                                            Container(
-                                              padding: const EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: kWhite,
-                                              ),
-                                              child: Column(
-                                                children: [
-                                                  {
-                                                    "icon": Icon(
-                                                      Icons.person,
-                                                      color: context
-                                                          .read<AppThemeCubit>()
-                                                          .state
-                                                          .primaryColor,
-                                                    ),
-                                                    "key": "Buyer Type",
-                                                    "value": state
-                                                        .tpDetailsModel
-                                                        ?.record
-                                                        ?.application
-                                                        ?.buyerRequesterType,
-                                                  },
-                                                  {
-                                                    "icon": Icon(
-                                                      Icons.person,
-                                                      color: context
-                                                          .read<AppThemeCubit>()
-                                                          .state
-                                                          .primaryColor,
-                                                    ),
-                                                    "key": "Buyer Name",
-                                                    "value": buyer?.buyerName,
-                                                  },
-                                                  {
-                                                    "icon": Icon(
-                                                      Icons.numbers_outlined,
-                                                      color: context
-                                                          .read<AppThemeCubit>()
-                                                          .state
-                                                          .primaryColor,
-                                                    ),
-                                                    "key": "Resident Number",
-                                                    "value": buyer
-                                                        ?.buyerResidenceNumber,
-                                                  },
-                                                  {
-                                                    "icon": Icon(
-                                                      Icons.numbers_outlined,
-                                                      color: context
-                                                          .read<AppThemeCubit>()
-                                                          .state
-                                                          .primaryColor,
-                                                    ),
-                                                    "key": "Cellular Number",
-                                                    "value": buyer
-                                                        ?.buyerCellularNumber,
-                                                  },
-                                                  {
-                                                    "icon": Icon(
-                                                      Icons.numbers_outlined,
-                                                      color: context
-                                                          .read<AppThemeCubit>()
-                                                          .state
-                                                          .primaryColor,
-                                                    ),
-                                                    "key": "Office Number",
-                                                    "value": buyer
-                                                        ?.buyerOfficeNumber,
-                                                  },
-                                                  {
-                                                    "icon": Icon(
-                                                      Icons.numbers_outlined,
-                                                      color: context
-                                                          .read<AppThemeCubit>()
-                                                          .state
-                                                          .primaryColor,
-                                                    ),
-                                                    "key": "Passport Number",
-                                                    "value": buyer
-                                                        ?.buyerPassportNumber,
-                                                  },
-                                                  {
-                                                    "icon": Icon(
-                                                      Icons
-                                                          .calendar_month_outlined,
-                                                      color: context
-                                                          .read<AppThemeCubit>()
-                                                          .state
-                                                          .primaryColor,
-                                                    ),
-                                                    "key": "Passport Expiry",
-                                                    "value": const OccupantPage()
-                                                        .dateTimeFormatter(buyer
-                                                            ?.buyerPassportExpiry),
-                                                  },
-                                                  {
-                                                    "icon": Icon(
-                                                      Icons.email_outlined,
-                                                      color: context
-                                                          .read<AppThemeCubit>()
-                                                          .state
-                                                          .primaryColor,
-                                                    ),
-                                                    "key": "Email",
-                                                    "value": buyer?.buyerEmail,
-                                                  },
-                                                  {
-                                                    "icon": Icon(
-                                                      Icons
-                                                          .location_city_outlined,
-                                                      color: context
-                                                          .read<AppThemeCubit>()
-                                                          .state
-                                                          .primaryColor,
-                                                    ),
-                                                    "key": "Citizenship",
-                                                    "value":
-                                                        buyer?.country?.name,
-                                                  },
-                                                ]
-                                                    .map((Map<String, dynamic>
-                                                            e) =>
-                                                        const ProfilePage()
-                                                            .profileInfoTile(
-                                                                context,
-                                                                e["key"],
-                                                                e["value"]))
-                                                    .toList(),
-                                              ),
-                                            ),
-                                            const AdDetailsPage()
-                                                .supportingDocuments(
-                                                    context,
-                                                    [
-                                                      {
-                                                        "name": "Passport Copy",
-                                                        "url": buyer
-                                                            ?.buyerPassportUrl,
-                                                      },
-                                                      {
-                                                        "name": "Visa Copy",
-                                                        "url":
-                                                            buyer?.buyerVisaUrl,
-                                                      },
-                                                      {
-                                                        "name":
-                                                            "Emirates ID Copy",
-                                                        "url": buyer
-                                                            ?.buyerEmiratesIdUrl,
-                                                      },
-                                                    ],
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        vertical: 10)),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ]),
+                                  ),
+                                );
+                              },
+                            ),
+                          ].animate(interval: 50.ms).fade(),
+                        ),
                       ),
                     );
                   },

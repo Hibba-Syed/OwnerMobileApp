@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Views/Requests/details/ad_details.dart';
 
 import '../../../Utils/utils.dart';
@@ -122,7 +123,7 @@ class HbDetailsPage extends StatelessWidget {
                             state.hbDetailsModel?.record?.clientName,
                             state.hbDetailsModel?.record?.clientPhone,
                           ),
-                        ],
+                        ].animate(interval: 50.ms).fade(),
                       ),
                     ),
                   );

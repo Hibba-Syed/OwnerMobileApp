@@ -221,7 +221,7 @@ class RequestsPage extends StatelessWidget {
       children: [
         Image.asset(
           image,
-          width: MediaQuery.of(context).size.width * 0.04,
+          width: MediaQuery.of(context).size.width * 0.035,
           color: const Color(0xffB2B1B1),
         ),
         const Gap(2),

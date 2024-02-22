@@ -717,7 +717,11 @@ class HappinessCenterPage extends StatelessWidget {
                               const SizedBox(
                                 height: 10,
                               ),
-                            ],
+                            ]
+                                .animate(
+                                  interval: 600.ms,
+                                )
+                                .fade(),
                           ),
                         ),
                       ),

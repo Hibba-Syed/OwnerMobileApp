@@ -1,4 +1,7 @@
+import 'dart:isolate';
+
 import 'package:cool_alert/cool_alert.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
 import 'package:iskaanowner/Utils/constants.dart';
 
@@ -83,7 +86,7 @@ class CompaniesPage extends StatelessWidget {
                                     profilePictureUrl:
                                         loginModel.owner?.company?.faviconUrl ??
                                             '',
-                                  );
+                                  ).animate().fade(duration: 600.ms);
                                 },
                               ),
                             )),
@@ -99,95 +102,97 @@ class CompaniesPage extends StatelessWidget {
                                   constraints: const BoxConstraints(
                                       maxWidth: customMaxWidth),
                                   child: CustomButton(
-                                      width: customMaxWidth,
-                                      text:
-                                          "Add ${selectedProfilesIndex.length == loginModelList.length ? "all" : "selected"} verified profiles",
-                                      icon: Image.asset(
-                                        "assets/verified.png",
-                                        scale: 4,
-                                      ),
-                                      buttonColor: selectedProfilesIndex.isEmpty
-                                          ? kGrey.shade600
-                                          : context
-                                              .read<AppThemeCubit>()
-                                              .state
-                                              .primaryColor,
-                                      function: () {
-                                        if (selectedProfilesIndex.isEmpty) {
-                                          Fluttertoast.showToast(
-                                              msg:
-                                                  "Select at least one profile");
-                                          return;
-                                        }
-                                        List<LoginModel>? loginModelListCopy =
-                                            [];
-                                        for (int index
-                                            in selectedProfilesIndex) {
-                                          loginModelListCopy
-                                              .add(loginModelList[index]);
-                                        }
-                                        CoolAlert.show(
-                                            context: context,
-                                            type: CoolAlertType.loading,
-                                            barrierDismissible: false,
-                                            lottieAsset: "assets/loader.json");
-                                        if (newUser) {
-                                          for (var i =
-                                                  (loginModelListCopy.length -
-                                                      1);
-                                              i >= 0;
-                                              i--) {
+                                    width: customMaxWidth,
+                                    text:
+                                        "Add ${selectedProfilesIndex.length == loginModelList.length ? "all" : "selected"} verified profiles",
+                                    icon: Image.asset(
+                                      "assets/verified.png",
+                                      scale: 4,
+                                    ),
+                                    buttonColor: selectedProfilesIndex.isEmpty
+                                        ? kGrey.shade600
+                                        : context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor,
+                                    function: () async {
+                                      CoolAlert.show(
+                                          context: context,
+                                          type: CoolAlertType.loading,
+                                          barrierDismissible: false,
+                                          text: "Adding profiles...",
+                                          lottieAsset: "assets/loader.json");
+                                      if (selectedProfilesIndex.isEmpty) {
+                                        Navigator.pop(context);
+                                        Fluttertoast.showToast(
+                                            msg: "Select at least one profile");
+                                        return;
+                                      }
+
+                                      List<LoginModel>? loginModelListCopy = [];
+                                      ReceivePort receivePort = ReceivePort();
+                                      try {
+                                        await Isolate.spawn(
+                                          addProfilesUsingIsolateFunction,
+                                          [
+                                            receivePort.sendPort,
+                                            selectedProfilesIndex,
+                                            loginModelListCopy,
+                                            loginModelList,
+                                            newUser,
                                             Global.storageService
-                                                .setAuthenticationModelString(
-                                              loginModelListCopy[i],
-                                              newUser: newUser,
-                                            );
-                                          }
-                                        } else {
-                                          for (LoginModel loginModel
-                                              in loginModelListCopy) {
-                                            Global.storageService
-                                                .setAuthenticationModelString(
-                                                    loginModel,
-                                                    newUser: newUser);
-                                          }
-                                        }
-                                        context
-                                            .read<LoginCubit>()
-                                            .onChangeLoginModel(
-                                                loginModelListCopy[0]);
-                                        context
-                                            .read<ProfileCubit>()
-                                            .getProfile(context)
-                                            .then((isLoaded) {
-                                          if (isLoaded) {
-                                            Navigator.pop(context);
-                                            context
-                                                .read<AppThemeCubit>()
-                                                .onChangeAppTheme(
-                                                    const ProfilePage()
+                                          ],
+                                        );
+                                      } on Object {
+                                        receivePort.close();
+                                      }
+                                      await receivePort.first.then(
+                                        (value) {
+                                          Global.storageService
+                                              .setAuthenticationModelListString(
+                                                  value[1]);
+                                          loginModelListCopy = value[0];
+                                          context
+                                              .read<LoginCubit>()
+                                              .onChangeLoginModel(
+                                                  loginModelListCopy?[0]);
+                                          context
+                                              .read<ProfileCubit>()
+                                              .getProfile(context)
+                                              .then(
+                                            (isLoaded) {
+                                              if (isLoaded) {
+                                                Navigator.pop(context);
+                                                context
+                                                    .read<AppThemeCubit>()
+                                                    .onChangeAppTheme(const ProfilePage()
                                                         .parseHexColor(
-                                                            loginModelListCopy[
+                                                            loginModelListCopy?[
                                                                         0]
                                                                     .owner
                                                                     ?.company
                                                                     ?.themeColor ??
                                                                 "#751b50"));
-                                            LoginPage().initialCalls(context);
-                                            return Navigator
-                                                .pushNamedAndRemoveUntil(
-                                                    context,
-                                                    AppRoutes.dashboard,
-                                                    (route) => false);
-                                          } else {
-                                            Navigator.pop(context);
-                                            Fluttertoast.showToast(
-                                              msg:
-                                                  "Unable to load profile, please try again !",
-                                            );
-                                          }
-                                        });
-                                      }),
+                                                LoginPage()
+                                                    .initialCalls(context);
+                                                return Navigator
+                                                    .pushNamedAndRemoveUntil(
+                                                        context,
+                                                        AppRoutes.dashboard,
+                                                        (route) => false);
+                                              } else {
+                                                Navigator.pop(context);
+                                                Fluttertoast.showToast(
+                                                  msg:
+                                                      "Unable to load profile, please try again !",
+                                                );
+                                              }
+                                            },
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
@@ -204,4 +209,31 @@ class CompaniesPage extends StatelessWidget {
       },
     );
   }
+}
+
+addProfilesUsingIsolateFunction(List args) async {
+  SendPort resultPort = args[0];
+  List selectedProfilesIndex = args[1];
+  List loginModelListCopy = args[2];
+  List loginModelList = args[3];
+  bool newUser = args[4];
+  StorageService storageService = args[5];
+  for (int index in selectedProfilesIndex) {
+    loginModelListCopy.add(loginModelList[index]);
+  }
+
+  if (newUser) {
+    for (var i = (loginModelListCopy.length - 1); i >= 0; i--) {
+      storageService.setAuthenticationModelString(
+        loginModelListCopy[i],
+        newUser: newUser,
+      );
+    }
+  } else {
+    for (LoginModel loginModel in loginModelListCopy) {
+      storageService.setAuthenticationModelString(loginModel, newUser: newUser);
+    }
+  }
+  Isolate.exit(resultPort,
+      [loginModelListCopy, storageService.getAuthenticationModelString()]);
 }

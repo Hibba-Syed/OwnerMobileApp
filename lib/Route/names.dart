@@ -27,6 +27,7 @@ class AppRoutes {
   static const happinessCenter = "/happinessCenter";
   static const profile = "/profile";
   static const changePassword = "/changePassword";
+  static const changeIcon = "/changeIcon";
   static const notifications = "/notifications";
   static const unitFinancial = "/unitFinancial";
   static const sharedDocument = "/sharedDocument";

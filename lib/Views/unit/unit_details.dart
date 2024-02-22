@@ -23,20 +23,20 @@ class UnitDetailsPage extends StatelessWidget {
           if (unitSlug?.isEmpty ?? true) {
             Fluttertoast.showToast(msg: 'No service available');
           } else {
-            // Navigator.pushNamed(
-            //   context,
-            //   AppRoutes.myWebView,
-            //   arguments: [
-            //     communityName,
-            //     "http://${context.read<ProfileCubit>().state.profileModel?.record?.company?.slug}.synergic360.com/$unitSlug",
-            //   ],
-            // );
             await launchUrl(
               Uri.parse(
-                "http://${context.read<ProfileCubit>().state.profileModel?.record?.company?.slug}.synergic360.com/$unitSlug",
+                "http://${context.read<ProfileCubit>().state.profileModel?.record?.company?.slug}.$serverName.com/$unitSlug?source=flutter",
               ),
             );
           }
+          // Navigator.pushNamed(
+          //   context,
+          //   AppRoutes.myWebView,
+          //   arguments: [
+          //     communityName,
+          //     "$ssl://${context.read<ProfileCubit>().state.profileModel?.record?.company?.slug}.$serverName.com/$unitSlug?source=flutter",
+          //   ],
+          // );
         },
         label: Row(
           children: [
@@ -286,7 +286,9 @@ class UnitDetailsPage extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
-        return gridCard(context, detailTabs[index]);
+        return gridCard(context, detailTabs[index])
+            .animate()
+            .fade(duration: 600.ms);
       },
     );
   }
@@ -399,7 +401,9 @@ class UnitDetailsPage extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: detailTabs.length,
       itemBuilder: (BuildContext context, int index) {
-        return gridCard(context, detailTabs[index]);
+        return gridCard(context, detailTabs[index])
+            .animate()
+            .fade(duration: 600.ms);
       },
     );
   }

@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Views/ledger/ledger_by_account_details.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -262,7 +263,7 @@ class _ReceiptsListPageState extends State<ReceiptsListPage> {
                                 ? const CustomLoader()
                                 : null,
                           ),
-                      ],
+                      ].animate(interval: 600.ms).fade(),
                     );
                   },
                 ),

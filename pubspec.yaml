@@ -48,7 +48,7 @@ dependencies:
   open_filex: ^4.3.4
   path_provider: ^2.1.1
   local_auth: ^2.1.7
-  flutter_animate: ^4.2.0+1
+  flutter_animate: ^4.5.0
   cool_alert: ^2.0.1
   file_picker: ^6.1.1
   firebase_core: ^2.22.0
@@ -63,6 +63,8 @@ dependencies:
   auto_size_text: ^3.0.0
   flutter_cached_pdfview: ^0.4.2
   slideable: ^0.0.2
+  flutter_dynamic_icon_plus:
+    path: ../../Side Projects/flutter_dynamic_icon_plus
 
 
 dev_dependencies:

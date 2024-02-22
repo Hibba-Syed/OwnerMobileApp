@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
@@ -242,7 +243,7 @@ class _InvoicesListPageState extends State<InvoicesListPage> {
                                 ? const CustomLoader()
                                 : null,
                           ),
-                      ],
+                      ].animate(interval: 600.ms).fade(),
                     );
                   },
                 ),

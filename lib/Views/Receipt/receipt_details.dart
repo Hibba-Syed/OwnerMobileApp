@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Blocs/Receipt%20details/receipt_details_cubit.dart';
 
 import '../../Blocs/App Theme/app_theme_cubit.dart';
@@ -406,7 +407,7 @@ class ReceiptDetailsPage extends StatelessWidget {
                                 ),
                               ),
                             const Gap(10),
-                          ],
+                          ].animate(interval: 50.ms).fade(),
                         ),
                       ),
                     ),

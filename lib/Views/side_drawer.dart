@@ -1,4 +1,5 @@
 import 'package:cool_alert/cool_alert.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Blocs/Logout/logout_cubit.dart';
 import 'package:iskaanowner/Repo/user.dart';
 import 'package:slideable/slideable.dart';
@@ -149,6 +150,24 @@ class SideDrawerPage extends StatelessWidget {
                     ),
                     title: const CustomText(
                       text: "Change Password",
+                      textAlign: TextAlign.left,
+                    ),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 15,
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoutes.changeIcon);
+                    },
+                    leading: Image.asset(
+                      "assets/icon.png",
+                      color: context.read<AppThemeCubit>().state.primaryColor,
+                      width: MediaQuery.of(context).size.width * 0.06,
+                    ),
+                    title: const CustomText(
+                      text: "Change Icon",
                       textAlign: TextAlign.left,
                     ),
                     trailing: const Icon(
@@ -375,7 +394,7 @@ class SideDrawerPage extends StatelessWidget {
                               ),
                             ),
                             const Gap(20),
-                          ],
+                          ].animate(interval: 50.ms).fade(),
                         ),
                       ),
                     ),
@@ -585,7 +604,7 @@ class SideDrawerPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                    );
+                    ).animate().fade(duration: 600.ms);
                   },
                 );
               }),

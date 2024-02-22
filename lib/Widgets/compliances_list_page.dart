@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:iskaanowner/Blocs/Compliance%20Details/compliance_details_cubit.dart';
 import 'package:slideable/slideable.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -220,7 +221,6 @@ class _ReceiptListPageState extends State<CompliancesListPage> {
                                                 const OccupantPage()
                                                     .dateTimeFormatter(
                                                         compliance?.duedate)),
-                                            const Gap(10),
                                             const RequestsPage().iconAndText(
                                               context,
                                               "assets/calender.png",
@@ -329,7 +329,11 @@ class _ReceiptListPageState extends State<CompliancesListPage> {
                                 ? const CustomLoader()
                                 : null,
                           ),
-                      ],
+                      ]
+                          .animate(
+                            interval: 600.ms,
+                          )
+                          .fade(),
                     );
                   },
                 ),
