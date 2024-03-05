@@ -91,6 +91,8 @@ class _UnitsListPageState extends State<UnitsListPage> {
                               child: Row(
                                 children: [
                                   Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.2,
                                     padding: const EdgeInsets.all(15),
                                     decoration: BoxDecoration(
                                       color: const Color(0xffF2F2F2),
@@ -117,12 +119,17 @@ class _UnitsListPageState extends State<UnitsListPage> {
                                         CustomText(
                                           text: unit?.unitNumber ?? "",
                                           fontWeight: FontWeight.bold,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.043,
                                           color: context
                                               .read<AppThemeCubit>()
                                               .state
                                               .primaryColor
                                               .withOpacity(0.8),
-                                        )
+                                          maxLines: 1,
+                                        ),
                                       ],
                                     ),
                                   ),

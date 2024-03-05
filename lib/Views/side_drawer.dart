@@ -1,6 +1,5 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:iskaanowner/Blocs/Logout/logout_cubit.dart';
 import 'package:iskaanowner/Repo/user.dart';
 import 'package:slideable/slideable.dart';
 
@@ -32,18 +31,16 @@ class SideDrawerPage extends StatelessWidget {
                     tag: "company-logo",
                     child: ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 400),
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        height: MediaQuery.of(context).size.width * 0.3,
-                        decoration: const BoxDecoration(
-                          color: kWhite,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Image.network(
-                          profileModel?.record?.company?.faviconUrl ?? "",
-                          height: MediaQuery.of(context).size.width * 0.3,
-                          width: MediaQuery.of(context).size.width * 0.3,
+                      child: CircleAvatar(
+                        radius: MediaQuery.of(context).size.width * 0.15,
+                        backgroundColor: kWhite,
+                        child: CircleAvatar(
+                          backgroundColor: kWhite,
+                          radius: MediaQuery.of(context).size.width * 0.13,
+                          backgroundImage: NetworkImage(
+                              profileModel?.record?.company?.faviconUrl ?? ""),
+                          onBackgroundImageError: (exception, stackTrace) =>
+                              const AssetImage("assets/placeHolder.png"),
                         ),
                       ),
                     ),
@@ -193,33 +190,6 @@ class SideDrawerPage extends StatelessWidget {
                   //     size: 15,
                   //   ),
                   // ),
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: BlocBuilder<LogoutCubit, LogoutState>(
-                      builder: (context, state) {
-                        if (state.loadingState == LoadingState.loading) {
-                          return const SizedBox(
-                              height: 50, child: CustomLoader());
-                        }
-                        return CustomButton(
-                          text: "Logout",
-                          buttonColor: context
-                              .read<AppThemeCubit>()
-                              .state
-                              .primaryColor
-                              .withOpacity(0.8),
-                          function: () {
-                            context.read<LogoutCubit>().logout(context);
-                          },
-                          icon: const Icon(
-                            Icons.logout_outlined,
-                            color: kWhite,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -458,45 +428,60 @@ class SideDrawerPage extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     LoginModel? loginModel = users?[index];
                     return Slideable(
-                      items: index == 0
-                          ? []
-                          : [
-                              ActionItems(
-                                icon: Icon(
-                                  Icons.delete_outline,
-                                  color: context
-                                      .read<AppThemeCubit>()
-                                      .state
-                                      .primaryColor,
-                                ),
-                                onPress: () {
-                                  CoolAlert.show(
-                                      context: context,
-                                      type: CoolAlertType.loading,
-                                      lottieAsset: "assets/loader.json",
-                                      barrierDismissible: false);
-                                  UserService.singleLogout(
-                                          context, loginModel?.accessToken)
-                                      .then((value) {
-                                    if (value is Success) {
-                                      changeState(() {
-                                        Global.storageService
-                                            .removeAuthenticationModelString(
-                                                index: index);
-                                      });
-                                      Navigator.pop(context);
-                                      Fluttertoast.showToast(
-                                          msg: "Profile deleted successfully");
-                                      return;
-                                    }
-                                    Navigator.pop(context);
-                                    Fluttertoast.showToast(
-                                        msg: "Unable to delete the profile");
-                                  });
-                                },
-                                backgroundColor: Colors.transparent,
-                              ),
-                            ],
+                      items: [
+                        ActionItems(
+                          icon: Icon(
+                            Icons.delete_outline,
+                            color: context
+                                .read<AppThemeCubit>()
+                                .state
+                                .primaryColor,
+                          ),
+                          onPress: () async {
+                            CoolAlert.show(
+                                context: context,
+                                type: CoolAlertType.loading,
+                                lottieAsset: "assets/loader.json",
+                                text: "Removing profile ... !",
+                                barrierDismissible: false);
+                            await UserService.singleLogout(
+                                    context, loginModel?.accessToken)
+                                .then((value) async {
+                              if (value is Success) {
+                                changeState(() {
+                                  Global.storageService
+                                      .removeAuthenticationModelString(
+                                          index: index);
+                                });
+                                users?.removeAt(index);
+                                Navigator.pop(context);
+                                Fluttertoast.showToast(
+                                    msg: "Profile deleted successfully");
+                                if (index == 0) {
+                                  if ((users?.length ?? 0) <= 0) {
+                                    Global.storageService.removeUser();
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      AppRoutes.login,
+                                    );
+                                    context
+                                        .read<AppThemeCubit>()
+                                        .resetAppTheme();
+                                  } else {
+                                    onProfileTap(context, users ?? [], index,
+                                        checkFirst: false);
+                                  }
+                                }
+                                return;
+                              }
+                              Navigator.pop(context);
+                              Fluttertoast.showToast(
+                                  msg: "Unable to delete the profile");
+                            });
+                          },
+                          backgroundColor: Colors.transparent,
+                        ),
+                      ],
                       child: GestureDetector(
                         onTap: () => onProfileTap(context, users ?? [], index),
                         child: Container(
@@ -656,16 +641,13 @@ class SideDrawerPage extends StatelessWidget {
   }
 
   Future<void> onProfileTap(
-      BuildContext context, List<LoginModel> users, int index) async {
-    if (users[0] == users[index]) {
+      BuildContext context, List<LoginModel> users, int index,
+      {checkFirst = true}) async {
+    if (users[0] == users[index] && checkFirst) {
       Fluttertoast.showToast(msg: "Already logged In");
       return;
     }
-    Global.storageService.setAuthenticationModelString(
-      users[index],
-      addItInFront: true,
-      index: index,
-    );
+
     CoolAlert.show(
         context: context,
         type: CoolAlertType.loading,
@@ -681,9 +663,20 @@ class SideDrawerPage extends StatelessWidget {
             .read<AuthenticationCubit>()
             .isDeviceSupported(context)
             .then((value) {
+          ProfileModel? profileModel =
+              context.read<ProfileCubit>().state.profileModel;
+          if (profileModel?.record?.company != null) {
+            users[index].owner?.company =
+                Company.fromJson(profileModel!.record!.company!.toJson());
+          }
           context.read<AppThemeCubit>().onChangeAppTheme(const ProfilePage()
               .parseHexColor(
                   users[index].owner?.company?.themeColor ?? "#751b50"));
+          Global.storageService.setAuthenticationModelString(
+            users[index],
+            addItInFront: true,
+            index: index,
+          );
           if (value == true) {
             return Navigator.pushReplacementNamed(
                 context, AppRoutes.authorization);

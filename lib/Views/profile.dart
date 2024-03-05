@@ -44,12 +44,6 @@ class ProfilePage extends StatelessWidget {
                       "subTitle": state.profileModel?.record?.primaryPhone,
                     },
                     {
-                      "icon": Icons.cake_outlined,
-                      "title": "D.O.B",
-                      "subTitle": const OccupantPage()
-                          .dateTimeFormatter(state.profileModel?.record?.dob),
-                    },
-                    {
                       "icon": Icons.padding_outlined,
                       "title": "Passport Number",
                       "subTitle": state.profileModel?.record?.passportNumber,
@@ -84,25 +78,25 @@ class ProfilePage extends StatelessWidget {
                                     const BoxConstraints(maxWidth: 400),
                                 child: Hero(
                                   tag: "company-logo",
-                                  child: Container(
-                                    padding: const EdgeInsets.all(10),
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.3,
-                                    height:
-                                        MediaQuery.of(context).size.width * 0.3,
-                                    decoration: const BoxDecoration(
-                                      color: kWhite,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Image.network(
-                                      state.profileModel?.record?.company
-                                              ?.faviconUrl ??
-                                          "",
-                                      height:
+                                  child: CircleAvatar(
+                                    radius: MediaQuery.of(context).size.width *
+                                        0.15,
+                                    backgroundColor: kWhite,
+                                    child: CircleAvatar(
+                                      backgroundColor: kWhite,
+                                      radius:
                                           MediaQuery.of(context).size.width *
-                                              0.3,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.3,
+                                              0.13,
+                                      backgroundImage: NetworkImage(state
+                                              .profileModel
+                                              ?.record
+                                              ?.company
+                                              ?.faviconUrl ??
+                                          ""),
+                                      onBackgroundImageError:
+                                          (exception, stackTrace) =>
+                                              const AssetImage(
+                                                  "assets/placeHolder.png"),
                                     ),
                                   ),
                                 ),

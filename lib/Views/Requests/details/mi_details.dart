@@ -10,8 +10,8 @@ class MiDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     int? requestId =
         (ModalRoute.of(context)?.settings.arguments as List)[0] as int?;
-    // String? reference =
-    //     (ModalRoute.of(context)?.settings.arguments as List)[1] as String?;
+    String? reference =
+        (ModalRoute.of(context)?.settings.arguments as List)[1] as String?;
     String? type =
         (ModalRoute.of(context)?.settings.arguments as List)[2] as String?;
     return Scaffold(
@@ -49,7 +49,11 @@ class MiDetailsPage extends StatelessWidget {
                                 " -- ",
                             state.miDetailsModel?.record?.createdAt,
                             state.miDetailsModel?.record?.status,
-                            [
+                            [{
+                                  "icon": Icons.link,
+                                  "title": "Reference",
+                                  "subTitle": reference ?? " -- ",
+                                },
                               {
                                 "icon": Icons.email_outlined,
                                 "title": "Requester Type",

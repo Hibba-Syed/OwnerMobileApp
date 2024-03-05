@@ -16,11 +16,11 @@ class ChangeIcon extends StatelessWidget {
             children: [
               const DashboardPage().appBar(
                 context,
-                text: "Change Icon",
+                text: "Brand your App",
               ),
               CustomText(
                 text:
-                    "Tap on the icon to change the App Icon on your home screen.",
+                    "Choose the ICON you would like to use for your application.",
                 fontSize: MediaQuery.of(context).size.width * 0.04,
               ),
               const Gap(20),

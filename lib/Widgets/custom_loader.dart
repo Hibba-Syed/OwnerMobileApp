@@ -11,8 +11,13 @@ class CustomLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (applyCenter) {
-      return const Center(child: CircularProgressIndicator());
+      return Center(
+          child: CircularProgressIndicator(
+        color: color,
+      ));
     }
-    return const CircularProgressIndicator();
+    return CircularProgressIndicator(
+      color: color,
+    );
   }
 }

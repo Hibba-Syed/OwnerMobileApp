@@ -37,11 +37,6 @@ class StorageService {
   Future<bool> removeAuthenticationModelString({required int index}) async {
     String? userList = getAuthenticationModelString();
     if (userList != null) {
-      if (index == 0) {
-        Fluttertoast.showToast(
-            msg: "You cannot delete the profile you are logged in");
-        return false;
-      }
       List users = jsonDecode(userList);
       users.removeAt(index);
       return await _pref.setString("users", jsonEncode(users));

@@ -243,6 +243,7 @@ class UnitsService {
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       String body = await response.stream.bytesToString();
+      print(body);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return Success(200, body);
       }

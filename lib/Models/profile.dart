@@ -120,7 +120,7 @@ class Record {
   String? profileImageUrl;
   String? fullAddress;
   String? agentDocUrl;
-  Company? company;
+  UserCompany? company;
 
   Record({
     this.id,
@@ -285,7 +285,7 @@ class Record {
         fullAddress: json["full_address"],
         agentDocUrl: json["agent_doc_url"],
         company:
-            json["company"] == null ? null : Company.fromJson(json["company"]),
+            json["company"] == null ? null : UserCompany.fromJson(json["company"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -367,7 +367,7 @@ class Record {
       };
 }
 
-class Company {
+class UserCompany {
   int? id;
   String? type;
   int? userId;
@@ -462,7 +462,7 @@ class Company {
   List<int>? offDays;
   User? user;
 
-  Company({
+  UserCompany({
     this.id,
     this.type,
     this.userId,
@@ -558,7 +558,7 @@ class Company {
     this.user,
   });
 
-  factory Company.fromJson(Map<String, dynamic> json) => Company(
+  factory UserCompany.fromJson(Map<String, dynamic> json) => UserCompany(
         id: json["id"],
         type: json["type"],
         userId: json["user_id"],

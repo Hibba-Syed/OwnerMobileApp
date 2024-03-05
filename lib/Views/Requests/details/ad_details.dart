@@ -10,8 +10,8 @@ class AdDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     int? requestId =
         (ModalRoute.of(context)?.settings.arguments as List)[0] as int?;
-    // String? reference =
-    //     (ModalRoute.of(context)?.settings.arguments as List)[1] as String?;
+    String? reference =
+        (ModalRoute.of(context)?.settings.arguments as List)[1] as String?;
     String? type =
         (ModalRoute.of(context)?.settings.arguments as List)[2] as String?;
     return Scaffold(
@@ -50,6 +50,11 @@ class AdDetailsPage extends StatelessWidget {
                               state.adDetailsModel?.record?.createdAt,
                               state.adDetailsModel?.record?.status,
                               [
+                                {
+                                  "icon": Icons.link,
+                                  "title": "Reference",
+                                  "subTitle": reference ?? " -- ",
+                                },
                                 {
                                   "icon": Icons.email_outlined,
                                   "title": "Requester Type",
@@ -158,9 +163,10 @@ class AdDetailsPage extends StatelessWidget {
                         const Spacer(),
                         Row(
                           children: [
-                            const CustomText(
+                            CustomText(
                               text: "●",
-                              color: Colors.green,
+                              color:
+                                  const RequestsPage().getStatusColor(status),
                             ),
                             const SizedBox(
                               width: 5,
@@ -169,9 +175,14 @@ class AdDetailsPage extends StatelessWidget {
                                 context,
                                 CustomText(
                                   text: status ?? " -- ",
-                                  color: Colors.green,
+                                  color: const RequestsPage()
+                                      .getStatusColor(status),
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.035,
                                 ),
-                                color: Colors.green.withOpacity(0.1),
+                                color: const RequestsPage()
+                                    .getStatusColor(status)
+                                    .withOpacity(0.1),
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 5, horizontal: 10))
                           ],
@@ -246,7 +257,7 @@ class AdDetailsPage extends StatelessWidget {
     return Column(
       children: [
         const Gap(5),
-        headingText(context,headerText?? "Supporting Documents"),
+        headingText(context, headerText ?? "Supporting Documents"),
         const Gap(5),
         Container(
           padding: padding,

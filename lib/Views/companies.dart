@@ -50,7 +50,7 @@ class CompaniesPage extends StatelessWidget {
                             const Gap(10),
                             CustomText(
                               text:
-                                  "We found profile(s) against this email managed by other CMC(s).If you wish to add the profile(s) associated the this email please select from the list below.",
+                                  "We found profile(s) against this email managed by other CMC(s).If you wish to add the profile(s) associated to this email please select from the list below.",
                               fontSize:
                                   MediaQuery.of(context).size.width * 0.04,
                             ),

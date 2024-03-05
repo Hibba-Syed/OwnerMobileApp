@@ -107,20 +107,16 @@ class DashboardPage extends StatelessWidget {
       children: [
         Row(
           children: [
-            Container(
-              padding: const EdgeInsets.all(5),
-              width: MediaQuery.of(context).size.width * 0.12,
-              height: MediaQuery.of(context).size.width * 0.12,
-              decoration: const BoxDecoration(
-                color: kWhite,
-                shape: BoxShape.circle,
-              ),
-              child: Image.network(
-                profileModel?.record?.company?.faviconUrl ?? "",
-                width: MediaQuery.of(context).size.width * 0.12,
-                height: MediaQuery.of(context).size.width * 0.12,
-                errorBuilder: (context, error, stackTrace) =>
-                    Image.asset('assets/logo.png'),
+            CircleAvatar(
+              radius: MediaQuery.of(context).size.width * 0.075,
+              backgroundColor: kWhite,
+              child: CircleAvatar(
+                radius: MediaQuery.of(context).size.width * 0.06,
+                backgroundColor: kWhite,
+                backgroundImage: NetworkImage(
+                    profileModel?.record?.company?.faviconUrl ?? ""),
+                onBackgroundImageError: (exception, stackTrace) =>
+                    const AssetImage("assets/placeHolder.png"),
               ),
             ),
             const Gap(20),

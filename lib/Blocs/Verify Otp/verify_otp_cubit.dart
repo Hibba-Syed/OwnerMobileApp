@@ -25,7 +25,7 @@ class VerifyOtpCubit extends Cubit<VerifyOtpState> {
       }
       value as Failure;
       Fluttertoast.showToast(
-        msg: "Unable to verify OTP",
+        msg: "Incorrect OTP",
       );
       emit(state.copyWith(loadingState: LoadingState.error));
     });

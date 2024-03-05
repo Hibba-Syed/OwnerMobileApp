@@ -45,6 +45,11 @@ class OccupantPage extends StatelessWidget {
                       "value": state.occupantModel?.occupant?.details?.type,
                     },
                     {
+                      "icon": Icons.merge_type_outlined,
+                      "key": "Name",
+                      "value": state.occupantModel?.occupant?.details?.name,
+                    },
+                    {
                       "icon": Icons.email_outlined,
                       "key": "Email",
                       "value":

@@ -95,7 +95,7 @@ class Record {
   dynamic tenancyContractExpiry;
   dynamic notifyStatus;
   dynamic serviceChargeStatus;
-  int? convenienceFee;
+  double? convenienceFee;
   dynamic convenienceFeeAccount;
   dynamic approvalNote;
   dynamic rejectionNote;
@@ -252,7 +252,7 @@ class Record {
         tenancyContractExpiry: json["tenancy_contract_expiry"],
         notifyStatus: json["notify_status"],
         serviceChargeStatus: json["service_charge_status"],
-        convenienceFee: json["convenience_fee"],
+        convenienceFee: json["convenience_fee"]?.toDouble(),
         convenienceFeeAccount: json["convenience_fee_account"],
         approvalNote: json["approval_note"],
         rejectionNote: json["rejection_note"],

@@ -248,7 +248,7 @@ class OwnersPage extends StatelessWidget {
                       itemCount: state.ownersModel?.units?.owners?.length,
                       itemBuilder: (BuildContext context, int index) {
                         bool iAmPrimary = false;
-                        bool noOneIsPrimary = false;
+                        bool noOneIsPrimary = true;
                         Owner? owner = state.ownersModel?.units?.owners?[index];
                         for (Owner element
                             in state.ownersModel?.units?.owners ?? []) {
@@ -258,9 +258,9 @@ class OwnersPage extends StatelessWidget {
                               element.detail?.isPrimary == 1) {
                             iAmPrimary = true;
                           }
-                        }
-                        if (iAmPrimary == false) {
-                          noOneIsPrimary = true;
+                          if (element.detail?.isPrimary == 1) {
+                            noOneIsPrimary = false;
+                          }
                         }
                         List<Map<String, dynamic>> ownerData = [
                           {
@@ -270,8 +270,8 @@ class OwnersPage extends StatelessWidget {
                           },
                           {
                             "icon": Icons.person_outline,
-                            "key": "Mollak Owner Name",
-                            "value": owner?.detail?.name,
+                            "key": "Mollak Owner Number",
+                            "value": owner?.detail?.mollakOwnerNumber,
                           },
                           {
                             "icon": Icons.email_outlined,
@@ -304,12 +304,12 @@ class OwnersPage extends StatelessWidget {
                             "key": "Emirates ID No.",
                             "value": owner?.detail?.emiratesIdNumber,
                           },
-                          {
-                            "icon": Icons.calendar_month_outlined,
-                            "key": "Emirates ID Expiry",
-                            "value": const OccupantPage().dateTimeFormatter(
-                                owner?.detail?.emiratesIdExpiry),
-                          },
+                          // {
+                          //   "icon": Icons.calendar_month_outlined,
+                          //   "key": "Emirates ID Expiry",
+                          //   "value": const OccupantPage().dateTimeFormatter(
+                          //       owner?.detail?.emiratesIdExpiry),
+                          // },
                           {
                             "icon": Icons.numbers_outlined,
                             "key": "TRN",
@@ -480,104 +480,112 @@ class OwnersPage extends StatelessWidget {
                                               owner?.detail?.id ==
                                                   profileModel?.record?.id))
                                         const Gap(20),
-                                      if (owner?.detail?.isPrimary == 0 &&
-                                              iAmPrimary ||
-                                          (noOneIsPrimary &&
-                                              owner?.detail?.primaryEmail ==
-                                                  profileModel
-                                                      ?.record?.primaryEmail &&
-                                              owner?.detail?.id ==
-                                                  profileModel?.record?.id))
-                                        CustomButton(
-                                          text: "Make Primary",
-                                          buttonColor: context
-                                              .read<AppThemeCubit>()
-                                              .state
-                                              .primaryColor
-                                              .withOpacity(0.8),
-                                          function: () async {
-                                            bool yes = false;
-                                            await CoolAlert.show(
-                                              confirmBtnColor: context
-                                                  .read<AppThemeCubit>()
-                                                  .state
-                                                  .primaryColor,
-                                              backgroundColor: context
-                                                  .read<AppThemeCubit>()
-                                                  .state
-                                                  .primaryColor
-                                                  .withOpacity(0.1),
-                                              context: context,
-                                              type: CoolAlertType.info,
-                                              confirmBtnText: "Yes",
-                                              cancelBtnText: "No",
-                                              text: (noOneIsPrimary &&
-                                                      owner?.detail
-                                                              ?.primaryEmail ==
-                                                          profileModel?.record
-                                                              ?.primaryEmail &&
-                                                      owner?.detail?.id ==
-                                                          profileModel
-                                                              ?.record?.id)
-                                                  ? "Are you sure you want to make yourself primary owner?"
-                                                  : "Are you sure you want to make this owner as primary owner?",
-                                              title: "Are you sure?",
-                                              showCancelBtn: true,
-                                              onConfirmBtnTap: () {
-                                                yes = true;
-                                              },
-                                            ).then(
-                                              (value) {
-                                                if (yes == true) {
-                                                  CoolAlert.show(
-                                                      context: context,
-                                                      type:
-                                                          CoolAlertType.loading,
-                                                      barrierDismissible: false,
-                                                      lottieAsset:
-                                                          "assets/loader.json",
-                                                      text:
-                                                          "Switching Primary Owner ...");
-                                                  Future.delayed(
-                                                    2.seconds,
-                                                    () {
-                                                      UnitsService
-                                                              .makeUnitOwner(
-                                                                  context,
-                                                                  unitId,
-                                                                  owner?.detail
-                                                                      ?.id)
-                                                          .then(
-                                                        (value) {
-                                                          Navigator.pop(
-                                                              context);
-                                                          if (value
-                                                              is Success) {
-                                                            context
-                                                                .read<
-                                                                    OwnersCubit>()
-                                                                .getOwners(
+                                      Builder(builder: (context) {
+                                        if ((owner?.detail?.isPrimary == 0 &&
+                                                iAmPrimary) ||
+                                            (noOneIsPrimary &&
+                                                owner?.detail?.primaryEmail ==
+                                                    profileModel?.record
+                                                        ?.primaryEmail &&
+                                                owner?.detail?.id ==
+                                                    profileModel?.record?.id)) {
+                                          return CustomButton(
+                                            text: "Make Primary",
+                                            buttonColor: context
+                                                .read<AppThemeCubit>()
+                                                .state
+                                                .primaryColor
+                                                .withOpacity(0.8),
+                                            function: () async {
+                                              bool yes = false;
+                                              await CoolAlert.show(
+                                                confirmBtnColor: context
+                                                    .read<AppThemeCubit>()
+                                                    .state
+                                                    .primaryColor,
+                                                backgroundColor: context
+                                                    .read<AppThemeCubit>()
+                                                    .state
+                                                    .primaryColor
+                                                    .withOpacity(0.1),
+                                                context: context,
+                                                type: CoolAlertType.info,
+                                                confirmBtnText: "Yes",
+                                                cancelBtnText: "No",
+                                                text: (noOneIsPrimary &&
+                                                        owner?.detail
+                                                                ?.primaryEmail ==
+                                                            profileModel?.record
+                                                                ?.primaryEmail &&
+                                                        owner?.detail?.id ==
+                                                            profileModel
+                                                                ?.record?.id)
+                                                    ? "Are you sure you want to make yourself primary owner?"
+                                                    : "Are you sure you want to make this owner as primary owner?",
+                                                title: "Are you sure?",
+                                                showCancelBtn: true,
+                                                onConfirmBtnTap: () {
+                                                  yes = true;
+                                                },
+                                              ).then(
+                                                (value) {
+                                                  if (yes == true) {
+                                                    CoolAlert.show(
+                                                        context: context,
+                                                        type: CoolAlertType
+                                                            .loading,
+                                                        barrierDismissible:
+                                                            false,
+                                                        lottieAsset:
+                                                            "assets/loader.json",
+                                                        text:
+                                                            "Switching Primary Owner ...");
+                                                    Future.delayed(
+                                                      2.seconds,
+                                                      () {
+                                                        UnitsService
+                                                                .makeUnitOwner(
                                                                     context,
-                                                                    unitId);
-                                                            Fluttertoast.showToast(
-                                                                msg:
-                                                                    "Primary owner changed successfully");
-                                                          }
-                                                          if (value
-                                                              is Failure) {
-                                                            Fluttertoast.showToast(
-                                                                msg:
-                                                                    "Unable to change primary owner");
-                                                          }
-                                                        },
-                                                      );
-                                                    },
-                                                  );
-                                                }
-                                              },
-                                            );
-                                          },
-                                        )
+                                                                    unitId,
+                                                                    owner
+                                                                        ?.detail
+                                                                        ?.id)
+                                                            .then(
+                                                          (value) {
+                                                            Navigator.pop(
+                                                                context);
+                                                            if (value
+                                                                is Success) {
+                                                              context
+                                                                  .read<
+                                                                      OwnersCubit>()
+                                                                  .getOwners(
+                                                                      context,
+                                                                      unitId);
+                                                              Fluttertoast
+                                                                  .showToast(
+                                                                      msg:
+                                                                          "Primary owner changed successfully");
+                                                            }
+                                                            if (value
+                                                                is Failure) {
+                                                              Fluttertoast
+                                                                  .showToast(
+                                                                      msg:
+                                                                          "Unable to change primary owner");
+                                                            }
+                                                          },
+                                                        );
+                                                      },
+                                                    );
+                                                  }
+                                                },
+                                              );
+                                            },
+                                          );
+                                        }
+                                        return const SizedBox.shrink();
+                                      })
                                     ],
                                   ),
                                 ],

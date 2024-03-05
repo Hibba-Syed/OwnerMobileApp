@@ -12,8 +12,8 @@ class TpDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     int? requestId =
         (ModalRoute.of(context)?.settings.arguments as List)[0] as int?;
-    // String? reference =
-    //     (ModalRoute.of(context)?.settings.arguments as List)[1] as String?;
+    String? reference =
+        (ModalRoute.of(context)?.settings.arguments as List)[1] as String?;
     String? type =
         (ModalRoute.of(context)?.settings.arguments as List)[2] as String?;
     return DefaultTabController(
@@ -45,7 +45,7 @@ class TpDetailsPage extends StatelessWidget {
                       child: NestedScrollView(
                         headerSliverBuilder: (context, innerBoxIsScrolled) => [
                           SliverToBoxAdapter(
-                            child: header(context, state),
+                            child: header(context, state, reference),
                           ),
                           SliverToBoxAdapter(
                             child: StatefulBuilder(
@@ -538,7 +538,8 @@ class TpDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget header(BuildContext context, RequestDetailsState state) {
+  Widget header(
+      BuildContext context, RequestDetailsState state, String? reference) {
     return Column(
       children: [
         const AdDetailsPage().header(
@@ -548,6 +549,11 @@ class TpDetailsPage extends StatelessWidget {
           state.tpDetailsModel?.record?.createdAt,
           state.tpDetailsModel?.record?.status,
           [
+            {
+              "icon": Icons.link,
+              "title": "Reference",
+              "subTitle": reference ?? " -- ",
+            },
             {
               "title": "Noc Fee",
               "subTitle":

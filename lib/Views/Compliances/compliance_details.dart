@@ -52,7 +52,9 @@ class ComplianceDetailsPage extends StatelessWidget {
                               children: [
                                 const Gap(10),
                                 CustomText(
-                                  text: "Chiller Maintenance",
+                                  text: state.complianceDetailsModel?.record
+                                          ?.name ??
+                                      " -- ",
                                   color: context
                                       .read<AppThemeCubit>()
                                       .state
