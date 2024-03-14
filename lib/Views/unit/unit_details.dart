@@ -14,6 +14,7 @@ class UnitDetailsPage extends StatelessWidget {
     String? unitNo = (ModalRoute.of(context)?.settings.arguments as List)[1];
     int? unitId = (ModalRoute.of(context)?.settings.arguments as List)[2];
     String? unitSlug = (ModalRoute.of(context)?.settings.arguments as List)[3];
+    String? type = (ModalRoute.of(context)?.settings.arguments as List)[4];
     return Scaffold(
       backgroundColor: kBackgroundColor,
       floatingActionButton: FloatingActionButton.extended(
@@ -29,14 +30,6 @@ class UnitDetailsPage extends StatelessWidget {
               ),
             );
           }
-          // Navigator.pushNamed(
-          //   context,
-          //   AppRoutes.myWebView,
-          //   arguments: [
-          //     communityName,
-          //     "$ssl://${context.read<ProfileCubit>().state.profileModel?.record?.company?.slug}.$serverName.com/$unitSlug?source=flutter",
-          //   ],
-          // );
         },
         label: Row(
           children: [
@@ -196,7 +189,7 @@ class UnitDetailsPage extends StatelessWidget {
                 child: TabBarView(
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
-                    unitDetailsUnitInfo(context, unitNo, unitId),
+                    unitDetailsUnitInfo(context, unitNo, unitId, type),
                     unitDetailsAccounts(context, unitNo, unitId),
                   ],
                 ),
@@ -209,7 +202,7 @@ class UnitDetailsPage extends StatelessWidget {
   }
 
   Widget unitDetailsUnitInfo(
-      BuildContext context, String? unitNo, int? unitId) {
+      BuildContext context, String? unitNo, int? unitId, String? type) {
     List detailTabs = [
       {
         "name": "Owner(s)",
@@ -230,13 +223,18 @@ class UnitDetailsPage extends StatelessWidget {
         "name": "Occupant",
         "icon": "assets/occupant.png",
         "onTap": () {
-          context.read<OccupantCubit>().getOccupant(context, unitId);
+          if (type?.toLowerCase() == "ss") {
+            context.read<OccupantCubit>().getShortStayOccupant(context, unitId);
+          } else {
+            context.read<OccupantCubit>().getOccupant(context, unitId);
+          }
           return Navigator.pushNamed(
             context,
             AppRoutes.occupant,
             arguments: {
               'unit_id': unitId,
               'unit_no': unitNo,
+              'type': type,
             },
           );
         }

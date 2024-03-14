@@ -51,11 +51,12 @@ class SsDetailsPage extends StatelessWidget {
                             state.ssDetailsModel?.record?.createdAt,
                             state.ssDetailsModel?.record?.status,
                             [
-                             {
-                                  "icon": Icons.link,
-                                  "title": "Reference",
-                                  "subTitle": reference ?? " -- ",
-                                }, {
+                              {
+                                "icon": Icons.link,
+                                "title": "Reference",
+                                "subTitle": reference ?? " -- ",
+                              },
+                              {
                                 "icon": Icons.email_outlined,
                                 "title": "Requester Type",
                                 "subTitle":
@@ -113,6 +114,7 @@ class SsDetailsPage extends StatelessWidget {
                             context,
                             state.ssDetailsModel?.record?.clientName,
                             state.ssDetailsModel?.record?.clientPhone,
+                            enableContacts: false,
                             customWidget: Column(
                               children: [
                                 Divider(
@@ -179,48 +181,7 @@ class SsDetailsPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          const AdDetailsPage().supportingDocuments(context, [
-                            {
-                              "name": "Title Deed",
-                              "url":
-                                  "${state.ssDetailsModel?.record?.titleDeedUrl}",
-                            },
-                            {
-                              "name": "ID File",
-                              "url":
-                                  "${state.ssDetailsModel?.record?.clientIdFileUrl}",
-                            },
-                            {
-                              "name": "Passport File",
-                              "url":
-                                  "${state.ssDetailsModel?.record?.passportFileUrl}",
-                            },
-                            {
-                              "name": "Tourism License",
-                              "url":
-                                  "${state.ssDetailsModel?.record?.application?.tourismLicenseUrl}",
-                            },
-                            {
-                              "name": "Company All Risk Insurance",
-                              "url":
-                                  "${state.ssDetailsModel?.record?.application?.companyRiskInsuranceUrl}",
-                            },
-                            {
-                              "name": "Visa Copy",
-                              "url":
-                                  "${state.ssDetailsModel?.record?.application?.visaCopyUrl}",
-                            },
-                            {
-                              "name": "Rera ID",
-                              "url":
-                                  "${state.ssDetailsModel?.record?.application?.reraIdUrl}",
-                            },
-                            {
-                              "name": "DTCM Permit Expiry",
-                              "url":
-                                  "${state.ssDetailsModel?.record?.application?.dtcmPermitUrl}",
-                            },
-                          ])
+                          
                         ].animate(interval: 50.ms).fade(),
                       ),
                     ),

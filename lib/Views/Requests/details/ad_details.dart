@@ -81,6 +81,7 @@ class AdDetailsPage extends StatelessWidget {
                             context,
                             state.adDetailsModel?.record?.clientName,
                             state.adDetailsModel?.record?.clientPhone,
+                            enableContacts: false,
                           ),
                           customTableView(
                               context,
@@ -95,22 +96,6 @@ class AdDetailsPage extends StatelessWidget {
                                       .toList() ??
                                   [],
                               title: "Device"),
-                          supportingDocuments(context, [
-                            {
-                              "name": "Title Deed",
-                              "url": state.adDetailsModel?.record?.titleDeedUrl,
-                            },
-                            {
-                              "name": " Emirates ID",
-                              "url":
-                                  state.adDetailsModel?.record?.clientIdFileUrl,
-                            },
-                            {
-                              "name": "Tenancy Contact",
-                              "url": state
-                                  .adDetailsModel?.record?.tenancyContractUrl,
-                            },
-                          ])
                         ].animate(interval: 50.ms).fade(),
                       ),
                     ),
@@ -223,12 +208,18 @@ class AdDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget applicationDetails(BuildContext context, String? name, String? phone,
-      {Widget? customWidget, enableHeader = true}) {
+  Widget applicationDetails(
+    BuildContext context,
+    String? name,
+    String? phone, {
+    Widget? customWidget,
+    bool enableHeader = true,
+    bool enableContacts = true,
+  }) {
     return Column(
       children: [
         const Gap(5),
-        if (enableHeader) headingText(context, "Application Details"),
+        if (enableHeader) headingText(context, "Applicant Details"),
         const Gap(5),
         Container(
           padding: const EdgeInsets.all(10),
@@ -238,8 +229,12 @@ class AdDetailsPage extends StatelessWidget {
           ),
           child: Column(
             children: [
-              const OccupantPage().emergencyContactCard(context, name ?? "",
-                  phoneNumber: phone),
+              const OccupantPage().emergencyContactCard(
+                context,
+                name ?? "",
+                phoneNumber: phone,
+                enableContacts: enableContacts,
+              ),
               if (customWidget != null) customWidget
             ],
           ),

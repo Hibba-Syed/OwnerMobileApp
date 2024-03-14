@@ -96,6 +96,7 @@ class CsDetailsPage extends StatelessWidget {
                             context,
                             state.csDetailsModel?.record?.clientName,
                             state.csDetailsModel?.record?.clientPhone,
+                            enableContacts: false,
                           ),
                         ].animate(interval: 50.ms).fade(),
                       ),

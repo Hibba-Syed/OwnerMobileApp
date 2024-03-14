@@ -4,6 +4,7 @@ import 'package:iskaanowner/Repo/user.dart';
 import 'package:slideable/slideable.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
+import '../Blocs/Logout/logout_cubit.dart';
 import '../Models/profile.dart';
 import '../Utils/utils.dart';
 
@@ -164,7 +165,7 @@ class SideDrawerPage extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 0.06,
                     ),
                     title: const CustomText(
-                      text: "Change Icon",
+                      text: "Brand your App",
                       textAlign: TextAlign.left,
                     ),
                     trailing: const Icon(
@@ -459,14 +460,15 @@ class SideDrawerPage extends StatelessWidget {
                                     msg: "Profile deleted successfully");
                                 if (index == 0) {
                                   if ((users?.length ?? 0) <= 0) {
-                                    Global.storageService.removeUser();
-                                    Navigator.pushReplacementNamed(
-                                      context,
-                                      AppRoutes.login,
-                                    );
+                                    CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.loading,
+                                        lottieAsset: "assets/loader.json",
+                                        text: "Logging out ... !",
+                                        barrierDismissible: false);
                                     context
-                                        .read<AppThemeCubit>()
-                                        .resetAppTheme();
+                                        .read<LogoutCubit>()
+                                        .logout(context, shouldPop: true);
                                   } else {
                                     onProfileTap(context, users ?? [], index,
                                         checkFirst: false);

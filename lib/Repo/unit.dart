@@ -130,6 +130,25 @@ class UnitsService {
     });
   }
 
+  static Future<Object?> getUnitShortStayOccupant(
+      BuildContext context, int? id) async {
+    return await ExceptionService.applyTryCatch(() async {
+      return await http.get(
+          Uri.parse(
+            "$baseUrl/mobile/owner/property/short-stay/$id ",
+          ),
+          headers: {
+            "Authorization":
+                "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+          }).then((value) {
+        if (value.statusCode == 200) {
+          return Success(200, value.body);
+        }
+        return Failure(400, jsonDecode(value.body)["message"]);
+      });
+    });
+  }
+
   static Future<Object?> getUnitRequests(
     BuildContext context,
     int? id,
@@ -243,7 +262,6 @@ class UnitsService {
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       String body = await response.stream.bytesToString();
-      print(body);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return Success(200, body);
       }

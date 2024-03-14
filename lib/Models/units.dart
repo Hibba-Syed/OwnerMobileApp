@@ -60,6 +60,7 @@ class Unit {
   double? unitBalance;
   bool? isLegalNoticeActive;
   bool? isRdcActive;
+  String? type;
 
   Unit({
     this.name,
@@ -76,6 +77,7 @@ class Unit {
     this.unitBalance,
     this.isLegalNoticeActive,
     this.isRdcActive,
+    this.type,
   });
 
   factory Unit.fromJson(Map<String, dynamic> json) => Unit(
@@ -93,6 +95,7 @@ class Unit {
         unitBalance: json["unit_balance"]?.toDouble(),
         isLegalNoticeActive: json["is_legal_notice_active"],
         isRdcActive: json["is_rdc_active"],
+        type: json["type"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -110,5 +113,6 @@ class Unit {
         "unit_balance": unitBalance,
         "is_legal_notice_active": isLegalNoticeActive,
         "is_rdc_active": isRdcActive,
+        "type": type,
       };
 }

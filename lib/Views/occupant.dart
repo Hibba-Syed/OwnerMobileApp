@@ -14,6 +14,7 @@ class OccupantPage extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     String? unitNumber = arguments['unit_no'];
     int? unitId = arguments['unit_id'];
+    String? type = arguments['type'];
     return Scaffold(
       backgroundColor: kBackgroundColor,
       body: SafeArea(
@@ -32,6 +33,164 @@ class OccupantPage extends StatelessWidget {
                   if (state.loadingState == LoadingState.loading) {
                     return const CustomLoader();
                   }
+
+                  if (type?.toLowerCase() == "ss") {
+                    List<Map<String, dynamic>> occupantData = [
+                      {
+                        "icon": Icons.link,
+                        "key": "Reference",
+                        "value":
+                            state.shortStayOccupantModel?.record?.reference,
+                      },
+                      {
+                        "icon": Icons.person,
+                        "key": "Requester Type",
+                        "value":
+                            state.shortStayOccupantModel?.record?.clientType,
+                      },
+                      {
+                        "icon": Icons.person_outline,
+                        "key": "Name",
+                        "value": state.shortStayOccupantModel?.record?.fullName,
+                      },
+                      {
+                        "icon": Icons.email_outlined,
+                        "key": "Reference",
+                        "value": state.shortStayOccupantModel?.record?.email,
+                      },
+                      {
+                        "icon": Icons.phone_outlined,
+                        "key": "Requester Phone",
+                        "value":
+                            state.shortStayOccupantModel?.record?.clientPhone,
+                      },
+                      {
+                        "icon": Icons.timer_outlined,
+                        "key": "Short Stay Period",
+                        "value":
+                            "${dateTimeFormatter(state.shortStayOccupantModel?.record?.shortStayApplication?.startDate)} - ${dateTimeFormatter(state.shortStayOccupantModel?.record?.shortStayApplication?.endDate)}",
+                      },
+                    ];
+                    if (state.shortStayOccupantModel?.record == null) {
+                      return const CreditNotesPage().emptyList(
+                          ontap: () => context
+                              .read<OccupantCubit>()
+                              .getShortStayOccupant(context, unitId));
+                    }
+                    return RefreshIndicator(
+                      onRefresh: () async {
+                        context
+                            .read<OccupantCubit>()
+                            .getShortStayOccupant(context, unitId);
+                      },
+                      child: SingleChildScrollView(
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: kWhite),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                children: occupantData
+                                    .map((e) =>
+                                        const ProfilePage().profileInfoTile(
+                                          context,
+                                          e["key"] as String,
+                                          e["value"] as String?,
+                                        ))
+                                    .toList(),
+                              ),
+                              const Gap(5),
+                              CustomText(
+                                text: "Documents",
+                                color: context
+                                    .read<AppThemeCubit>()
+                                    .state
+                                    .primaryColor,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.04,
+                              ),
+                              const Gap(10),
+                              const OwnersPage().documentInfo(
+                                  context, "Title Deed",
+                                  url: state.shortStayOccupantModel?.record
+                                          ?.titleDeedUrl ??
+                                      ""),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              if ((state
+                                          .shortStayOccupantModel
+                                          ?.record
+                                          ?.shortStayApplication
+                                          ?.guests
+                                          ?.length ??
+                                      0) !=
+                                  0)
+                                CustomText(
+                                  text: "Guests",
+                                  color: context
+                                      .read<AppThemeCubit>()
+                                      .state
+                                      .primaryColor,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.04,
+                                ),
+                              if ((state
+                                          .shortStayOccupantModel
+                                          ?.record
+                                          ?.shortStayApplication
+                                          ?.guests
+                                          ?.length ??
+                                      0) !=
+                                  0)
+                                const Gap(10),
+                              if ((state
+                                          .shortStayOccupantModel
+                                          ?.record
+                                          ?.shortStayApplication
+                                          ?.guests
+                                          ?.length ??
+                                      0) !=
+                                  0)
+                                ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: state
+                                          .shortStayOccupantModel
+                                          ?.record
+                                          ?.shortStayApplication
+                                          ?.guests
+                                          ?.length ??
+                                      0,
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return const Divider();
+                                  },
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    final e = state
+                                        .shortStayOccupantModel
+                                        ?.record
+                                        ?.shortStayApplication
+                                        ?.guests?[index];
+                                    return shortStayGuestInfo(
+                                      context,
+                                      e?.name ?? "",
+                                      e?.phone ?? "",
+                                      url: e?.fileUrl,
+                                    );
+                                  },
+                                ),
+                            ],
+                          ),
+                        ).animate().fade(duration: 600.ms),
+                      ),
+                    );
+                  }
                   if (state.occupantModel?.occupant == null) {
                     return const CreditNotesPage().emptyList(
                         ontap: () => context
@@ -39,97 +198,123 @@ class OccupantPage extends StatelessWidget {
                             .getOccupant(context, unitId));
                   }
                   List<Map<String, dynamic>> occupantData = [
-                    {
-                      "icon": Icons.merge_type_outlined,
-                      "key": "Type",
-                      "value": state.occupantModel?.occupant?.details?.type,
-                    },
-                    {
-                      "icon": Icons.merge_type_outlined,
-                      "key": "Name",
-                      "value": state.occupantModel?.occupant?.details?.name,
-                    },
-                    {
-                      "icon": Icons.email_outlined,
-                      "key": "Email",
-                      "value":
-                          state.occupantModel?.occupant?.details?.primaryEmail,
-                    },
-                    {
-                      "icon": Icons.phone_outlined,
-                      "key": "Primary Phone",
-                      "value":
-                          state.occupantModel?.occupant?.details?.primaryPhone,
-                    },
-                    {
-                      "icon": Icons.card_membership_outlined,
-                      "key": "Passport No.",
-                      "value": state
-                          .occupantModel?.occupant?.details?.passportNumber,
-                    },
-                    {
-                      "icon": Icons.calendar_month_outlined,
-                      "key": "Passport Expiry",
-                      "value": dateTimeFormatter(state
-                          .occupantModel?.occupant?.details?.passportExpiry),
-                    },
-                    {
-                      "icon": Icons.numbers_outlined,
-                      "key": "Emirates ID No.",
-                      "value": state
-                          .occupantModel?.occupant?.details?.emiratesIdNumber,
-                    },
-                    {
-                      "icon": Icons.calendar_month_outlined,
-                      "key": "Emirates ID Expiry",
-                      "value": dateTimeFormatter(state
-                          .occupantModel?.occupant?.details?.emiratesIdExpiry),
-                    },
-                    {
-                      "icon": Icons.numbers_outlined,
-                      "key": "TRN",
-                      "value":
-                          state.occupantModel?.occupant?.details?.trnNumber,
-                    },
-                    {
-                      "icon": Icons.calendar_month_outlined,
-                      "key": "Date of Birth",
-                      "value": dateTimeFormatter(
-                          state.occupantModel?.occupant?.details?.dob),
-                    },
-                    {
-                      "icon": Icons.calendar_month_outlined,
-                      "key": "Tenancy Contract Expiry",
-                      "value": dateTimeFormatter(state.occupantModel?.occupant
-                          ?.details?.tenancyContractExpiry),
-                    },
-                    {
-                      "icon": Icons.title_outlined,
-                      "key": "Title Deed No.",
-                      "value": state
-                          .occupantModel?.occupant?.details?.titleDeedNumber,
-                    },
-                    {
-                      "icon": Icons.location_city_outlined,
-                      "key": "Country",
-                      "value": state.occupantModel?.occupant?.details?.country,
-                    },
-                    {
-                      "icon": Icons.web_stories_outlined,
-                      "key": "State",
-                      "value": state.occupantModel?.occupant?.details?.state,
-                    },
-                    {
-                      "icon": Icons.location_city_outlined,
-                      "key": "City",
-                      "value": state.occupantModel?.occupant?.details?.city,
-                    },
-                    {
-                      "icon": Icons.streetview_outlined,
-                      "key": "Address",
-                      "value":
-                          state.occupantModel?.occupant?.details?.fullAddress,
-                    },
+                    if (state.occupantModel?.occupant?.details?.name != null)
+                      {
+                        "icon": Icons.merge_type_outlined,
+                        "key": "Name",
+                        "value": state.occupantModel?.occupant?.details?.name,
+                      },
+                    if (state.occupantModel?.occupant?.details?.type != null)
+                      {
+                        "icon": Icons.merge_type_outlined,
+                        "key": "Type",
+                        "value": state.occupantModel?.occupant?.details?.type,
+                      },
+                    if (state.occupantModel?.occupant?.details?.primaryEmail !=
+                        null)
+                      {
+                        "icon": Icons.email_outlined,
+                        "key": "Email",
+                        "value": state
+                            .occupantModel?.occupant?.details?.primaryEmail,
+                      },
+                    if (state.occupantModel?.occupant?.details?.primaryPhone !=
+                        null)
+                      {
+                        "icon": Icons.phone_outlined,
+                        "key": "Primary Phone",
+                        "value": state
+                            .occupantModel?.occupant?.details?.primaryPhone,
+                      },
+                    if (state
+                            .occupantModel?.occupant?.details?.passportNumber !=
+                        null)
+                      {
+                        "icon": Icons.card_membership_outlined,
+                        "key": "Passport No.",
+                        "value": state
+                            .occupantModel?.occupant?.details?.passportNumber,
+                      },
+                    if (state
+                            .occupantModel?.occupant?.details?.passportExpiry !=
+                        null)
+                      {
+                        "icon": Icons.calendar_month_outlined,
+                        "key": "Passport Expiry",
+                        "value": dateTimeFormatter(state
+                            .occupantModel?.occupant?.details?.passportExpiry),
+                      },
+                    if (state.occupantModel?.occupant?.details
+                            ?.emiratesIdNumber !=
+                        null)
+                      {
+                        "icon": Icons.numbers_outlined,
+                        "key": "Emirates ID No.",
+                        "value": state
+                            .occupantModel?.occupant?.details?.emiratesIdNumber,
+                      },
+                    if (state.occupantModel?.occupant?.details
+                            ?.emiratesIdExpiry !=
+                        null)
+                      {
+                        "icon": Icons.calendar_month_outlined,
+                        "key": "Emirates ID Expiry",
+                        "value": dateTimeFormatter(state.occupantModel?.occupant
+                            ?.details?.emiratesIdExpiry),
+                      },
+                    if (state.occupantModel?.occupant?.details?.trnNumber !=
+                        null)
+                      {
+                        "icon": Icons.numbers_outlined,
+                        "key": "TRN",
+                        "value":
+                            state.occupantModel?.occupant?.details?.trnNumber,
+                      },
+                    if (state.occupantModel?.occupant?.details
+                            ?.tenancyContractExpiry !=
+                        null)
+                      {
+                        "icon": Icons.calendar_month_outlined,
+                        "key": "Tenancy Contract Expiry",
+                        "value": dateTimeFormatter(state.occupantModel?.occupant
+                            ?.details?.tenancyContractExpiry),
+                      },
+                    if (state.occupantModel?.occupant?.details
+                            ?.titleDeedNumber !=
+                        null)
+                      {
+                        "icon": Icons.title_outlined,
+                        "key": "Title Deed No.",
+                        "value": state
+                            .occupantModel?.occupant?.details?.titleDeedNumber,
+                      },
+                    if (state.occupantModel?.occupant?.details?.country != null)
+                      {
+                        "icon": Icons.location_city_outlined,
+                        "key": "Country",
+                        "value":
+                            state.occupantModel?.occupant?.details?.country,
+                      },
+                    if (state.occupantModel?.occupant?.details?.state != null)
+                      {
+                        "icon": Icons.web_stories_outlined,
+                        "key": "State",
+                        "value": state.occupantModel?.occupant?.details?.state,
+                      },
+                    if (state.occupantModel?.occupant?.details?.city != null)
+                      {
+                        "icon": Icons.location_city_outlined,
+                        "key": "City",
+                        "value": state.occupantModel?.occupant?.details?.city,
+                      },
+                    if (state.occupantModel?.occupant?.details?.fullAddress !=
+                        null)
+                      {
+                        "icon": Icons.streetview_outlined,
+                        "key": "Address",
+                        "value":
+                            state.occupantModel?.occupant?.details?.fullAddress,
+                      },
                   ];
                   return RefreshIndicator(
                     onRefresh: () async {
@@ -201,18 +386,20 @@ class OccupantPage extends StatelessWidget {
                                     ?.emergencyContactName !=
                                 null)
                               emergencyContactCard(
-                                  context,
-                                  state
-                                          .occupantModel
-                                          ?.occupant
-                                          ?.emergencyContactDetails
-                                          ?.emergencyContactName ??
-                                      " -- ",
-                                  phoneNumber: state
-                                      .occupantModel
-                                      ?.occupant
-                                      ?.emergencyContactDetails
-                                      ?.emergencyContactPhone),
+                                context,
+                                state
+                                        .occupantModel
+                                        ?.occupant
+                                        ?.emergencyContactDetails
+                                        ?.emergencyContactName ??
+                                    " -- ",
+                                phoneNumber: state
+                                    .occupantModel
+                                    ?.occupant
+                                    ?.emergencyContactDetails
+                                    ?.emergencyContactPhone,
+                                enableContacts: false,
+                              ),
                             if (state
                                     .occupantModel
                                     ?.occupant
@@ -229,18 +416,20 @@ class OccupantPage extends StatelessWidget {
                                     ?.alternativeEmergencyContactName !=
                                 null)
                               emergencyContactCard(
-                                  context,
-                                  state
-                                          .occupantModel
-                                          ?.occupant
-                                          ?.emergencyContactDetails
-                                          ?.alternativeEmergencyContactName ??
-                                      " -- ",
-                                  phoneNumber: state
-                                      .occupantModel
-                                      ?.occupant
-                                      ?.emergencyContactDetails
-                                      ?.alternativeEmergencyContactPhone),
+                                context,
+                                state
+                                        .occupantModel
+                                        ?.occupant
+                                        ?.emergencyContactDetails
+                                        ?.alternativeEmergencyContactName ??
+                                    " -- ",
+                                phoneNumber: state
+                                    .occupantModel
+                                    ?.occupant
+                                    ?.emergencyContactDetails
+                                    ?.alternativeEmergencyContactPhone,
+                                enableContacts: false,
+                              ),
                             if (state
                                     .occupantModel
                                     ?.occupant
@@ -260,6 +449,7 @@ class OccupantPage extends StatelessWidget {
                             //         false))
                             //   vehicleSection(context,
                             //       state.occupantModel?.occupant?.vehicles),
+
                             CustomText(
                               text: "Documents",
                               color: context
@@ -315,7 +505,7 @@ class OccupantPage extends StatelessWidget {
   }
 
   Widget emergencyContactCard(BuildContext context, String name,
-      {String? phoneNumber}) {
+      {String? phoneNumber, bool enableContacts = true}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -335,62 +525,109 @@ class OccupantPage extends StatelessWidget {
                 maxLines: 1,
               ),
             ),
-            Row(
-              children: [
-                {
-                  "icon": "assets/phone.png",
-                  "onTap": () {
-                    if (phoneNumber != null) {
-                      launchUrl(Uri.parse("tel:$phoneNumber"));
+            if (enableContacts)
+              Row(
+                children: [
+                  {
+                    "icon": "assets/phone.png",
+                    "onTap": () {
+                      if (phoneNumber != null) {
+                        launchUrl(Uri.parse("tel:$phoneNumber"));
+                      }
                     }
-                  }
-                },
-                {
-                  "icon": "assets/messages.png",
-                  "onTap": () {
-                    if (phoneNumber != null) {
-                      launchUrl(Uri.parse("sms:$phoneNumber"));
+                  },
+                  {
+                    "icon": "assets/messages.png",
+                    "onTap": () {
+                      if (phoneNumber != null) {
+                        launchUrl(Uri.parse("sms:$phoneNumber"));
+                      }
                     }
-                  }
-                },
-                {
-                  "icon": "assets/whatsapp.png",
-                  "onTap": () {
-                    if (phoneNumber != null) {
-                      launchUrl(Uri.parse(
-                          "https://wa.me/$phoneNumber/?text=${Uri.parse("hello!")}"));
+                  },
+                  {
+                    "icon": "assets/whatsapp.png",
+                    "onTap": () {
+                      if (phoneNumber != null) {
+                        launchUrl(Uri.parse(
+                            "https://wa.me/$phoneNumber/?text=${Uri.parse("hello!")}"));
+                      }
                     }
-                  }
-                },
-              ]
-                  .map((e) => InkWell(
-                        onTap: e["onTap"] as Function()?,
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 10),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: (phoneNumber == null
-                                      ? kGrey
-                                      : context
-                                          .read<AppThemeCubit>()
-                                          .state
-                                          .primaryColor)
-                                  .withOpacity(0.1)),
-                          padding: const EdgeInsets.all(5),
-                          child: Image.asset(
-                            e["icon"] as String,
-                            color: phoneNumber == null
-                                ? kGrey
-                                : context
-                                    .read<AppThemeCubit>()
-                                    .state
-                                    .primaryColor,
-                            width: MediaQuery.of(context).size.width * 0.06,
+                  },
+                ]
+                    .map((e) => InkWell(
+                          onTap: e["onTap"] as Function()?,
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 10),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: (phoneNumber == null
+                                        ? kGrey
+                                        : context
+                                            .read<AppThemeCubit>()
+                                            .state
+                                            .primaryColor)
+                                    .withOpacity(0.1)),
+                            padding: const EdgeInsets.all(5),
+                            child: Image.asset(
+                              e["icon"] as String,
+                              color: phoneNumber == null
+                                  ? kGrey
+                                  : context
+                                      .read<AppThemeCubit>()
+                                      .state
+                                      .primaryColor,
+                              width: MediaQuery.of(context).size.width * 0.06,
+                            ),
                           ),
-                        ),
-                      ))
-                  .toList(),
-            )
+                        ))
+                    .toList(),
+              )
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget shortStayGuestInfo(BuildContext context, String text, String phone,
+      {String? url}) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const CustomText(
+              text: "Name",
+              fontWeight: FontWeight.bold,
+            ),
+            CustomText(
+              text: text,
+              textAlign: TextAlign.left,
+            ),
+          ],
+        ),
+        const Gap(10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const CustomText(
+              text: "Phone",
+              fontWeight: FontWeight.bold,
+            ),
+            CustomText(
+              text: phone,
+              textAlign: TextAlign.left,
+            ),
+          ],
+        ),
+        const Gap(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const CustomText(
+              text: "Passport / EID",
+              fontWeight: FontWeight.bold,
+            ),
+            const OwnersPage().viewButton(context, url)
           ],
         ),
       ],

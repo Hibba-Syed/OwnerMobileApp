@@ -48,6 +48,26 @@ class StorageService {
     return await _pref.setString("creds", jsonEncode(creds));
   }
 
+  Future<bool> setAppLogo(String logo) async {
+    return await _pref.setString("logo", logo);
+  }
+
+  Future<bool> setNewDevice() async {
+    return await _pref.setString("newDevice", "false");
+  }
+
+  Future<bool> setAppTheme(String theme) async {
+    return await _pref.setString("theme", theme);
+  }
+
+  String? getAppLogo() {
+    return _pref.getString("logo");
+  }
+
+  String? getAppTheme() {
+    return _pref.getString("theme");
+  }
+
   List? getLoginCreds() {
     String? creds = _pref.getString("creds");
     if (creds == null) {
@@ -58,6 +78,10 @@ class StorageService {
 
   String? getAuthenticationModelString() {
     return _pref.getString("users");
+  }
+
+  String? getNewDevice() {
+    return _pref.getString("newDevice");
   }
 
   Future<void> removeUser() async {

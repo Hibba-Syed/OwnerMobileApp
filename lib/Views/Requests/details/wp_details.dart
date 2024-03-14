@@ -133,70 +133,8 @@ class WpDetailsPage extends StatelessWidget {
                             context,
                             state.wpDetailsModel?.record?.clientName,
                             state.wpDetailsModel?.record?.clientPhone,
+                            enableContacts: false,
                           ),
-                          Builder(
-                            builder: (context) {
-                              final List<Map<dynamic, dynamic>> list = [];
-                              list.addAll(
-                                  state.wpDetailsModel?.record?.documents
-                                          ?.map((e) => {
-                                                "name": e.name?.capitalize() ??
-                                                    " -- ",
-                                                "url": e.pathUrl,
-                                              })
-                                          .toList() ??
-                                      []);
-                              list.addAll([
-                                {
-                                  "name": "Tenancy Contact",
-                                  "url": state.wpDetailsModel?.record
-                                      ?.tenancyContractUrl,
-                                },
-                                {
-                                  "name": "Title Deed",
-                                  "url": state
-                                      .wpDetailsModel?.record?.titleDeedUrl,
-                                },
-                                {
-                                  "name": "Company Trade License",
-                                  "url": state
-                                      .wpDetailsModel?.record?.tradeLicenseUrl,
-                                },
-                                {
-                                  "name": "NOC From Owner",
-                                  "url": state.wpDetailsModel?.record
-                                      ?.application?.nocFromOwnerUrl,
-                                },
-                                {
-                                  "name": "Appointment Letter",
-                                  "url": state.wpDetailsModel?.record
-                                      ?.application?.appointmentLetterUrl,
-                                },
-                                {
-                                  "name": "Contractor Trade License",
-                                  "url": state.wpDetailsModel?.record
-                                      ?.application?.tradeLicenseContractorUrl,
-                                },
-                                {
-                                  "name": "Contractor Cover Letter",
-                                  "url": state.wpDetailsModel?.record
-                                      ?.application?.contractorCoverLetterUrl,
-                                },
-                                {
-                                  "name": "Contractor Insurance",
-                                  "url": state.wpDetailsModel?.record
-                                      ?.application?.contractorInsuranceUrl,
-                                },
-                                {
-                                  "name": "Drawing",
-                                  "url": state.wpDetailsModel?.record
-                                      ?.application?.workDrawingUrl,
-                                },
-                              ]);
-                              return const AdDetailsPage()
-                                  .supportingDocuments(context, list);
-                            },
-                          )
                         ].animate(interval: 50.ms).fade(),
                       ),
                     ),

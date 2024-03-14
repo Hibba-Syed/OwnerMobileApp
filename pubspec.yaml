@@ -65,6 +65,8 @@ dependencies:
   slideable: ^0.0.2
   flutter_dynamic_icon_plus:
     path: ../../Side Projects/flutter_dynamic_icon_plus
+  open_settings: ^2.0.2
+  package_info_plus: ^4.2.0
 
 
 dev_dependencies:
@@ -92,6 +94,29 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/iskaan/
+    - assets/alta/
+    - assets/arb/
+    - assets/aroam/
+    - assets/atr/
+    - assets/edacom/
+    - assets/hoam/
+    - assets/irtikaz/
+    - assets/itihad/
+    - assets/jbc/
+    - assets/kep/
+    - assets/mansions/
+    - assets/oz/
+    - assets/palazzo/
+    - assets/pid/
+    - assets/privilege/
+    - assets/saba/
+    - assets/saga/
+    - assets/sigma/
+    - assets/sobha/
+    - assets/st/
+    - assets/strata/
+    - assets/stratum/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

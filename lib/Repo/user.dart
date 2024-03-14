@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:http/http.dart' as http;
 
 import '../Utils/utils.dart';
@@ -25,34 +27,60 @@ class UserService {
 
   static Future<Object?> logout(BuildContext context) async {
     return await ExceptionService.applyTryCatch(() async {
-      return await http
-          .post(
-        Uri.parse("$baseUrl/mobile/owner/auth/logout"),
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          "Authorization":
-              "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
-        },
-        body: jsonEncode({
-          "token": loginModelFromJson(
-                  Global.storageService.getAuthenticationModelString() ?? "")
-              .map((e) => e.accessToken)
-              .toList()
-        }),
-      )
-          .then((value) {
-        if (value.statusCode == 200) {
-          return Success(200, value.body);
-        }
-        return Failure(400, jsonDecode(value.body)["message"]);
-      });
+      if (Platform.isIOS) {
+        return await DeviceInfoPlugin()
+            .iosInfo
+            .then((value) => logoutFunction(context, iosDeviceInfo: value));
+      }
+      if (Platform.isAndroid) {
+        return await DeviceInfoPlugin()
+            .androidInfo
+            .then((value) => logoutFunction(context, androidDeviceInfo: value));
+      }
+    });
+  }
+
+  static logoutFunction(BuildContext context,
+      {IosDeviceInfo? iosDeviceInfo,
+      AndroidDeviceInfo? androidDeviceInfo}) async {
+    return await http
+        .post(
+      Uri.parse("$baseUrl/mobile/owner/auth/logout"),
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization":
+            "Bearer ${context.read<LoginCubit>().state.loginModel?.accessToken}"
+      },
+      body: jsonEncode({
+        "tokens": loginModelFromJson(
+                Global.storageService.getAuthenticationModelString() ?? "")
+            .map((e) => e.accessToken)
+            .toList(),
+        "device_unique_identity": Platform.isAndroid
+            ? androidDeviceInfo?.id
+            : iosDeviceInfo?.identifierForVendor,
+      }),
+    )
+        .then((value) {
+      if (value.statusCode == 200) {
+        return Success(200, value.body);
+      }
+      return Failure(400, jsonDecode(value.body)["message"]);
     });
   }
 
   static Future<Object?> singleLogout(
       BuildContext context, String? accessToken) async {
     return await ExceptionService.applyTryCatch(() async {
+      late AndroidDeviceInfo androidDeviceInfo;
+      late IosDeviceInfo iosDeviceInfo;
+      if (Platform.isIOS) {
+        iosDeviceInfo = await DeviceInfoPlugin().iosInfo;
+      }
+      if (Platform.isAndroid) {
+        androidDeviceInfo = await DeviceInfoPlugin().androidInfo;
+      }
       return await http
           .post(
         Uri.parse("$baseUrl/mobile/owner/auth/logout"),
@@ -62,7 +90,10 @@ class UserService {
           "Authorization": "Bearer $accessToken"
         },
         body: jsonEncode({
-          "token": [accessToken]
+          "tokens": [accessToken],
+          "device_unique_identity": Platform.isAndroid
+              ? androidDeviceInfo.id
+              : iosDeviceInfo.identifierForVendor,
         }),
       )
           .then((value) {

@@ -125,15 +125,15 @@ class DashboardPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomText(
+                    text: "${profileModel?.record?.fullName?.capitalize()}",
+                    fontSize: MediaQuery.of(context).size.width * 0.05,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  CustomText(
                     text:
                         "Welcome to ${profileModel?.record?.company?.name?.capitalize()},",
                     fontSize: MediaQuery.of(context).size.width * 0.04,
                     fontWeight: FontWeight.w500,
-                  ),
-                  CustomText(
-                    text: "${profileModel?.record?.fullName?.capitalize()}",
-                    fontSize: MediaQuery.of(context).size.width * 0.05,
-                    fontWeight: FontWeight.w600,
                   ),
                 ],
               ),

@@ -17,6 +17,7 @@ export 'enums.dart';
 export 'global.dart';
 
 const String baseUrl = "$ssl://api.$serverName.com";
+String logoImage = "iskaan";
 const String ssl = "http";
 const String serverName = "synergic360";
 // const String ssl = "https";

@@ -50,7 +50,7 @@ class CompaniesPage extends StatelessWidget {
                             const Gap(10),
                             CustomText(
                               text:
-                                  "We found profile(s) against this email managed by other CMC(s).If you wish to add the profile(s) associated to this email please select from the list below.",
+                                  "We found profile(s) against this email managed by other CMC(s).If you wish to add the profile(s) associated with this email please select from the list below.",
                               fontSize:
                                   MediaQuery.of(context).size.width * 0.04,
                             ),
@@ -175,11 +175,28 @@ class CompaniesPage extends StatelessWidget {
                                                                 "#751b50"));
                                                 LoginPage()
                                                     .initialCalls(context);
-                                                return Navigator
+                                                Navigator
                                                     .pushNamedAndRemoveUntil(
-                                                        context,
-                                                        AppRoutes.dashboard,
-                                                        (route) => false);
+                                                  context,
+                                                  AppRoutes.dashboard,
+                                                  (route) => false,
+                                                );
+                                                String? newDevice = Global
+                                                    .storageService
+                                                    .getNewDevice();
+                                                if (newUser ||
+                                                    (newDevice != null)) {
+                                                  if (newDevice != null) {
+                                                    Global.storageService
+                                                        .setNewDevice();
+                                                  }
+                                                  Navigator.pushNamed(context,
+                                                      AppRoutes.changeIcon,
+                                                      arguments: {
+                                                        "showBottomText": true
+                                                      });
+                                                }
+                                                return;
                                               } else {
                                                 Navigator.pop(context);
                                                 Fluttertoast.showToast(

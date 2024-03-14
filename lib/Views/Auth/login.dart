@@ -31,7 +31,7 @@ class LoginPage extends StatelessWidget {
 
   Widget loginHeaderImage() {
     return Image.asset(
-      "assets/login_header.png",
+      "assets/$logoImage/${logoImage}Background.png",
       width: double.infinity,
       height: double.infinity,
       fit: BoxFit.cover,
@@ -56,8 +56,8 @@ class LoginPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
-                        "assets/logo.png",
-                        width: MediaQuery.of(context).size.height * 0.15,
+                        "assets/$logoImage/${logoImage}Logo.png",
+                        width: MediaQuery.of(context).size.width * 0.5,
                       ),
                       const Gap(20),
                       CustomText(
@@ -301,11 +301,18 @@ class LoginPage extends StatelessWidget {
   }
 
   void initialCalls(BuildContext context) {
+    List<LoginModel> loginModelList = loginModelFromJson(
+        Global.storageService.getAuthenticationModelString() ?? "");
+
     LocalNotificationService(context).initialize();
-    FirebaseNotificationService().handleTokenStatus(context,
-        context.read<LoginCubit>().state.loginModel?.accessToken ?? "");
-    FirebaseNotificationService().makeFirebaseTokenRequest(context,
-        context.read<LoginCubit>().state.loginModel?.accessToken ?? "");
+    FirebaseNotificationService().handleTokenStatus(
+        context,
+        context.read<LoginCubit>().state.loginModel?.accessToken ?? "",
+        loginModelList.map((e) => e.accessToken).toList());
+    FirebaseNotificationService().makeFirebaseTokenRequest(
+        context,
+        context.read<LoginCubit>().state.loginModel?.accessToken ?? "",
+        loginModelList.map((e) => e.accessToken).toList());
     FirebaseNotificationService().handleOnTapBackground(context);
     FirebaseNotificationService().handleOnMessage();
     FirebaseNotificationService().handleAppOpened(context);

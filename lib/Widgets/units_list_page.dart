@@ -78,6 +78,7 @@ class _UnitsListPageState extends State<UnitsListPage> {
                                 unit?.unitNumber,
                                 unit?.unitId,
                                 unit?.slug,
+                                unit?.type,
                               ],
                             );
                           },

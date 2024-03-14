@@ -222,81 +222,8 @@ class FoDetailsPage extends StatelessWidget {
                             context,
                             state.foDetailsModel?.record?.clientName,
                             state.foDetailsModel?.record?.clientPhone,
+                            enableContacts: false,
                           ),
-                          Builder(builder: (context) {
-                            List<Map<dynamic, dynamic>> list = [];
-                            list.addAll(state.foDetailsModel?.record?.documents
-                                    ?.map(
-                                      (e) => {
-                                        "name": e.name?.capitalize() ?? " -- ",
-                                        "url": e.pathUrl,
-                                      },
-                                    )
-                                    .toList() ??
-                                []);
-                            list.addAll(
-                              [
-                                {
-                                  "name": "Tenancy Contact",
-                                  "url": state.foDetailsModel?.record
-                                      ?.tenancyContractUrl,
-                                },
-                                {
-                                  "name": "Title Deed",
-                                  "url": state
-                                      .foDetailsModel?.record?.titleDeedUrl,
-                                },
-                                {
-                                  "name": "Company Trade License",
-                                  "url": state
-                                      .foDetailsModel?.record?.tradeLicenseUrl,
-                                },
-                                {
-                                  "name": "NOC From Owner",
-                                  "url": state.foDetailsModel?.record
-                                      ?.application?.nocFromOwnerUrl,
-                                },
-                                {
-                                  "name": "Appointment Letter",
-                                  "url": state.foDetailsModel?.record
-                                      ?.application?.appointmentLetterUrl,
-                                },
-                                {
-                                  "name": "Contractor Trade License",
-                                  "url": state.foDetailsModel?.record
-                                      ?.application?.tradeLicenseContractorUrl,
-                                },
-                                {
-                                  "name": "Contractor Cover Letter",
-                                  "url": state.foDetailsModel?.record
-                                      ?.application?.contractorCoverLetterUrl,
-                                },
-                                {
-                                  "name": "Contractor Insurance",
-                                  "url": state.foDetailsModel?.record
-                                      ?.application?.contractorInsuranceUrl,
-                                },
-                                {
-                                  "name": "Drawing",
-                                  "url": state.foDetailsModel?.record
-                                      ?.application?.workDrawingUrl,
-                                },
-                                {
-                                  "name": "DVD Approval fire fighting System",
-                                  "url": state.foDetailsModel?.record
-                                      ?.application?.dcdApprovalFireFightingUrl,
-                                },
-                                {
-                                  "name":
-                                      "DCD Approval fire fighting contractor",
-                                  "url": state.foDetailsModel?.record
-                                      ?.application?.dcdApprovalFireFightingUrl,
-                                },
-                              ],
-                            );
-                            return const AdDetailsPage()
-                                .supportingDocuments(context, list);
-                          })
                         ].animate(interval: 50.ms).fade(),
                       ),
                     ),

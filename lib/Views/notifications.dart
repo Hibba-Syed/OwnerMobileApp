@@ -86,102 +86,45 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         return Column(
                           children: [
                             InkWell(
-                              onTap: () => const LedgerPage().decidePage(
-                                  context,
-                                  notificationRecord?.objectId,
-                                  notificationRecord?.objectType),
-                              child: const UnitsPage().roundedContainer(
-                                  context,
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Image.asset(
-                                            const LedgerByAccountDetailsPage()
-                                                .ledgerImageIcon(
-                                              notificationRecord?.objectType,
-                                              makeNotificationDefault: true,
-                                            ),
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.1,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.1,
-                                            color: context
-                                                .read<AppThemeCubit>()
-                                                .state
-                                                .primaryColor
-                                                .withOpacity(0.8),
-                                          ),
-                                          const Gap(10),
-                                          Expanded(
-                                            child: CustomText(
-                                              text: notificationRecord
-                                                          ?.objectType ==
-                                                      "credit_memo"
-                                                  ? "Credit Note"
-                                                  : notificationRecord
-                                                          ?.objectType
-                                                          ?.capitalize() ??
-                                                      "",
-                                              maxLines: 1,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.045,
-                                            ),
-                                          ),
-                                        ],
+                                onTap: () {
+                                  if (notificationRecord?.objectType
+                                              ?.toLowerCase() ==
+                                          "owners" ||
+                                      notificationRecord?.objectType
+                                              ?.toLowerCase() ==
+                                          "notice") {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => Theme(
+                                        data: ThemeData(
+                                            dialogBackgroundColor: kWhite),
+                                        child: AlertDialog(
+                                            content: notificationContent(
+                                                notificationRecord,
+                                                maxLines: 5)),
                                       ),
-                                      const Gap(10),
-                                      CustomText(
-                                        text: notificationRecord?.message ?? "",
-                                        fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.035,
-                                      ),
-                                      const Gap(5),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Icon(
-                                            Icons.alarm_outlined,
-                                            size: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.03,
-                                            color: context
-                                                .read<AppThemeCubit>()
-                                                .state
-                                                .primaryColor,
-                                          ),
-                                          const Gap(5),
-                                          CustomText(
-                                            text: const OccupantPage()
-                                                .dateTimeFormatter(
-                                                    notificationRecord
-                                                        ?.createdAt),
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.03,
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  padding: const EdgeInsets.all(10),
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 5),
-                                  color: kWhite),
-                            ),
+                                    );
+                                    return;
+                                  }
+                                  if (notificationRecord?.objectType
+                                          ?.toLowerCase() ==
+                                      "shared_docs") {
+                                    context
+                                        .read<SharedDocumentsCubit>()
+                                        .getSharedDocuments(context,
+                                            unitId:
+                                                notificationRecord?.objectId);
+                                    Navigator.pushNamed(
+                                        context, AppRoutes.sharedDocument,
+                                        arguments:
+                                            notificationRecord?.objectId);
+                                  }
+                                  const LedgerPage().decidePage(
+                                      context,
+                                      notificationRecord?.objectId,
+                                      notificationRecord?.objectType);
+                                },
+                                child: notificationBody(notificationRecord)),
                             if ((index + 1) ==
                                 state.notificationsModel?.notifications?.length)
                               SizedBox(
@@ -203,5 +146,80 @@ class _NotificationsPageState extends State<NotificationsPage> {
         ),
       ),
     );
+  }
+
+  Widget notificationBody(NotificationRecord? notificationRecord) {
+    return const UnitsPage().roundedContainer(
+        context, notificationContent(notificationRecord),
+        padding: const EdgeInsets.all(10),
+        margin: const EdgeInsets.symmetric(vertical: 5),
+        color: kWhite);
+  }
+
+  Widget notificationContent(NotificationRecord? notificationRecord,
+      {int maxLines = 1}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          children: [
+            Image.asset(
+              const LedgerByAccountDetailsPage().ledgerImageIcon(
+                notificationRecord?.objectType,
+                makeNotificationDefault: true,
+              ),
+              width: MediaQuery.of(context).size.width * 0.1,
+              height: MediaQuery.of(context).size.width * 0.1,
+              color: context
+                  .read<AppThemeCubit>()
+                  .state
+                  .primaryColor
+                  .withOpacity(0.8),
+            ),
+            const Gap(10),
+            Expanded(
+              child: CustomText(
+                text: getNotificationName(
+                    notificationRecord?.objectType?.toLowerCase()),
+                maxLines: maxLines,
+                fontWeight: FontWeight.bold,
+                fontSize: MediaQuery.of(context).size.width * 0.045,
+              ),
+            ),
+          ],
+        ),
+        const Gap(10),
+        CustomText(
+          text: notificationRecord?.message ?? "",
+          fontSize: MediaQuery.of(context).size.width * 0.035,
+        ),
+        const Gap(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Icon(
+              Icons.alarm_outlined,
+              size: MediaQuery.of(context).size.width * 0.03,
+              color: context.read<AppThemeCubit>().state.primaryColor,
+            ),
+            const Gap(5),
+            CustomText(
+              text: const OccupantPage()
+                  .dateTimeFormatter(notificationRecord?.createdAt),
+              fontSize: MediaQuery.of(context).size.width * 0.03,
+            )
+          ],
+        )
+      ],
+    );
+  }
+
+  String getNotificationName(String? value) {
+    if (value == "shared_docs") return "Shared Document";
+    if (value == "application") return "Request";
+    if (value == "email_enquiry") return "Email Enquiry";
+    if (value == "credit_memo") return "Credit Note";
+    return value?.capitalize() ?? "";
   }
 }

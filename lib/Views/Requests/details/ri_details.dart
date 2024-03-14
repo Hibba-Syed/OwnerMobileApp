@@ -167,33 +167,8 @@ class RiDetailsPage extends StatelessWidget {
                               state.riDetailsModel?.record?.application
                                       ?.secondPersonNumber ??
                                   " -- ",
-                              enableHeader: false),
-                          const AdDetailsPage().supportingDocuments(context, [
-                            {
-                              "name": "Tenancy Contract",
-                              "url": state
-                                  .riDetailsModel?.record?.tenancyContractUrl,
-                            },
-                            {
-                              "name": "Title Deed",
-                              "url": state.riDetailsModel?.record?.titleDeedUrl,
-                            },
-                            {
-                              "name": "Passport File",
-                              "url": state.riDetailsModel?.record?.application
-                                  ?.passportFileUrl,
-                            },
-                            {
-                              "name": "Trade License",
-                              "url":
-                                  state.riDetailsModel?.record?.tradeLicenseUrl,
-                            },
-                            {
-                              "name": "Emirates ID File",
-                              "url": state.riDetailsModel?.record?.application
-                                  ?.emiratesIdFileUrl,
-                            },
-                          ])
+                              enableHeader: false,enableContacts: false,),
+                     
                         ].animate(interval: 50.ms).fade(),
                       ),
                     ),

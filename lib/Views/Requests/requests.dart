@@ -78,47 +78,50 @@ class RequestsPage extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               child: const CustomLoader());
         }
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomText(
-              text: "Select Request Type",
-              color: context.read<AppThemeCubit>().state.primaryColor,
-            ),
-            const Gap(10),
-            DropdownMenu<ApplicationType>(
-              initialSelection: context.read<RequestsCubit>().state.requestType,
-              hintText: "Select",
-              expandedInsets: const EdgeInsets.all(0),
-              inputDecorationTheme:
-                  const InputDecorationTheme(border: UnderlineInputBorder()),
-              onSelected: (requestType) => context
-                  .read<RequestsCubit>()
-                  .onChangeRequestType(requestType),
-              dropdownMenuEntries: state.requestsFiltersModel?.applicationType
-                      ?.map<DropdownMenuEntry<ApplicationType>>(
-                    (ApplicationType value) {
-                      return DropdownMenuEntry<ApplicationType>(
-                        value: value,
-                        label: value.name ?? "",
-                      );
-                    },
-                  ).toList() ??
-                  [],
-            ),
-            const Gap(10),
-            CustomText(
-              text: "Select Status",
-              color: context.read<AppThemeCubit>().state.primaryColor,
-            ),
-            const Gap(10),
-            const LedgerPage().filterDropdown(
-              state.requestsFiltersModel?.status ?? [],
-              initialSelection: context.read<RequestsCubit>().state.status,
-              onSelected: (status) =>
-                  context.read<RequestsCubit>().onChangeStatus(status),
-            ),
-          ],
+        return SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomText(
+                text: "Select Request Type",
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
+              const Gap(10),
+              DropdownMenu<ApplicationType>(
+                initialSelection:
+                    context.read<RequestsCubit>().state.requestType,
+                hintText: "Select",
+                expandedInsets: const EdgeInsets.all(0),
+                inputDecorationTheme:
+                    const InputDecorationTheme(border: UnderlineInputBorder()),
+                onSelected: (requestType) => context
+                    .read<RequestsCubit>()
+                    .onChangeRequestType(requestType),
+                dropdownMenuEntries: state.requestsFiltersModel?.applicationType
+                        ?.map<DropdownMenuEntry<ApplicationType>>(
+                      (ApplicationType value) {
+                        return DropdownMenuEntry<ApplicationType>(
+                          value: value,
+                          label: value.name ?? "",
+                        );
+                      },
+                    ).toList() ??
+                    [],
+              ),
+              const Gap(10),
+              CustomText(
+                text: "Select Status",
+                color: context.read<AppThemeCubit>().state.primaryColor,
+              ),
+              const Gap(10),
+              const LedgerPage().filterDropdown(
+                state.requestsFiltersModel?.status ?? [],
+                initialSelection: context.read<RequestsCubit>().state.status,
+                onSelected: (status) =>
+                    context.read<RequestsCubit>().onChangeStatus(status),
+              ),
+            ],
+          ),
         );
       },
     );

@@ -49,11 +49,12 @@ class MiDetailsPage extends StatelessWidget {
                                 " -- ",
                             state.miDetailsModel?.record?.createdAt,
                             state.miDetailsModel?.record?.status,
-                            [{
-                                  "icon": Icons.link,
-                                  "title": "Reference",
-                                  "subTitle": reference ?? " -- ",
-                                },
+                            [
+                              {
+                                "icon": Icons.link,
+                                "title": "Reference",
+                                "subTitle": reference ?? " -- ",
+                              },
                               {
                                 "icon": Icons.email_outlined,
                                 "title": "Requester Type",
@@ -121,29 +122,8 @@ class MiDetailsPage extends StatelessWidget {
                             context,
                             state.miDetailsModel?.record?.clientName,
                             state.miDetailsModel?.record?.clientPhone,
+                            enableContacts: false,
                           ),
-                          const AdDetailsPage().supportingDocuments(context, [
-                            {
-                              "name": "Emirates ID Or Passport/Visa",
-                              "url":
-                                  "${state.miDetailsModel?.record?.clientIdFileUrl}",
-                            },
-                            {
-                              "name": "Title Deed",
-                              "url":
-                                  "${state.miDetailsModel?.record?.titleDeedUrl}",
-                            },
-                            {
-                              "name": "Tenancy Contact",
-                              "url":
-                                  "${state.miDetailsModel?.record?.tenancyContractUrl}",
-                            },
-                            {
-                              "name": "Trade License",
-                              "url":
-                                  "${state.miDetailsModel?.record?.tradeLicenseUrl}",
-                            },
-                          ])
                         ].animate(interval: 50.ms).fade(),
                       ),
                     ),

@@ -99,25 +99,9 @@ class MoDetailsPage extends StatelessWidget {
                           const AdDetailsPage().applicationDetails(
                             context,
                             state.moDetailsModel?.record?.clientName,
-                            state.moDetailsModel?.record?.clientPhone,
+                            state.moDetailsModel?.record?.clientPhone,enableContacts: false,
                           ),
-                          Builder(builder: (context) {
-                            List<Map<dynamic, dynamic>> list = [];
-                            list.addAll(state.moDetailsModel?.record?.documents
-                                    ?.map(
-                                      (e) => {
-                                        "name": e.name?.capitalize() ?? " -- ",
-                                        "url": e.pathUrl,
-                                      },
-                                    )
-                                    .toList() ??
-                                []);
-                            if (list.isEmpty) {
-                              return const SizedBox.shrink();
-                            }
-                            return const AdDetailsPage()
-                                .supportingDocuments(context, list);
-                          })
+                         
                         ].animate(interval: 50.ms).fade(),
                       ),
                     ),

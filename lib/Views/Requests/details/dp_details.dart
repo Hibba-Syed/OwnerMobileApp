@@ -87,25 +87,9 @@ class DpDetailsPage extends StatelessWidget {
                           const AdDetailsPage().applicationDetails(
                             context,
                             state.dpDetailsModel?.record?.clientName,
-                            state.dpDetailsModel?.record?.clientPhone,
+                            state.dpDetailsModel?.record?.clientPhone,enableContacts: false,
                           ),
-                          const AdDetailsPage().supportingDocuments(context, [
-                            {
-                              "name": "ID File",
-                              "url":
-                                  state.dpDetailsModel?.record?.clientIdFileUrl,
-                            },
-                            {
-                              "name": "Passport File",
-                              "url":
-                                  state.dpDetailsModel?.record?.passportFileUrl,
-                            },
-                            {
-                              "name": "Tenancy Contract",
-                              "url": state
-                                  .dpDetailsModel?.record?.tenancyContractUrl,
-                            },
-                          ])
+                       
                         ].animate(interval: 50.ms).fade(),
                       ),
                     ),
