@@ -4,7 +4,6 @@ import 'package:iskaanowner/Repo/user.dart';
 import 'package:slideable/slideable.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
-import '../Blocs/Logout/logout_cubit.dart';
 import '../Models/profile.dart';
 import '../Utils/utils.dart';
 
@@ -148,6 +147,24 @@ class SideDrawerPage extends StatelessWidget {
                     ),
                     title: const CustomText(
                       text: "Change Password",
+                      textAlign: TextAlign.left,
+                    ),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 15,
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoutes.myDownloads);
+                    },
+                    leading: Image.asset(
+                      "assets/my_downloads.png",
+                      color: context.read<AppThemeCubit>().state.primaryColor,
+                      width: MediaQuery.of(context).size.width * 0.06,
+                    ),
+                    title: const CustomText(
+                      text: "My Downloads",
                       textAlign: TextAlign.left,
                     ),
                     trailing: const Icon(
@@ -460,15 +477,19 @@ class SideDrawerPage extends StatelessWidget {
                                     msg: "Profile deleted successfully");
                                 if (index == 0) {
                                   if ((users?.length ?? 0) <= 0) {
-                                    CoolAlert.show(
-                                        context: context,
-                                        type: CoolAlertType.loading,
-                                        lottieAsset: "assets/loader.json",
-                                        text: "Logging out ... !",
-                                        barrierDismissible: false);
+                                    Fluttertoast.showToast(
+                                        msg: "logged out successfully !!");
+                                    Global.storageService.removeUser();
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      AppRoutes.login,
+                                    );
+                                    String? theme =
+                                        Global.storageService.getAppTheme();
                                     context
-                                        .read<LogoutCubit>()
-                                        .logout(context, shouldPop: true);
+                                        .read<AppThemeCubit>()
+                                        .onChangeAppTheme(const ProfilePage()
+                                            .parseHexColor(theme ?? "#751b50"));
                                   } else {
                                     onProfileTap(context, users ?? [], index,
                                         checkFirst: false);

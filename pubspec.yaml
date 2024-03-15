@@ -67,6 +67,7 @@ dependencies:
     path: ../../Side Projects/flutter_dynamic_icon_plus
   open_settings: ^2.0.2
   package_info_plus: ^4.2.0
+  iconify_flutter_plus: ^1.0.3
 
 
 dev_dependencies:
@@ -117,6 +118,9 @@ flutter:
     - assets/st/
     - assets/strata/
     - assets/stratum/
+    - assets/mahi/
+    - assets/zeal/
+    - assets/onlinist/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

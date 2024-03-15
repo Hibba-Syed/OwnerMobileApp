@@ -126,7 +126,7 @@ class HbDetailsPage extends StatelessWidget {
                           const AdDetailsPage().applicationDetails(
                             context,
                             state.hbDetailsModel?.record?.clientName,
-                            state.hbDetailsModel?.record?.clientPhone,enableContacts: false,
+                            state.hbDetailsModel?.record?.clientPhone,
                           ),
                         ].animate(interval: 50.ms).fade(),
                       ),

@@ -81,7 +81,6 @@ class AdDetailsPage extends StatelessWidget {
                             context,
                             state.adDetailsModel?.record?.clientName,
                             state.adDetailsModel?.record?.clientPhone,
-                            enableContacts: false,
                           ),
                           customTableView(
                               context,
@@ -214,7 +213,6 @@ class AdDetailsPage extends StatelessWidget {
     String? phone, {
     Widget? customWidget,
     bool enableHeader = true,
-    bool enableContacts = true,
   }) {
     return Column(
       children: [
@@ -233,7 +231,6 @@ class AdDetailsPage extends StatelessWidget {
                 context,
                 name ?? "",
                 phoneNumber: phone,
-                enableContacts: enableContacts,
               ),
               if (customWidget != null) customWidget
             ],

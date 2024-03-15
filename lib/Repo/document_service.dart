@@ -7,7 +7,8 @@ import '../Utils/utils.dart';
 
 class DocumentService {
   static Future<Object> downloadAndOpenFile(
-      BuildContext context, final String url) async {
+      BuildContext context, final String url,
+      {String? customFileName}) async {
     return await ExceptionService.applyTryCatch(() async {
       var response = await http.get(Uri.parse(url), headers: {
         "Authorization":
@@ -21,7 +22,11 @@ class DocumentService {
           extension = "xlsx";
         }
         String fileName = url.split('/').last;
-        final directory = await getApplicationDocumentsDirectory();
+        if (customFileName != null) {
+          fileName = customFileName;
+        }
+        Directory directory = await getApplicationDocumentsDirectory();
+        directory = await Directory("${directory.path}/downloads").create();
         String filePath = '${directory.path}/$fileName.$extension';
         final existingFile = File(filePath);
         if (await existingFile.exists()) {

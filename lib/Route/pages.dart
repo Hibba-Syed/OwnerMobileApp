@@ -27,6 +27,7 @@ import 'package:iskaanowner/Views/Requests/details/tp_details.dart';
 import 'package:iskaanowner/Views/Requests/details/wp_details.dart';
 import 'package:iskaanowner/Views/companies.dart';
 import 'package:iskaanowner/Views/ledger/ledger_by_account_details.dart';
+import 'package:iskaanowner/Views/my_downloads.dart';
 import 'package:iskaanowner/Views/verify_documents.dart';
 import 'package:iskaanowner/Views/web_view.dart';
 
@@ -56,6 +57,10 @@ class AppPages {
       PageEntity(
         route: AppRoutes.myWebView,
         page: const MyWebView(),
+      ),
+      PageEntity(
+        route: AppRoutes.myDownloads,
+        page: const MyDownloadsPage(),
       ),
       PageEntity(
         route: AppRoutes.login,

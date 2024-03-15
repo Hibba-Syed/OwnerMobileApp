@@ -133,7 +133,6 @@ class WpDetailsPage extends StatelessWidget {
                             context,
                             state.wpDetailsModel?.record?.clientName,
                             state.wpDetailsModel?.record?.clientPhone,
-                            enableContacts: false,
                           ),
                         ].animate(interval: 50.ms).fade(),
                       ),

@@ -18,13 +18,17 @@
         "fiza",
         "Fluttertoast",
         "hoam",
+        "iconify",
         "invoiceable",
         "irtikaz",
         "Iskaan",
         "iskaanowner",
         "itihad",
+        "mahi",
         "Mollak",
         "onhold",
+        "onlinist",
+        "onlinistfze",
         "ontap",
         "pdfview",
         "pinput",
@@ -35,6 +39,7 @@
         "Sqft",
         "streetview",
         "unfocus",
-        "unitwise"
+        "unitwise",
+        "vaadin"
     ]
 }

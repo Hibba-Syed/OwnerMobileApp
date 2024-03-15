@@ -87,8 +87,12 @@ class _UnitFinancialPageState extends State<UnitFinancialPage> {
                                     }
                                     context
                                         .read<DownloadLedgerCubit>()
-                                        .downloadDocument(context,
-                                            "$baseUrl/mobile/owner/property/accounting/ledgers/units-ledger-export?ledgerIds[]=${context.read<LedgerCubit>().state.ledgerType?.id}&export=excel$filter");
+                                        .downloadDocument(
+                                          context,
+                                          "$baseUrl/mobile/owner/property/accounting/ledgers/units-ledger-export?ledgerIds[]=${context.read<LedgerCubit>().state.ledgerType?.id}&export=excel$filter",
+                                          customFileName:
+                                              "unit-financials-export",
+                                        );
                                     return;
                                   }
                                   Fluttertoast.showToast(

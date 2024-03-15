@@ -153,7 +153,8 @@ class DashboardPage extends StatelessWidget {
                   context, "assets/download_summary.png", "Download Summary",
                   onTap: () {
                 context.read<DownloadSummaryCubit>().downloadDocument(context,
-                    "$baseUrl/mobile/owner/profile/download-financial-summary");
+                    "$baseUrl/mobile/owner/profile/download-financial-summary",
+                    customFileName: "financial-summary");
               }, loadingState: state.loadingState);
             },
           ),

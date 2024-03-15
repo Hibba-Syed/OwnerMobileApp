@@ -87,7 +87,7 @@ class DpDetailsPage extends StatelessWidget {
                           const AdDetailsPage().applicationDetails(
                             context,
                             state.dpDetailsModel?.record?.clientName,
-                            state.dpDetailsModel?.record?.clientPhone,enableContacts: false,
+                            state.dpDetailsModel?.record?.clientPhone,
                           ),
                        
                         ].animate(interval: 50.ms).fade(),

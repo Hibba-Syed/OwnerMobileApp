@@ -198,123 +198,91 @@ class OccupantPage extends StatelessWidget {
                             .getOccupant(context, unitId));
                   }
                   List<Map<String, dynamic>> occupantData = [
-                    if (state.occupantModel?.occupant?.details?.name != null)
-                      {
-                        "icon": Icons.merge_type_outlined,
-                        "key": "Name",
-                        "value": state.occupantModel?.occupant?.details?.name,
-                      },
-                    if (state.occupantModel?.occupant?.details?.type != null)
-                      {
-                        "icon": Icons.merge_type_outlined,
-                        "key": "Type",
-                        "value": state.occupantModel?.occupant?.details?.type,
-                      },
-                    if (state.occupantModel?.occupant?.details?.primaryEmail !=
-                        null)
-                      {
-                        "icon": Icons.email_outlined,
-                        "key": "Email",
-                        "value": state
-                            .occupantModel?.occupant?.details?.primaryEmail,
-                      },
-                    if (state.occupantModel?.occupant?.details?.primaryPhone !=
-                        null)
-                      {
-                        "icon": Icons.phone_outlined,
-                        "key": "Primary Phone",
-                        "value": state
-                            .occupantModel?.occupant?.details?.primaryPhone,
-                      },
-                    if (state
-                            .occupantModel?.occupant?.details?.passportNumber !=
-                        null)
-                      {
-                        "icon": Icons.card_membership_outlined,
-                        "key": "Passport No.",
-                        "value": state
-                            .occupantModel?.occupant?.details?.passportNumber,
-                      },
-                    if (state
-                            .occupantModel?.occupant?.details?.passportExpiry !=
-                        null)
-                      {
-                        "icon": Icons.calendar_month_outlined,
-                        "key": "Passport Expiry",
-                        "value": dateTimeFormatter(state
-                            .occupantModel?.occupant?.details?.passportExpiry),
-                      },
-                    if (state.occupantModel?.occupant?.details
-                            ?.emiratesIdNumber !=
-                        null)
-                      {
-                        "icon": Icons.numbers_outlined,
-                        "key": "Emirates ID No.",
-                        "value": state
-                            .occupantModel?.occupant?.details?.emiratesIdNumber,
-                      },
-                    if (state.occupantModel?.occupant?.details
-                            ?.emiratesIdExpiry !=
-                        null)
-                      {
-                        "icon": Icons.calendar_month_outlined,
-                        "key": "Emirates ID Expiry",
-                        "value": dateTimeFormatter(state.occupantModel?.occupant
-                            ?.details?.emiratesIdExpiry),
-                      },
-                    if (state.occupantModel?.occupant?.details?.trnNumber !=
-                        null)
-                      {
-                        "icon": Icons.numbers_outlined,
-                        "key": "TRN",
-                        "value":
-                            state.occupantModel?.occupant?.details?.trnNumber,
-                      },
-                    if (state.occupantModel?.occupant?.details
-                            ?.tenancyContractExpiry !=
-                        null)
-                      {
-                        "icon": Icons.calendar_month_outlined,
-                        "key": "Tenancy Contract Expiry",
-                        "value": dateTimeFormatter(state.occupantModel?.occupant
-                            ?.details?.tenancyContractExpiry),
-                      },
-                    if (state.occupantModel?.occupant?.details
-                            ?.titleDeedNumber !=
-                        null)
-                      {
-                        "icon": Icons.title_outlined,
-                        "key": "Title Deed No.",
-                        "value": state
-                            .occupantModel?.occupant?.details?.titleDeedNumber,
-                      },
-                    if (state.occupantModel?.occupant?.details?.country != null)
-                      {
-                        "icon": Icons.location_city_outlined,
-                        "key": "Country",
-                        "value":
-                            state.occupantModel?.occupant?.details?.country,
-                      },
-                    if (state.occupantModel?.occupant?.details?.state != null)
-                      {
-                        "icon": Icons.web_stories_outlined,
-                        "key": "State",
-                        "value": state.occupantModel?.occupant?.details?.state,
-                      },
-                    if (state.occupantModel?.occupant?.details?.city != null)
-                      {
-                        "icon": Icons.location_city_outlined,
-                        "key": "City",
-                        "value": state.occupantModel?.occupant?.details?.city,
-                      },
-                    if (state.occupantModel?.occupant?.details?.fullAddress !=
-                        null)
-                      {
-                        "icon": Icons.streetview_outlined,
-                        "key": "Address",
-                        "value":
-                            state.occupantModel?.occupant?.details?.fullAddress,
-                      },
+                    {
+                      "icon": Icons.merge_type_outlined,
+                      "key": "Name",
+                      "value": state.occupantModel?.occupant?.details?.name,
+                    },
+                    {
+                      "icon": Icons.merge_type_outlined,
+                      "key": "Type",
+                      "value": state.occupantModel?.occupant?.details?.type,
+                    },
+                    {
+                      "icon": Icons.email_outlined,
+                      "key": "Email",
+                      "value":
+                          state.occupantModel?.occupant?.details?.primaryEmail,
+                    },
+                    {
+                      "icon": Icons.phone_outlined,
+                      "key": "Primary Phone",
+                      "value":
+                          state.occupantModel?.occupant?.details?.primaryPhone,
+                    },
+                    {
+                      "icon": Icons.card_membership_outlined,
+                      "key": "Passport No.",
+                      "value": state
+                          .occupantModel?.occupant?.details?.passportNumber,
+                    },
+                    {
+                      "icon": Icons.calendar_month_outlined,
+                      "key": "Passport Expiry",
+                      "value": dateTimeFormatter(state
+                          .occupantModel?.occupant?.details?.passportExpiry),
+                    },
+                    {
+                      "icon": Icons.numbers_outlined,
+                      "key": "Emirates ID No.",
+                      "value": state
+                          .occupantModel?.occupant?.details?.emiratesIdNumber,
+                    },
+                    {
+                      "icon": Icons.calendar_month_outlined,
+                      "key": "Emirates ID Expiry",
+                      "value": dateTimeFormatter(state
+                          .occupantModel?.occupant?.details?.emiratesIdExpiry),
+                    },
+                    {
+                      "icon": Icons.numbers_outlined,
+                      "key": "TRN",
+                      "value":
+                          state.occupantModel?.occupant?.details?.trnNumber,
+                    },
+                    {
+                      "icon": Icons.calendar_month_outlined,
+                      "key": "Tenancy Contract Expiry",
+                      "value": dateTimeFormatter(state.occupantModel?.occupant
+                          ?.details?.tenancyContractExpiry),
+                    },
+                    {
+                      "icon": Icons.title_outlined,
+                      "key": "Title Deed No.",
+                      "value": state
+                          .occupantModel?.occupant?.details?.titleDeedNumber,
+                    },
+                    {
+                      "icon": Icons.location_city_outlined,
+                      "key": "Country",
+                      "value": state.occupantModel?.occupant?.details?.country,
+                    },
+                    {
+                      "icon": Icons.web_stories_outlined,
+                      "key": "State",
+                      "value": state.occupantModel?.occupant?.details?.state,
+                    },
+                    {
+                      "icon": Icons.location_city_outlined,
+                      "key": "City",
+                      "value": state.occupantModel?.occupant?.details?.city,
+                    },
+                    {
+                      "icon": Icons.streetview_outlined,
+                      "key": "Address",
+                      "value":
+                          state.occupantModel?.occupant?.details?.fullAddress,
+                    },
                   ];
                   return RefreshIndicator(
                     onRefresh: () async {
@@ -398,7 +366,6 @@ class OccupantPage extends StatelessWidget {
                                     ?.occupant
                                     ?.emergencyContactDetails
                                     ?.emergencyContactPhone,
-                                enableContacts: false,
                               ),
                             if (state
                                     .occupantModel
@@ -428,7 +395,6 @@ class OccupantPage extends StatelessWidget {
                                     ?.occupant
                                     ?.emergencyContactDetails
                                     ?.alternativeEmergencyContactPhone,
-                                enableContacts: false,
                               ),
                             if (state
                                     .occupantModel
@@ -505,7 +471,7 @@ class OccupantPage extends StatelessWidget {
   }
 
   Widget emergencyContactCard(BuildContext context, String name,
-      {String? phoneNumber, bool enableContacts = true}) {
+      {String? phoneNumber}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -525,63 +491,62 @@ class OccupantPage extends StatelessWidget {
                 maxLines: 1,
               ),
             ),
-            if (enableContacts)
-              Row(
-                children: [
-                  {
-                    "icon": "assets/phone.png",
-                    "onTap": () {
-                      if (phoneNumber != null) {
-                        launchUrl(Uri.parse("tel:$phoneNumber"));
-                      }
+            Row(
+              children: [
+                {
+                  "icon": "assets/phone.png",
+                  "onTap": () {
+                    if (phoneNumber != null) {
+                      launchUrl(Uri.parse("tel:$phoneNumber"));
                     }
-                  },
-                  {
-                    "icon": "assets/messages.png",
-                    "onTap": () {
-                      if (phoneNumber != null) {
-                        launchUrl(Uri.parse("sms:$phoneNumber"));
-                      }
+                  }
+                },
+                {
+                  "icon": "assets/messages.png",
+                  "onTap": () {
+                    if (phoneNumber != null) {
+                      launchUrl(Uri.parse("sms:$phoneNumber"));
                     }
-                  },
-                  {
-                    "icon": "assets/whatsapp.png",
-                    "onTap": () {
-                      if (phoneNumber != null) {
-                        launchUrl(Uri.parse(
-                            "https://wa.me/$phoneNumber/?text=${Uri.parse("hello!")}"));
-                      }
+                  }
+                },
+                {
+                  "icon": "assets/whatsapp.png",
+                  "onTap": () {
+                    if (phoneNumber != null) {
+                      launchUrl(Uri.parse(
+                          "https://wa.me/$phoneNumber/?text=${Uri.parse("hello!")}"));
                     }
-                  },
-                ]
-                    .map((e) => InkWell(
-                          onTap: e["onTap"] as Function()?,
-                          child: Container(
-                            margin: const EdgeInsets.only(left: 10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: (phoneNumber == null
-                                        ? kGrey
-                                        : context
-                                            .read<AppThemeCubit>()
-                                            .state
-                                            .primaryColor)
-                                    .withOpacity(0.1)),
-                            padding: const EdgeInsets.all(5),
-                            child: Image.asset(
-                              e["icon"] as String,
-                              color: phoneNumber == null
-                                  ? kGrey
-                                  : context
-                                      .read<AppThemeCubit>()
-                                      .state
-                                      .primaryColor,
-                              width: MediaQuery.of(context).size.width * 0.06,
-                            ),
+                  }
+                },
+              ]
+                  .map((e) => InkWell(
+                        onTap: e["onTap"] as Function()?,
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: (phoneNumber == null
+                                      ? kGrey
+                                      : context
+                                          .read<AppThemeCubit>()
+                                          .state
+                                          .primaryColor)
+                                  .withOpacity(0.1)),
+                          padding: const EdgeInsets.all(5),
+                          child: Image.asset(
+                            e["icon"] as String,
+                            color: phoneNumber == null
+                                ? kGrey
+                                : context
+                                    .read<AppThemeCubit>()
+                                    .state
+                                    .primaryColor,
+                            width: MediaQuery.of(context).size.width * 0.06,
                           ),
-                        ))
-                    .toList(),
-              )
+                        ),
+                      ))
+                  .toList(),
+            )
           ],
         ),
       ],

@@ -122,7 +122,6 @@ class MiDetailsPage extends StatelessWidget {
                             context,
                             state.miDetailsModel?.record?.clientName,
                             state.miDetailsModel?.record?.clientPhone,
-                            enableContacts: false,
                           ),
                         ].animate(interval: 50.ms).fade(),
                       ),

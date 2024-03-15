@@ -2,14 +2,13 @@ import 'package:intl/intl.dart';
 
 String formatCurrency(double? amount, {String currencyCode = "AED"}) {
   final formatter = NumberFormat.currency(
-    locale: 'en_US', // You can change the locale based on your requirements
+    locale: 'en_US',
     symbol: " $currencyCode ",
-    // decimalDigits: 0,
   );
   return formatter.format(amount ?? 0);
 }
 
-List<Map> icons = [
+List<Map> liveServerIcons = [
   {
     "id": 5885,
     "name": "alta",
@@ -44,11 +43,6 @@ List<Map> icons = [
     "id": 2845,
     "name": "irtikaz",
     "color": "#231F20",
-  },
-  {
-    "id": 2,
-    "name": "iskaan",
-    "color": "#751B50",
   },
   {
     "id": 2190,
@@ -124,5 +118,44 @@ List<Map> icons = [
     "id": 850,
     "name": "stratum",
     "color": "#000000",
+  },
+];
+List<Map> lahoreServerIcons = [
+  {
+    "id": 8,
+    "name": "zeal",
+    "color": "#f28621",
+  },
+  {
+    "id": 1,
+    "name": "onlinist",
+    "color": "#d46a08",
+  },
+  {
+    "id": 13,
+    "name": "saga",
+    "color": "#333a99",
+  },
+];
+List<Map> dubaiServerIcons = [
+  {
+    "id": 8,
+    "name": "zeal",
+    "color": "#f28621",
+  },
+  {
+    "id": 1,
+    "name": "onlinistfze",
+    "color": "#d46a08",
+  },
+  {
+    "id": 13,
+    "name": "saga",
+    "color": "#333a99",
+  },
+  {
+    "id": 98,
+    "name": "mahi",
+    "color": "#006560",
   },
 ];

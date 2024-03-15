@@ -222,7 +222,6 @@ class FoDetailsPage extends StatelessWidget {
                             context,
                             state.foDetailsModel?.record?.clientName,
                             state.foDetailsModel?.record?.clientPhone,
-                            enableContacts: false,
                           ),
                         ].animate(interval: 50.ms).fade(),
                       ),

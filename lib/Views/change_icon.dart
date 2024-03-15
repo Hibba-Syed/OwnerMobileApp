@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_dynamic_icon_plus/flutter_dynamic_icon_plus.dart';
+import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
 
 import '../Utils/utils.dart';
 
@@ -26,97 +27,161 @@ class ChangeIcon extends StatelessWidget {
         );
       }
     }
-    // icons.where((element) => element["id"]).toList();
+    if (serverName == "synergic360") {
+      liveServerIcons = lahoreServerIcons;
+    }
+    if (serverName == "oamservices") {
+      liveServerIcons = dubaiServerIcons;
+    }
+    String? userList = Global.storageService.getAuthenticationModelString();
+    List<LoginModel>? users = [];
+    if (userList != null) {
+      users = loginModelFromJson(userList);
+    }
+    List filteredIcons = [];
+    for (var icon in liveServerIcons) {
+      for (LoginModel user in users) {
+        if (user.owner?.companyId == icon["id"]) {
+          filteredIcons.add(icon);
+        }
+      }
+    }
     return Scaffold(
       bottomNavigationBar: bottomWidget,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const DashboardPage().appBar(
-                context,
-                text: "Brand your App",
-              ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20), color: kWhite),
-                child: CustomText(
-                  text:
-                      "Choose the ICON you would like to use for your application.",
-                  fontSize: MediaQuery.of(context).size.width * 0.04,
-                  textAlign: TextAlign.center,
+          child: Builder(builder: (context) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const DashboardPage().appBar(
+                  context,
+                  text: "Brand your App",
                 ),
-              ),
-              const Gap(20),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20), color: kWhite),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomText(
-                      text: "Note : ",
-                      fontSize: MediaQuery.of(context).size.width * 0.035,
-                      color: kGrey,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    const Gap(10),
-                    CustomText(
-                      text:
-                          "Make sure to fully close the app. \n\nHead to your recent apps list and swipe away the app to clear it to see the effect.",
-                      fontSize: MediaQuery.of(context).size.width * 0.035,
-                      color: kGrey,
-                    ),
-                  ],
-                ),
-              ),
-              const Gap(20),
-              Expanded(
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                      childAspectRatio: 1),
-                  itemCount: icons.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                      onTap: () => onTap(context,
-                          name: icons[index]["name"],
-                          color: icons[index]["color"],
-                          iconName: icons[index]["name"] == "iskaan"
-                              ? null
-                              : icons[index]["name"]),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: kWhite,
-                          boxShadow: [
-                            BoxShadow(
-                              color: kGrey.shade200,
-                            )
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.asset(
-                            "assets/${icons[index]["name"]}/${icons[index]["name"]}.png",
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            fit: BoxFit.cover,
-                            height: MediaQuery.of(context).size.width * 0.4,
+                Expanded(
+                  child: Builder(builder: (context) {
+                    if (filteredIcons.isEmpty) {
+                      return const Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: CustomText(
+                            text:
+                                "No Icons available with your matching profiles",
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                      ),
+                      );
+                    }
+                    return Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: kWhite),
+                          child: CustomText(
+                            text:
+                                "Choose the ICON you would like to use for your application.",
+                            fontSize: MediaQuery.of(context).size.width * 0.04,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        const Gap(20),
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: kWhite),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomText(
+                                text: "Note : ",
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.035,
+                                color: kGrey,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              const Gap(10),
+                              CustomText(
+                                text:
+                                    "Make sure to fully close the app. \n\nHead to your recent apps list and swipe away the app to clear it to see the effect.",
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.035,
+                                color: kGrey,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Gap(20),
+                        Expanded(
+                          child: GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    mainAxisSpacing: 10,
+                                    crossAxisSpacing: 10,
+                                    childAspectRatio: 1),
+                            itemCount: filteredIcons.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return InkWell(
+                                onTap: () => onTap(context,
+                                    name: filteredIcons[index]["name"],
+                                    color: filteredIcons[index]["color"],
+                                    iconName:
+                                        filteredIcons[index]["name"] == "iskaan"
+                                            ? null
+                                            : filteredIcons[index]["name"]),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: kWhite,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: kGrey.shade200,
+                                      )
+                                    ],
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Image.asset(
+                                      "assets/${filteredIcons[index]["name"]}/${filteredIcons[index]["name"]}.png",
+                                      width: MediaQuery.of(context).size.width *
+                                          0.4,
+                                      fit: BoxFit.cover,
+                                      height:
+                                          MediaQuery.of(context).size.width *
+                                              0.4,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     );
-                  },
+                  }),
                 ),
-              ),
-            ],
-          ),
+                const Gap(10),
+                CustomButton(
+                  text: "Restore Icon",
+                  invert: true,
+                  textColor: context
+                      .read<AppThemeCubit>()
+                      .state
+                      .primaryColor
+                      .withOpacity(0.8),
+                  function: () => onTap(
+                    context,
+                    name: "iskaan",
+                    color: "#751B50",
+                  ),
+                )
+              ],
+            );
+          }),
         ),
       ),
     );

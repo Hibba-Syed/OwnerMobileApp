@@ -99,7 +99,7 @@ class MoDetailsPage extends StatelessWidget {
                           const AdDetailsPage().applicationDetails(
                             context,
                             state.moDetailsModel?.record?.clientName,
-                            state.moDetailsModel?.record?.clientPhone,enableContacts: false,
+                            state.moDetailsModel?.record?.clientPhone,
                           ),
                          
                         ].animate(interval: 50.ms).fade(),

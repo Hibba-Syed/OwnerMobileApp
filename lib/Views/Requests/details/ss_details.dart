@@ -114,7 +114,6 @@ class SsDetailsPage extends StatelessWidget {
                             context,
                             state.ssDetailsModel?.record?.clientName,
                             state.ssDetailsModel?.record?.clientPhone,
-                            enableContacts: false,
                             customWidget: Column(
                               children: [
                                 Divider(

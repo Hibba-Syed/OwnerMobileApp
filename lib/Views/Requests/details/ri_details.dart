@@ -167,7 +167,7 @@ class RiDetailsPage extends StatelessWidget {
                               state.riDetailsModel?.record?.application
                                       ?.secondPersonNumber ??
                                   " -- ",
-                              enableHeader: false,enableContacts: false,),
+                              enableHeader: false,),
                      
                         ].animate(interval: 50.ms).fade(),
                       ),

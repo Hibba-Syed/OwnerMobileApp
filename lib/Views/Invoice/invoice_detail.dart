@@ -48,29 +48,26 @@ class InvoiceDetailsPage extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                Container(
-                                  padding: const EdgeInsets.all(5),
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.12,
-                                  height:
-                                      MediaQuery.of(context).size.width * 0.12,
-                                  decoration: const BoxDecoration(
-                                    color: kWhite,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Image.network(
-                                    context
+                                CircleAvatar(
+                                  radius:
+                                      MediaQuery.of(context).size.width * 0.075,
+                                  backgroundColor: kWhite,
+                                  child: CircleAvatar(
+                                    radius: MediaQuery.of(context).size.width *
+                                        0.06,
+                                    backgroundColor: kWhite,
+                                    backgroundImage: NetworkImage(context
                                             .read<ProfileCubit>()
                                             .state
                                             .profileModel
                                             ?.record
                                             ?.company
                                             ?.faviconUrl ??
-                                        "",
-                                    width: MediaQuery.of(context).size.width *
-                                        0.12,
-                                    height: MediaQuery.of(context).size.width *
-                                        0.12,
+                                        ""),
+                                    onBackgroundImageError:
+                                        (exception, stackTrace) =>
+                                            const AssetImage(
+                                                "assets/placeHolder.png"),
                                   ),
                                 ),
                                 const Gap(10),
@@ -79,6 +76,15 @@ class InvoiceDetailsPage extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                      CustomText(
+                                        text:
+                                            "Unit ${state.invoiceDetailsModel?.invoiceable?.unitNumber}, ${state.invoiceDetailsModel?.association?.name ?? ""}",
+                                        fontWeight: FontWeight.bold,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.045,
+                                        textAlign: TextAlign.left,
+                                      ),
                                       CustomText(
                                         text: context
                                                 .read<ProfileCubit>()
@@ -91,23 +97,8 @@ class InvoiceDetailsPage extends StatelessWidget {
                                         fontWeight: FontWeight.bold,
                                         fontSize:
                                             MediaQuery.of(context).size.width *
-                                                0.045,
+                                                0.035,
                                         textAlign: TextAlign.left,
-                                      ),
-                                      const Gap(2),
-                                      CustomText(
-                                        text: context
-                                                .read<ProfileCubit>()
-                                                .state
-                                                .profileModel
-                                                ?.record
-                                                ?.company
-                                                ?.address1 ??
-                                            "",
-                                        textAlign: TextAlign.left,
-                                        fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.03,
                                         color: kGrey,
                                       ),
                                     ],

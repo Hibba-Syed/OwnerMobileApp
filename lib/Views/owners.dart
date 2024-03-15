@@ -263,98 +263,83 @@ class OwnersPage extends StatelessWidget {
                           }
                         }
                         List<Map<String, dynamic>> ownerData = [
-                          if (owner?.detail?.arabicName != null)
-                            {
-                              "icon": Icons.person_outline,
-                              "key": "Arabic Name",
-                              "value": owner?.detail?.arabicName,
-                            },
-                          if (owner?.detail?.mollakOwnerNumber != null)
-                            {
-                              "icon": Icons.person_outline,
-                              "key": "Mollak Owner Number",
-                              "value": owner?.detail?.mollakOwnerNumber,
-                            },
-                          if (owner?.detail?.primaryEmail != null)
-                            {
-                              "icon": Icons.email_outlined,
-                              "key": "Email",
-                              "value": owner?.detail?.primaryEmail,
-                            },
-                          if (owner?.detail?.primaryPhone != null)
-                            {
-                              "icon": Icons.phone_outlined,
-                              "key": "Primary Phone",
-                              "value": owner?.detail?.primaryPhone,
-                            },
-                          if (owner?.detail?.secondaryPhone != null)
-                            {
-                              "icon": Icons.phone_outlined,
-                              "key": "Secondary Phone",
-                              "value": owner?.detail?.secondaryPhone,
-                            },
-                          if (owner?.detail?.passportNumber != null)
-                            {
-                              "icon": Icons.card_membership_outlined,
-                              "key": "Passport No.",
-                              "value": owner?.detail?.passportNumber,
-                            },
-                          if (owner?.detail?.passportExpiry != null)
-                            {
-                              "icon": Icons.calendar_month_outlined,
-                              "key": "Passport Expiry",
-                              "value": const OccupantPage().dateTimeFormatter(
-                                  owner?.detail?.passportExpiry),
-                            },
-                          if (owner?.detail?.emiratesIdNumber != null)
-                            {
-                              "icon": Icons.numbers_outlined,
-                              "key": "Emirates ID No.",
-                              "value": owner?.detail?.emiratesIdNumber,
-                            },
-                          if (owner?.detail?.trnNumber != null)
-                            {
-                              "icon": Icons.numbers_outlined,
-                              "key": "TRN",
-                              "value": owner?.detail?.trnNumber,
-                            },
-                          if (owner?.detail?.titleDeedNumber != null)
-                            {
-                              "icon": Icons.title_outlined,
-                              "key": "Title Deed No.",
-                              "value": owner?.detail?.titleDeedNumber,
-                            },
-                          if (owner?.detail?.dob != null)
-                            {
-                              "icon": Icons.calendar_month_outlined,
-                              "key": "Date of Birth",
-                              "value": const OccupantPage()
-                                  .dateTimeFormatter(owner?.detail?.dob),
-                            },
-                          if (owner?.detail?.country != null)
-                            {
-                              "icon": Icons.location_city_outlined,
-                              "key": "Country",
-                              "value": owner?.detail?.country,
-                            },
-                          if (owner?.detail?.state != null)
-                            {
-                              "icon": Icons.web_stories_outlined,
-                              "key": "State",
-                              "value": owner?.detail?.state,
-                            },
-                          if (owner?.detail?.city != null)
-                            {
-                              "icon": Icons.location_city_outlined,
-                              "key": "City",
-                              "value": owner?.detail?.city,
-                            },
-                          if (owner?.detail?.fullAddress != null)
-                            {
-                              "icon": Icons.streetview_outlined,
-                              "key": "Address",
-                              "value": owner?.detail?.fullAddress,
-                            },
+                          {
+                            "icon": Icons.person_outline,
+                            "key": "Arabic Name",
+                            "value": owner?.detail?.arabicName,
+                          },
+                          {
+                            "icon": Icons.person_outline,
+                            "key": "Mollak Owner Number",
+                            "value": owner?.detail?.mollakOwnerNumber,
+                          },
+                          {
+                            "icon": Icons.email_outlined,
+                            "key": "Email",
+                            "value": owner?.detail?.primaryEmail,
+                          },
+                          {
+                            "icon": Icons.phone_outlined,
+                            "key": "Primary Phone",
+                            "value": owner?.detail?.primaryPhone,
+                          },
+                          {
+                            "icon": Icons.phone_outlined,
+                            "key": "Secondary Phone",
+                            "value": owner?.detail?.secondaryPhone,
+                          },
+                          {
+                            "icon": Icons.card_membership_outlined,
+                            "key": "Passport No.",
+                            "value": owner?.detail?.passportNumber,
+                          },
+                          {
+                            "icon": Icons.calendar_month_outlined,
+                            "key": "Passport Expiry",
+                            "value": const OccupantPage().dateTimeFormatter(
+                                owner?.detail?.passportExpiry),
+                          },
+                          {
+                            "icon": Icons.numbers_outlined,
+                            "key": "Emirates ID No.",
+                            "value": owner?.detail?.emiratesIdNumber,
+                          },
+                          {
+                            "icon": Icons.numbers_outlined,
+                            "key": "TRN",
+                            "value": owner?.detail?.trnNumber,
+                          },
+                          {
+                            "icon": Icons.title_outlined,
+                            "key": "Title Deed No.",
+                            "value": owner?.detail?.titleDeedNumber,
+                          },
+                          {
+                            "icon": Icons.calendar_month_outlined,
+                            "key": "Date of Birth",
+                            "value": const OccupantPage()
+                                .dateTimeFormatter(owner?.detail?.dob),
+                          },
+                          {
+                            "icon": Icons.location_city_outlined,
+                            "key": "Country",
+                            "value": owner?.detail?.country,
+                          },
+                          {
+                            "icon": Icons.web_stories_outlined,
+                            "key": "State",
+                            "value": owner?.detail?.state,
+                          },
+                          {
+                            "icon": Icons.location_city_outlined,
+                            "key": "City",
+                            "value": owner?.detail?.city,
+                          },
+                          {
+                            "icon": Icons.streetview_outlined,
+                            "key": "Address",
+                            "value": owner?.detail?.fullAddress,
+                          },
                         ];
                         return Container(
                           padding: const EdgeInsets.all(10),
