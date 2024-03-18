@@ -13,9 +13,14 @@ import 'package:slideable/slideable.dart';
 
 import '../Utils/utils.dart';
 
-class MyDownloadsPage extends StatelessWidget {
+class MyDownloadsPage extends StatefulWidget {
   const MyDownloadsPage({super.key});
 
+  @override
+  State<MyDownloadsPage> createState() => _MyDownloadsPageState();
+}
+
+class _MyDownloadsPageState extends State<MyDownloadsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,12 +41,14 @@ class MyDownloadsPage extends StatelessWidget {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const CustomLoader();
                   }
-                  return StatefulBuilder(builder: (context, setState) {
+                  return StatefulBuilder(builder: (context, changeState) {
                     List<FileSystemEntity> file =
                         io.Directory("${snapshot.data?.path ?? ""}/downloads")
                             .listSync();
                     if (file.isEmpty) {
-                      return const CreditNotesPage().emptyList();
+                      return const CreditNotesPage().emptyList(ontap: () {
+                        setState(() {});
+                      });
                     }
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -63,7 +70,7 @@ class MyDownloadsPage extends StatelessWidget {
                                     ActionItems(
                                         icon: const Icon(Icons.delete_outline),
                                         onPress: () {
-                                          setState(() {
+                                          changeState(() {
                                             file[index].delete();
                                           });
                                         },

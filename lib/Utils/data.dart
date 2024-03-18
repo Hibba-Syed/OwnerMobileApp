@@ -145,7 +145,7 @@ List<Map> dubaiServerIcons = [
   },
   {
     "id": 1,
-    "name": "onlinistfze",
+    "name": "onlinist",
     "color": "#d46a08",
   },
   {

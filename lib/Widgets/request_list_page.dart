@@ -113,7 +113,7 @@ class _RequestListPageState extends State<RequestListPage> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Image.asset(
-                                          "assets/unit.png",
+                                          "assets/${application?.applicationType?.toLowerCase()}.png",
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
@@ -126,6 +126,20 @@ class _RequestListPageState extends State<RequestListPage> {
                                               .read<AppThemeCubit>()
                                               .state
                                               .primaryColor,
+                                          errorBuilder: (context, error,
+                                                  stackTrace) =>
+                                              Image.asset("assets/unit.png",width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.14,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.1,
+                                          color: context
+                                              .read<AppThemeCubit>()
+                                              .state
+                                              .primaryColor,),
                                         ),
                                         const Gap(5),
                                         CustomText(

@@ -330,7 +330,10 @@ class UnitDetailsPage extends StatelessWidget {
             return Navigator.pushNamed(
               context,
               AppRoutes.invoices,
-              arguments: unitId,
+              arguments: {
+                'unit_id': unitId,
+                'unit_no': unitNo,
+              },
             );
           }
         },
@@ -352,7 +355,10 @@ class UnitDetailsPage extends StatelessWidget {
             return Navigator.pushNamed(
               context,
               AppRoutes.receipts,
-              arguments: unitId,
+              arguments: {
+                'unit_id': unitId,
+                'unit_no': unitNo,
+              },
             );
           }
         },
@@ -374,7 +380,10 @@ class UnitDetailsPage extends StatelessWidget {
             return Navigator.pushNamed(
               context,
               AppRoutes.creditNotes,
-              arguments: unitId,
+              arguments: {
+                'unit_id': unitId,
+                'unit_no': unitNo,
+              },
             );
           }
         },

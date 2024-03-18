@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
+import 'package:iskaanowner/Utils/utils.dart';
 
 class CustomLoader extends StatelessWidget {
   final double width;
@@ -13,11 +14,11 @@ class CustomLoader extends StatelessWidget {
     if (applyCenter) {
       return Center(
           child: CircularProgressIndicator(
-        color: color,
+        color: color ?? context.read<AppThemeCubit>().state.primaryColor,
       ));
     }
     return CircularProgressIndicator(
-      color: color,
+      color: color ?? context.read<AppThemeCubit>().state.primaryColor,
     );
   }
 }

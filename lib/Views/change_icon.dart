@@ -166,7 +166,7 @@ class ChangeIcon extends StatelessWidget {
                 ),
                 const Gap(10),
                 CustomButton(
-                  text: "Restore Icon",
+                  text: "Restore default",
                   invert: true,
                   textColor: context
                       .read<AppThemeCubit>()

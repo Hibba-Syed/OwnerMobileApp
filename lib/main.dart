@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:iskaanowner/Blocs/App%20Theme/app_theme_cubit.dart';
 import 'package:iskaanowner/Notification/firebase_service.dart';
 import 'package:iskaanowner/Utils/constants.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'Utils/utils.dart';
 import 'firebase_options.dart';
@@ -22,6 +25,8 @@ Future<void> main() async {
   );
   await Global.init();
   await FirebaseNotificationService().getPermissions();
+  Directory directory = await getApplicationDocumentsDirectory();
+  await Directory("${directory.path}/downloads").create();
   runApp(const MyApp());
 }
 

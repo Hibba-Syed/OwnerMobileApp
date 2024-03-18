@@ -155,7 +155,7 @@ class SideDrawerPage extends StatelessWidget {
                     ),
                   ),
                   ListTile(
-                    onTap: () {
+                    onTap: () async {
                       Navigator.pushNamed(context, AppRoutes.myDownloads);
                     },
                     leading: Image.asset(
