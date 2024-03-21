@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Utils/utils.dart';
+import '../Views/ledger/ledger_by_account_details.dart';
 
 class LocalNotificationService {
   final BuildContext context;
@@ -53,66 +57,101 @@ class LocalNotificationService {
   }
 
   static void handleOnTapNotificationEvent(BuildContext context, String data) {
-    // Map notification = jsonDecode(data);
-    // Widget? page;
-    // var testid = notification["id"];
-    // if (notification["type"] == "lead_view") {
-    //   context.read<ViewingDetailsViewModel>().getViewingDetails(
-    //       token: context.read<LoginViewModel>().loginModel?.accessToken ?? "",
-    //       viewingId: notification["id"].toString());
-    //   page = ViewingsDetailsPage(
-    //       viewing: Viewing(
-    //           id: testid.runtimeType == String
-    //               ? int.parse(notification["id"])
-    //               : notification["id"]));
-    // }
-    // if (notification["type"] == "listing") {
-    //   context.read<SingleListingDetailViewModel>().getsingleListing(
-    //       token: context.read<LoginViewModel>().loginModel?.accessToken ?? "",
-    //       listingId: notification["id"].toString());
-    //   page = ListingDetailsTabbarPage(
-    //     id: notification["id"].toString(),
-    //   );
-    // }
-    // if (notification["type"] == "lead") {
-    //   context.read<SingleLeadDetailsViewModel>().getSingleLeadDetails(
-    //       token: context.read<LoginViewModel>().loginModel?.accessToken ?? "",
-    //       leadId: notification["id"].toString());
-    //   page = const SingleLeadDetailsTabbarPage();
-    // }
-    // if (notification["type"] == "task") {
-    //   context.read<TaskDetailViewModel>().getTaskDetails(
-    //       taskId: notification["id"].toString(),
-    //       token: context.read<LoginViewModel>().loginModel?.accessToken ?? "");
-    //   page = TasksDetailsPage(
-    //     taskId: notification["id"].toString(),
-    //   );
-    // }
-    // if (notification["type"] == "chat") {
-    //   ChatChannelViewModel chatChannelViewModel =
-    //       context.read<ChatChannelViewModel>();
-    //   chatChannelViewModel.getChannel(
-    //       context: context,
-    //       token: context.read<LoginViewModel>().loginModel?.accessToken ?? "",
-    //       senderId: context.read<ProfileViewModel>().profileModel?.record?.id,
-    //       receiverId: int.parse(notification["id"]));
-    //   AllUsersViewModel allUsersViewModel = context.read<AllUsersViewModel>();
-    //   allUsersViewModel.getUsers(
-    //       token: context.read<LoginViewModel>().loginModel?.accessToken ?? "");
-    //   String? userName;
-    //   for (var x in allUsersViewModel.allUsersModel!.record!) {
-    //     if (x.id == int.parse(notification["id"])) {
-    //       userName = x.fullName;
-    //       break;
-    //     }
-    //   }
-    //   page = ChatPage(
-    //       chatType: "individual", //later change it to dynamic
-    //       userName: userName,
-    //       userId: int.parse(notification["id"]));
-    // }
-    // if (page != null) {
-    //   KRoutes.push(context, page);
-    // }
+    Map notification = jsonDecode(data);
+    Object? arguments;
+    String? route;
+    if (notification["type"].toString().toLowerCase() == "owners" ||
+        notification["type"].toString().toLowerCase() == "notice" ||
+        notification["type"].toString().toLowerCase() == "email_enquiry") {
+      showDialog(
+        context: context,
+        builder: (context) => Theme(
+          data: ThemeData(dialogBackgroundColor: kWhite),
+          child: AlertDialog(
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Image.asset(
+                      const LedgerByAccountDetailsPage().ledgerImageIcon(
+                        notification["type"],
+                        makeNotificationDefault: true,
+                      ),
+                      width: MediaQuery.of(context).size.width * 0.1,
+                      height: MediaQuery.of(context).size.width * 0.1,
+                      color: context
+                          .read<AppThemeCubit>()
+                          .state
+                          .primaryColor
+                          .withOpacity(0.8),
+                    ),
+                    const Gap(10),
+                    Expanded(
+                      child: CustomText(
+                        text: notification["object_type"] ?? "",
+                        fontWeight: FontWeight.bold,
+                        fontSize: MediaQuery.of(context).size.width * 0.045,
+                      ),
+                    ),
+                  ],
+                ),
+                const Gap(10),
+                CustomText(
+                  text: notification["message"] ?? "",
+                  fontSize: MediaQuery.of(context).size.width * 0.035,
+                ),
+                const Gap(5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Icon(
+                      Icons.alarm_outlined,
+                      size: MediaQuery.of(context).size.width * 0.03,
+                      color: context.read<AppThemeCubit>().state.primaryColor,
+                    ),
+                    const Gap(5),
+                    CustomText(
+                      text: const OccupantPage()
+                          .dateTimeFormatter(notification["createdAt"]),
+                      fontSize: MediaQuery.of(context).size.width * 0.03,
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      );
+      return;
+    }
+    if (notification["type"].toString().toLowerCase() == "application") {
+      context.read<RequestDetailsCubit>().getRequestDetails(
+            context,
+            notification["objectId"],
+            notification["objectType"],
+          );
+      route = const RequestsPage().getRouteName(notification["objectType"]);
+      arguments = [
+        notification["objectId"],
+        notification["activity"],
+        notification["objectType"],
+      ];
+      Navigator.pushNamed(context, route ?? "", arguments: arguments);
+    }
+    if (notification["type"].toString().toLowerCase() == "shared_docs") {
+      context
+          .read<SharedDocumentsCubit>()
+          .getSharedDocuments(context, unitId: notification["objectId"]);
+      route = AppRoutes.sharedDocument;
+      arguments = notification["objectId"];
+      Navigator.pushNamed(context, route, arguments: arguments);
+    }
+    const LedgerPage().decidePage(
+      context,
+      notification["objectId"],
+      notification["objectType"],
+    );
   }
 }
