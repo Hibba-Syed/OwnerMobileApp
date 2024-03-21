@@ -98,6 +98,7 @@ class Record {
   dynamic tenancyStartDate;
   dynamic citizenship;
   int? isActive;
+  int? unreadNotifications;
   String? ownerNumber;
   dynamic titleDeedNumber;
   String? trnNumber;
@@ -153,6 +154,7 @@ class Record {
     this.idExpiry,
     this.idType,
     this.idNumber,
+    this.unreadNotifications,
     this.emiratesIdNumber,
     this.emiratesIdFile,
     this.emiratesIdExpiry,
@@ -231,9 +233,12 @@ class Record {
         idExpiry: json["id_expiry"],
         idType: json["id_type"],
         idNumber: json["id_number"],
+        unreadNotifications: json["unread_notifications"],
         emiratesIdNumber: json["emirates_id_number"],
         emiratesIdFile: json["emirates_id_file"],
-        emiratesIdExpiry: json["emirates_id_expiry"]==null? null : DateTime.parse(json["emirates_id_expiry"]),
+        emiratesIdExpiry: json["emirates_id_expiry"] == null
+            ? null
+            : DateTime.parse(json["emirates_id_expiry"]),
         passportNumber: json["passport_number"],
         passportFile: json["passport_file"],
         passportExpiry: json["passport_expiry"] == null
@@ -284,8 +289,9 @@ class Record {
         profileImageUrl: json["profile_image_url"],
         fullAddress: json["full_address"],
         agentDocUrl: json["agent_doc_url"],
-        company:
-            json["company"] == null ? null : UserCompany.fromJson(json["company"]),
+        company: json["company"] == null
+            ? null
+            : UserCompany.fromJson(json["company"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -319,6 +325,7 @@ class Record {
         "id_expiry": idExpiry,
         "id_type": idType,
         "id_number": idNumber,
+        "unread_notifications": unreadNotifications,
         "emirates_id_number": emiratesIdNumber,
         "emirates_id_file": emiratesIdFile,
         "emirates_id_expiry": emiratesIdExpiry,

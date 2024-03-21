@@ -1,6 +1,9 @@
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
+import 'package:iconify_flutter_plus/icons/ic.dart';
 import 'package:iskaanowner/Blocs/Notifications/notifications_cubit.dart';
 import 'package:iskaanowner/Views/ledger/ledger_by_account_details.dart';
+import 'package:iskaanowner/Widgets/notification_badge.dart';
 
 import '../Blocs/App Theme/app_theme_cubit.dart';
 import '../Models/notifications.dart';
@@ -55,6 +58,37 @@ class _NotificationsPageState extends State<NotificationsPage> {
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      context
+                          .read<NotificationsCubit>()
+                          .readAllNotifications(context);
+                    },
+                    child: Row(
+                      children: [
+                        Iconify(
+                          Ic.outline_mark_chat_read,
+                          size: MediaQuery.of(context).size.width * 0.035,
+                          color: kGrey,
+                        ),
+                        const Gap(5),
+                        CustomText(
+                          text: "Read all",
+                          fontWeight: FontWeight.bold,
+                          fontSize: MediaQuery.of(context).size.width * 0.03,
+                          color: kGrey,
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
             Expanded(
               child: BlocBuilder<NotificationsCubit, NotificationsState>(
                 builder: (context, state) {
@@ -87,12 +121,19 @@ class _NotificationsPageState extends State<NotificationsPage> {
                           children: [
                             InkWell(
                                 onTap: () {
-                                  if (notificationRecord?.objectType
-                                              ?.toLowerCase() ==
-                                          "owners" ||
+                                  if ((notificationRecord?.isRead ?? 0) == 0) {
+                                    context
+                                        .read<NotificationsCubit>()
+                                        .readNotification(context,
+                                            notificationRecord?.id, index);
+                                  }
+                                  if (notificationRecord?.objectType?.toLowerCase() == "owners" ||
                                       notificationRecord?.objectType
                                               ?.toLowerCase() ==
-                                          "notice") {
+                                          "notice" ||
+                                      notificationRecord?.objectType
+                                              ?.toLowerCase() ==
+                                          "email_enquiry") {
                                     showDialog(
                                       context: context,
                                       builder: (context) => Theme(
@@ -104,6 +145,26 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                                 maxLines: 5)),
                                       ),
                                     );
+                                    return;
+                                  }
+                                  if (notificationRecord?.objectType
+                                          ?.toLowerCase() ==
+                                      "application") {
+                                    String? route = const RequestsPage()
+                                        .getRouteName(notificationRecord
+                                            ?.subGroup
+                                            ?.toLowerCase());
+                                    if (route != null) {
+                                      Navigator.pushNamed(context, route,
+                                          arguments: [
+                                            notificationRecord?.objectId,
+                                            notificationRecord?.activity,
+                                            notificationRecord?.subGroup,
+                                          ]);
+                                    } else {
+                                      Fluttertoast.showToast(
+                                          msg: "unknown request");
+                                    }
                                     return;
                                   }
                                   if (notificationRecord?.objectType
@@ -124,7 +185,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                       notificationRecord?.objectId,
                                       notificationRecord?.objectType);
                                 },
-                                child: notificationBody(notificationRecord)),
+                                child: notificationBody(
+                                    context, notificationRecord)),
                             if ((index + 1) ==
                                 state.notificationsModel?.notifications?.length)
                               SizedBox(
@@ -148,12 +210,19 @@ class _NotificationsPageState extends State<NotificationsPage> {
     );
   }
 
-  Widget notificationBody(NotificationRecord? notificationRecord) {
-    return const UnitsPage().roundedContainer(
-        context, notificationContent(notificationRecord),
-        padding: const EdgeInsets.all(10),
-        margin: const EdgeInsets.symmetric(vertical: 5),
-        color: kWhite);
+  Widget notificationBody(
+      BuildContext context, NotificationRecord? notificationRecord) {
+    return Stack(
+      children: [
+        const UnitsPage().roundedContainer(
+            context, notificationContent(notificationRecord),
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.symmetric(vertical: 5),
+            color: kWhite),
+        if ((notificationRecord?.isRead ?? 0) == 0)
+          const Positioned(right: 0, top: 3, child: NotificationBadge())
+      ],
+    );
   }
 
   Widget notificationContent(NotificationRecord? notificationRecord,
@@ -180,8 +249,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
             const Gap(10),
             Expanded(
               child: CustomText(
-                text: getNotificationName(
-                    notificationRecord?.objectType?.toLowerCase()),
+                text: notificationRecord?.group ?? "",
                 maxLines: maxLines,
                 fontWeight: FontWeight.bold,
                 fontSize: MediaQuery.of(context).size.width * 0.045,
@@ -213,13 +281,5 @@ class _NotificationsPageState extends State<NotificationsPage> {
         )
       ],
     );
-  }
-
-  String getNotificationName(String? value) {
-    if (value == "shared_docs") return "Shared Document";
-    if (value == "application") return "Request";
-    if (value == "email_enquiry") return "Email Enquiry";
-    if (value == "credit_memo") return "Credit Note";
-    return value?.capitalize() ?? "";
   }
 }

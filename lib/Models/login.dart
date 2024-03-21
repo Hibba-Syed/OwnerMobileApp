@@ -15,12 +15,14 @@ class LoginModel {
   String? tokenType;
   int? expiresIn;
   String? accessToken;
+  int? unreadNotifications;
 
   LoginModel({
     this.owner,
     this.tokenType,
     this.expiresIn,
     this.accessToken,
+    this.unreadNotifications,
   });
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
@@ -30,6 +32,7 @@ class LoginModel {
         tokenType: json["token_type"],
         expiresIn: json["expires_in"],
         accessToken: json["access_token"],
+        unreadNotifications: json["unread_notifications"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -37,6 +40,7 @@ class LoginModel {
         "token_type": tokenType,
         "expires_in": expiresIn,
         "access_token": accessToken,
+        "unread_notifications": unreadNotifications,
       };
 }
 

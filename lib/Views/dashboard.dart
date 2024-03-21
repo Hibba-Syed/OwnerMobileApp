@@ -198,10 +198,25 @@ class DashboardPage extends StatelessWidget {
         context.read<NotificationsCubit>().getNotifications(context);
         Navigator.pushNamed(context, AppRoutes.notifications);
       },
-      icon: Image.asset(
-        "assets/read_bell.png",
-        scale: 4,
-        color: const Color(0xff575757),
+      icon: BlocBuilder<LoginCubit, LoginState>(
+        builder: (context, state) {
+          return Badge(
+            backgroundColor: context.read<AppThemeCubit>().state.primaryColor,
+            isLabelVisible: (state.loginModel?.unreadNotifications ?? 0) == 0
+                ? false
+                : true,
+            label: CustomText(
+              text: (state.loginModel?.unreadNotifications ?? 0).toString(),
+              color: kWhite,
+              fontSize: 10,
+            ),
+            child: Image.asset(
+              "assets/read_bell.png",
+              scale: 4,
+              color: const Color(0xff575757),
+            ),
+          );
+        },
       ),
     );
   }

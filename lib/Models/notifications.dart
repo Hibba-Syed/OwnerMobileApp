@@ -4,72 +4,81 @@
 
 import 'dart:convert';
 
-NotificationsModel notificationsModelFromJson(String str) => NotificationsModel.fromJson(json.decode(str));
+NotificationsModel notificationsModelFromJson(String str) =>
+    NotificationsModel.fromJson(json.decode(str));
 
-String notificationsModelToJson(NotificationsModel data) => json.encode(data.toJson());
+String notificationsModelToJson(NotificationsModel data) =>
+    json.encode(data.toJson());
 
 class NotificationsModel {
-    int? totalNotifications;
-    List<NotificationRecord>? notifications;
-    String? currentPage;
-    int? perPage;
-    int? totalPages;
+  String? totalNotifications;
+  List<NotificationRecord>? notifications;
+  String? currentPage;
+  String? perPage;
+  String? totalPages;
 
-    NotificationsModel({
-        this.totalNotifications,
-        this.notifications,
-        this.currentPage,
-        this.perPage,
-        this.totalPages,
-    });
+  NotificationsModel({
+    this.totalNotifications,
+    this.notifications,
+    this.currentPage,
+    this.perPage,
+    this.totalPages,
+  });
 
-    factory NotificationsModel.fromJson(Map<String, dynamic> json) => NotificationsModel(
-        totalNotifications: json["totalNotifications"],
-        notifications: json["notifications"] == null ? [] : List<NotificationRecord>.from(json["notifications"]!.map((x) => NotificationRecord.fromJson(x))),
-        currentPage: json["current_page"],
-        perPage: json["per_page"],
-        totalPages: json["total_pages"],
-    );
+  factory NotificationsModel.fromJson(Map<String, dynamic> json) =>
+      NotificationsModel(
+        totalNotifications: json["totalNotifications"]?.toString(),
+        notifications: json["notifications"] == null
+            ? []
+            : List<NotificationRecord>.from(json["notifications"]!
+                .map((x) => NotificationRecord.fromJson(x))),
+        currentPage: json["current_page"]?.toString(),
+        perPage: json["per_page"]?.toString(),
+        totalPages: json["total_pages"]?.toString(),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "totalNotifications": totalNotifications,
-        "notifications": notifications == null ? [] : List<dynamic>.from(notifications!.map((x) => x.toJson())),
+        "notifications": notifications == null
+            ? []
+            : List<dynamic>.from(notifications!.map((x) => x.toJson())),
         "current_page": currentPage,
         "per_page": perPage,
         "total_pages": totalPages,
-    };
+      };
 }
 
 class NotificationRecord {
-    int? id;
-    int? userId;
-    String? subject;
-    String? message;
-    String? activity;
-    int? objectId;
-    String? objectType;
-    String? group;
-    String? subGroup;
-    int? isRead;
-    DateTime? createdAt;
-    DateTime? updatedAt;
+  int? id;
+  int? userId;
+  String? subject;
+  String? message;
+  String? activity;
+  int? objectId;
+  String? objectType;
+  String? group;
+  String? subGroup;
+  int? isRead;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
-    NotificationRecord({
-        this.id,
-        this.userId,
-        this.subject,
-        this.message,
-        this.activity,
-        this.objectId,
-        this.objectType,
-        this.group,
-        this.subGroup,
-        this.isRead,
-        this.createdAt,
-        this.updatedAt,
-    });
+  NotificationRecord({
+    this.id,
+    this.userId,
+    this.subject,
+    this.message,
+    this.activity,
+    this.objectId,
+    this.objectType,
+    this.group,
+    this.subGroup,
+    this.isRead,
+    this.createdAt,
+    this.updatedAt,
+  });
 
-    factory NotificationRecord.fromJson(Map<String, dynamic> json) => NotificationRecord(
+  factory NotificationRecord.fromJson(Map<String, dynamic> json) =>
+      NotificationRecord(
         id: json["id"],
         userId: json["user_id"],
         subject: json["subject"],
@@ -80,11 +89,15 @@ class NotificationRecord {
         group: json["group"],
         subGroup: json["sub_group"],
         isRead: json["is_read"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    );
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "user_id": userId,
         "subject": subject,
@@ -97,5 +110,5 @@ class NotificationRecord {
         "is_read": isRead,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
-    };
+      };
 }

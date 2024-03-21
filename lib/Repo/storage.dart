@@ -10,7 +10,7 @@ class StorageService {
     return this;
   }
 
-  Future<bool> setAuthenticationModelString(LoginModel value,
+  Future<bool> setAuthenticationModelString(LoginModel? value,
       {bool addItInFront = false, bool newUser = false, int? index}) async {
     String? userList = getAuthenticationModelString();
     if (userList != null) {

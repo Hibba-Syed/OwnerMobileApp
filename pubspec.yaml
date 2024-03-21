@@ -68,6 +68,7 @@ dependencies:
   open_settings: ^2.0.2
   package_info_plus: ^4.2.0
   iconify_flutter_plus: ^1.0.3
+  badges: ^3.1.2
 
 
 dev_dependencies:
