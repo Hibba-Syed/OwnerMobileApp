@@ -150,6 +150,13 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                   if (notificationRecord?.objectType
                                           ?.toLowerCase() ==
                                       "application") {
+                                    context
+                                        .read<RequestDetailsCubit>()
+                                        .getRequestDetails(
+                                          context,
+                                          notificationRecord?.objectId,
+                                          notificationRecord?.subGroup,
+                                        );
                                     String? route = const RequestsPage()
                                         .getRouteName(notificationRecord
                                             ?.subGroup
@@ -175,6 +182,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                         .getSharedDocuments(context,
                                             unitId:
                                                 notificationRecord?.objectId);
+
                                     Navigator.pushNamed(
                                         context, AppRoutes.sharedDocument,
                                         arguments:
